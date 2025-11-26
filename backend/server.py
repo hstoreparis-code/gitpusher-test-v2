@@ -179,6 +179,99 @@ Here are the entries (as key: text):
 {catalog}
 """
 
+
+class GitRepoInfo(BaseModel):
+    url: str
+    full_name: str
+
+
+class GitProviderBase:
+    async def create_repo(self, token: str, name: str, description: Optional[str]) -> GitRepoInfo:  # pragma: no cover - interface
+        raise NotImplementedError
+
+    async def put_file(self, token: str, repo: GitRepoInfo, path: str, content_bytes: bytes, message: str):  # pragma: no cover - interface
+        raise NotImplementedError
+
+
+class GitHubProvider(GitProviderBase):
+    async def create_repo(self, token: str, name: str, description: Optional[str]) -> GitRepoInfo:
+        async with httpx.AsyncClient() as client_http:
+            res = await client_http.post(
+                "https://api.github.com/user/repos",
+                headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"},
+                json={"name": name, "description": description or "", "private": False},
+                timeout=20,
+            )
+            if res.status_code not in (200, 201):
+                logger.error("GitHub create repo failed: %s", res.text)
+                raise HTTPException(status_code=400, detail="Failed to create GitHub repo")
+            data = res.json()
+            return GitRepoInfo(url=data["html_url"], full_name=data["full_name"])
+
+    async def put_file(self, token: str, repo: GitRepoInfo, path: str, content_bytes: bytes, message: str):
+        b64 = base64.b64encode(content_bytes).decode("utf-8")
+        async with httpx.AsyncClient() as client_http:
+            res = await client_http.put(
+                f"https://api.github.com/repos/{repo.full_name}/contents/{path}",
+                headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"},
+                json={"message": message, "content": b64},
+                timeout=20,
+            )
+            if res.status_code not in (200, 201):
+                logger.error("GitHub put file %s failed: %s", path, res.text)
+                raise HTTPException(status_code=400, detail=f"Failed to upload file {path} to GitHub")
+
+
+# Placeholders pour d'autres providers (GitLab, Bitbucket, Gitea, Azure DevOps)
+# Ces classes peuvent être implémentées plus tard pour supporter d'autres plateformes.
+class GitLabProvider(GitProviderBase):
+    async def create_repo(self, token: str, name: str, description: Optional[str]) -> GitRepoInfo:
+        raise HTTPException(status_code=501, detail="GitLab provider not implemented yet")
+
+    async def put_file(self, token: str, repo: GitRepoInfo, path: str, content_bytes: bytes, message: str):
+        raise HTTPException(status_code=501, detail="GitLab provider not implemented yet")
+
+
+class BitbucketProvider(GitProviderBase):
+    async def create_repo(self, token: str, name: str, description: Optional[str]) -> GitRepoInfo:
+        raise HTTPException(status_code=501, detail="Bitbucket provider not implemented yet")
+
+    async def put_file(self, token: str, repo: GitRepoInfo, path: str, content_bytes: bytes, message: str):
+        raise HTTPException(status_code=501, detail="Bitbucket provider not implemented yet")
+
+
+class GiteaProvider(GitProviderBase):
+    async def create_repo(self, token: str, name: str, description: Optional[str]) -> GitRepoInfo:
+        raise HTTPException(status_code=501, detail="Gitea provider not implemented yet")
+
+    async def put_file(self, token: str, repo: GitRepoInfo, path: str, content_bytes: bytes, message: str):
+        raise HTTPException(status_code=501, detail="Gitea provider not implemented yet")
+
+
+class AzureDevOpsProvider(GitProviderBase):
+    async def create_repo(self, token: str, name: str, description: Optional[str]) -> GitRepoInfo:
+        raise HTTPException(status_code=501, detail="Azure DevOps provider not implemented yet")
+
+    async def put_file(self, token: str, repo: GitRepoInfo, path: str, content_bytes: bytes, message: str):
+        raise HTTPException(status_code=501, detail="Azure DevOps provider not implemented yet")
+
+
+def get_git_provider(provider_key: str) -> GitProviderBase:
+    key = (provider_key or "github").lower()
+    if key == "github":
+        return GitHubProvider()
+    if key == "gitlab":
+        return GitLabProvider()
+    if key == "bitbucket":
+        return BitbucketProvider()
+    if key == "gitea":
+        return GiteaProvider()
+    if key in {"azure", "azure_devops", "azure-devops"}:
+        return AzureDevOpsProvider()
+    # default
+    return GitHubProvider()
+
+
     text = await call_llm(prompt, language=req.target_lang)
 
     try:
