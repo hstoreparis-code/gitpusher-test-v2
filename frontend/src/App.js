@@ -173,6 +173,7 @@ function useI18n() {
       });
       setDynamicTranslations((prev) => ({ ...prev, [code]: res.data.translations }));
       setLangState(code);
+      if (typeof window !== "undefined") window.localStorage.setItem("ui_lang", code);
     } catch (e) {
       console.error("Failed to load translations", e);
     } finally {
