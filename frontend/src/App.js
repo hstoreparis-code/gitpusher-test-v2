@@ -1358,6 +1358,255 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
           <CardHeader>
             <CardTitle className="text-sm sm:text-base text-red-200">Supprimer mon compte</CardTitle>
           </CardHeader>
+
+function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex flex-col">
+      <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
+              <DownloadCloud className="h-5 w-5 text-slate-950" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold tracking-tight">GitPusher</span>
+              <span className="text-xs text-slate-400">Plans &amp; Tarifs</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 text-xs sm:text-sm">
+            <button
+              onClick={() => setLang(lang === "en" ? "fr" : "en")}
+              className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs flex items-center gap-1"
+              data-testid="pricing-language-toggle-button"
+            >
+              <span className="text-lg" aria-hidden="true">{currentLang.flag}</span>
+              <span className="hidden sm:inline">{currentLang.label}</span>
+            </button>
+            <button
+              onClick={() => setDark(!dark)}
+              className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs flex items-center gap-1"
+              data-testid="pricing-theme-toggle-button"
+            >
+              <span>{t("theme")}</span>
+            </button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.history.back()}
+              className="rounded-full border-slate-700 text-xs"
+              data-testid="pricing-back-button"
+            >
+              Retour
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-1">
+        <div className="max-w-6xl mx-auto px-4 py-10 space-y-10">
+          <section className="space-y-4">
+            <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-cyan-300 bg-cyan-500/10 border border-cyan-400/30 px-3 py-1 rounded-full w-fit">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
+              <span>Plans &amp; Tarifs</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight">
+              Publiez vos projets Git sans écrire une ligne de code.
+            </h1>
+            <p className="text-sm sm:text-base text-slate-300 max-w-2xl">
+              GitPusher automatise la création de vos dépôts (GitHub, GitLab, Bitbucket),
+              range vos fichiers avec l&apos;IA, génère votre README et pousse tout en un clic.
+            </p>
+          </section>
+
+          {/* Plans */}
+          <section className="grid gap-6 md:grid-cols-3">
+            {/* Freemium */}
+            <Card
+              className="bg-slate-900/70 border-slate-800 flex flex-col justify-between"
+              data-testid="pricing-freemium-card"
+            >
+              <CardHeader className="space-y-2">
+                <CardTitle className="text-base flex items-center justify-between">
+                  <span>🌱 Freemium</span>
+                  <span className="text-[11px] text-slate-400">Gratuit</span>
+                </CardTitle>
+                <p className="text-xs text-slate-400">
+                  Pour tester la plateforme sans engagement.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-3 text-xs">
+                <ul className="space-y-1">
+                  <li>✔️ 1 upload / mois (ZIP, PDF, fichiers ou code)</li>
+                  <li>✔️ Création automatique d&apos;un dépôt GitHub</li>
+                  <li>✔️ Organisation IA basique des fichiers</li>
+                  <li>✔️ Génération d&apos;un README simplifié</li>
+                  <li>✔️ Commit automatique</li>
+                  <li>✔️ Support par email (48–72h)</li>
+                </ul>
+                <div className="pt-2">
+                  <p className="text-lg font-semibold">0€<span className="text-xs text-slate-400"> / mois</span></p>
+                </div>
+              </CardContent>
+              <div className="px-6 pb-5">
+                <Button
+                  className="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-xs"
+                  data-testid="pricing-freemium-cta"
+                >
+                  Commencer gratuitement
+                </Button>
+              </div>
+            </Card>
+
+            {/* Premium */}
+            <Card
+              className="bg-gradient-to-b from-cyan-500/20 via-cyan-500/10 to-slate-900 border border-cyan-400/60 flex flex-col justify-between shadow-[0_0_40px_rgba(34,211,238,0.40)]"
+              data-testid="pricing-premium-card"
+            >
+              <CardHeader className="space-y-2">
+                <CardTitle className="text-base flex items-center justify-between">
+                  <span>⚡ Premium</span>
+                  <span className="text-[11px] text-cyan-200">19,99€ / mois</span>
+                </CardTitle>
+                <p className="text-xs text-slate-200">
+                  Pour créateurs réguliers, non-dev, auto-entrepreneurs, étudiants IA.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-3 text-xs">
+                <p className="font-semibold text-slate-100">Uploads &amp; IA</p>
+                <ul className="space-y-1">
+                  <li>🔥 Uploads illimités</li>
+                  <li>🔥 Structuration automatique des dossiers</li>
+                  <li>🔥 Génération d&apos;un README complet (pro, marketing, documentation)</li>
+                  <li>🔥 Commit intelligent multi-étapes</li>
+                  <li>🔥 Détection du langage / dépendances</li>
+                </ul>
+                <p className="font-semibold text-slate-100 pt-2">Plateformes &amp; productivité</p>
+                <ul className="space-y-1">
+                  <li>🔥 Support GitHub, GitLab &amp; Bitbucket</li>
+                  <li>🔥 Historique de projets + duplication en 1 clic</li>
+                  <li>🔥 Processing rapide et prioritaire</li>
+                  <li>🔥 Export ZIP final organisé</li>
+                  <li>🔥 Support 24/7 prioritaire</li>
+                </ul>
+              </CardContent>
+              <div className="px-6 pb-5 space-y-2">
+                <Button
+                  className="w-full rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs"
+                  data-testid="pricing-premium-cta"
+                >
+                  Passer en Premium
+                </Button>
+                <p className="text-[10px] text-slate-300 text-center">
+                  Sans engagement. Annulation en un clic.
+                </p>
+              </div>
+            </Card>
+
+            {/* Business */}
+            <Card
+              className="bg-slate-900/80 border-slate-700 flex flex-col justify-between"
+              data-testid="pricing-business-card"
+            >
+              <CardHeader className="space-y-2">
+                <CardTitle className="text-base flex items-center justify-between">
+                  <span>🏢 Business</span>
+                  <span className="text-[11px] text-slate-400">Sur devis</span>
+                </CardTitle>
+                <p className="text-xs text-slate-400">
+                  Pour écoles, agences, équipes SaaS et créateurs IA multi-comptes.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-3 text-xs">
+                <ul className="space-y-1">
+                  <li>✔️ 10 à 200 utilisateurs</li>
+                  <li>✔️ Intégration API + webhooks</li>
+                  <li>✔️ Automations avancées (CI/CD auto, nettoyage, versioning IA)</li>
+                  <li>✔️ Tableau de bord boosté IA</li>
+                  <li>✔️ Branding entreprise</li>
+                  <li>✔️ SLA &amp; support dédié</li>
+                </ul>
+                <div className="pt-2">
+                  <p className="text-sm font-semibold">À partir de 199€<span className="text-xs text-slate-400"> / mois</span></p>
+                </div>
+              </CardContent>
+              <div className="px-6 pb-5">
+                <Button
+                  variant="outline"
+                  className="w-full rounded-full border-cyan-400/60 text-cyan-200 text-xs hover:bg-slate-900/80"
+                  data-testid="pricing-business-cta"
+                >
+                  Contacter l&apos;équipe
+                </Button>
+              </div>
+            </Card>
+          </section>
+
+          {/* Section "Ce qui rend la plateforme unique" avec 3 barres dépliantes */}
+          <section className="space-y-4">
+            <h2 className="text-lg font-semibold">Ce qui rend GitPusher unique</h2>
+            <div className="space-y-3">
+              <details
+                className="group rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-3 cursor-pointer transition-colors"
+                data-testid="pricing-unique-accordion-1"
+              >
+                <summary className="flex items-center justify-between gap-2 list-none">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">Aucun Git, aucune CLI, aucun IDE</span>
+                    <span className="text-[11px] text-slate-400">
+                      Publiez depuis votre navigateur, GitPusher gère toute la plomberie Git.
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-400 group-open:rotate-180 transition-transform">
+                    ▾
+                  </span>
+                </summary>
+              </details>
+
+              <details
+                className="group rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-3 cursor-pointer transition-colors"
+                data-testid="pricing-unique-accordion-2"
+              >
+                <summary className="flex items-center justify-between gap-2 list-none">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">L&apos;IA range, documente et pousse tout</span>
+                    <span className="text-[11px] text-slate-400">
+                      Structure de dossiers, README, commits : tout est généré automatiquement.
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-400 group-open:rotate-180 transition-transform">
+                    ▾
+                  </span>
+                </summary>
+              </details>
+
+              <details
+                className="group rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-3 cursor-pointer transition-colors"
+                data-testid="pricing-unique-accordion-3"
+              >
+                <summary className="flex items-center justify-between gap-2 list-none">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">Compatible avec vos prompts IA</span>
+                    <span className="text-[11px] text-slate-400">
+                      Fonctionne avec les résultats ChatGPT, Claude, Gemini et autres modèles.
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-400 group-open:rotate-180 transition-transform">
+                    ▾
+                  </span>
+                </summary>
+              </details>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+}
+
           <CardContent className="space-y-3 text-xs sm:text-sm text-red-100">
             <p>
               Cette action est <span className="font-semibold">définitive</span>. Ton compte sera anonymisé
