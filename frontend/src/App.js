@@ -111,9 +111,35 @@ const languages = [
 ];
 
 function useI18n() {
-  const [lang, setLangState] = useState("en");
+  const [lang, setLangState] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = window.localStorage.getItem("ui_lang");
+      if (stored) return stored;
+    }
+    return "en";
+  });
   const [dynamicTranslations, setDynamicTranslations] = useState({});
   const [isLoadingLang, setIsLoadingLang] = useState(false);
+
+  // Detect initial language from browser if no preference is stored.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = window.localStorage.getItem("ui_lang");
+    if (stored) return;
+
+    let browserLang = (window.navigator.language || "en").toLowerCase();
+    let code = "en";
+
+    // Always use French for France (and any fr-* locale).
+    if (browserLang.startsWith("fr")) {
+      code = "fr";
+    } else {
+      const match = languages.find((l) => browserLang.startsWith(l.code));
+      if (match) code = match.code;
+    }
+
+    setLangState(code);
+  }, []);
 
   const t = (key) =>
     dynamicTranslations[lang]?.[key] ||
