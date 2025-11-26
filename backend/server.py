@@ -313,6 +313,21 @@ async def get_user_from_token(authorization: Optional[str]) -> dict:
     return user
 
 
+
+
+class AdminStatus(BaseModel):
+    is_admin: bool
+
+
+@api_router.get("/auth/admin-status", response_model=AdminStatus)
+async def admin_status(authorization: Optional[str] = Header(default=None)):
+    """Return whether the current user is admin.
+
+    Used by frontend to gate access to admin dashboard.
+    """
+    user = await get_user_from_token(authorization)
+    return AdminStatus(is_admin=bool(user.get("is_admin")))
+
 # ---------- AUTH ROUTES ----------
 
 
