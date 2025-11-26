@@ -727,7 +727,11 @@ function Dashboard({ t }) {
   if (!token) return <Navigate to="/" replace />;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 flex flex-col">
+    <div
+      className={`min-h-screen bg-slate-950 text-slate-50 flex flex-col transition-opacity duration-500 ${
+        mounted ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <header className="border-b border-white/10 bg-slate-950/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex flex-col">
