@@ -974,7 +974,7 @@ async def upload_files(
 
 
 async def run_project_pipeline(user: Dict, project: Dict, uploads: List[Dict]) -> Dict:
-    """Core pipeline: IA -> README -> commits -> GitHub repo -> push files.
+    """Core pipeline: IA -> README -> commits -> Git repo -> push files.
 
     Extrait de /process pour pouvoir être réutilisé par les jobs.
     """
