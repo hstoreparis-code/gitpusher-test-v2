@@ -671,7 +671,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   const { token, user, logout } = useAuth();
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
+  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [jobsLoading, setJobsLoading] = useState(false);
   const [creating, setCreating] = useState(false);
   const [selected, setSelected] = useState(null);
   const [uploading, setUploading] = useState(false);
