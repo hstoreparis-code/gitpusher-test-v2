@@ -481,7 +481,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               >
                 {t("getStarted")}
               </Button>
-              <div className="flex items-center gap-3 text-xs text-slate-400">
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-400">
                 <span>No Git, no CLI, juste ton navigateur.</span>
                 <Button
                   variant="outline"
