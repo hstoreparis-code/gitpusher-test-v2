@@ -419,7 +419,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                   className="hidden"
                   onChange={(e) => {
                     if (e.target.files && e.target.files.length > 0) {
-                      onGetStarted();
+                      handleGetStarted();
                     }
                   }}
                   data-testid="landing-file-input"
