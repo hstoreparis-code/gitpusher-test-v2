@@ -803,6 +803,62 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
         { headers: { Authorization: `Bearer ${token}` } },
       );
       setSelected(res.data);
+        <Card className="bg-slate-900/70 border-slate-800 flex flex-col" data-testid="jobs-history-card">
+          <CardHeader className="flex flex-row items-center justify-between gap-4">
+            <CardTitle className="text-sm sm:text-base flex items-center gap-2">
+              <span>Historique des jobs</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex-1 overflow-auto space-y-2 text-xs sm:text-sm">
+            {jobsLoading ? (
+              <p className="text-slate-400" data-testid="jobs-loading-text">
+                Chargement des jobs…
+              </p>
+            ) : jobs.length === 0 ? (
+              <p className="text-slate-500" data-testid="jobs-empty-text">
+                Aucun job pour le moment. Lance une automatisation pour voir l'historique ici.
+              </p>
+            ) : (
+              <div className="space-y-1" data-testid="jobs-list">
+                {jobs.map((job) => (
+                  <div
+                    key={job.id}
+                    className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl border border-slate-800 bg-slate-950/60"
+                    data-testid={`job-row-${job.id}`}
+                  >
+                    <div className="flex flex-col gap-0.5">
+                      <span className="font-medium text-[11px]">Job {job.id.slice(0, 8)}</span>
+                      <span className="text-[11px] text-slate-400">Projet: {job.project_id}</span>
+                    </div>
+                    <div className="flex flex-col items-end gap-0.5">
+                      <span
+                        className={`text-[10px] px-2 py-0.5 rounded-full border ${
+                          job.status === "completed"
+                            ? "border-emerald-500/60 text-emerald-300"
+                            : job.status === "failed"
+                              ? "border-red-500/60 text-red-300"
+                              : "border-amber-400/60 text-amber-200"
+                        }`}
+                        data-testid="job-status-pill"
+                      >
+                        {job.status}
+                      </span>
+                      {job.error && (
+                        <span
+                          className="text-[10px] text-red-300 max-w-[200px] truncate"
+                          data-testid="job-error-text"
+                        >
+                          {job.error}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
       setProjects((prev) => prev.map((p) => (p.id === res.data.id ? res.data : p)));
       setProgress(100);
     } finally {
