@@ -286,19 +286,6 @@ def get_git_provider(provider_key: str) -> GitProviderBase:
     return GitHubProvider()
 
 
-    text = await call_llm(prompt, language=req.target_lang)
-
-    try:
-        translated = json.loads(text)
-        if not isinstance(translated, dict):  # fallback if LLM didn't follow instructions
-            raise ValueError("Invalid LLM JSON")
-    except Exception:  # noqa: BLE001
-        # In case of parsing error, just return base entries
-        return {"translations": req.entries}
-
-    return {"translations": translated}
-
-
 class I18nDetectResponse(BaseModel):
     country_code: str
     lang: str
