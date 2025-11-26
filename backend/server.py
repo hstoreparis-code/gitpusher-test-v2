@@ -303,6 +303,38 @@ async def register(payload: UserCreate):
     return UserPublic(id=user_id, email=doc["email"], display_name=doc["display_name"])
 
 
+@api_router.post("/auth/demo", response_model=TokenResponse)
+async def demo_login():
+    """Return a JWT for a demo user, creating it if necessary.
+
+    This is a simple helper to log into the dashboard quickly without signup.
+    """
+    email = "demo@pushin.app"
+    password = "Demo1234!"
+    display_name = "Demo User"
+
+    user = await db.users.find_one({"email": email})
+    if not user:
+        user_id = str(uuid.uuid4())
+        doc = {
+            "_id": user_id,
+            "email": email,
+            "display_name": display_name,
+            "password_hash": hash_password(password),
+            "provider_google_id": None,
+            "provider_github_id": None,
+            "github_access_token": None,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        }
+        await db.users.insert_one(doc)
+        user = doc
+
+    token = create_access_token({"sub": user["_id"]})
+    return TokenResponse(access_token=token)
+
+
+
 @api_router.post("/auth/login", response_model=TokenResponse)
 async def login(payload: UserLogin):
     user = await db.users.find_one({"email": payload.email})
