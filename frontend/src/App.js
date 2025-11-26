@@ -16,7 +16,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 // ---- Small i18n helper ----
-const translations = {
+const baseTranslations = {
   en: {
     heroTitle: "No-Code GitHub Workflow",
     heroSubtitle:
@@ -111,10 +111,49 @@ const languages = [
 ];
 
 function useI18n() {
-  const [lang, setLang] = useState("en");
-  const t = (key) => (translations[lang]?.[key] || translations.en[key] || key);
+  const [lang, setLangState] = useState("en");
+  const [dynamicTranslations, setDynamicTranslations] = useState({});
+  const [isLoadingLang, setIsLoadingLang] = useState(false);
+
+  const t = (key) =>
+    dynamicTranslations[lang]?.[key] ||
+    baseTranslations[lang]?.[key] ||
+    baseTranslations.en[key] ||
+    key;
+
+  const changeLang = async (code) => {
+    if (code === lang) return;
+
+    // For EN/FR we use local translations only
+    if (code === "en" || code === "fr") {
+      setLangState(code);
+      return;
+    }
+
+    // Already loaded once
+    if (dynamicTranslations[code]) {
+      setLangState(code);
+      return;
+    }
+
+    try {
+      setIsLoadingLang(true);
+      const res = await axios.post(`${API}/i18n/translate`, {
+        target_lang: code,
+        base_lang: "en",
+        entries: baseTranslations.en,
+      });
+      setDynamicTranslations((prev) => ({ ...prev, [code]: res.data.translations }));
+      setLangState(code);
+    } catch (e) {
+      console.error("Failed to load translations", e);
+    } finally {
+      setIsLoadingLang(false);
+    }
+  };
+
   const currentLang = languages.find((l) => l.code === lang) || languages[0];
-  return { lang, setLang, t, currentLang, languages };
+  return { lang, setLang: changeLang, t, currentLang, languages, isLoadingLang };
 }
 
 // ---- Auth helpers (MVP: token in localStorage) ----
