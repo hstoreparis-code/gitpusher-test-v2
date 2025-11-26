@@ -738,20 +738,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 
   const openAccountSettings = () => {
     if (!user) return;
-    const newName = window.prompt("Nouveau nom d'affichage :", user.display_name || user.email || "");
-    if (!newName || !token) return;
-    axios
-      .patch(
-        `${API}/users/me`,
-        { display_name: newName },
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.error("Update profile failed", err);
-      });
+    navigate("/account");
   };
 
   const onFilesSelected = async (e) => {
@@ -931,6 +918,353 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 </div>
               </PopoverContent>
             </Popover>
+
+function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
+  const { token, user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [profileName, setProfileName] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [pwCurrent, setPwCurrent] = useState("");
+  const [pwNew, setPwNew] = useState("");
+  const [pwConfirm, setPwConfirm] = useState("");
+  const [changingPw, setChangingPw] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/", { replace: true });
+      return;
+    }
+    document.documentElement.classList.toggle("dark", dark);
+  }, [token, dark, navigate]);
+
+  useEffect(() => {
+    if (!token) return;
+    setLoading(true);
+    axios
+      .get(`${API}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        setProfileName(res.data.display_name || res.data.email || "");
+      })
+      .catch((err) => {
+        console.error("Load profile failed", err);
+      })
+      .finally(() => setLoading(false));
+  }, [token]);
+
+  const saveProfile = async () => {
+    if (!token) return;
+    setError("");
+    setSuccess("");
+    setSavingProfile(true);
+    try {
+      await axios.patch(
+        `${API}/users/me`,
+        { display_name: profileName },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      setSuccess("Profil mis à jour.");
+    } catch (err) {
+      setError(err?.response?.data?.detail || "Erreur lors de la mise à jour du profil.");
+    } finally {
+      setSavingProfile(false);
+    }
+  };
+
+  const changePassword = async () => {
+    if (!token) return;
+    setError("");
+    setSuccess("");
+    if (!pwCurrent || !pwNew || !pwConfirm) {
+      setError("Merci de remplir tous les champs mot de passe.");
+      return;
+    }
+    if (pwNew !== pwConfirm) {
+      setError("Les nouveaux mots de passe ne correspondent pas.");
+      return;
+    }
+    setChangingPw(true);
+    try {
+      await axios.post(
+        `${API}/users/me/change-password`,
+        { current_password: pwCurrent, new_password: pwNew },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      setSuccess("Mot de passe mis à jour.");
+      setPwCurrent("");
+      setPwNew("");
+      setPwConfirm("");
+    } catch (err) {
+      setError(err?.response?.data?.detail || "Erreur lors du changement de mot de passe.");
+    } finally {
+      setChangingPw(false);
+    }
+  };
+
+  const deleteAccount = async () => {
+    if (!token) return;
+    setError("");
+    setSuccess("");
+    const confirmText = window.prompt(
+      "Cette action est irréversible. Tape SUPPRIMER pour confirmer la suppression de ton compte.",
+    );
+    if (confirmText !== "SUPPRIMER") return;
+    setDeleting(true);
+    try {
+      await axios.delete(`${API}/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      logout();
+      navigate("/", { replace: true });
+    } catch (err) {
+      setError(err?.response?.data?.detail || "Erreur lors de la suppression du compte.");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  if (!token) return null;
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-50 flex flex-col">
+      {/* Header réutilisé du dashboard */}
+      <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.55)]">
+              <DownloadCloud className="h-4 w-4 text-slate-950" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold tracking-tight">PUSH IN</span>
+              <span className="text-xs text-slate-400">Mon compte</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 text-xs sm:text-sm">
+            <div className="flex items-center gap-2">
+              <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
+              <Switch
+                checked={dark}
+                onCheckedChange={setDark}
+                data-testid="account-theme-toggle-switch"
+              />
+            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs flex items-center gap-1"
+                  data-testid="account-language-popover-trigger"
+                >
+                  <span className="text-lg" aria-hidden="true">
+                    {currentLang.flag}
+                  </span>
+                  <span className="hidden sm:inline">{currentLang.label}</span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                className="mt-2 w-64 bg-slate-900/95 border border-slate-700/80 shadow-xl rounded-2xl p-2"
+                data-testid="account-language-popover-content"
+              >
+                <div className="max-h-64 overflow-auto text-xs">
+                  {languages.map((lng) => (
+                    <button
+                      key={lng.code}
+                      onClick={() => setLang(lng.code)}
+                      className={`w-full flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-slate-800 text-left ${
+                        lng.code === lang ? "bg-slate-800/80" : ""
+                      }`}
+                      data-testid={`account-language-option-${lng.code}`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-lg" aria-hidden="true">
+                          {lng.flag}
+                        </span>
+                        <span>{lng.label}</span>
+                      </span>
+                      {lng.code === lang && (
+                        <span className="text-[10px] text-cyan-300">Active</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+            <div className="flex items-center gap-2 text-xs">
+              {user && (
+                <span className="hidden sm:inline text-slate-400" data-testid="account-user-email">
+                  {user.email}
+                </span>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/app")}
+                className="rounded-full border-slate-700 text-xs"
+                data-testid="account-back-dashboard-button"
+              >
+                Dashboard
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+                className="rounded-full border-slate-700 text-xs"
+                data-testid="account-logout-button"
+              >
+                Logout
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-1 max-w-4xl mx-auto px-4 py-6 space-y-6">
+        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Mon compte</h1>
+
+        {error && (
+          <div
+            className="text-xs text-red-300 bg-red-950/40 border border-red-500/40 rounded px-3 py-2"
+            data-testid="account-error-alert"
+          >
+            {error}
+          </div>
+        )}
+        {success && (
+          <div
+            className="text-xs text-emerald-300 bg-emerald-950/30 border border-emerald-500/40 rounded px-3 py-2"
+            data-testid="account-success-alert"
+          >
+            {success}
+          </div>
+        )}
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Profil */}
+          <Card className="bg-slate-900/70 border-slate-800" data-testid="account-profile-card">
+            <CardHeader>
+              <CardTitle className="text-sm sm:text-base">Profil</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-xs sm:text-sm">
+              {loading ? (
+                <p className="text-slate-400" data-testid="account-profile-loading-text">
+                  Chargement du profil…
+                </p>
+              ) : (
+                <>
+                  <div className="space-y-1">
+                    <Label htmlFor="display-name">Nom d&apos;affichage</Label>
+                    <Input
+                      id="display-name"
+                      value={profileName}
+                      onChange={(e) => setProfileName(e.target.value)}
+                      className="h-8 text-xs bg-slate-950/60 border-slate-700"
+                      data-testid="account-display-name-input"
+                    />
+                  </div>
+                  <Button
+                    size="sm"
+                    className="rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs"
+                    onClick={saveProfile}
+                    disabled={savingProfile}
+                    data-testid="account-save-profile-button"
+                  >
+                    {savingProfile ? "…" : "Enregistrer"}
+                  </Button>
+                </>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Mot de passe */}
+          <Card className="bg-slate-900/70 border-slate-800" data-testid="account-password-card">
+            <CardHeader>
+              <CardTitle className="text-sm sm:text-base">Mot de passe</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-xs sm:text-sm">
+              <p className="text-slate-400 text-[11px]">
+                Mets à jour ton mot de passe. Ceci ne s&apos;applique qu&apos;à la connexion par email/mot de passe.
+              </p>
+              <div className="space-y-2">
+                <div>
+                  <Label htmlFor="pw-current">Mot de passe actuel</Label>
+                  <Input
+                    id="pw-current"
+                    type="password"
+                    value={pwCurrent}
+                    onChange={(e) => setPwCurrent(e.target.value)}
+                    className="mt-1 h-8 text-xs bg-slate-950/60 border-slate-700"
+                    data-testid="account-current-password-input"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="pw-new">Nouveau mot de passe</Label>
+                  <Input
+                    id="pw-new"
+                    type="password"
+                    value={pwNew}
+                    onChange={(e) => setPwNew(e.target.value)}
+                    className="mt-1 h-8 text-xs bg-slate-950/60 border-slate-700"
+                    data-testid="account-new-password-input"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="pw-confirm">Confirme le nouveau mot de passe</Label>
+                  <Input
+                    id="pw-confirm"
+                    type="password"
+                    value={pwConfirm}
+                    onChange={(e) => setPwConfirm(e.target.value)}
+                    className="mt-1 h-8 text-xs bg-slate-950/60 border-slate-700"
+                    data-testid="account-confirm-password-input"
+                  />
+                </div>
+              </div>
+              <Button
+                size="sm"
+                className="rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs"
+                onClick={changePassword}
+                disabled={changingPw}
+                data-testid="account-change-password-button"
+              >
+                {changingPw ? "…" : "Mettre à jour le mot de passe"}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Suppression compte */}
+        <Card className="bg-red-950/40 border-red-700/60" data-testid="account-delete-card">
+          <CardHeader>
+            <CardTitle className="text-sm sm:text-base text-red-200">Supprimer mon compte</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-xs sm:text-sm text-red-100">
+            <p>
+              Cette action est <span className="font-semibold">définitive</span>. Ton compte sera anonymisé
+              et les workflows associés marqués comme supprimés.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-red-400/80 text-red-200 hover:bg-red-900/60 text-xs"
+              onClick={deleteAccount}
+              disabled={deleting}
+              data-testid="account-delete-button"
+            >
+              {deleting ? "…" : "Supprimer mon compte"}
+            </Button>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}
+
             <div className="flex items-center gap-2 text-xs">
               {user && (
                 <button
