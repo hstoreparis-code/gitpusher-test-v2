@@ -254,6 +254,14 @@ function Landing({ t, onGetStarted, lang, setLang, dark, setDark, currentLang, l
                       )}
                     </button>
                   ))}
+                  {isLoadingLang && (
+                    <p
+                      className="mt-2 text-[11px] text-slate-400"
+                      data-testid="language-loading-text"
+                    >
+                      Loading translations…
+                    </p>
+                  )}
                 </div>
               </PopoverContent>
             </Popover>
