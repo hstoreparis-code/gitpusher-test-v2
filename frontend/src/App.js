@@ -110,9 +110,6 @@ const languages = [
   { code: "cn", label: "中国", flag: "🇨🇳" },
 ];
 
-  },
-};
-
 function useI18n() {
   const [lang, setLang] = useState("en");
   const t = (key) => (translations[lang]?.[key] || translations.en[key] || key);
