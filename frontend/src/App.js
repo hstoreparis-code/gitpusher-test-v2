@@ -397,8 +397,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                 }}
                 onDrop={(e) => {
                   e.preventDefault();
-                  // Pour l'instant, on utilise le drop comme CTA vers le flow app
-                  onGetStarted();
+                  handleGetStarted();
                 }}
               >
                 <div className="flex flex-col items-center gap-1">
