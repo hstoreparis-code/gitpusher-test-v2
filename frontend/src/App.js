@@ -472,7 +472,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             </div>
 
             {/* CTA moved below steps & dropzone */}
-            <div className="flex flex-wrap items-center gap-4 mt-6">
+            <div className="flex flex-wrap items-center gap-4 mt-8 justify-center lg:justify-start">
               <Button
                 size="lg"
                 className="rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-6 shadow-lg shadow-cyan-500/30"
