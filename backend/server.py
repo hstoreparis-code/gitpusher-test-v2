@@ -992,6 +992,7 @@ async def run_project_pipeline(user: Dict, project: Dict, uploads: List[Dict]) -
     ]
 
     language = project.get("language", "en")
+    provider = project.get("provider", "github")
 
     # 1) Generate README
     readme_md = await generate_readme(
