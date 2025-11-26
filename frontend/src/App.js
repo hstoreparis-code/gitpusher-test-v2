@@ -1687,6 +1687,21 @@ function AppShell() {
           />
         } 
       />
+      <Route 
+        path="/pricing" 
+        element={
+          <PricingPage 
+            t={t} 
+            lang={lang}
+            setLang={setLang}
+            dark={dark}
+            setDark={setDark}
+            currentLang={currentLang}
+            languages={languages}
+            isLoadingLang={isLoadingLang}
+          />
+        } 
+      />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
