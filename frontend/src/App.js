@@ -718,6 +718,25 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     if (!files.length) return;
 
     const formData = new FormData();
+
+  const openAccountSettings = () => {
+    const newName = window.prompt("Nouveau nom d'affichage :", user?.display_name || "");
+    if (!newName || !token) return;
+    axios
+      .patch(
+        `${API}/users/me`,
+        { display_name: newName },
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
+      .then(() => {
+        // rafraîchir /auth/me implicitement au prochain render via useAuth
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.error("Update profile failed", err);
+      });
+  };
+
     files.forEach((f) => formData.append("files", f));
 
     setUploading(true);
