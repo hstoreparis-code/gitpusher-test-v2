@@ -1412,7 +1412,36 @@ function AppShell() {
           />
         }
       />
-      <Route path="/app" element={<Dashboard t={t} />} />
+      <Route 
+        path="/app" 
+        element={
+          <Dashboard 
+            t={t} 
+            lang={lang}
+            setLang={setLang}
+            dark={dark}
+            setDark={setDark}
+            currentLang={currentLang}
+            languages={languages}
+            isLoadingLang={isLoadingLang}
+          />
+        } 
+      />
+      <Route 
+        path="/account" 
+        element={
+          <AccountPage 
+            t={t} 
+            lang={lang}
+            setLang={setLang}
+            dark={dark}
+            setDark={setDark}
+            currentLang={currentLang}
+            languages={languages}
+            isLoadingLang={isLoadingLang}
+          />
+        } 
+      />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
