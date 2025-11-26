@@ -432,7 +432,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               <Button
                 size="lg"
                 className="rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-6 shadow-lg shadow-cyan-500/30"
-                onClick={onGetStarted}
+                onClick={handleGetStarted}
                 data-testid="get-started-button"
               >
                 {t("getStarted")}
