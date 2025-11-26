@@ -792,7 +792,7 @@ function Dashboard({ t }) {
 }
 
 function AppShell() {
-  const { lang, setLang, t, currentLang, languages } = useI18n();
+  const { lang, setLang, t, currentLang, languages, isLoadingLang } = useI18n();
   const [dark, setDark] = useState(true);
   const navigate = useNavigate();
 
