@@ -246,14 +246,6 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)] transition-colors">
-          <button
-            onClick={() => setMenuOpen((prev) => !prev)}
-            className="sm:hidden inline-flex items-center justify-center h-9 w-9 rounded-full border border-white/10 bg-white/5 hover:bg-white/10"
-            data-testid="mobile-menu-toggle-button"
-          >
-            <Menu className="h-4 w-4" />
-          </button>
-
               <DownloadCloud className="h-5 w-5 text-slate-950" />
             </div>
             <div className="flex flex-col">
