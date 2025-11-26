@@ -224,7 +224,6 @@ function Landing({ t, onGetStarted, lang, setLang, dark, setDark }) {
             </div>
           </div>
 
-          <AuthCard t={t} />
         </div>
       </main>
     </div>
