@@ -687,10 +687,6 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
-  useEffect(() => {
-    if (!token) return;
-    axios
-
   const loadProjects = async () => {
     if (!token) return;
     setLoading(true);
@@ -717,11 +713,10 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     }
   };
 
-      .get(`${API}/workflows/projects`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setProjects(res.data))
-      .finally(() => setLoading(false));
+  useEffect(() => {
+    loadProjects();
+    loadJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const newProject = async () => {
