@@ -375,7 +375,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
       <main className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-5xl grid md:grid-cols-1 lg:grid-cols-[1.2fr,1fr] gap-12 items-start py-14">
           <div className="space-y-8 text-center lg:text-left">
-            <p className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-cyan-300 bg-cyan-500/10 border border-cyan-400/30 px-3 py-1 rounded-full w-fit">
+            <p className="inline-flex items-center justify-center gap-2 text-[12px] sm:text-[11px] uppercase tracking-[0.25em] text-cyan-300 bg-cyan-500/10 border border-cyan-400/30 px-4 py-1.5 rounded-full mx-auto lg:mx-0 w-fit">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
               AI Git Automation
             </p>
