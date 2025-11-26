@@ -1029,7 +1029,7 @@ async def run_project_pipeline(user: Dict, project: Dict, uploads: List[Dict]) -
             "$set": {
                 "status": "done",
                 "github_repo_url": repo_url,
-                "github_repo_name": repo_full_name,
+                "github_repo_name": repo_info.full_name,
                 "readme_md": readme_md,
                 "commit_messages": commit_messages,
                 "updated_at": now,
