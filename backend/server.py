@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, Depends, HTTPException, UploadFile, File, Form, Header
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, UploadFile, File, Form, Header, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -159,6 +159,83 @@ Here are the entries (as key: text):
         return {"translations": req.entries}
 
     return {"translations": translated}
+
+
+class I18nDetectResponse(BaseModel):
+    country_code: str
+    lang: str
+
+
+@api_router.get("/i18n/detect", response_model=I18nDetectResponse)
+async def detect_i18n(request: Request):
+    """Detect user locale from IP address via ipapi.co.
+
+    - Uses X-Forwarded-For if present (first IP), otherwise falls back to request.client.host.
+    - Maps country code to a language code.
+    - Always returns French (fr) for France (FR).
+    """
+    # Extract client IP
+    x_forwarded_for = request.headers.get("x-forwarded-for") or request.headers.get("X-Forwarded-For")
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(",")[0].strip()
+    else:
+        ip = request.client.host if request.client else "0.0.0.0"
+
+    # Local/dev IPs: just default to English
+    if ip.startswith("127.") or ip == "::1":
+        return I18nDetectResponse(country_code="US", lang="en")
+
+    country_code = ""
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client_http:
+            res = await client_http.get(f"https://ipapi.co/{ip}/json/")
+            res.raise_for_status()
+            data = res.json()
+            country_code = (data.get("country") or data.get("country_code") or "").upper()
+    except Exception as exc:  # noqa: BLE001
+        logger.error("IP geolocation failed for %s: %s", ip, exc)
+        return I18nDetectResponse(country_code="US", lang="en")
+
+    if not country_code:
+        return I18nDetectResponse(country_code="US", lang="en")
+
+    # Map country to language
+    # Always force FR -> fr as requested
+    if country_code == "FR":
+        lang = "fr"
+    else:
+        country_to_lang = {
+            "DE": "de",
+            "ES": "es",
+            "IT": "it",
+            "PT": "pt",
+            "NL": "nl",
+            "BE": "fr",
+            "LU": "fr",
+            "IE": "en",
+            "DK": "da",
+            "SE": "sv",
+            "FI": "fi",
+            "PL": "pl",
+            "CZ": "cs",
+            "SK": "sk",
+            "HU": "hu",
+            "SI": "sl",
+            "HR": "hr",
+            "RO": "ro",
+            "BG": "bg",
+            "GR": "el",
+            "LT": "lt",
+            "LV": "lv",
+            "EE": "et",
+            "CY": "el",
+            "MT": "mt",
+            "CN": "zh",
+        }
+        lang = country_to_lang.get(country_code, "en")
+
+    return I18nDetectResponse(country_code=country_code, lang=lang)
+
 
 # CORS
 app.add_middleware(
