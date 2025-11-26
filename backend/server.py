@@ -384,6 +384,79 @@ async def demo_login():
     This is a simple helper to log into the dashboard quickly without signup.
     """
     email = "demo@pushin.app"
+
+
+@api_router.patch("/users/me", response_model=UserPublic)
+async def update_profile(payload: UserUpdateProfile, authorization: Optional[str] = Header(default=None)):
+    """Update current user's profile (self-service)."""
+    user = await get_user_from_token(authorization)
+    updates: Dict[str, Any] = {}
+    if payload.display_name is not None:
+        updates["display_name"] = payload.display_name
+    if not updates:
+        return UserPublic(id=user["_id"], email=user["email"], display_name=user.get("display_name"))
+
+    updates["updated_at"] = datetime.now(timezone.utc).isoformat()
+    await db.users.update_one({"_id": user["_id"]}, {"$set": updates})
+    refreshed = await db.users.find_one({"_id": user["_id"]})
+    return UserPublic(id=refreshed["_id"], email=refreshed["email"], display_name=refreshed.get("display_name"))
+
+
+@api_router.post("/users/me/change-password")
+async def change_password(payload: ChangePasswordRequest, authorization: Optional[str] = Header(default=None)):
+    """Allow current user to change password (self-service)."""
+    user = await get_user_from_token(authorization)
+    if not user.get("password_hash"):
+        raise HTTPException(status_code=400, detail="Password-based login not enabled for this account")
+
+    if not verify_password(payload.current_password, user["password_hash"]):
+        raise HTTPException(status_code=400, detail="Current password is incorrect")
+
+    new_hash = hash_password(payload.new_password)
+    await db.users.update_one(
+        {"_id": user["_id"]},
+        {
+            "$set": {
+                "password_hash": new_hash,
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }
+        },
+    )
+    return {"status": "ok"}
+
+
+@api_router.delete("/users/me")
+async def delete_me(authorization: Optional[str] = Header(default=None)):
+    """Soft-delete current user account and associated projects/jobs/uploads (MVP)."""
+    user = await get_user_from_token(authorization)
+
+    # Soft-delete: we mark a flag and optionally anonymize email
+    anonymized_email = f"deleted+{user['_id']}@pushin.app"
+    await db.users.update_one(
+        {"_id": user["_id"]},
+        {
+            "$set": {
+                "email": anonymized_email,
+                "display_name": "Deleted User",
+                "password_hash": None,
+                "status": "deleted",
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }
+        },
+    )
+
+    # Optionnel: marquer les projets et jobs comme appartenant à un user supprimé
+    await db.projects.update_many(
+        {"user_id": user["_id"]},
+        {"$set": {"user_deleted": True}},
+    )
+    await db.jobs.update_many(
+        {"user_id": user["_id"]},
+        {"$set": {"user_deleted": True}},
+    )
+
+    return {"status": "deleted"}
+
     password = "Demo1234!"
     display_name = "Demo User"
 
