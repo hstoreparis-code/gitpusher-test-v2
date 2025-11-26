@@ -153,6 +153,7 @@ function useI18n() {
     // For EN/FR we use local translations only
     if (code === "en" || code === "fr") {
       setLangState(code);
+      if (typeof window !== "undefined") window.localStorage.setItem("ui_lang", code);
       return;
     }
 
