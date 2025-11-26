@@ -466,11 +466,6 @@ async def set_plan(payload: PlanUpdate, authorization: Optional[str] = Header(de
             logger.info("Existing user %s upgraded to admin", ADMIN_EMAIL)
 
 
-# Logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger(__name__)
-
-
 # Dependency: current user
 async def get_current_user(authorization: str = Depends(lambda authorization=Depends(lambda: None): authorization)):
     """Very small helper that expects Authorization: Bearer <token> header.
