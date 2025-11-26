@@ -329,21 +329,9 @@ function Landing({ t, onGetStarted, lang, setLang, dark, setDark, currentLang, l
             <p className="text-sm sm:text-base text-slate-300 max-w-xl">
               {t("heroSubtitle")}
             </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Button
-                size="lg"
-                className="rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-6 shadow-lg shadow-cyan-500/30"
-                onClick={onGetStarted}
-                data-testid="get-started-button"
-              >
-                {t("getStarted")}
-              </Button>
-              <div className="flex items-center gap-2 text-xs text-slate-400">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-emerald-400 to-cyan-500" />
-                <span>No Git, no CLI, just drag &amp; drop.</span>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
+
+            {/* Steps now just above CTA */}
+            <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm mt-4">
               <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
                 <p className="font-medium mb-1">1. Upload</p>
                 <p className="text-slate-300">Fichiers zip, PDF, code… en un geste.</p>
@@ -359,6 +347,62 @@ function Landing({ t, onGetStarted, lang, setLang, dark, setDark, currentLang, l
               <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
                 <p className="font-medium mb-1">4. Analytics</p>
                 <p className="text-slate-300">Suivi des repos créés (optionnel).</p>
+              </div>
+            </div>
+
+            {/* Central drag & drop square */}
+            <div className="mt-6 flex justify-center">
+              <label
+                className="relative w-full max-w-md aspect-square rounded-3xl border border-dashed border-cyan-400/60 bg-slate-950/40 hover:bg-slate-900/60 transition-colors flex flex-col items-center justify-center gap-3 cursor-pointer shadow-[0_0_40px_rgba(34,211,238,0.25)]"
+                data-testid="landing-file-dropzone"
+                onDragOver={(e) => {
+                  e.preventDefault();
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  // Pour l'instant, on utilise le drop comme CTA vers le flow app
+                  onGetStarted();
+                }}
+              >
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-[11px] uppercase tracking-[0.18em] text-cyan-300">
+                    Drag &amp; Drop
+                  </span>
+                  <span className="text-sm font-medium">Dépose tes fichiers ici</span>
+                </div>
+                <p className="text-[11px] text-slate-400 max-w-[80%] text-center">
+                  Zip, PDF, dossiers de code… PUSH IN se charge de tout organiser et pousser sur GitHub.
+                </p>
+                <div className="mt-2 inline-flex items-center gap-2 text-[11px] text-slate-300">
+                  <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-emerald-400 to-cyan-500" />
+                  <span>No Git, no CLI, just drop.</span>
+                </div>
+                <input
+                  type="file"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files.length > 0) {
+                      onGetStarted();
+                    }
+                  }}
+                  data-testid="landing-file-input"
+                />
+              </label>
+            </div>
+
+            {/* CTA moved below steps & dropzone */}
+            <div className="flex flex-wrap items-center gap-4 mt-6">
+              <Button
+                size="lg"
+                className="rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-6 shadow-lg shadow-cyan-500/30"
+                onClick={onGetStarted}
+                data-testid="get-started-button"
+              >
+                {t("getStarted")}
+              </Button>
+              <div className="flex items-center gap-2 text-xs text-slate-400">
+                <span>No Git, no CLI, juste ton navigateur.</span>
               </div>
             </div>
           </div>
