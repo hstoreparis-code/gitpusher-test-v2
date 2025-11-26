@@ -427,6 +427,26 @@ async def set_plan(payload: PlanUpdate, authorization: Optional[str] = Header(de
     return {"status": "ok", "plan": plan}
 
 
+
+@api_router.post("/billing/plan")
+async def set_plan(payload: PlanUpdate, authorization: Optional[str] = Header(default=None)):
+    """Simule la mise à jour du plan (freemium, premium, business) pour l'utilisateur courant.
+
+    Pour l'instant, on stocke simplement le champ "plan" dans le document user.
+    """
+    user = await get_user_from_token(authorization)
+    plan = payload.plan.lower()
+    if plan not in {"freemium", "premium", "business"}:
+        raise HTTPException(status_code=400, detail="Invalid plan")
+
+    await db.users.update_one(
+        {"_id": user["_id"]},
+        {"$set": {"plan": plan, "updated_at": datetime.now(timezone.utc).isoformat()}},
+    )
+
+    return {"status": "ok", "plan": plan}
+
+
 @api_router.post("/billing/plan")
 async def set_plan(payload: PlanUpdate, authorization: Optional[str] = Header(default=None)):
     """Simule la mise à jour du plan (freemium, premium, business) pour l'utilisateur courant.
