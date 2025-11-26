@@ -118,6 +118,16 @@ class ProjectDetail(ProjectPublic):
     commit_messages: List[str] = []
 
 
+
+class UserUpdateProfile(BaseModel):
+    display_name: Optional[str] = None
+
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
 class JobCreate(BaseModel):
     project_id: str
 
