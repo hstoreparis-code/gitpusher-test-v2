@@ -118,6 +118,19 @@ class ProjectDetail(ProjectPublic):
     commit_messages: List[str] = []
 
 
+class JobCreate(BaseModel):
+    project_id: str
+
+
+class JobPublic(BaseModel):
+    id: str
+    project_id: str
+    status: str
+    error: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+
+
 # FastAPI app
 app = FastAPI(title="No-Code GitHub Pusher API")
 api_router = APIRouter(prefix="/api")
