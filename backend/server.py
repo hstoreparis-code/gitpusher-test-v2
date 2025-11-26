@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, Depends, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, UploadFile, File, Form, Header
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -195,7 +195,8 @@ async def login(payload: UserLogin):
 
 
 @api_router.get("/auth/me", response_model=UserPublic)
-async def me(authorization: Optional[str] = None):
+async def me(authorization: Optional[str] = Header(default=None)):
+
     user = await get_user_from_token(authorization)
     return UserPublic(id=user["_id"], email=user["email"], display_name=user.get("display_name"))
 
@@ -293,7 +294,7 @@ async def github_oauth_url():
 
 
 @api_router.get("/auth/oauth/github/callback")
-async def github_callback(code: str, authorization: Optional[str] = None):
+async def github_callback(code: str, authorization: Optional[str] = Header(default=None)):
     """Callback called after user granted repo access. We link the GitHub token to the current logged-in user."""
     if not GITHUB_CLIENT_ID or not GITHUB_CLIENT_SECRET:
         raise HTTPException(status_code=500, detail="GitHub OAuth not configured")
@@ -474,7 +475,7 @@ UPLOAD_ROOT.mkdir(exist_ok=True)
 
 
 @api_router.post("/workflows/projects", response_model=ProjectPublic)
-async def create_project(payload: ProjectCreate, authorization: Optional[str] = None):
+async def create_project(payload: ProjectCreate, authorization: Optional[str] = Header(default=None)):
     user = await get_user_from_token(authorization)
     project_id = str(uuid.uuid4())
     now = datetime.now(timezone.utc).isoformat()
@@ -506,7 +507,7 @@ async def create_project(payload: ProjectCreate, authorization: Optional[str] = 
 
 
 @api_router.get("/workflows/projects", response_model=List[ProjectPublic])
-async def list_projects(authorization: Optional[str] = None):
+async def list_projects(authorization: Optional[str] = Header(default=None)):
     user = await get_user_from_token(authorization)
     cur = db.projects.find({"user_id": user["_id"]}).sort("created_at", -1)
     items: List[ProjectPublic] = []
@@ -524,7 +525,7 @@ async def list_projects(authorization: Optional[str] = None):
 
 
 @api_router.get("/workflows/projects/{project_id}", response_model=ProjectDetail)
-async def get_project(project_id: str, authorization: Optional[str] = None):
+async def get_project(project_id: str, authorization: Optional[str] = Header(default=None)):
     user = await get_user_from_token(authorization)
     doc = await db.projects.find_one({"_id": project_id, "user_id": user["_id"]})
     if not doc:
@@ -545,7 +546,7 @@ async def get_project(project_id: str, authorization: Optional[str] = None):
 @api_router.post("/workflows/projects/{project_id}/upload")
 async def upload_files(
     project_id: str,
-    authorization: Optional[str] = None,
+    authorization: Optional[str] = Header(default=None),
     files: List[UploadFile] = File(...),
 ):
     user = await get_user_from_token(authorization)
@@ -584,7 +585,7 @@ async def upload_files(
 
 
 @api_router.post("/workflows/projects/{project_id}/process", response_model=ProjectDetail)
-async def process_project(project_id: str, authorization: Optional[str] = None):
+async def process_project(project_id: str, authorization: Optional[str] = Header(default=None)):
     user = await get_user_from_token(authorization)
     project = await db.projects.find_one({"_id": project_id, "user_id": user["_id"]})
     if not project:
