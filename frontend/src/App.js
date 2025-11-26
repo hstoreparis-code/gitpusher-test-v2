@@ -382,7 +382,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-tight max-w-2xl mx-auto lg:mx-0">
               {t("heroTitle")}<span className="text-cyan-300">.</span>
             </h1>
-            <p className="text-sm sm:text-base text-slate-300 max-w-xl">
+            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0">
               {t("heroSubtitle")}
             </p>
 
