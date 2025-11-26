@@ -409,22 +409,6 @@ async def ensure_admin_user():
 
 
 # Billing endpoints removed
-            "provider_google_id": None,
-            "provider_github_id": None,
-            "github_access_token": None,
-            "is_admin": True,
-            "created_at": datetime.now(timezone.utc).isoformat(),
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-        }
-        await db.users.insert_one(doc)
-        logger.info("Admin user created with email %s", ADMIN_EMAIL)
-    else:
-        if not existing.get("is_admin"):
-            await db.users.update_one(
-                {"_id": existing["_id"]},
-                {"$set": {"is_admin": True, "updated_at": datetime.now(timezone.utc).isoformat()}},
-            )
-            logger.info("Existing user %s upgraded to admin", ADMIN_EMAIL)
 
 
 # Dependency: current user
