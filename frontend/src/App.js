@@ -835,12 +835,13 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             </Popover>
             <div className="flex items-center gap-2 text-xs">
               {user && (
-                <span
-                  className="hidden sm:inline text-slate-400"
-                  data-testid="dashboard-user-email"
+                <button
+                  onClick={openAccountSettings}
+                  className="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10"
+                  data-testid="dashboard-account-button"
                 >
-                  {user.email}
-                </span>
+                  <span className="truncate max-w-[140px] text-slate-200">{user.email}</span>
+                </button>
               )}
               <Button
                 variant="outline"
