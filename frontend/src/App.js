@@ -765,7 +765,6 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       setSelected(res.data);
       setProjects((prev) => prev.map((p) => (p.id === res.data.id ? res.data : p)));
       setProgress(100);
-      loadJobs();
     } catch (err) {
       console.error("Process project failed", err);
       setProgress(0);
