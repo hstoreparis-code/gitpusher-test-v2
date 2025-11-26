@@ -344,7 +344,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             <Popover open={authOpen} onOpenChange={setAuthOpen}>
               <PopoverTrigger asChild>
                 <button
-                  className="px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs flex items-center gap-2"
+                  className="hidden sm:inline-flex px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs items-center gap-2"
                   data-testid="auth-popover-trigger"
                 >
                   <span>Login / Sign up</span>
