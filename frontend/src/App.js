@@ -262,6 +262,14 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                 <button
                   onClick={() => navigate("/pricing")}
                   className="flex items-center justify-between gap-2 px-2 py-1 rounded-lg hover:bg-slate-900"
+            <button
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 sm:order-3"
+              data-testid="mobile-menu-toggle-button"
+            >
+              <Menu className="h-4 w-4" />
+            </button>
+
                   data-testid="mobile-menu-pricing-button"
                 >
                   <span>Plans &amp; Tarifs</span>
