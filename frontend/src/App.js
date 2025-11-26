@@ -712,6 +712,23 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     }
   };
 
+  const openAccountSettings = () => {
+    const newName = window.prompt("Nouveau nom d'affichage :", user?.display_name || "");
+    if (!newName || !token) return;
+    axios
+      .patch(
+        `${API}/users/me`,
+        { display_name: newName },
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.error("Update profile failed", err);
+      });
+  };
+
   const onFilesSelected = async (e) => {
     if (!selected) return;
     const files = Array.from(e.target.files || []);
