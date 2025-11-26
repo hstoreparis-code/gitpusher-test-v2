@@ -1151,7 +1151,7 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
               <DownloadCloud className="h-4 w-4 text-slate-950" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-semibold tracking-tight">PUSH IN</span>
+              <span className="text-sm font-semibold tracking-tight">GitPusher</span>
               <span className="text-xs text-slate-400">Mon compte</span>
             </div>
           </div>
