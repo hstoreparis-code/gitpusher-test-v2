@@ -1141,7 +1141,7 @@ async def process_project(project_id: str, authorization: Optional[str] = Header
 
 @api_router.get("/")
 async def root():
-    return {"message": "No-Code GitHub Pusher API"}
+    return {"message": "GitPusher API"}
 
 
 @app.on_event("shutdown")
