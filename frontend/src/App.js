@@ -1358,6 +1358,27 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
           <CardHeader>
             <CardTitle className="text-sm sm:text-base text-red-200">Supprimer mon compte</CardTitle>
           </CardHeader>
+          <CardContent className="space-y-3 text-xs sm:text-sm text-red-100">
+            <p>
+              Cette action est <span className="font-semibold">définitive</span>. Ton compte sera anonymisé
+              et les workflows associés marqués comme supprimés.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-red-400/80 text-red-200 hover:bg-red-900/60 text-xs"
+              onClick={deleteAccount}
+              disabled={deleting}
+              data-testid="account-delete-button"
+            >
+              {deleting ? "…" : "Supprimer mon compte"}
+            </Button>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}
 
 function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
   useEffect(() => {
