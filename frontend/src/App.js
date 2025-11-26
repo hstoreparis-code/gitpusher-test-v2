@@ -260,6 +260,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                 data-testid="mobile-menu-panel"
               >
                 <button
+                  onClick={() => navigate("/pricing")}
                   className="flex items-center justify-between gap-2 px-2 py-1 rounded-lg hover:bg-slate-900"
                   data-testid="mobile-menu-pricing-button"
                 >
