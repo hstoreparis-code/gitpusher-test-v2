@@ -142,7 +142,7 @@ class JobPublic(BaseModel):
 
 
 # FastAPI app
-app = FastAPI(title="No-Code GitHub Pusher API")
+app = FastAPI(title="GitPusher API")
 api_router = APIRouter(prefix="/api")
 
 
