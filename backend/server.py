@@ -791,6 +791,203 @@ async def upload_files(
         }
         uploads_meta.append(meta)
 
+
+# ---------- JOBS (WORKFLOW ORCHESTRATION) ----------
+
+
+async def run_project_pipeline(user: Dict, project: Dict, uploads: List[Dict]) -> Dict:
+    """Core pipeline: IA -> README -> commits -> GitHub repo -> push files.
+
+    Extrait de /process pour pouvoir être réutilisé par les jobs.
+    """
+    if not user.get("github_access_token"):
+        raise HTTPException(status_code=400, detail="GitHub not linked for this user")
+
+    if not uploads:
+        raise HTTPException(status_code=400, detail="No files uploaded for this project")
+
+    file_list = [
+        {"path": os.path.basename(u["stored_path"]), "mime_type": u["mime_type"], "size": u["size"]}
+        for u in uploads
+    ]
+
+    language = project.get("language", "en")
+
+    # 1) Generate README
+    readme_md = await generate_readme(
+        file_list=file_list,
+        language=language,
+        project_name=project["name"],
+        description=project.get("description"),
+    )
+
+    # 2) Generate commit messages
+    operations = [f"add {f['path']}" for f in file_list] + ["add README.md"]
+    commit_messages = await generate_commit_messages(operations, language=language)
+    main_commit = commit_messages[0] if commit_messages else "chore: initial import"
+
+    # 3) Create GitHub repo
+    gh_token = user["github_access_token"]
+    gh_repo = await github_create_repo(gh_token, project["name"], project.get("description"))
+    repo_full_name = gh_repo["full_name"]
+    repo_url = gh_repo["html_url"]
+
+    # 4) Upload files via GitHub contents API
+    for upload in uploads:
+        path = os.path.basename(upload["stored_path"])
+        content_bytes = Path(upload["stored_path"]).read_bytes()
+        await github_put_file(gh_token, repo_full_name, path, content_bytes, main_commit)
+
+    # Upload README.md
+    await github_put_file(gh_token, repo_full_name, "README.md", readme_md.encode("utf-8"), main_commit)
+
+    now = datetime.now(timezone.utc).isoformat()
+    await db.projects.update_one(
+        {"_id": project["_id"]},
+        {
+            "$set": {
+                "status": "done",
+                "github_repo_url": repo_url,
+                "github_repo_name": repo_full_name,
+                "readme_md": readme_md,
+                "commit_messages": commit_messages,
+                "updated_at": now,
+            }
+        },
+    )
+
+    updated = await db.projects.find_one({"_id": project["_id"]})
+    return updated
+
+
+async def run_job(job_id: str) -> Dict:
+    """Exécute le pipeline pour un job donné (MVP: en ligne, pas de vraie queue)."""
+    job = await db.jobs.find_one({"_id": job_id})
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    await db.jobs.update_one(
+        {"_id": job_id},
+        {"$set": {"status": "running", "updated_at": datetime.now(timezone.utc).isoformat(), "error": None}},
+    )
+
+    user = await db.users.find_one({"_id": job["user_id"]})
+    project = await db.projects.find_one({"_id": job["project_id"], "user_id": job["user_id"]})
+    if not project:
+        await db.jobs.update_one(
+            {"_id": job_id},
+            {
+                "$set": {
+                    "status": "failed",
+                    "error": "Project not found",
+                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                }
+            },
+        )
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    uploads = await db.uploads.find({"project_id": job["project_id"], "user_id": job["user_id"]}).to_list(1000)
+
+    try:
+        updated_project = await run_project_pipeline(user, project, uploads)
+        await db.jobs.update_one(
+            {"_id": job_id},
+            {
+                "$set": {
+                    "status": "completed",
+                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                }
+            },
+        )
+        return updated_project
+    except Exception as exc:  # noqa: BLE001
+        logger.error("Job %s failed: %s", job_id, exc)
+        await db.jobs.update_one(
+            {"_id": job_id},
+            {
+                "$set": {
+                    "status": "failed",
+                    "error": str(exc),
+                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                }
+            },
+        )
+        raise
+
+
+@api_router.post("/jobs", response_model=JobPublic)
+async def create_job(payload: JobCreate, authorization: Optional[str] = Header(default=None)):
+    """Crée un job de workflow pour un projet et exécute le pipeline (MVP: synchrone)."""
+    user = await get_user_from_token(authorization)
+    project = await db.projects.find_one({"_id": payload.project_id, "user_id": user["_id"]})
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    job_id = str(uuid.uuid4())
+    now = datetime.now(timezone.utc).isoformat()
+    job_doc = {
+        "_id": job_id,
+        "user_id": user["_id"],
+        "project_id": payload.project_id,
+        "status": "pending",
+        "error": None,
+        "created_at": now,
+        "updated_at": now,
+    }
+    await db.jobs.insert_one(job_doc)
+
+    # Exécution synchrone du job pour MVP
+    await run_job(job_id)
+
+    job = await db.jobs.find_one({"_id": job_id})
+    return JobPublic(
+        id=job["_id"],
+        project_id=job["project_id"],
+        status=job["status"],
+        error=job.get("error"),
+        created_at=datetime.fromisoformat(job["created_at"]),
+        updated_at=datetime.fromisoformat(job["updated_at"]),
+    )
+
+
+@api_router.get("/jobs", response_model=List[JobPublic])
+async def list_jobs(authorization: Optional[str] = Header(default=None)):
+    """Liste les jobs de l'utilisateur courant."""
+    user = await get_user_from_token(authorization)
+    cur = db.jobs.find({"user_id": user["_id"]}).sort("created_at", -1)
+    items: List[JobPublic] = []
+    async for job in cur:
+        items.append(
+            JobPublic(
+                id=job["_id"],
+                project_id=job["project_id"],
+                status=job["status"],
+                error=job.get("error"),
+                created_at=datetime.fromisoformat(job["created_at"]),
+                updated_at=datetime.fromisoformat(job["updated_at"]),
+            )
+        )
+    return items
+
+
+@api_router.get("/jobs/{job_id}", response_model=JobPublic)
+async def get_job(job_id: str, authorization: Optional[str] = Header(default=None)):
+    """Récupère le détail d'un job."""
+    user = await get_user_from_token(authorization)
+    job = await db.jobs.find_one({"_id": job_id, "user_id": user["_id"]})
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    return JobPublic(
+        id=job["_id"],
+        project_id=job["project_id"],
+        status=job["status"],
+        error=job.get("error"),
+        created_at=datetime.fromisoformat(job["created_at"]),
+        updated_at=datetime.fromisoformat(job["updated_at"]),
+    )
+
+
     if uploads_meta:
         await db.uploads.insert_many(uploads_meta)
 
