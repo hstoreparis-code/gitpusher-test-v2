@@ -178,6 +178,20 @@ Return a JSON object only, with the same keys and translated string values, no e
 Here are the entries (as key: text):
 {catalog}
 """
+    text = await call_llm(prompt, language=req.target_lang)
+
+    try:
+        translated = json.loads(text)
+        if not isinstance(translated, dict):  # fallback if LLM didn't follow instructions
+            raise ValueError("Invalid LLM JSON")
+    except Exception:  # noqa: BLE001
+        # In case of parsing error, just return base entries
+        return {"translations": req.entries}
+
+    return {"translations": translated}
+
+
+
 
 
 class GitRepoInfo(BaseModel):
