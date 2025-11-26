@@ -1,70 +1,70 @@
 {
   "total_tests": 9,
-  "passed_tests": 0,
-  "success_rate": 0.0,
+  "passed_tests": 9,
+  "success_rate": 100.0,
   "test_results": [
     {
       "name": "API Health Check",
-      "success": false,
+      "success": true,
       "details": "API root endpoint accessible",
       "expected_status": 200,
-      "actual_status": 502
+      "actual_status": 200
     },
     {
       "name": "User Registration",
-      "success": false,
-      "details": "Email: test_258aa408@example.com",
+      "success": true,
+      "details": "Email: test_dc00fa07@example.com",
       "expected_status": 200,
-      "actual_status": 502
+      "actual_status": 200
     },
     {
       "name": "User Login",
-      "success": false,
-      "details": "No registered user available",
-      "expected_status": null,
-      "actual_status": null
+      "success": true,
+      "details": "Token received: Yes",
+      "expected_status": 200,
+      "actual_status": 200
     },
     {
       "name": "User Profile",
-      "success": false,
-      "details": "No authentication token available",
-      "expected_status": null,
-      "actual_status": null
+      "success": true,
+      "details": "User ID: 711ef809-b9ac-4385-925e-4bb20b223301, Email: test_dc00fa07@example.com",
+      "expected_status": 200,
+      "actual_status": 200
     },
     {
       "name": "Create Project",
-      "success": false,
-      "details": "No authentication token available",
-      "expected_status": null,
-      "actual_status": null
+      "success": true,
+      "details": "Project ID: 4f1b3549-cb65-418c-9a5c-b1d6b1aa2844",
+      "expected_status": 200,
+      "actual_status": 200
     },
     {
       "name": "List Projects",
-      "success": false,
-      "details": "No authentication token available",
-      "expected_status": null,
-      "actual_status": null
+      "success": true,
+      "details": "Projects found: 1",
+      "expected_status": 200,
+      "actual_status": 200
     },
     {
       "name": "File Upload",
-      "success": false,
-      "details": "No token or project available",
-      "expected_status": null,
-      "actual_status": null
+      "success": true,
+      "details": "Files uploaded: 1",
+      "expected_status": 200,
+      "actual_status": 200
     },
     {
       "name": "Process Project (No GitHub)",
-      "success": false,
-      "details": "No token or project available",
-      "expected_status": null,
-      "actual_status": null
+      "success": true,
+      "details": "Error message: GitHub not linked for this user",
+      "expected_status": 400,
+      "actual_status": 400
     },
     {
       "name": "Invalid Auth Handling",
-      "success": false,
+      "success": true,
       "details": "Should reject invalid tokens",
       "expected_status": 401,
-      "actual_status": 502
+      "actual_status": 401
     }
   ]
 }
