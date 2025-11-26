@@ -387,7 +387,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             </p>
 
             {/* Steps now just above CTA - redesigned inline */}
-            <div className="mt-4 flex flex-col gap-3 text-[11px] sm:text-xs">
+            <div className="mt-6 flex flex-col gap-3 text-[12px] sm:text-xs">
               <div className="flex flex-wrap gap-2">
                 <div className="flex-1 min-w-[130px] rounded-full border border-white/10 bg-white/5 px-3 py-2 flex items-center gap-2">
                   <span className="h-6 w-6 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-[11px] font-semibold">
