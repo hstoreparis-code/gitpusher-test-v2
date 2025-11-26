@@ -248,7 +248,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               <DownloadCloud className="h-4 w-4 text-slate-950" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-semibold tracking-tight">PUSH IN</span>
+              <span className="text-sm font-semibold tracking-tight">GitPusher</span>
               <span className="text-xs text-slate-400">No-Code GitHub workflow</span>
             </div>
           </div>
