@@ -1031,10 +1031,6 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 }
 
  
-      </main>
-    </div>
-  );
-}
 
 function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
   const { token, user, logout } = useAuth();
