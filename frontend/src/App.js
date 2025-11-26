@@ -717,9 +717,12 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 
   useEffect(() => {
     if (!token) return;
-    if (!token) return;
-    loadProjects();
-    loadJobs();
+    const fetchAll = async () => {
+      await Promise.all([loadProjects(), loadJobs()]);
+    };
+    fetchAll();
+    // Intentionnellement, on ne met que 'token' pour éviter de recréer l'effet sur chaque render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const newProject = async () => {
