@@ -40,6 +40,12 @@ GITHUB_CLIENT_SECRET = os.environ.get("GITHUB_CLIENT_SECRET", "")
 GITHUB_REDIRECT_URI = os.environ.get("GITHUB_REDIRECT_URI", "")
 
 # LLM (Emergent / OpenAI via Emergent gateway)
+
+# Admin demo user (can be overridden via env)
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@pushin.app")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "Admin1234!")
+ADMIN_DISPLAY_NAME = os.environ.get("ADMIN_DISPLAY_NAME", "Admin")
+
 EMERGENT_LLM_KEY = os.environ.get("EMERGENT_LLM_KEY", "")
 EMERGENT_API_URL = os.environ.get("EMERGENT_API_URL", "https://api.emergent.sh")
 
@@ -239,6 +245,36 @@ async def detect_i18n(request: Request):
 
 # CORS
 app.add_middleware(
+
+
+@app.on_event("startup")
+async def ensure_admin_user():
+    """Ensure an admin user exists on startup (for demo / admin dashboard access)."""
+    existing = await db.users.find_one({"email": ADMIN_EMAIL})
+    if not existing:
+        admin_id = str(uuid.uuid4())
+        doc = {
+            "_id": admin_id,
+            "email": ADMIN_EMAIL,
+            "display_name": ADMIN_DISPLAY_NAME,
+            "password_hash": hash_password(ADMIN_PASSWORD),
+            "provider_google_id": None,
+            "provider_github_id": None,
+            "github_access_token": None,
+            "is_admin": True,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        }
+        await db.users.insert_one(doc)
+        logger.info("Admin user created with email %s", ADMIN_EMAIL)
+    else:
+        if not existing.get("is_admin"):
+            await db.users.update_one(
+                {"_id": existing["_id"]},
+                {"$set": {"is_admin": True, "updated_at": datetime.now(timezone.utc).isoformat()}},
+            )
+            logger.info("Existing user %s upgraded to admin", ADMIN_EMAIL)
+
     CORSMiddleware,
     allow_credentials=True,
     allow_origins=os.environ.get("CORS_ORIGINS", "*").split(","),
