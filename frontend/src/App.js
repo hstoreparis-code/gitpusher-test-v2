@@ -261,7 +261,28 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               <span className="text-xs text-slate-400">No-Code GitHub workflow</span>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs sm:text-sm">
+          <div className="flex items-center gap-4 text-xs sm:text-sm relative">
+            {menuOpen && (
+              <div
+                className="absolute right-0 top-10 z-20 flex flex-col gap-2 rounded-2xl border border-white/10 bg-slate-950/95 px-3 py-2 text-xs sm:hidden shadow-lg"
+                data-testid="mobile-menu-panel"
+              >
+                <button
+                  onClick={() => navigate("/pricing")}
+                  className="flex items-center justify-between gap-2 px-2 py-1 rounded-lg hover:bg-slate-900"
+                  data-testid="mobile-menu-pricing-button"
+                >
+                  <span>Plans &amp; Tarifs</span>
+                </button>
+                <button
+                  onClick={() => setAuthOpen(true)}
+                  className="flex items-center justify-between gap-2 px-2 py-1 rounded-lg hover:bg-slate-900"
+                  data-testid="mobile-menu-login-button"
+                >
+                  <span>Login / Sign up</span>
+                </button>
+              </div>
+            )}
             <div className="flex items-center gap-2">
               <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
               <Switch
