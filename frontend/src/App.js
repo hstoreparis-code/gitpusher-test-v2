@@ -1199,6 +1199,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               </CardContent>
             </Card>
           </div>
+        </div>
       </main>
     </div>
   );
