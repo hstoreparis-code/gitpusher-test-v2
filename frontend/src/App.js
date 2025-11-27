@@ -1080,31 +1080,31 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           <div className="space-y-4">
             <Card className="bg-slate-900/70 border-slate-800 flex flex-col" data-testid="project-stepper-card">
               <CardHeader>
-              <CardTitle className="text-sm sm:text-base flex items-center justify-between">
-                <span>{selected ? selected.name : t("stepUpload")}</span>
-                {selected && selected.github_repo_url && (
-                  <a
-                    href={selected.github_repo_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[11px] text-cyan-300 hover:text-cyan-200"
-                    data-testid="project-github-link"
-                  >
-                    {t("linkRepo")}
-                  </a>
+                <CardTitle className="text-sm sm:text-base flex items-center justify-between">
+                  <span>{selected ? selected.name : t("stepUpload")}</span>
+                  {selected && selected.github_repo_url && (
+                    <a
+                      href={selected.github_repo_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[11px] text-cyan-300 hover:text-cyan-200"
+                      data-testid="project-github-link"
+                    >
+                      {t("linkRepo")}
+                    </a>
+                  )}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex-1 flex flex-col gap-4 text-xs sm:text-sm">
+                {!selected ? (
+                  <p className="text-slate-400">{t("noProjects")}</p>
+                ) : (
+                  <>
+                    {/* Upload step, config, launch: déjà présents plus haut dans le fichier, conservés */}
+                  </>
                 )}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col gap-4 text-xs sm:text-sm">
-              {!selected ? (
-                <p className="text-slate-400">{t("noProjects")}</p>
-              ) : (
-                <>
-                  {/* Upload step, config, launch: déjà présents plus haut dans le fichier, conservés */}
-                </>
-              )}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
           <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl" data-testid="jobs-history-card">
             <CardHeader className="flex flex-row items-center justify-between gap-4 pb-4">
