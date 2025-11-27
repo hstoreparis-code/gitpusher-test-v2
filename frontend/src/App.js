@@ -383,7 +383,10 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               {t("heroTitle")}<span className="text-cyan-300">.</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0">
-              {t("heroSubtitle")}
+              {t("heroSubtitle").replace(
+                "GitHub aujourd’hui, GitLab & Bitbucket à venir",
+                "<span class='text-cyan-300 drop-shadow-[0_0_10px_rgba(56,189,248,0.9)]'>GitHub aujourd’hui, GitLab &amp; Bitbucket à venir</span>"
+              )}
             </p>
 
             {/* Steps now just above CTA - redesigned inline */}
