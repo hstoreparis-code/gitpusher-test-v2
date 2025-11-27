@@ -1078,8 +1078,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           </Card>
 
           <div className="space-y-4">
-          <Card className="bg-slate-900/70 border-slate-800 flex flex-col" data-testid="project-stepper-card">
-            <CardHeader>
+            <Card className="bg-slate-900/70 border-slate-800 flex flex-col" data-testid="project-stepper-card">
+              <CardHeader>
               <CardTitle className="text-sm sm:text-base flex items-center justify-between">
                 <span>{selected ? selected.name : t("stepUpload")}</span>
                 {selected && selected.github_repo_url && (
