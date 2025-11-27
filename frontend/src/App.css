@@ -7,3 +7,24 @@ body {
 }
 
 /* No center alignment here to keep natural reading flow */
+
+.neon-flicker {
+  animation: neon-flicker 2.4s infinite ease-in-out;
+}
+
+@keyframes neon-flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.9), 0 0 20px rgba(56, 189, 248, 0.7),
+      0 0 30px rgba(56, 189, 248, 0.6);
+  }
+  19%, 24%, 55% {
+    opacity: 0.6;
+    text-shadow: 0 0 5px rgba(56, 189, 248, 0.6), 0 0 10px rgba(56, 189, 248, 0.4);
+  }
+  20%, 23%, 54% {
+    opacity: 0.3;
+    text-shadow: none;
+  }
+}
+
