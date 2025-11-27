@@ -429,6 +429,21 @@ async def get_current_user(authorization: str = Depends(lambda authorization=Dep
 async def get_user_from_token(authorization: Optional[str]) -> dict:
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.split(" ")[1]
+    payload = decode_token(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    
+    user_id = payload.get("sub")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Invalid token payload")
+    
+    user = await db.users.find_one({"_id": user_id})
+    if not user:
+        raise HTTPException(status_code=401, detail="User not found")
+    
+    return user
 
 
 @api_router.post("/billing/plan")
