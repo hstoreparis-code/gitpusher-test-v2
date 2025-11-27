@@ -1856,6 +1856,10 @@ function AppShell() {
           />
         } 
       />
+      <Route 
+        path="/auth/callback" 
+        element={<OAuthCallback />} 
+      />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
