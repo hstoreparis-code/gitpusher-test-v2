@@ -1065,30 +1065,79 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             </div>
             
             {/* Credits & Subscription Card */}
-            <Card className="bg-gradient-to-br from-violet-500/10 via-slate-900/70 to-slate-900/70 border-violet-500/30 backdrop-blur-sm">
+            <Card className={`bg-gradient-to-br from-violet-500/10 via-slate-900/70 to-slate-900/70 border-violet-500/30 backdrop-blur-sm transition-all ${(user?.credits || 0) <= 2 ? 'animate-pulse' : ''}`}>
               <CardContent className="p-3 sm:p-4">
                 <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-gradient-to-br from-violet-400 to-fuchsia-500 flex items-center justify-center shadow-lg">
-                    <span className="text-xl sm:text-2xl">💎</span>
+                  {/* Circular Progress */}
+                  <div className="relative h-16 w-16 sm:h-20 sm:w-20 flex-shrink-0">
+                    <svg className="transform -rotate-90 h-full w-full" viewBox="0 0 100 100">
+                      {/* Background circle */}
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="45"
+                        fill="none"
+                        stroke="rgba(139, 92, 246, 0.1)"
+                        strokeWidth="8"
+                      />
+                      {/* Progress circle */}
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="45"
+                        fill="none"
+                        stroke={`${(user?.credits || 0) <= 2 ? 'rgba(239, 68, 68, 0.8)' : 'rgba(139, 92, 246, 0.8)'}`}
+                        strokeWidth="8"
+                        strokeLinecap="round"
+                        strokeDasharray={`${((user?.credits || 0) / 100) * 283} 283`}
+                        className={`transition-all duration-500 ${(user?.credits || 0) <= 2 ? 'animate-pulse' : ''}`}
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className={`text-xl sm:text-2xl font-bold ${(user?.credits || 0) <= 2 ? 'text-red-400 animate-pulse' : 'text-violet-300'}`}>
+                        {user?.credits || 0}
+                      </span>
+                    </div>
                   </div>
+
                   <div className="flex-1 min-w-0">
                     <p className="text-xs sm:text-sm text-slate-400">Crédits restants</p>
-                    <p className="text-lg sm:text-2xl font-bold text-violet-300">{user?.credits || 0}</p>
-                    <p className="text-[10px] sm:text-xs text-slate-500">Plan: {user?.plan || "Free"}</p>
+                    <p className="text-sm sm:text-base font-semibold text-violet-200">
+                      Plan: <span className="text-violet-300">{user?.plan || "Free"}</span>
+                    </p>
+                    {(user?.credits || 0) <= 2 && (
+                      <p className="text-[10px] sm:text-xs text-red-400 mt-1 font-semibold animate-pulse">
+                        ⚠️ Crédits faibles !
+                      </p>
+                    )}
                   </div>
+
+                  {/* Desktop Buttons */}
+                  <div className="hidden sm:flex flex-col gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() => navigate("/pricing")}
+                      className="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-slate-950 text-sm font-semibold shadow-lg"
+                    >
+                      🚀 Mise à niveau
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => navigate("/pricing")}
+                      variant="outline"
+                      className="px-4 py-2 rounded-lg border-violet-400/50 text-violet-300 text-xs hover:bg-violet-500/20"
+                    >
+                      Gérer
+                    </Button>
+                  </div>
+
+                  {/* Mobile Button */}
                   <Button
                     size="sm"
                     onClick={() => navigate("/pricing")}
-                    className="hidden sm:flex px-4 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-slate-950 text-sm font-semibold shadow-lg"
+                    className="sm:hidden px-3 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-slate-950 text-xs font-semibold shadow-lg"
                   >
-                    Gérer
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={() => navigate("/pricing")}
-                    className="sm:hidden px-3 py-1.5 rounded-lg bg-violet-500/20 border border-violet-400/50 hover:bg-violet-500/30 text-violet-300 text-xs font-semibold"
-                  >
-                    +
+                    🚀
                   </Button>
                 </div>
               </CardContent>
