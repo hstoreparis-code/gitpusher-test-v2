@@ -1606,23 +1606,23 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50 flex flex-col">
-      {/* Header réutilisé du dashboard */}
+      {/* Header réutilisé du landing page */}
       <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
-              <DownloadCloud className="h-5 w-5 text-slate-950" />
+        <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="h-11 w-11 md:h-[52px] md:w-[52px] rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)] transition-colors">
+              <DownloadCloud className="h-[22px] w-[22px] md:h-[26px] md:w-[26px] text-slate-950" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-semibold tracking-tight">
+            <div className="flex flex-col leading-tight">
+              <span className="text-[17px] md:text-[19px] font-semibold tracking-tight">
                 Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span>
               </span>
-              <span className="text-xs text-slate-400">Mon compte</span>
+              <span className="text-[11px] md:text-[13px] text-slate-400">Mon compte</span>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs sm:text-sm">
+          <div className="flex items-center gap-2 md:gap-3 text-xs sm:text-sm relative">
             <div className="flex items-center gap-2">
-              <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
+              <span className="text-slate-400 hidden sm:inline text-sm">{t("theme")}</span>
               <Switch
                 checked={dark}
                 onCheckedChange={setDark}
@@ -1632,13 +1632,13 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
             <Popover>
               <PopoverTrigger asChild>
                 <button
-                  className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs flex items-center gap-1"
+                  className="px-3 py-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-sm flex items-center gap-2"
                   data-testid="account-language-popover-trigger"
                 >
                   <span className="text-lg" aria-hidden="true">
                     {currentLang.flag}
                   </span>
-                  <span className="hidden sm:inline">{currentLang.label}</span>
+                  <span className="hidden sm:inline text-slate-200">{currentLang.label}</span>
                 </button>
               </PopoverTrigger>
               <PopoverContent
