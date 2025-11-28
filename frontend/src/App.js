@@ -402,45 +402,102 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             {/* Steps now just above CTA - redesigned inline */}
             <div className="mt-6 flex flex-col gap-3 text-[12px] sm:text-xs lg:text-sm">
               <div className="flex flex-wrap gap-2 lg:gap-3">
-                <div className="flex-1 min-w-[130px] lg:min-w-[160px] rounded-full border border-white/10 bg-white/5 px-3 py-2 lg:px-4 lg:py-3 flex items-center gap-2">
+                {/* Step 1 */}
+                <button
+                  type="button"
+                  onClick={() => setActiveStep(activeStep === 1 ? null : 1)}
+                  className={`flex-1 min-w-[130px] lg:min-w-[160px] rounded-full border px-3 py-2 lg:px-4 lg:py-3 flex items-center gap-2 transition-all duration-200 hover:border-cyan-400/80 hover:bg-cyan-500/10 ${
+                    activeStep === 1 ? "border-cyan-400 bg-cyan-500/15 shadow-[0_0_18px_rgba(34,211,238,0.6)]" : "border-white/10 bg-white/5"
+                  }`}
+                >
                   <span className="h-6 w-6 lg:h-7 lg:w-7 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-[11px] lg:text-[13px] font-semibold">
                     1
                   </span>
-                  <div className="flex flex-col leading-tight">
+                  <div className="flex flex-col leading-tight text-left">
                     <span className="font-medium">Upload</span>
                     <span className="text-[10px] lg:text-[11px] text-slate-300">Zip, PDF, code…</span>
                   </div>
-                </div>
+                </button>
 
-                <div className="flex-1 min-w-[130px] lg:min-w-[160px] rounded-full border border-white/10 bg-white/5 px-3 py-2 lg:px-4 lg:py-3 flex items-center gap-2">
+                {/* Step 2 */}
+                <button
+                  type="button"
+                  onClick={() => setActiveStep(activeStep === 2 ? null : 2)}
+                  className={`flex-1 min-w-[130px] lg:min-w-[160px] rounded-full border px-3 py-2 lg:px-4 lg:py-3 flex items-center gap-2 transition-all duration-200 hover:border-cyan-400/80 hover:bg-cyan-500/10 ${
+                    activeStep === 2 ? "border-cyan-400 bg-cyan-500/15 shadow-[0_0_18px_rgba(34,211,238,0.6)]" : "border-white/10 bg-white/5"
+                  }`}
+                >
                   <span className="h-6 w-6 lg:h-7 lg:w-7 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-[11px] lg:text-[13px] font-semibold">
                     2
                   </span>
-                  <div className="flex flex-col leading-tight">
+                  <div className="flex flex-col leading-tight text-left">
                     <span className="font-medium">IA organise</span>
                     <span className="text-[10px] lg:text-[11px] text-slate-300">Structure &amp; dossiers</span>
                   </div>
-                </div>
+                </button>
 
-                <div className="flex-1 min-w-[130px] lg:min-w-[160px] rounded-full border border-white/10 bg-white/5 px-3 py-2 lg:px-4 lg:py-3 flex items-center gap-2">
+                {/* Step 3 */}
+                <button
+                  type="button"
+                  onClick={() => setActiveStep(activeStep === 3 ? null : 3)}
+                  className={`flex-1 min-w-[130px] lg:min-w-[160px] rounded-full border px-3 py-2 lg:px-4 lg:py-3 flex items-center gap-2 transition-all duration-200 hover:border-cyan-400/80 hover:bg-cyan-500/10 ${
+                    activeStep === 3 ? "border-cyan-400 bg-cyan-500/15 shadow-[0_0_18px_rgba(34,211,238,0.6)]" : "border-white/10 bg-white/5"
+                  }`}
+                >
                   <span className="h-6 w-6 lg:h-7 lg:w-7 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-[11px] lg:text-[13px] font-semibold">
                     3
                   </span>
-                  <div className="flex flex-col leading-tight">
+                  <div className="flex flex-col leading-tight text-left">
                     <span className="font-medium">Push GitHub</span>
                     <span className="text-[10px] lg:text-[11px] text-slate-300">Repo auto-créé</span>
                   </div>
-                </div>
+                </button>
 
-                <div className="flex-1 min-w-[130px] lg:min-w-[160px] rounded-full border border-white/10 bg-white/5 px-3 py-2 lg:px-4 lg:py-3 flex items-center gap-2">
+                {/* Step 4 */}
+                <button
+                  type="button"
+                  onClick={() => setActiveStep(activeStep === 4 ? null : 4)}
+                  className={`flex-1 min-w-[130px] lg:min-w-[160px] rounded-full border px-3 py-2 lg:px-4 lg:py-3 flex items-center gap-2 transition-all duration-200 hover:border-cyan-400/80 hover:bg-cyan-500/10 ${
+                    activeStep === 4 ? "border-cyan-400 bg-cyan-500/15 shadow-[0_0_18px_rgba(34,211,238,0.6)]" : "border-white/10 bg-white/5"
+                  }`}
+                >
                   <span className="h-6 w-6 lg:h-7 lg:w-7 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-[11px] lg:text-[13px] font-semibold">
                     4
                   </span>
-                  <div className="flex flex-col leading-tight">
+                  <div className="flex flex-col leading-tight text-left">
                     <span className="font-medium">Analytics</span>
                     <span className="text-[10px] lg:text-[11px] text-slate-300">Suivi des repos</span>
                   </div>
-                </div>
+                </button>
+              </div>
+
+              {/* Contextual helper under steps */}
+              <div className="min-h-[40px] text-[11px] sm:text-xs text-slate-300 mt-1">
+                {activeStep === 1 && (
+                  <p>
+                    Après l&apos;upload, Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span> analyse ton ZIP, PDF ou dossier de code et prépare le job.
+                  </p>
+                )}
+                {activeStep === 2 && (
+                  <p>
+                    L&apos;IA détecte les langages, crée l&apos;arborescence propre et ajoute les bons fichiers README, .gitignore, LICENSE, CHANGELOG.
+                  </p>
+                )}
+                {activeStep === 3 && (
+                  <p>
+                    On crée automatiquement un dépôt Git (GitHub, GitLab, Bitbucket…) puis on pousse tous les commits pour toi.
+                  </p>
+                )}
+                {activeStep === 4 && (
+                  <p>
+                    Tu suis l&apos;état de chaque push (succès, erreurs, logs) directement depuis ton tableau de bord.
+                  </p>
+                )}
+                {!activeStep && (
+                  <p className="text-slate-500">
+                    Clique sur une étape pour voir en un coup d&apos;œil ce que fait Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span> pour toi.
+                  </p>
+                )}
               </div>
             </div>
 
