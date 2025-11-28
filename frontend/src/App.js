@@ -1130,7 +1130,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     {projects.filter(p => p.status === "done").length}
                   </p>
                 </div>
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-emerald-500/20 flex itemsợi-center justify-center">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
                   <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-400" />
                 </div>
               </div>
