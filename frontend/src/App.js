@@ -687,7 +687,15 @@ function AuthCard({ t, onSuccess, onClose }) {
   };
 
   return (
-    <Card className="bg-slate-900/70 border-white/10 shadow-2xl shadow-cyan-500/20 text-slate-50">
+    <Card className="bg-slate-900/70 border-white/10 shadow-2xl shadow-cyan-500/20 text-slate-50 relative">
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute right-3 top-3 text-slate-300 hover:text-white text-lg leading-none"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
       <CardHeader>
         <CardTitle className="text-base font-semibold">
           Connexion via Git providers
