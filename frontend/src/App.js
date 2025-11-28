@@ -2686,7 +2686,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                 </CardContent>
                 <div className="px-6 pb-5 md:pb-4">
                   <Button
-                    className="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-xs"
+                    className="w-full rounded-full bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/30 text-cyan-300 text-sm font-semibold shadow-lg"
                     data-testid="pricing-freemium-cta"
                     onClick={async () => {
                       try {
@@ -2696,8 +2696,12 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                           { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } },
                         );
                         console.log("Plan freemium appliqué", res.data);
+                        alert("✅ Plan Freemium activé avec succès ! Vous avez maintenant accès aux 5 crédits gratuits.");
+                        // Redirect to dashboard
+                        window.location.href = "/app";
                       } catch (e) {
                         console.error("Set freemium plan failed", e);
+                        alert("❌ Erreur lors de l'activation du plan Freemium. Veuillez réessayer.");
                       }
                     }}
                   >
