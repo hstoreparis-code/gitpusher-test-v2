@@ -1125,6 +1125,34 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 ) : (
                   <>
                     {/* Étape 1 : Upload */}
+                    <div className="space-y-3">
+                      <h3 className="font-semibold text-slate-100 text-sm">Nom du repo</h3>
+                      <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+                        <Input
+                          value={selected.name}
+                          onChange={(e) => setSelected({ ...selected, name: e.target.value })}
+                          onBlur={async (e) => {
+                            const newName = e.target.value?.trim();
+                            if (!newName || newName === selected.name) return;
+                            try {
+                              await axios.patch(
+                                `${API}/workflows/projects/${selected.id}`,
+                                { name: newName },
+                                { headers: { Authorization: `Bearer ${token}` } },
+                              );
+                            } catch (err) {
+                              console.error("Failed to update project name", err);
+                            }
+                          }}
+                          className="h-8 text-xs bg-slate-950/60 border-slate-700 max-w-xs"
+                        />
+                        <p className="text-[11px] text-slate-500 max-w-xs">
+                          Ce nom sera utilisé comme nom du dépôt GitHub créé par GitPusher.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Étape 1 : Upload */}
                     <div className="space-y-2">
                       <h3 className="font-semibold text-slate-100 text-sm">1. Uploade tes fichiers</h3>
                       <p className="text-[11px] text-slate-400">
