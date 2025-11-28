@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Optional, Tuple, Dict
 import shutil
 import zipfile
-import magic
+import mimetypes
 
 class StorageService:
     def __init__(self, base_path: str = "/tmp/gitpusher_uploads"):
@@ -46,7 +46,9 @@ class StorageService:
         file_path.write_bytes(file_content)
         
         # Detect mime type
-        mime_type = magic.from_file(str(file_path), mime=True)
+        mime_type, _ = mimetypes.guess_type(filename)
+        if not mime_type:
+            mime_type = "application/octet-stream"
         
         return {
             "upload_id": upload_id,
