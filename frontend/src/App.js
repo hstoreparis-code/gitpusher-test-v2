@@ -1364,9 +1364,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   <GitBranch className="h-6 w-6 text-cyan-400" />
                 </div>
               </div>
-              <p className="text-sm text-slate-400 mb-2">Total Projects</p>
+              <p className="text-sm text-slate-100 mb-2 font-semibold">Total Projects</p>
               <p className="text-3xl font-bold text-cyan-300">{projects.length}</p>
-              <p className="text-xs text-slate-500 mt-2">Workflows créés avec l'IA</p>
+              <p className="text-xs text-slate-300 mt-2">Workflows créés avec l'IA</p>
             </CardContent>
           </Card>
 
