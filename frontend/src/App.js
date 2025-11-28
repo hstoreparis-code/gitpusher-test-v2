@@ -1052,53 +1052,65 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       </header>
 
       <main className="flex-1 w-full max-w-5xl mx-auto px-3 sm:px-4 py-3 sm:py-6 space-y-3 sm:space-y-6">
-        {/* Stats Cards - Mobile (carrés) */}
+        {/* Stats Cards - Mobile */}
         <div className="grid grid-cols-2 gap-3 sm:hidden">
           {/* Total Projects */}
-          <Card className="bg-slate-900/80 border border-cyan-500/30 rounded-2xl flex items-center justify-center aspect-square">
-            <CardContent className="p-3 flex flex-col items-center justify-center gap-1 text-center">
-              <div className="h-8 w-8 rounded-full bg-cyan-500/20 flex items-center justify-center mb-1">
-                <GitBranch className="h-4 w-4 text-cyan-400" />
+          <Card className="bg-slate-900/80 border border-slate-800 rounded-xl">
+            <CardContent className="p-3 flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-400">Total Projects</span>
+                <div className="h-7 w-7 rounded-lg bg-cyan-500/15 flex items-center justify-center">
+                  <GitBranch className="h-4 w-4 text-cyan-400" />
+                </div>
               </div>
-              <p className="text-[11px] text-slate-300">Total Projects</p>
-              <p className="text-xl font-bold text-cyan-300 leading-none">{projects.length}</p>
+              <p className="text-lg font-semibold text-cyan-300 leading-tight">{projects.length}</p>
+              <p className="text-[10px] text-slate-500">Workflows créés avec l&apos;IA.</p>
             </CardContent>
           </Card>
 
           {/* Completed Projects */}
-          <Card className="bg-slate-900/80 border border-emerald-500/30 rounded-2xl flex items-center justify-center aspect-square">
-            <CardContent className="p-3 flex flex-col items-center justify-center gap-1 text-center">
-              <div className="h-8 w-8 rounded-full bg-emerald-500/20 flex items-center justify-center mb-1">
-                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+          <Card className="bg-slate-900/80 border border-slate-800 rounded-xl">
+            <CardContent className="p-3 flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-400">Completed</span>
+                <div className="h-7 w-7 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                </div>
               </div>
-              <p className="text-[11px] text-slate-300">Completed</p>
-              <p className="text-xl font-bold text-emerald-300 leading-none">
+              <p className="text-lg font-semibold text-emerald-300 leading-tight">
                 {projects.filter(p => p.status === "done").length}
               </p>
+              <p className="text-[10px] text-slate-500">Workflows terminés avec succès.</p>
             </CardContent>
           </Card>
 
           {/* Pending Projects */}
-          <Card className="bg-slate-900/80 border border-amber-500/30 rounded-2xl flex items-center justify-center aspect-square">
-            <CardContent className="p-3 flex flex-col items-center justify-center gap-1 text-center">
-              <div className="h-8 w-8 rounded-full bg-amber-500/20 flex items-center justify-center mb-1">
-                <Clock className="h-4 w-4 text-amber-400" />
+          <Card className="bg-slate-900/80 border border-slate-800 rounded-xl">
+            <CardContent className="p-3 flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-400">Pending</span>
+                <div className="h-7 w-7 rounded-lg bg-amber-500/15 flex items-center justify-center">
+                  <Clock className="h-4 w-4 text-amber-400" />
+                </div>
               </div>
-              <p className="text-[11px] text-slate-300">Pending</p>
-              <p className="text-xl font-bold text-amber-300 leading-none">
+              <p className="text-lg font-semibold text-amber-300 leading-tight">
                 {projects.filter(p => p.status !== "done").length}
               </p>
+              <p className="text-[10px] text-slate-500">Workflows en attente de traitement.</p>
             </CardContent>
           </Card>
 
           {/* Total Jobs */}
-          <Card className="bg-slate-900/80 border border-violet-500/30 rounded-2xl flex items-center justify-center aspect-square">
-            <CardContent className="p-3 flex flex-col items-center justify-center gap-1 text-center">
-              <div className="h-8 w-8 rounded-full bg-violet-500/20 flex items-center justify-center mb-1">
-                <Activity className="h-4 w-4 text-violet-400" />
+          <Card className="bg-slate-900/80 border border-slate-800 rounded-xl">
+            <CardContent className="p-3 flex flex-col gap-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-400">Total Jobs</span>
+                <div className="h-7 w-7 rounded-lg bg-violet-500/15 flex items-center justify-center">
+                  <Activity className="h-4 w-4 text-violet-400" />
+                </div>
               </div>
-              <p className="text-[11px] text-slate-300">Total Jobs</p>
-              <p className="text-xl font-bold text-violet-300 leading-none">{jobs.length}</p>
+              <p className="text-lg font-semibold text-violet-300 leading-tight">{jobs.length}</p>
+              <p className="text-[10px] text-slate-500">Exécutions IA effectuées.</p>
             </CardContent>
           </Card>
         </div>
