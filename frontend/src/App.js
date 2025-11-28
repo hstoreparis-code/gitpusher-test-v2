@@ -525,7 +525,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
       {/* Footer with White Paper link */}
       <footer className="w-full border-t border-white/5 py-6 px-4">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <p>© 2024 GitPusher. No-Code Git Workflow powered by AI.</p>
+          <p>© 2024 Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span>. No-Code Git Workflow powered by AI.</p>
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate("/whitepaper")}
