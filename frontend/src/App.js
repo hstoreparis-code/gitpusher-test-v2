@@ -1258,24 +1258,14 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     )}
                   </div>
 
-                  {/* Desktop Buttons */}
-                  <div className="hidden sm:flex flex-col gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => navigate("/pricing")}
-                      className="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-slate-950 text-sm font-semibold shadow-lg"
-                    >
-                      🚀 Mise à niveau
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => navigate("/pricing")}
-                      variant="outline"
-                      className="px-4 py-2 rounded-lg border-violet-400/50 text-violet-300 text-xs hover:bg-violet-500/20"
-                    >
-                      Gérer
-                    </Button>
-                  </div>
+                  {/* Desktop Button */}
+                  <Button
+                    size="sm"
+                    onClick={() => navigate("/pricing")}
+                    className="hidden sm:flex px-4 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-slate-950 text-sm font-semibold shadow-lg"
+                  >
+                    🚀 Mise à niveau
+                  </Button>
 
                   {/* Mobile Button */}
                   <Button
