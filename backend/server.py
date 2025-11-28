@@ -929,6 +929,126 @@ Respond with bullet list only.
     return lines[:5]
 
 
+async def generate_gitignore(file_list: List[Dict], language: str) -> str:
+    """Generate a .gitignore file based on project files."""
+    # Detect languages/frameworks from files
+    extensions = set()
+    frameworks = []
+    
+    for f in file_list:
+        path = f.get('path', '')
+        ext = path.split('.')[-1] if '.' in path else ''
+        extensions.add(ext)
+        
+        # Detect frameworks/tools
+        if 'package.json' in path:
+            frameworks.append('Node.js')
+        if 'requirements.txt' in path or 'setup.py' in path:
+            frameworks.append('Python')
+        if 'pom.xml' in path or 'build.gradle' in path:
+            frameworks.append('Java')
+        if 'Gemfile' in path:
+            frameworks.append('Ruby')
+        if 'go.mod' in path:
+            frameworks.append('Go')
+    
+    frameworks_text = ", ".join(set(frameworks)) if frameworks else "Generic"
+    
+    prompt = f"""
+Generate a comprehensive .gitignore file for a project using: {frameworks_text}
+
+File extensions detected: {', '.join(list(extensions)[:10])}
+
+Include common ignores for:
+- IDE files (VSCode, IntelliJ, etc.)
+- OS files (macOS, Windows, Linux)
+- Build artifacts
+- Dependencies folders
+- Environment files
+- Logs and temporary files
+
+Respond ONLY with the .gitignore content, no explanations.
+"""
+    
+    return await call_llm(prompt, language="en")
+
+
+async def generate_license(license_type: str = "MIT", author_name: str = "Project Contributors") -> str:
+    """Generate a LICENSE file."""
+    current_year = datetime.now(timezone.utc).year
+    
+    if license_type.upper() == "MIT":
+        return f"""MIT License
+
+Copyright (c) {current_year} {author_name}
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+    
+    # For other licenses, use LLM
+    prompt = f"""
+Generate a complete {license_type} license text for year {current_year} and author "{author_name}".
+Respond ONLY with the license text, no explanations.
+"""
+    return await call_llm(prompt, language="en")
+
+
+async def generate_changelog(project_name: str, initial_version: str = "1.0.0") -> str:
+    """Generate an initial CHANGELOG.md file."""
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    
+    return f"""# Changelog
+
+All notable changes to {project_name} will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [{initial_version}] - {today}
+
+### Added
+- Initial project setup
+- Core functionality implementation
+- Basic documentation
+
+### Changed
+- N/A
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Fixed
+- N/A
+
+### Security
+- N/A
+
+[Unreleased]: https://github.com/username/{project_name}/compare/v{initial_version}...HEAD
+[{initial_version}]: https://github.com/username/{project_name}/releases/tag/v{initial_version}
+"""
+
+
 # ---------- GENERIC GIT PROVIDER HELPERS ----------
 
 
