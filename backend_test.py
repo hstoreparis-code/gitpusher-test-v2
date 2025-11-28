@@ -284,6 +284,99 @@ class BackendAPITester:
         except Exception as e:
             return self.log_test("Process Project (No GitHub)", False, f"Error: {str(e)}")
 
+    def test_admin_login_and_users_endpoint(self):
+        """Test admin login and /api/admin/users endpoint after AdminUserSummary model fix"""
+        try:
+            # Step 1: Admin login
+            admin_email = "admin@pushin.app"
+            admin_password = "Admin1234!"
+            
+            response = requests.post(
+                f"{self.api_url}/auth/login",
+                json={
+                    "email": admin_email,
+                    "password": admin_password
+                },
+                timeout=10
+            )
+            
+            if response.status_code != 200:
+                return self.log_test(
+                    "Admin Login",
+                    False,
+                    f"Admin login failed: {response.text}",
+                    200,
+                    response.status_code
+                )
+            
+            admin_token = response.json().get("access_token")
+            if not admin_token:
+                return self.log_test("Admin Login", False, "No access token received")
+            
+            self.log_test("Admin Login", True, "Admin successfully logged in")
+            
+            # Step 2: Verify admin status
+            response = requests.get(
+                f"{self.api_url}/auth/admin-status",
+                headers={"Authorization": f"Bearer {admin_token}"},
+                timeout=10
+            )
+            
+            if response.status_code != 200:
+                return self.log_test(
+                    "Admin Status Check",
+                    False,
+                    f"Admin status check failed: {response.text}",
+                    200,
+                    response.status_code
+                )
+            
+            admin_status = response.json()
+            if not admin_status.get("is_admin"):
+                return self.log_test("Admin Status Check", False, "User is not admin")
+            
+            self.log_test("Admin Status Check", True, "Admin status confirmed")
+            
+            # Step 3: Test /api/admin/users endpoint
+            response = requests.get(
+                f"{self.api_url}/admin/users",
+                headers={"Authorization": f"Bearer {admin_token}"},
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            details = ""
+            
+            if success:
+                try:
+                    users_data = response.json()
+                    if isinstance(users_data, list):
+                        details = f"Successfully retrieved {len(users_data)} users"
+                        # Check if any user has email field (should be str now, not EmailStr)
+                        if users_data:
+                            sample_user = users_data[0]
+                            if "email" in sample_user:
+                                details += f", sample email: {sample_user['email']}"
+                    else:
+                        success = False
+                        details = f"Expected list, got: {type(users_data)}"
+                except json.JSONDecodeError as e:
+                    success = False
+                    details = f"JSON decode error: {str(e)}"
+            else:
+                details = f"HTTP error: {response.text}"
+            
+            return self.log_test(
+                "Admin Users Endpoint",
+                success,
+                details,
+                200,
+                response.status_code
+            )
+            
+        except Exception as e:
+            return self.log_test("Admin Login and Users Endpoint", False, f"Error: {str(e)}")
+
     def test_invalid_auth(self):
         """Test endpoints with invalid authentication"""
         try:
