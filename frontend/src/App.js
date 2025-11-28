@@ -748,11 +748,7 @@ function AuthCard({ t, onSuccess }) {
             </Button>
           </div>
 
-          <div className="flex items-center gap-2 text-[11px] text-slate-500 pt-1">
-            <div className="flex-1 h-px bg-slate-700" />
-            <span>ou avec email / mot de passe</span>
-            <div className="flex-1 h-px bg-slate-700" />
-          </div>
+          {/* Auth email désactivée : séparateur retiré */}
         </div>
 
         {/* Auth email désactivée : l'accès se fait uniquement via OAuth */}
