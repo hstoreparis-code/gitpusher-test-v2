@@ -1744,8 +1744,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                         Ajoute un ZIP ou quelques fichiers (code, texte, docs). L&apos;IA analysera ce contenu pour générer
                         la structure du repo et la documentation.
                       </p>
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                        <label className="inline-flex items-center px-4 py-3 rounded-xl border border-dashed border-slate-700 bg-slate-900/60 hover:bg-slate-900 hover:border-cyan-500/50 cursor-pointer text-xs sm:text-sm transition-all">
+                      <div className="flex flex-col gap-3">
+                        <label className="inline-flex items-center px-4 py-3 rounded-xl border border-dashed border-slate-700 bg-slate-900/60 hover:bg-slate-900 hover:border-cyan-500/50 cursor-pointer text-xs sm:text-sm transition-all w-fit">
                           <input
                             type="file"
                             multiple
@@ -1756,8 +1756,29 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                           <span className="mr-2">📁 Choisir des fichiers</span>
                           <span className="text-xs text-slate-500">ZIP, .py, .js, .md, PDF…</span>
                         </label>
+                        
                         {uploading && (
                           <span className="text-xs sm:text-sm text-cyan-300 animate-pulse">Upload en cours…</span>
+                        )}
+
+                        {/* Uploaded Files List */}
+                        {uploadedFiles.length > 0 && (
+                          <div className="space-y-2">
+                            <p className="text-xs sm:text-sm text-slate-400 font-semibold">Fichiers uploadés :</p>
+                            <div className="space-y-1">
+                              {uploadedFiles.map((file, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
+                                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                                    <span className="text-emerald-400">✓</span>
+                                    <span className="text-xs sm:text-sm text-slate-200 truncate">{file.name}</span>
+                                  </div>
+                                  <span className="text-[10px] sm:text-xs text-slate-400 flex-shrink-0">
+                                    {(file.size / 1024).toFixed(1)} KB
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
                         )}
                       </div>
                     </div>
