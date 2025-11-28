@@ -1364,27 +1364,27 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                         <span className="h-6 w-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs text-emerald-400 font-bold">2</span>
                         Lancer l&apos;automatisation
                       </h3>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs sm:text-sm text-slate-400">
                         Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span> va créer un nouveau repo GitHub, générer README, .gitignore, LICENSE et CHANGELOG puis pousser
                         les commits.
                       </p>
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                      <div className="flex flex-col gap-4">
                         <Button
-                          size="sm"
-                          className="rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-sm sm:text-xs px-4 py-2 shadow-lg"
+                          size="lg"
+                          className="w-full sm:w-auto rounded-xl bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-sm sm:text-base px-6 py-3 sm:py-4 shadow-lg hover:shadow-xl transition-all font-semibold"
                           onClick={launch}
                           disabled={processing || uploading}
                           data-testid="launch-workflow-button"
                         >
-                          {processing ? "Traitement en cours…" : t("launch")}
+                          {processing ? "⚙️ Traitement en cours…" : `🚀 ${t("launch")}`}
                         </Button>
                         {progress > 0 && (
-                          <div className="flex-1 max-w-xs flex flex-col gap-1">
-                            <Progress value={progress} className="h-1.5" />
-                            <span className="text-[10px] text-slate-400">
+                          <div className="flex flex-col gap-2">
+                            <Progress value={progress} className="h-2" />
+                            <span className="text-xs sm:text-sm text-slate-400">
                               {progress === 100
-                                ? "Terminé ! Tu peux ouvrir le repo GitHub à gauche."
-                                : "Analyse et génération en cours…"}
+                                ? "✅ Terminé ! Tu peux ouvrir le repo GitHub."
+                                : "⏳ Analyse et génération en cours…"}
                             </span>
                           </div>
                         )}
