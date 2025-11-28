@@ -1071,8 +1071,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 <Button
                   size="sm"
                   onClick={() => {
-                    const newCredits = Math.max(0, (user?.credits || 0) - 1);
-                    setUser({ ...user, credits: newCredits });
+                    const currentUser = testUser || authUser;
+                    const newCredits = Math.max(0, (currentUser?.credits || 0) - 1);
+                    setTestUser({ ...currentUser, credits: newCredits });
                   }}
                   variant="outline"
                   className="text-xs border-red-500/50 text-red-300 hover:bg-red-500/20"
@@ -1082,7 +1083,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 <Button
                   size="sm"
                   onClick={() => {
-                    setUser({ ...user, credits: (user?.credits || 0) + 5 });
+                    const currentUser = testUser || authUser;
+                    setTestUser({ ...currentUser, credits: (currentUser?.credits || 0) + 5 });
                   }}
                   variant="outline"
                   className="text-xs border-green-500/50 text-green-300 hover:bg-green-500/20"
@@ -1092,7 +1094,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 <Button
                   size="sm"
                   onClick={() => {
-                    setUser({ ...user, credits: (user?.credits || 0) + 50 });
+                    const currentUser = testUser || authUser;
+                    setTestUser({ ...currentUser, credits: (currentUser?.credits || 0) + 50 });
                   }}
                   variant="outline"
                   className="text-xs border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/20"
@@ -1102,10 +1105,11 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 <Button
                   size="sm"
                   onClick={() => {
+                    const currentUser = testUser || authUser;
                     const plans = ["Free", "Starter", "Pro", "Enterprise"];
-                    const currentIndex = plans.indexOf(user?.plan || "Free");
+                    const currentIndex = plans.indexOf(currentUser?.plan || "Free");
                     const nextPlan = plans[(currentIndex + 1) % plans.length];
-                    setUser({ ...user, plan: nextPlan });
+                    setTestUser({ ...currentUser, plan: nextPlan });
                   }}
                   variant="outline"
                   className="text-xs border-violet-500/50 text-violet-300 hover:bg-violet-500/20"
@@ -1115,12 +1119,23 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 <Button
                   size="sm"
                   onClick={() => {
-                    setUser({ ...user, credits: 1, plan: "Free" });
+                    const currentUser = testUser || authUser;
+                    setTestUser({ ...currentUser, credits: 1, plan: "Free" });
                   }}
                   variant="outline"
                   className="text-xs border-amber-500/50 text-amber-300 hover:bg-amber-500/20"
                 >
                   ⚠️ Mode Alerte
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setTestUser(null);
+                  }}
+                  variant="outline"
+                  className="text-xs border-slate-500/50 text-slate-300 hover:bg-slate-500/20"
+                >
+                  Reset
                 </Button>
               </div>
             </div>
