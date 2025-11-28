@@ -1351,14 +1351,14 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
         </div>
 
         {/* Aide & Support */}
-        <Card className="bg-slate-900/70 border-slate-800 mt-4" data-testid="dashboard-help-card">
+        <Card className="bg-slate-900/70 border-slate-800 mt-4 text-base sm:text-sm" data-testid="dashboard-help-card">
           <CardHeader>
-            <CardTitle className="text-sm sm:text-base flex items-center gap-2">
+            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
               <span>❓</span>
               <span>Besoin d&apos;aide ?</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-xs sm:text-sm text-slate-300">
+          <CardContent className="space-y-4 text-base sm:text-sm text-slate-300">
             <div>
               <p className="font-semibold mb-1">Comment utiliser GitPusher depuis le dashboard :</p>
               <ol className="list-decimal list-inside space-y-1 text-slate-400">
@@ -1371,12 +1371,12 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               </ol>
             </div>
             <div className="border-t border-slate-800 pt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <p className="text-[11px] text-slate-400 max-w-md">
+              <p className="text-sm sm:text-xs text-slate-400 max-w-md">
                 Une question, un bug, une idée d&apos;amélioration ? Contacte le service client, nous répondons rapidement.
               </p>
               <a
                 href="mailto:support@votresupport.local?subject=Support%20GitPusher"
-                className="inline-flex items-center justify-center px-3 py-1.5 rounded-full border border-cyan-400/70 bg-cyan-500/10 hover:bg-cyan-500/20 text-[11px] sm:text-xs text-cyan-200 font-semibold shadow-[0_0_12px_rgba(34,211,238,0.6)]"
+                className="inline-flex items-center justify-center px-4 py-2 rounded-full border border-cyan-400/70 bg-cyan-500/10 hover:bg-cyan-500/20 text-sm sm:text-xs text-cyan-200 font-semibold shadow-[0_0_12px_rgba(34,211,238,0.6)]"
                 data-testid="dashboard-help-contact-button"
               >
                 Contacter le support
