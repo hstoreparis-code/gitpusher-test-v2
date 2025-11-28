@@ -2470,7 +2470,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
               variant="outline"
               size="sm"
               onClick={() => window.history.back()}
-              className="px-4 py-2 rounded-lg border-slate-700 text-sm hover:bg-white/5"
+              className="px-4 py-2 rounded-lg border-cyan-400 text-cyan-300 text-sm bg-cyan-500/10 hover:bg-cyan-500/20 shadow-[0_0_18px_rgba(34,211,238,0.65)] hover:shadow-[0_0_26px_rgba(34,211,238,0.9)] transition-all"
               data-testid="pricing-back-button"
             >
               Retour
