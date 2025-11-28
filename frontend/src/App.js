@@ -255,7 +255,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               <span className="text-[10px] md:text-[13px] text-slate-400">No-Code GitHub workflow</span>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs sm:text-sm relative">
+          <div className="flex items-center gap-2 md:gap-3 text-xs sm:text-sm relative">
             {menuOpen && (
               <div
                 className="absolute right-0 top-10 z-20 flex flex-col gap-2 rounded-2xl border border-white/10 bg-slate-950/95 px-3 py-2 text-xs shadow-lg"
@@ -278,7 +278,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               </div>
             )}
             <div className="flex items-center gap-2">
-              <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
+              <span className="text-slate-400 hidden sm:inline text-sm">{t("theme")}</span>
               <Switch
                 checked={dark}
                 onCheckedChange={setDark}
@@ -286,25 +286,23 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
 
               />
             </div>
-            <Popover>
             <button
               onClick={() => navigate("/pricing")}
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-400/60 bg-cyan-500/10 hover:bg-cyan-500/20 text-xs sm:text-sm"
+              className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-400/50 hover:border-cyan-400/80 hover:from-cyan-500/30 hover:to-violet-500/30 transition-all text-sm font-medium"
               data-testid="nav-pricing-button"
             >
-              <span className="flex flex-col items-start leading-tight">
-                <span className="text-xs sm:text-sm font-semibold">Plans</span>
-                <span className="text-[10px] sm:text-xs text-slate-200">Tarifs</span>
-              </span>
+              <span className="text-cyan-300">💎</span>
+              <span className="text-slate-100">Plans &amp; Tarifs</span>
             </button>
 
+            <Popover>
               <PopoverTrigger asChild>
                 <button
-                  className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs flex items-center gap-1"
+                  className="px-3 py-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-sm flex items-center gap-2"
                   data-testid="language-popover-trigger"
                 >
                   <span className="text-lg" aria-hidden="true">{currentLang.flag}</span>
-                  <span className="hidden sm:inline">{currentLang.label}</span>
+                  <span className="hidden sm:inline text-slate-200">{currentLang.label}</span>
                 </button>
               </PopoverTrigger>
               <PopoverContent
