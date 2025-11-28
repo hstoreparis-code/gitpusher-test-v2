@@ -1410,9 +1410,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   <Activity className="h-6 w-6 text-violet-400" />
                 </div>
               </div>
-              <p className="text-sm text-slate-400 mb-2">Total Jobs</p>
+              <p className="text-sm text-slate-100 mb-2 font-semibold">Total Jobs</p>
               <p className="text-3xl font-bold text-violet-300">{jobs.length}</p>
-              <p className="text-xs text-slate-500 mt-2">Exécutions IA effectuées</p>
+              <p className="text-xs text-slate-300 mt-2">Exécutions IA effectuées</p>
             </CardContent>
           </Card>
         </div>
