@@ -1179,15 +1179,6 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   className="text-xs border-violet-500/50 text-violet-300 hover:bg-violet-500/20"
                 >
                   Changer Plan
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </main>
-    </div>
-  );
-}
 
 function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
   const { token, user, logout } = useAuth();
@@ -1613,8 +1604,37 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
             </div>
           </CardContent>
         </Card>
+      </main>
+    </div>
+  );
+}
 
-        // TODO: cleanup duplicate test buttons removed here
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    const currentUser = testUser || authUser;
+                    setTestUser({ ...currentUser, credits: 1, plan: "Free" });
+                  }}
+                  variant="outline"
+                  className="text-xs border-amber-500/50 text-amber-300 hover:bg-amber-500/20"
+                >
+                  ⚠️ Mode Alerte
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setTestUser(null);
+                  }}
+                  variant="outline"
+                  className="text-xs border-slate-500/50 text-slate-300 hover:bg-slate-500/20"
+                >
+                  Reset
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         <div className="mb-4 sm:mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
@@ -2018,7 +2038,7 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
                         Nom du repo
                       </h3>
                       <div className="space-y-3">
-                        <div className="flex flex-col sm:flex-row gap-2">
+                        <div className="flex gap-2">
                           <Input
                             value={selected.name}
                             onChange={(e) => setSelected({ ...selected, name: e.target.value })}
@@ -2027,7 +2047,6 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
                           />
                           <Button
                             size="sm"
-                            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-sm font-semibold shadow-lg whitespace-nowrap"
                             onClick={async () => {
                               const newName = selected.name?.trim();
                               if (!newName) {
@@ -3811,6 +3830,9 @@ function AppShell() {
 
   return (
     <Routes>
+      <Route
+        path="/"
+        element={
       <Route 
         path="/app/pro" 
         element={
@@ -3826,9 +3848,7 @@ function AppShell() {
           />
         } 
       />
-      <Route 
-        path="/" 
-        element={
+
           <Landing
             t={t}
             lang={lang}
