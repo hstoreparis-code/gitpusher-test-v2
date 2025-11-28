@@ -1065,7 +1065,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 
         <div className="grid lg:grid-cols-[1.1fr,1.4fr] gap-6">
           {/* Projects List */}
-          <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl">
+          <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-base sm:text-sm">
             <CardHeader className="flex flex-row items-center justify-between gap-4 pb-4">
               <div className="flex items-center gap-2">
                 <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center">
@@ -1145,7 +1145,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           </Card>
 
           <div className="space-y-4">
-            <Card className="bg-slate-900/70 border-slate-800 flex flex-col text-sm" data-testid="project-stepper-card">
+            <Card className="bg-slate-900/70 border-slate-800 flex flex-col text-base sm:text-sm" data-testid="project-stepper-card">
               <CardHeader>
                 <CardTitle className="text-sm sm:text-base flex items-center justify-between">
                   <span>{selected ? selected.name : t("stepUpload")}</span>
@@ -1255,7 +1255,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-sm" data-testid="jobs-history-card">
+            <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-base sm:text-sm" data-testid="jobs-history-card">
               <CardHeader className="flex flex-row items-center justify-between gap-4 pb-4">
                 <div className="flex items-center gap-2">
                   <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-violet-400 to-fuchsia-500 flex items-center justify-center">
