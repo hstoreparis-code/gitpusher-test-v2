@@ -1937,6 +1937,8 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                 </Button>
               </div>
             </Card>
+            </div>
+          </section>
           </section>
 
           {/* Section "Ce qui rend la plateforme unique" avec 3 barres dépliantes */}
