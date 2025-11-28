@@ -302,14 +302,6 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               <span className="text-cyan-300">💎</span>
               <span className="text-slate-100">Plans &amp; Tarifs</span>
             </button>
-            {token && (
-              <button
-                onClick={() => navigate("/app/pro")}
-                className="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-sm font-semibold shadow-[0_0_18px_rgba(56,189,248,0.85)]"
-              >
-                <span>Mode Pro</span>
-              </button>
-            )}
 
             <Popover>
               <PopoverTrigger asChild>
