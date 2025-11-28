@@ -1170,7 +1170,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   <>
                     {/* Étape 1 : Upload */}
                     <div className="space-y-3">
-                      <h3 className="font-semibold text-slate-100 text-sm">Nom du repo</h3>
+                      <h3 className="font-semibold text-slate-100 text-base sm:text-sm">Nom du repo</h3>
                       <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
                         <Input
                           value={selected.name}
@@ -1198,7 +1198,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 
                     {/* Étape 1 : Upload */}
                     <div className="space-y-2">
-                      <h3 className="font-semibold text-slate-100 text-sm">1. Uploade tes fichiers</h3>
+                      <h3 className="font-semibold text-slate-100 text-base sm:text-sm">1. Uploade tes fichiers</h3>
                       <p className="text-xs text-slate-400">
                         Ajoute un ZIP ou quelques fichiers (code, texte, docs). L&apos;IA analysera ce contenu pour générer
                         la structure du repo et la documentation.
@@ -1223,7 +1223,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 
                     {/* Étape 2 : Lancer l'automatisation */}
                     <div className="space-y-2">
-                      <h3 className="font-semibold text-slate-100 text-sm">2. Lancer l&apos;automatisation</h3>
+                      <h3 className="font-semibold text-slate-100 text-base sm:text-sm">2. Lancer l&apos;automatisation</h3>
                       <p className="text-xs text-slate-400">
                         GitPusher va créer un nouveau repo GitHub, générer README, .gitignore, LICENSE et CHANGELOG puis pousser
                         les commits.
