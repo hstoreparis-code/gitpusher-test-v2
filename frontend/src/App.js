@@ -1185,19 +1185,23 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
         <div className="grid md:grid-cols-[1.1fr,1.4fr] gap-3 sm:gap-6">
           {/* Projects List */}
           <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-sm">
-            <CardHeader className="flex flex-row items-center justify-between gap-3 pb-3">
-              <div className="flex items-center gap-2">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
                 <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center">
                   <GitBranch className="h-4 w-4 text-slate-950" />
                 </div>
-                <div className="flex flex-col">
-                  <CardTitle className="text-base sm:text-lg">{t("dashboardTitle")}</CardTitle>
-                  <p className="hidden sm:block text-xs text-slate-400">Clique sur un workflow puis renomme le repo avant de lancer.</p>
+                <div className="flex flex-col min-w-0">
+                  <CardTitle className="text-sm sm:text-lg leading-snug truncate">
+                    {t("dashboardTitle")}
+                  </CardTitle>
+                  <p className="hidden sm:block text-xs text-slate-400">
+                    Clique sur un workflow puis renomme le repo avant de lancer.
+                  </p>
                 </div>
               </div>
               <Button
                 size="sm"
-                className="rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-sm sm:text-xs px-4 py-2 shadow-lg"
+                className="w-full sm:w-auto justify-center rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-xs px-3 py-2 shadow-lg"
                 onClick={newProject}
                 disabled={creating}
                 data-testid="new-workflow-button"
