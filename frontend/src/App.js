@@ -1011,7 +1011,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       }`}
     >
       <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-20 bg-slate-950/80 overflow-x-hidden">
-        <div className="w-full max-w-full px-4 py-3 md:py-4 flex items-center justify-between gap-3">
+        <div className="w-full max-w-full px-4 py-3 md:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => navigate("/")}
@@ -1027,9 +1027,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               <span className="text-[11px] md:text-[13px] text-slate-400 truncate">No-Code GitHub workflow</span>
             </div>
           </button>
-          <div className="flex items-center gap-2 sm:gap-4 text-[11px] sm:text-sm">
-            {/* Toggle Free / Premium (mobile, sous le logo) */}
-            <div className="flex sm:hidden items-center gap-2 px-2 py-1 rounded-full bg-slate-900/80 border border-slate-700/80 mr-1">
+          {/* Toggle Free / Premium (mobile, sous le logo) */}
+          <div className="mt-2 flex sm:hidden items-center gap-2 text-[11px]">
+            <div className="px-2 py-1 rounded-full bg-slate-900/80 border border-slate-700/80 flex items-center gap-2">
               <span className="text-[10px] font-medium text-slate-50">Free</span>
               <button
                 type="button"
@@ -1041,7 +1041,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               </button>
               <span className="text-[10px] font-medium text-slate-400">Premium</span>
             </div>
+          </div>
 
+          <div className="flex items-center gap-2 sm:gap-4 text-[11px] sm:text-sm">
             <div className="hidden xs:flex items-center gap-2">
               {/* Toggle Free / Premium (desktop) */}
               <div className="hidden sm:flex items-center gap-2 mr-2">
