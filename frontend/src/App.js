@@ -1513,7 +1513,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                               e.stopPropagation();
                               setProjectMenuOpen(projectMenuOpen === p.id ? null : p.id);
                             }}
-                            className="absolute top-2 right-2 p-1 rounded-lg hover:bg-slate-800 transition-all opacity-0 group-hover:opacity-100"
+                            className="absolute top-2 right-2 p-1 rounded-lg hover:bg-slate-800 transition-all sm:opacity-0 sm:group-hover:opacity-100"
                           >
                             <span className="text-slate-400">⋮</span>
                           </button>
