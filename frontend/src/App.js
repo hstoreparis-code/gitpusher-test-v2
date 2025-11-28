@@ -2783,7 +2783,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
 
             {/* Business */}
             <Card
-              className="bg-slate-900/80 border-amber-500/40 hover:border-amber-400/60 transition-all duration-300 flex flex-col justify-between"
+              className="bg-slate-900/80 border-amber-500/40 hover:border-amber-400/60 transition-all duration-300 flex flex-col justify-between shadow-[0_0_40px_rgba(251,191,36,0.35)]"
               data-testid="pricing-business-card"
             >
               <CardHeader>
