@@ -1179,6 +1179,11 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   className="text-xs border-violet-500/50 text-violet-300 hover:bg-violet-500/20"
                 >
                   Changer Plan
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
 function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
   const { token, user, logout } = useAuth();
