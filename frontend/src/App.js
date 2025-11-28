@@ -488,10 +488,10 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               <Button
                 size="lg"
                 className="rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-8 py-3 shadow-lg shadow-cyan-500/30 text-sm sm:text-base"
-                onClick={handleGetStarted}
+                onClick={() => navigate("/pricing#freemium")}
                 data-testid="get-started-button"
               >
-                {t("getStarted")}
+                {lang === "fr" ? "Commencer gratuitement" : t("getStarted")}
               </Button>
               <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-400">
                 <span>No Git, no CLI, juste ton navigateur.</span>
