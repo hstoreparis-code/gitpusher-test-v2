@@ -2499,46 +2499,6 @@ function WhitePaperPage({ t, lang, setLang, dark, setDark, currentLang, language
   );
 }
 
-                className="group rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-3 cursor-pointer transition-colors"
-                data-testid="pricing-unique-accordion-2"
-              >
-                <summary className="flex items-center justify-between gap-2 list-none">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium">L&apos;IA range, documente et pousse tout</span>
-                    <span className="text-[11px] text-slate-400">
-                      Structure de dossiers, README, commits : tout est généré automatiquement.
-                    </span>
-                  </div>
-                  <span className="text-xs text-slate-400 group-open:rotate-180 transition-transform">
-                    ▾
-                  </span>
-                </summary>
-              </details>
-
-              <details
-                className="group rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-3 cursor-pointer transition-colors"
-                data-testid="pricing-unique-accordion-3"
-              >
-                <summary className="flex items-center justify-between gap-2 list-none">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium">Compatible avec vos prompts IA</span>
-                    <span className="text-[11px] text-slate-400">
-                      Fonctionne avec les résultats ChatGPT, Claude, Gemini et autres modèles.
-                    </span>
-                  </div>
-                  <span className="text-xs text-slate-400 group-open:rotate-180 transition-transform">
-                    ▾
-                  </span>
-                </summary>
-              </details>
-            </div>
-          </section>
-        </div>
-      </main>
-    </div>
-  );
-}
-
 // OAuth Callback Component
 function OAuthCallback() {
   const navigate = useNavigate();
