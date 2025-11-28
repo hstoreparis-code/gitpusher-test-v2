@@ -1513,9 +1513,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                               e.stopPropagation();
                               setProjectMenuOpen(projectMenuOpen === p.id ? null : p.id);
                             }}
-                            className="absolute top-2 right-2 p-1 rounded-lg hover:bg-slate-800 transition-all sm:opacity-0 sm:group-hover:opacity-100"
+                            className="absolute top-2 right-2 p-1.5 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/30 hover:border-cyan-400/80 transition-all shadow-[0_0_8px_rgba(34,211,238,0.4)] hover:shadow-[0_0_12px_rgba(34,211,238,0.6)]"
                           >
-                            <span className="text-slate-400">⋮</span>
+                            <span className="text-cyan-300 font-bold">⋮</span>
                           </button>
                         </PopoverTrigger>
                         <PopoverContent className="w-48 p-2 bg-slate-900/95 border border-slate-700/80 shadow-xl rounded-xl" align="end">
