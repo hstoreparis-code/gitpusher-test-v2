@@ -912,18 +912,18 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       }`}
     >
       <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
               <DownloadCloud className="h-5 w-5 text-slate-950" />
             </div>
-            <div className="flex flex-col leading-tight">
-              <span className="text-base sm:text-sm font-semibold tracking-tight">GitPusher</span>
-              <span className="text-[10px] sm:text-xs text-slate-400">{t("dashboardTitle")}</span>
+            <div className="flex flex-col leading-tight truncate">
+              <span className="text-sm sm:text-base font-semibold tracking-tight truncate">GitPusher</span>
+              <span className="text-[10px] sm:text-xs text-slate-400 truncate">{t("dashboardTitle")}</span>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs sm:text-sm">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 text-[11px] sm:text-sm">
+            <div className="hidden xs:flex items-center gap-2">
               <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
               <Switch
                 checked={dark}
@@ -934,7 +934,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             <Popover>
               <PopoverTrigger asChild>
                 <button
-                  className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs flex items-center gap-1"
+                  className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-[11px] sm:text-xs flex items-center gap-1"
                   data-testid="dashboard-language-popover-trigger"
                 >
                   <span className="text-lg" aria-hidden="true">{currentLang.flag}</span>
@@ -968,14 +968,14 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 </div>
               </PopoverContent>
             </Popover>
-            <div className="flex items-center gap-2 text-xs">
+            <div className="flex items-center gap-2 text-[11px] sm:text-xs">
               {user && (
                 <button
                   onClick={openAccountSettings}
-                  className="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10"
+                  className="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 max-w-[140px]"
                   data-testid="dashboard-account-button"
                 >
-                  <span className="truncate max-w-[140px] text-slate-200">{user.email}</span>
+                  <span className="truncate text-slate-200">{user.email}</span>
                 </button>
               )}
               <Button
@@ -985,7 +985,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   logout();
                   navigate("/");
                 }}
-                className="rounded-full border-slate-700 text-xs"
+                className="rounded-full border-slate-700 text-[11px] sm:text-xs px-3 py-1"
                 data-testid="logout-button"
               >
                 Logout
@@ -995,9 +995,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 py-6 space-y-6">
+      <main className="flex-1 max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Total Projects */}
           <Card className="bg-gradient-to-br from-cyan-500/10 via-slate-900/70 to-slate-900/70 border-cyan-500/20 backdrop-blur-sm">
             <CardContent className="p-4">
