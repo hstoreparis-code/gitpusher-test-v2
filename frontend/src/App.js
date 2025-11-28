@@ -2507,7 +2507,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   <span className="text-slate-400 text-sm">crédits</span>
                 </div>
                 <p className="text-2xl font-semibold text-slate-300 mt-2">9,99€</p>
-                <p className="text-xs text-slate-500">≈ 1€ par crédit • 5 uploads</p>
+                <p className="text-xs text-emerald-400">≈ 1€ par crédit • 5 uploads</p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <ul className="space-y-2 text-sm text-slate-400">
