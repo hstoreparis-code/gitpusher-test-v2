@@ -1329,12 +1329,12 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             <div>
               <p className="font-semibold mb-1">Comment utiliser GitPusher depuis le dashboard :</p>
               <ol className="list-decimal list-inside space-y-1 text-slate-400">
-                <li>Clique sur <span className="font-semibold">"Nouveau workflow"</span> pour créer un projet.</li>
+                <li>Clique sur <span className="font-semibold">&quot;Nouveau workflow&quot;</span> pour créer un projet.</li>
                 <li>Dans le bloc de droite, donne un <span className="font-semibold">nom de repo</span> (il sera utilisé sur GitHub).</li>
-                <li>Uploade tes fichiers ou ton ZIP dans l&apos;étape <span className="font-semibold">"Uploade tes fichiers"</span>.</li>
-                <li>Clique sur <span className="font-semibold">"Lancer l&apos;automatisation"</span> pour générer le repo Git.</li>
-                <li>Quand c&apos;est terminé, clique sur le bouton <span className="font-semibold">"Ouvrir le repo"</span> pour voir le dépôt GitHub.</li>
-                <li>Suis l&apos;état de tes exécutions dans le bloc <span className="font-semibold">"Historique des jobs"</span>.</li>
+                <li>Uploade tes fichiers ou ton ZIP dans l&apos;étape <span className="font-semibold">&quot;Uploade tes fichiers&quot;</span>.</li>
+                <li>Clique sur <span className="font-semibold">&quot;Lancer l&apos;automatisation&quot;</span> pour générer le repo Git.</li>
+                <li>Quand c&apos;est terminé, clique sur le bouton <span className="font-semibold">&quot;Ouvrir le repo&quot;</span> pour voir le dépôt GitHub.</li>
+                <li>Suis l&apos;état de tes exécutions dans le bloc <span className="font-semibold">&quot;Historique des jobs&quot;</span>.</li>
               </ol>
             </div>
             <div className="border-t border-slate-800 pt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
