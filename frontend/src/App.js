@@ -1189,7 +1189,26 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       </header>
 
       <main className="flex-1 w-full max-w-full sm:max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-8 space-y-3 sm:space-y-8 overflow-x-hidden">
-        {/* Dashboard Title */}
+        {/* Dashboard Title + Toggle Free/Premium (mobile à droite du titre) */}
+        <div className="flex items-center justify-between mb-2 sm:mb-3">
+          <h1 className="text-lg sm:text-xl font-semibold tracking-tight text-slate-50">Dashboard</h1>
+          {/* Toggle Free / Premium (mobile, à droite du titre) */}
+          <div className="flex sm:hidden items-center gap-2 text-[11px]">
+            <div className="px-2 py-1 rounded-full bg-slate-900/80 border border-slate-700/80 flex items-center gap-2">
+              <span className="text-[10px] font-medium text-slate-50">Free</span>
+              <button
+                type="button"
+                onClick={() => navigate("/pricing#pro")}
+                className="relative w-12 h-6 rounded-full bg-slate-300 transition-colors duration-200"
+                aria-label="Basculer vers Premium"
+              >
+                <span className="absolute top-[3px] w-4 h-4 rounded-full bg-black transition-transform duration-200 translate-x-[2px]" />
+              </button>
+              <span className="text-[10px] font-medium text-slate-400">Premium</span>
+            </div>
+          </div>
+        </div>
+
         {/* TEST MODE - Developer Controls */}
         <Card className="mb-4 bg-amber-500/10 border-amber-500/30">
           <CardContent className="p-3 sm:p-4">
