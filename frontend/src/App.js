@@ -1853,7 +1853,9 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
               <DownloadCloud className="h-5 w-5 sm:h-6 sm:w-6 text-slate-950" />
             </div>
             <div className="flex flex-col leading-tight">
-              <span className="text-base sm:text-lg font-semibold tracking-tight">GitPusher</span>
+              <span className="text-base sm:text-lg font-semibold tracking-tight">
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span>
+              </span>
               <span className="text-[11px] sm:text-xs text-slate-400">Plans &amp; Tarifs</span>
             </div>
           </div>
