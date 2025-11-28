@@ -1497,6 +1497,411 @@ async def process_project(project_id: str, authorization: Optional[str] = Header
     )
 
 
+
+# ---------- V1 API INITIALIZATION ----------
+
+# Initialize services after DB
+credits_service = CreditsService(db)
+storage_service = StorageService()
+git_service = GitService()
+
+# V1 Router
+v1_router = APIRouter(prefix="/v1")
+
+
+# ---------- V1 AUTH ENDPOINTS ----------
+
+@v1_router.post("/auth/github", response_model=GitHubTokenResponse)
+async def v1_connect_github(payload: GitHubTokenRequest):
+    """Connect GitHub via Personal Access Token."""
+    github_token = payload.githubToken
+    
+    # Validate token
+    async with httpx.AsyncClient() as client:
+        user_res = await client.get(
+            "https://api.github.com/user",
+            headers={"Authorization": f"Bearer {github_token}"},
+            timeout=20
+        )
+        
+        if user_res.status_code != 200:
+            raise HTTPException(status_code=400, detail="Invalid GitHub token")
+        
+        gh_profile = user_res.json()
+        gh_id = str(gh_profile.get("id"))
+        gh_email = gh_profile.get("email") or f"{gh_profile.get('login')}@github.local"
+        gh_name = gh_profile.get("name") or gh_profile.get("login")
+        
+        scopes_header = user_res.headers.get("X-OAuth-Scopes", "")
+        scopes = [s.strip() for s in scopes_header.split(",")] if scopes_header else []
+    
+    # Find or create user
+    user = await db.users.find_one({"email": gh_email})
+    if user:
+        await db.users.update_one(
+            {"_id": user["_id"]},
+            {"$set": {
+                "provider_github_id": gh_id,
+                "github_access_token": github_token,
+                "github_scopes": scopes,
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }}
+        )
+        user_id = user["_id"]
+    else:
+        user_id = str(uuid.uuid4())
+        await db.users.insert_one({
+            "_id": user_id,
+            "email": gh_email,
+            "display_name": gh_name,
+            "provider_github_id": gh_id,
+            "github_access_token": github_token,
+            "github_scopes": scopes,
+            "credits": 10,
+            "plan": "free",
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        })
+    
+    return GitHubTokenResponse(userId=user_id, githubScopes=scopes)
+
+
+# ---------- V1 UPLOADS ENDPOINTS ----------
+
+@v1_router.post("/uploads/init", response_model=UploadInitResponse)
+async def v1_init_upload(payload: UploadInitRequest, authorization: str = Header(None)):
+    """Initialize upload and get presigned URL."""
+    user = await get_user_from_token(authorization)
+    
+    upload_id, presigned_url = await storage_service.init_upload(payload.filename, payload.contentType)
+    
+    await db.uploads_v1.insert_one({
+        "_id": upload_id,
+        "user_id": user["_id"],
+        "filename": payload.filename,
+        "content_type": payload.contentType,
+        "status": "initialized",
+        "created_at": datetime.now(timezone.utc).isoformat()
+    })
+    
+    return UploadInitResponse(uploadId=upload_id, presignedUrl=presigned_url, expiresIn=3600)
+
+
+@v1_router.post("/uploads", response_model=UploadStatus)
+async def v1_upload_direct(file: UploadFile = File(...), authorization: str = Header(None)):
+    """Direct upload (fallback)."""
+    user = await get_user_from_token(authorization)
+    
+    upload_id = uuid.uuid4().hex
+    content = await file.read()
+    
+    result = await storage_service.save_upload(upload_id, content, file.filename)
+    extracted_files = await storage_service.extract_files(upload_id, file.filename)
+    
+    await db.uploads_v1.insert_one({
+        "_id": upload_id,
+        "user_id": user["_id"],
+        "filename": file.filename,
+        "status": "processed",
+        "size": result["size"],
+        "mime_type": result["mime_type"],
+        "extracted_files": extracted_files,
+        "created_at": datetime.now(timezone.utc).isoformat()
+    })
+    
+    return UploadStatus(uploadId=upload_id, status="processed", extractedFiles=extracted_files, size=result["size"])
+
+
+@v1_router.get("/uploads/{upload_id}", response_model=UploadStatus)
+async def v1_get_upload_status(upload_id: str):
+    """Get upload status."""
+    upload = await db.uploads_v1.find_one({"_id": upload_id})
+    if not upload:
+        raise HTTPException(status_code=404, detail="Upload not found")
+    
+    return UploadStatus(
+        uploadId=upload_id,
+        status=upload.get("status", "unknown"),
+        extractedFiles=upload.get("extracted_files", []),
+        size=upload.get("size", 0)
+    )
+
+
+@v1_router.post("/uploads/complete")
+async def v1_complete_upload(payload: UploadCompleteRequest, authorization: str = Header(None)):
+    """Complete upload and create job."""
+    user = await get_user_from_token(authorization)
+    
+    upload = await db.uploads_v1.find_one({"_id": payload.uploadId, "user_id": user["_id"]})
+    if not upload:
+        raise HTTPException(status_code=404, detail="Upload not found")
+    
+    await db.uploads_v1.update_one(
+        {"_id": payload.uploadId},
+        {"$set": {"status": "processed"}}
+    )
+    
+    job_id = str(uuid.uuid4())
+    await db.jobs_v1.insert_one({
+        "_id": job_id,
+        "user_id": user["_id"],
+        "upload_id": payload.uploadId,
+        "status": "queued",
+        "created_at": datetime.now(timezone.utc).isoformat()
+    })
+    
+    return {"jobId": job_id}
+
+
+# ---------- V1 JOBS ENDPOINTS ----------
+
+@v1_router.post("/jobs", response_model=JobCreateResponse)
+async def v1_create_job(payload: JobCreateRequest, authorization: str = Header(None)):
+    """Create job to process upload and create repo."""
+    user = await get_user_from_token(authorization)
+    
+    upload = await db.uploads_v1.find_one({"_id": payload.uploadId, "user_id": user["_id"]})
+    if not upload:
+        raise HTTPException(status_code=404, detail="Upload not found")
+    
+    if not await credits_service.consume_credits(user["_id"], 1):
+        raise HTTPException(status_code=402, detail="Insufficient credits")
+    
+    job_id = str(uuid.uuid4())
+    now = datetime.now(timezone.utc).isoformat()
+    
+    await db.jobs_v1.insert_one({
+        "_id": job_id,
+        "user_id": user["_id"],
+        "upload_id": payload.uploadId,
+        "repo_name": payload.repoName,
+        "visibility": payload.visibility,
+        "auto_prompts": payload.autoPrompts.dict() if payload.autoPrompts else {},
+        "status": "queued",
+        "logs": [],
+        "created_at": now,
+        "updated_at": now
+    })
+    
+    return JobCreateResponse(jobId=job_id, startedAt=now)
+
+
+@v1_router.get("/jobs/{job_id}", response_model=JobStatus)
+async def v1_get_job_status(job_id: str, authorization: str = Header(None)):
+    """Get job status."""
+    user = await get_user_from_token(authorization)
+    
+    job = await db.jobs_v1.find_one({"_id": job_id, "user_id": user["_id"]})
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    return JobStatus(
+        jobId=job_id,
+        status=job.get("status", "unknown"),
+        logs=job.get("logs", []),
+        repoUrl=job.get("repo_url"),
+        errors=job.get("errors", [])
+    )
+
+
+# ---------- V1 REPOS ENDPOINTS ----------
+
+@v1_router.get("/repos")
+async def v1_list_repos(authorization: str = Header(None)):
+    """List all repos created via GitPusher."""
+    user = await get_user_from_token(authorization)
+    
+    repos = await db.repos_v1.find({"user_id": user["_id"]}, {"_id": 0}).to_list(100)
+    return {"repos": repos}
+
+
+@v1_router.post("/repos/create", response_model=RepoCreateResponse)
+async def v1_create_repo(payload: RepoCreateRequest, authorization: str = Header(None)):
+    """Create an empty GitHub repo."""
+    user = await get_user_from_token(authorization)
+    
+    if not user.get("github_access_token"):
+        raise HTTPException(status_code=400, detail="GitHub token not linked")
+    
+    repo_info = await git_service.create_repo(
+        user["github_access_token"],
+        payload.repoName,
+        None,
+        payload.private
+    )
+    
+    repo_id = str(uuid.uuid4())
+    await db.repos_v1.insert_one({
+        "_id": repo_id,
+        "user_id": user["_id"],
+        "name": payload.repoName,
+        "url": repo_info.url,
+        "private": payload.private,
+        "created_at": datetime.now(timezone.utc).isoformat()
+    })
+    
+    return RepoCreateResponse(repoUrl=repo_info.url, repoId=repo_id)
+
+
+# ---------- V1 BILLING ENDPOINTS ----------
+
+@v1_router.get("/billing/credits", response_model=BillingCreditsResponse)
+async def v1_get_credits(authorization: str = Header(None)):
+    """Get user's credit balance."""
+    user = await get_user_from_token(authorization)
+    credits = await credits_service.get_user_credits(user["_id"])
+    return BillingCreditsResponse(credits=credits, currency="EUR")
+
+
+@v1_router.post("/billing/purchase", response_model=BillingPurchaseResponse)
+async def v1_purchase_credits(payload: BillingPurchaseRequest, authorization: str = Header(None)):
+    """Create checkout session (mocked)."""
+    user = await get_user_from_token(authorization)
+    
+    try:
+        result = await credits_service.create_checkout_session(user["_id"], payload.packId)
+        return BillingPurchaseResponse(
+            checkoutUrl=result["checkoutUrl"],
+            sessionId=result["sessionId"]
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@v1_router.get("/billing/history")
+async def v1_billing_history(authorization: str = Header(None)):
+    """Get billing transaction history."""
+    user = await get_user_from_token(authorization)
+    transactions = await credits_service.get_transactions(user["_id"], limit=50)
+    return {"transactions": transactions}
+
+
+# ---------- V1 AUTOPUSH ENDPOINTS ----------
+
+@v1_router.get("/autopush/settings", response_model=AutopushSettings)
+async def v1_get_autopush_settings(authorization: str = Header(None)):
+    """Get autopush settings."""
+    user = await get_user_from_token(authorization)
+    settings = user.get("autopush_settings", {})
+    return AutopushSettings(**settings) if settings else AutopushSettings()
+
+
+@v1_router.post("/autopush/settings", response_model=AutopushSettings)
+async def v1_update_autopush_settings(payload: AutopushSettings, authorization: str = Header(None)):
+    """Update autopush settings."""
+    user = await get_user_from_token(authorization)
+    
+    await db.users.update_one(
+        {"_id": user["_id"]},
+        {"$set": {
+            "autopush_settings": payload.dict(),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }}
+    )
+    
+    return payload
+
+
+@v1_router.get("/autopush/logs")
+async def v1_autopush_logs(limit: int = 50, authorization: str = Header(None)):
+    """Get autopush logs."""
+    user = await get_user_from_token(authorization)
+    
+    logs = await db.autopush_logs.find(
+        {"user_id": user["_id"]}
+    ).sort("triggered_at", -1).limit(limit).to_list(limit)
+    
+    return {"logs": logs}
+
+
+@v1_router.post("/autopush/trigger")
+async def v1_trigger_autopush(payload: AutopushTriggerRequest, authorization: str = Header(None)):
+    """Manually trigger autopush."""
+    user = await get_user_from_token(authorization)
+    
+    job_id = str(uuid.uuid4())
+    now = datetime.now(timezone.utc).isoformat()
+    
+    await db.jobs_v1.insert_one({
+        "_id": job_id,
+        "user_id": user["_id"],
+        "upload_id": payload.uploadId,
+        "repo_name": payload.repoName,
+        "type": "autopush",
+        "status": "queued",
+        "created_at": now
+    })
+    
+    await db.autopush_logs.insert_one({
+        "_id": str(uuid.uuid4()),
+        "user_id": user["_id"],
+        "repo_name": payload.repoName,
+        "status": "triggered",
+        "triggered_at": now,
+        "job_id": job_id
+    })
+    
+    return {"jobId": job_id, "startedAt": now}
+
+
+# ---------- V1 PARTNER ENDPOINTS ----------
+
+async def verify_partner_key(api_key: str) -> Optional[dict]:
+    """Verify partner API key."""
+    partner = await db.partner_keys.find_one({"api_key": api_key, "active": True})
+    return partner
+
+
+@v1_router.post("/partner/v1/repos/create")
+async def v1_partner_create_repo(payload: PartnerRepoCreateRequest, x_api_key: Optional[str] = Header(None)):
+    """Partner endpoint to create repo."""
+    api_key = payload.partnerApiKey or x_api_key
+    if not api_key:
+        raise HTTPException(status_code=401, detail="API key required")
+    
+    partner = await verify_partner_key(api_key)
+    if not partner:
+        raise HTTPException(status_code=401, detail="Invalid API key")
+    
+    job_id = str(uuid.uuid4())
+    now = datetime.now(timezone.utc).isoformat()
+    
+    await db.jobs_v1.insert_one({
+        "_id": job_id,
+        "partner_id": partner["_id"],
+        "user_identifier": payload.userIdentifier,
+        "s3_artifact_url": payload.s3ArtifactUrl,
+        "repo_name": payload.repoName,
+        "visibility": payload.visibility,
+        "status": "queued",
+        "type": "partner",
+        "created_at": now
+    })
+    
+    return {"jobId": job_id}
+
+
+# ---------- V1 WEBHOOKS ENDPOINTS ----------
+
+@v1_router.post("/webhooks/job.completed")
+async def v1_job_completed_webhook(payload: WebhookJobCompleted):
+    """Webhook for job completion."""
+    await db.webhook_events.insert_one({
+        "type": "job.completed",
+        "job_id": payload.jobId,
+        "status": payload.status,
+        "repo_url": payload.repoUrl,
+        "summary": payload.summary,
+        "received_at": datetime.now(timezone.utc).isoformat()
+    })
+    
+    return {"ok": True}
+
+
+# Mount v1 router
+api_router.include_router(v1_router)
+
+
 # ---------- BASIC ROOT & HEALTH ----------
 
 
