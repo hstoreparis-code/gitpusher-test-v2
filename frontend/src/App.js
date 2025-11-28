@@ -1111,10 +1111,11 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                       href={selected.github_repo_url}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-[11px] text-cyan-300 hover:text-cyan-200"
+                      className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-cyan-400/70 bg-cyan-500/10 hover:bg-cyan-500/30 text-[11px] text-cyan-200 font-semibold shadow-[0_0_12px_rgba(34,211,238,0.8)] neon-flicker"
                       data-testid="project-github-link"
                     >
-                      {t("linkRepo")}
+                      <Rocket className="h-3 w-3" />
+                      <span>{t("linkRepo")}</span>
                     </a>
                   )}
                 </CardTitle>
