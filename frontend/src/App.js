@@ -871,6 +871,14 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
+    // Store uploaded files info for display
+    const filesInfo = files.map(f => ({
+      name: f.name,
+      size: f.size,
+      type: f.type
+    }));
+    setUploadedFiles(filesInfo);
+
     const formData = new FormData();
     files.forEach((f) => formData.append("files", f));
 
