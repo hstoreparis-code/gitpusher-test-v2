@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { DownloadCloud, Menu, GitBranch, Rocket, Clock, CheckCircle2, XCircle, AlertCircle, TrendingUp, Activity } from "lucide-react";
+import { DownloadCloud, Menu, GitBranch, Rocket, Clock, CheckCircle2, XCircle, AlertCircle, TrendingUp, Activity, Github } from "lucide-react";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -618,12 +618,12 @@ function AuthCard({ t, onSuccess }) {
           <div className="space-y-2">
             <p className="text-[11px] text-slate-400">Connexion ultra-rapide :</p>
             <Button
-              className="w-full justify-center rounded-full bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border border-cyan-400/70 hover:border-cyan-300 hover:bg-slate-900 text-xs sm:text-sm font-semibold shadow-[0_0_22px_rgba(56,189,248,0.8)] px-4 py-3 flex items-center gap-2"
+              className="w-full justify-center rounded-full bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border border-cyan-400/80 hover:border-cyan-300 hover:bg-slate-900 text-xs sm:text-sm font-semibold shadow-[0_0_26px_rgba(56,189,248,0.9)] px-4 py-3 flex items-center gap-2 neon-flicker"
               onClick={() => startOAuth("github")}
               data-testid="github-oauth-button"
             >
-              <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 border border-cyan-400/60">
-                <span className="text-lg">🐙</span>
+              <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 border border-cyan-400/80">
+                <Github className="h-4 w-4 text-cyan-300" />
               </span>
               <span>Continuer avec GitHub (recommandé)</span>
             </Button>
@@ -640,24 +640,27 @@ function AuthCard({ t, onSuccess }) {
             </Button>
             <Button
               variant="outline"
-              disabled
-              className="w-full justify-center rounded-full border-slate-800 bg-slate-900/60 text-slate-500"
+              className="w-full justify-center rounded-full border-slate-700 bg-slate-900 hover:bg-slate-800"
+              onClick={() => startOAuth("gitlab")}
+              data-testid="gitlab-oauth-button"
             >
-              GitLab (bientôt)
+              GitLab
             </Button>
             <Button
               variant="outline"
-              disabled
-              className="w-full justify-center rounded-full border-slate-800 bg-slate-900/60 text-slate-500"
+              className="w-full justify-center rounded-full border-slate-700 bg-slate-900 hover:bg-slate-800"
+              onClick={() => startOAuth("bitbucket")}
+              data-testid="bitbucket-oauth-button"
             >
-              Bitbucket (bientôt)
+              Bitbucket
             </Button>
             <Button
               variant="outline"
-              disabled
-              className="w-full justify-center rounded-full border-slate-800 bg-slate-900/60 text-slate-500"
+              className="w-full justify-center rounded-full border-slate-700 bg-slate-900 hover:bg-slate-800"
+              onClick={() => startOAuth("gitea")}
+              data-testid="gitea-oauth-button"
             >
-              Gitea / Codeberg (bientôt)
+              Gitea / Codeberg
             </Button>
           </div>
 
