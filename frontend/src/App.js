@@ -244,6 +244,17 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
+  // Ouvre automatiquement la modale de connexion si on a été redirigé depuis /app sans token
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const shouldOpen = window.localStorage.getItem("open_auth_on_landing");
+    if (shouldOpen) {
+      setAuthOpen(true);
+      window.localStorage.removeItem("open_auth_on_landing");
+    }
+  }, []);
+
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex flex-col">
       <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
