@@ -804,6 +804,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   // State for testing credits/plan (overrides authUser for display)
   const [testUser, setTestUser] = useState(null);
   const user = testUser || authUser;
+  
+  // State for selected git provider
+  const [selectedProvider, setSelectedProvider] = useState("github");
 
   useEffect(() => {
     setMounted(true);
