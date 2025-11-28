@@ -1211,7 +1211,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             </div>
             
             {/* Credits & Subscription Card */}
-            <Card className={`bg-gradient-to-br from-violet-500/10 via-slate-900/70 to-slate-900/70 border-violet-500/30 backdrop-blur-sm transition-all ${(user?.credits || 0) <= 2 ? 'animate-pulse' : ''}`}>
+            <Card className="bg-gradient-to-br from-violet-500/10 via-slate-900/70 to-slate-900/70 border-violet-500/30 backdrop-blur-sm transition-all">
               <CardContent className="p-3 sm:p-4">
                 <div className="flex items-center gap-3 sm:gap-4">
                   {/* Circular Progress */}
