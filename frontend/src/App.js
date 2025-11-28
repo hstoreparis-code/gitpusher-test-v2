@@ -1232,6 +1232,10 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 }
 
 function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
+  // utilisateur Business / Premium
+  const { token, user, logout } = useAuth();
+  const effectivePlan = user?.plan?.toLowerCase?.() || "freemium";
+
   const { token, user, logout } = useAuth();
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
