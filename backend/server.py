@@ -516,7 +516,7 @@ class AdminStatus(BaseModel):
 
 class AdminUserSummary(BaseModel):
     id: str
-    email: EmailStr
+    email: str  # Use plain str to allow GitHub-provided pseudo emails like *.local
     display_name: Optional[str] = None
     plan: Optional[str] = None
     credits: Optional[int] = None
