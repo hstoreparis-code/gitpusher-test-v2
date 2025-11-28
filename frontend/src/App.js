@@ -807,6 +807,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   
   // State for selected git provider
   const [selectedProvider, setSelectedProvider] = useState("github");
+  
+  // State for auth modal
+  const [authOpen, setAuthOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
