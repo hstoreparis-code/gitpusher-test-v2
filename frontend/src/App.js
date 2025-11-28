@@ -1412,7 +1412,14 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
         <div className="grid gap-3 grid-cols-2 md:gap-4 md:grid-cols-4">
           <Card className="bg-slate-900/80 border-slate-800/80">
             <CardContent className="py-3 px-3 sm:px-4">
-              <p className="text-[10px] sm:text-[11px] text-slate-400 mb-1">Projets actifs</p>
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-[10px] sm:text-[11px] text-slate-400">Projets actifs</p>
+                {(effectivePlan === "premium" || effectivePlan === "business") && (
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-400/40">
+                    {effectivePlan === "business" ? "Business" : "Premium"}
+                  </span>
+                )}
+              </div>
               <p className="text-xl sm:text-2xl font-semibold text-cyan-300">{activeProjects}</p>
               <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1">sur {totalProjects} au total</p>
             </CardContent>
