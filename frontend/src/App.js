@@ -1511,120 +1511,181 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                         Sélectionnez la plateforme où votre dépôt sera créé
                       </p>
                       
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        {/* GitHub */}
-                        <button
-                          onClick={() => {
-                            if (!user?.github_access_token) {
-                              navigate("/account");
-                            } else {
-                              setSelectedProvider("github");
-                            }
-                          }}
-                          className={`p-3 sm:p-4 rounded-xl border transition-all ${
-                            selectedProvider === "github"
-                              ? "border-emerald-500/60 bg-emerald-500/10 shadow-lg shadow-emerald-500/20"
-                              : "border-slate-700 bg-slate-900/60 hover:border-slate-600"
-                          }`}
-                        >
-                          <div className="flex flex-col items-center gap-2">
-                            <div className="text-2xl sm:text-3xl">🐙</div>
-                            <span className="text-xs sm:text-sm font-semibold text-slate-200">GitHub</span>
-                            {user?.github_access_token && (
-                              <span className="text-[10px] text-emerald-400">✓ Connecté</span>
-                            )}
-                            {!user?.github_access_token && (
-                              <span className="text-[10px] text-amber-400">Se connecter</span>
-                            )}
-                          </div>
-                        </button>
+                      {/* Dropdown Menu */}
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <button
+                            className="w-full flex items-center justify-between p-4 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-900 hover:border-cyan-500/50 transition-all"
+                          >
+                            <div className="flex items-center gap-3">
+                              {selectedProvider === "github" && (
+                                <>
+                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                  </svg>
+                                  <div className="flex flex-col items-start">
+                                    <span className="text-sm font-semibold text-slate-200">GitHub</span>
+                                    {user?.github_access_token && (
+                                      <span className="text-[10px] text-emerald-400">✓ Connecté</span>
+                                    )}
+                                  </div>
+                                </>
+                              )}
+                              {selectedProvider === "gitlab" && (
+                                <>
+                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="m23.6004 9.5927-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.9764 3.7296 2.4602 1.8633 1.4991 1.1321a1.0116 1.0116 0 0 0 1.2177 0l1.4991-1.1321 2.4602-1.8633 5.0077-3.7509.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"/>
+                                  </svg>
+                                  <span className="text-sm font-semibold text-slate-200">GitLab</span>
+                                </>
+                              )}
+                              {selectedProvider === "bitbucket" && (
+                                <>
+                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M.778 1.213a.768.768 0 00-.768.892l3.263 19.81c.084.5.515.868 1.022.873H19.95a.772.772 0 00.77-.646l3.27-20.03a.768.768 0 00-.768-.891zM14.52 15.53H9.522L8.17 8.466h7.561z"/>
+                                  </svg>
+                                  <span className="text-sm font-semibold text-slate-200">Bitbucket</span>
+                                </>
+                              )}
+                              {selectedProvider === "gitea" && (
+                                <>
+                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M4.186 5.74A9.26 9.26 0 0 0 12 18.26a9.26 9.26 0 0 0 7.814-12.52 9.26 9.26 0 0 0-15.628 0zm8.08 10.396a1.503 1.503 0 1 1 0-3.006 1.503 1.503 0 0 1 0 3.006z"/>
+                                  </svg>
+                                  <span className="text-sm font-semibold text-slate-200">Gitea</span>
+                                </>
+                              )}
+                              {selectedProvider === "codeberg" && (
+                                <>
+                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.955.49A12 12 0 0 0 0 12.49a12 12 0 0 0 1.832 6.373L11.838 5.928a1.2 1.2 0 0 1 1.054-.623 1.2 1.2 0 0 1 1.054.623l10.006 12.935A12 12 0 0 0 24 12.49 12 12 0 0 0 11.955.49z"/>
+                                  </svg>
+                                  <span className="text-sm font-semibold text-slate-200">Codeberg</span>
+                                </>
+                              )}
+                              {selectedProvider === "gitee" && (
+                                <>
+                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.984 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.016 0zm6.09 5.333c.328 0 .593.266.592.593v1.482a.594.594 0 0 1-.593.592H9.777c-.982 0-1.778.796-1.778 1.778v5.63c0 .327.266.592.593.592h5.63c.982 0 1.778-.796 1.778-1.778v-.296a.593.593 0 0 0-.592-.593h-4.15a.592.592 0 0 1-.592-.592v-1.482a.593.593 0 0 1 .593-.592h6.815c.327 0 .593.265.593.592v3.408a4 4 0 0 1-4 4H5.926a.593.593 0 0 1-.593-.593V9.778a4.444 4.444 0 0 1 4.445-4.444h8.296z"/>
+                                  </svg>
+                                  <span className="text-sm font-semibold text-slate-200">Gitee</span>
+                                </>
+                              )}
+                            </div>
+                            <span className="text-slate-400">▼</span>
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-full p-2 bg-slate-900/95 border border-slate-700/80 shadow-xl rounded-xl">
+                          <div className="space-y-1">
+                            {/* GitHub */}
+                            <button
+                              onClick={() => {
+                                if (!user?.github_access_token) {
+                                  setAuthOpen(true);
+                                } else {
+                                  setSelectedProvider("github");
+                                }
+                              }}
+                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
+                            >
+                              <div className="flex items-center gap-3">
+                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                                <span className="text-sm font-medium text-slate-200">GitHub</span>
+                              </div>
+                              {user?.github_access_token && (
+                                <span className="text-xs text-emerald-400">✓ Connecté</span>
+                              )}
+                            </button>
 
-                        {/* GitLab */}
-                        <button
-                          onClick={() => navigate("/account")}
-                          className={`p-3 sm:p-4 rounded-xl border transition-all ${
-                            selectedProvider === "gitlab"
-                              ? "border-orange-500/60 bg-orange-500/10"
-                              : "border-slate-700 bg-slate-900/60 hover:border-slate-600"
-                          }`}
-                        >
-                          <div className="flex flex-col items-center gap-2">
-                            <div className="text-2xl sm:text-3xl">🦊</div>
-                            <span className="text-xs sm:text-sm font-semibold text-slate-200">GitLab</span>
-                            <span className="text-[10px] text-slate-500">Bientôt</span>
-                          </div>
-                        </button>
+                            {/* GitLab */}
+                            <button
+                              onClick={() => setAuthOpen(true)}
+                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
+                            >
+                              <div className="flex items-center gap-3">
+                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="m23.6004 9.5927-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.9764 3.7296 2.4602 1.8633 1.4991 1.1321a1.0116 1.0116 0 0 0 1.2177 0l1.4991-1.1321 2.4602-1.8633 5.0077-3.7509.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"/>
+                                </svg>
+                                <span className="text-sm font-medium text-slate-200">GitLab</span>
+                              </div>
+                              <span className="text-xs text-slate-500">Bientôt</span>
+                            </button>
 
-                        {/* Bitbucket */}
-                        <button
-                          onClick={() => navigate("/account")}
-                          className={`p-3 sm:p-4 rounded-xl border transition-all ${
-                            selectedProvider === "bitbucket"
-                              ? "border-blue-500/60 bg-blue-500/10"
-                              : "border-slate-700 bg-slate-900/60 hover:border-slate-600"
-                          }`}
-                        >
-                          <div className="flex flex-col items-center gap-2">
-                            <div className="text-2xl sm:text-3xl">🪣</div>
-                            <span className="text-xs sm:text-sm font-semibold text-slate-200">Bitbucket</span>
-                            <span className="text-[10px] text-slate-500">Bientôt</span>
-                          </div>
-                        </button>
+                            {/* Bitbucket */}
+                            <button
+                              onClick={() => setAuthOpen(true)}
+                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
+                            >
+                              <div className="flex items-center gap-3">
+                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M.778 1.213a.768.768 0 00-.768.892l3.263 19.81c.084.5.515.868 1.022.873H19.95a.772.772 0 00.77-.646l3.27-20.03a.768.768 0 00-.768-.891zM14.52 15.53H9.522L8.17 8.466h7.561z"/>
+                                </svg>
+                                <span className="text-sm font-medium text-slate-200">Bitbucket</span>
+                              </div>
+                              <span className="text-xs text-slate-500">Bientôt</span>
+                            </button>
 
-                        {/* Gitea */}
-                        <button
-                          onClick={() => navigate("/account")}
-                          className={`p-3 sm:p-4 rounded-xl border transition-all ${
-                            selectedProvider === "gitea"
-                              ? "border-green-500/60 bg-green-500/10"
-                              : "border-slate-700 bg-slate-900/60 hover:border-slate-600"
-                          }`}
-                        >
-                          <div className="flex flex-col items-center gap-2">
-                            <div className="text-2xl sm:text-3xl">🍵</div>
-                            <span className="text-xs sm:text-sm font-semibold text-slate-200">Gitea</span>
-                            <span className="text-[10px] text-slate-500">Bientôt</span>
-                          </div>
-                        </button>
+                            {/* Gitea */}
+                            <button
+                              onClick={() => setAuthOpen(true)}
+                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
+                            >
+                              <div className="flex items-center gap-3">
+                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M4.186 5.74A9.26 9.26 0 0 0 12 18.26a9.26 9.26 0 0 0 7.814-12.52 9.26 9.26 0 0 0-15.628 0zm8.08 10.396a1.503 1.503 0 1 1 0-3.006 1.503 1.503 0 0 1 0 3.006z"/>
+                                </svg>
+                                <span className="text-sm font-medium text-slate-200">Gitea</span>
+                              </div>
+                              <span className="text-xs text-slate-500">Bientôt</span>
+                            </button>
 
-                        {/* Codeberg */}
-                        <button
-                          onClick={() => navigate("/account")}
-                          className={`p-3 sm:p-4 rounded-xl border transition-all ${
-                            selectedProvider === "codeberg"
-                              ? "border-cyan-500/60 bg-cyan-500/10"
-                              : "border-slate-700 bg-slate-900/60 hover:border-slate-600"
-                          }`}
-                        >
-                          <div className="flex flex-col items-center gap-2">
-                            <div className="text-2xl sm:text-3xl">🏔️</div>
-                            <span className="text-xs sm:text-sm font-semibold text-slate-200">Codeberg</span>
-                            <span className="text-[10px] text-slate-500">Bientôt</span>
-                          </div>
-                        </button>
+                            {/* Codeberg */}
+                            <button
+                              onClick={() => setAuthOpen(true)}
+                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
+                            >
+                              <div className="flex items-center gap-3">
+                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M11.955.49A12 12 0 0 0 0 12.49a12 12 0 0 0 1.832 6.373L11.838 5.928a1.2 1.2 0 0 1 1.054-.623 1.2 1.2 0 0 1 1.054.623l10.006 12.935A12 12 0 0 0 24 12.49 12 12 0 0 0 11.955.49z"/>
+                                </svg>
+                                <span className="text-sm font-medium text-slate-200">Codeberg</span>
+                              </div>
+                              <span className="text-xs text-slate-500">Bientôt</span>
+                            </button>
 
-                        {/* Gitee */}
-                        <button
-                          onClick={() => navigate("/account")}
-                          className={`p-3 sm:p-4 rounded-xl border transition-all ${
-                            selectedProvider === "gitee"
-                              ? "border-red-500/60 bg-red-500/10"
-                              : "border-slate-700 bg-slate-900/60 hover:border-slate-600"
-                          }`}
-                        >
-                          <div className="flex flex-col items-center gap-2">
-                            <div className="text-2xl sm:text-3xl">🐝</div>
-                            <span className="text-xs sm:text-sm font-semibold text-slate-200">Gitee</span>
-                            <span className="text-[10px] text-slate-500">Bientôt</span>
+                            {/* Gitee */}
+                            <button
+                              onClick={() => setAuthOpen(true)}
+                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
+                            >
+                              <div className="flex items-center gap-3">
+                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M11.984 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.016 0zm6.09 5.333c.328 0 .593.266.592.593v1.482a.594.594 0 0 1-.593.592H9.777c-.982 0-1.778.796-1.778 1.778v5.63c0 .327.266.592.593.592h5.63c.982 0 1.778-.796 1.778-1.778v-.296a.593.593 0 0 0-.592-.593h-4.15a.592.592 0 0 1-.592-.592v-1.482a.593.593 0 0 1 .593-.592h6.815c.327 0 .593.265.593.592v3.408a4 4 0 0 1-4 4H5.926a.593.593 0 0 1-.593-.593V9.778a4.444 4.444 0 0 1 4.445-4.444h8.296z"/>
+                                </svg>
+                                <span className="text-sm font-medium text-slate-200">Gitee</span>
+                              </div>
+                              <span className="text-xs text-slate-500">Bientôt</span>
+                            </button>
                           </div>
-                        </button>
-                      </div>
+                        </PopoverContent>
+                      </Popover>
 
                       {selectedProvider === "github" && user?.github_access_token && (
                         <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
                           <span className="text-emerald-400">✓</span>
                           <p className="text-xs sm:text-sm text-emerald-300">
                             Prêt à créer sur GitHub
+                          </p>
+                        </div>
+                      )}
+
+                      {!user?.github_access_token && (
+                        <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+                          <span className="text-amber-400">⚠️</span>
+                          <p className="text-xs sm:text-sm text-amber-300">
+                            Veuillez vous connecter à un hébergeur Git pour continuer
                           </p>
                         </div>
                       )}
