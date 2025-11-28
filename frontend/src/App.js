@@ -1800,8 +1800,8 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                     Pour tester la plateforme sans engagement.
                   </p>
                 </CardHeader>
-                <CardContent className="space-y-4 text-xs">
-                  <ul className="space-y-2 text-slate-300">
+                <CardContent className="space-y-4 md:space-y-3 text-xs">
+                  <ul className="space-y-2 md:space-y-1 text-slate-300">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-cyan-400 flex-shrink-0 mt-0.5" />
                       <span>1 upload / mois (ZIP, PDF, fichiers ou code)</span>
@@ -1828,7 +1828,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                     </li>
                   </ul>
                 </CardContent>
-                <div className="px-6 pb-5">
+                <div className="px-6 pb-5 md:pb-4">
                   <Button
                     className="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-xs"
                     data-testid="pricing-freemium-cta"
@@ -1940,8 +1940,8 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   <span className="text-xs text-slate-400">/ mois</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4 text-xs">
-                <ul className="space-y-2 text-slate-200">
+              <CardContent className="space-y-4 md:space-y-3 text-xs">
+                <ul className="space-y-2 md:space-y-1 text-slate-200">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="h-4 w-4 text-amber-400 flex-shrink-0 mt-0.5" />
                     <span>10 à 200 utilisateurs</span>
@@ -1964,7 +1964,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   </li>
                 </ul>
               </CardContent>
-              <div className="px-6 pb-5">
+              <div className="px-6 pb-5 md:pb-4">
                 <Button
                   variant="outline"
                   className="w-full rounded-full border-amber-400/60 text-amber-200 text-xs hover:bg-amber-500/10"
