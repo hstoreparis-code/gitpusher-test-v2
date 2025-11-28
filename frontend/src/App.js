@@ -1231,7 +1231,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                         <Button
                           size="sm"
-                          className="rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs shadow-lg"
+                          className="rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-sm sm:text-xs px-4 py-2 shadow-lg"
                           onClick={launch}
                           disabled={processing || uploading}
                           data-testid="launch-workflow-button"
