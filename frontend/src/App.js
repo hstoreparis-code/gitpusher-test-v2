@@ -980,6 +980,13 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             </div>
           </button>
           <div className="flex items-center gap-2 sm:gap-4 text-[11px] sm:text-sm">
+            <Button
+              size="sm"
+              className="hidden sm:inline-flex rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-[11px] font-semibold shadow-[0_0_16px_rgba(56,189,248,0.8)]"
+              onClick={() => navigate("/app/pro")}
+            >
+              Mode Pro
+            </Button>
             <div className="hidden xs:flex items-center gap-2">
               <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
               <Switch
