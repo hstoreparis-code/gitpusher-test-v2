@@ -1240,7 +1240,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className={`text-xl sm:text-2xl font-bold ${(user?.credits || 0) <= 2 ? 'text-red-400 animate-pulse' : 'text-violet-300'}`}>
+                      <span className={`text-xl sm:text-2xl font-bold ${(user?.credits || 0) <= 2 ? 'text-red-400' : 'text-violet-300'}`}>
                         {user?.credits || 0}
                       </span>
                     </div>
