@@ -287,12 +287,12 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             <Popover>
             <button
               onClick={() => navigate("/pricing")}
-              className="hidden sm:inline-flex items-center gap-1 px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-400/60 bg-cyan-500/10 hover:bg-cyan-500/20 text-xs sm:text-sm"
               data-testid="nav-pricing-button"
             >
               <span className="flex flex-col items-start leading-tight">
-                <span className="font-medium">Plans</span>
-                <span className="text-[9px] text-slate-400">Tarifs</span>
+                <span className="text-xs sm:text-sm font-semibold">Plans</span>
+                <span className="text-[10px] sm:text-xs text-slate-200">Tarifs</span>
               </span>
             </button>
 
