@@ -166,6 +166,55 @@ class PlanUpdate(BaseModel):
 app = FastAPI(title="GitPusher API")
 api_router = APIRouter(prefix="/api")
 
+# Initialize services
+credits_service = CreditsService(db)
+storage_service = StorageService()
+git_service = GitService()
+
+# Dependency injection helpers
+async def get_user_id_from_token(authorization: Optional[str] = Header(None)) -> str:
+    \"\"\"Extract user_id from JWT token for v1 API.\"\"\"
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing authorization header")
+    
+    token = authorization.split(" ")[1]
+    payload = decode_token(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    
+    user_id = payload.get("sub")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Invalid token payload")
+    
+    return user_id
+
+# Mount v1 routes with dependency injection
+def setup_v1_routes():
+    \"\"\"Setup all v1 API routes with dependencies.\"\"\"
+    v1_router = APIRouter(prefix="/v1")
+    
+    # Wrapper to inject dependencies
+    async def inject_deps(func, **kwargs):
+        kwargs['db'] = db
+        kwargs['credits_service'] = credits_service
+        kwargs['storage_service'] = storage_service
+        kwargs['git_service'] = git_service
+        return await func(**kwargs)
+    
+    # Include routers
+    v1_router.include_router(v1_auth.router)
+    v1_router.include_router(v1_uploads.router)
+    v1_router.include_router(v1_jobs.router)
+    v1_router.include_router(v1_repos.router)
+    v1_router.include_router(v1_billing.router)
+    v1_router.include_router(v1_autopush.router)
+    v1_router.include_router(v1_partner.router)
+    v1_router.include_router(v1_webhooks.router)
+    
+    api_router.include_router(v1_router)
+
+setup_v1_routes()
+
 
 
 
