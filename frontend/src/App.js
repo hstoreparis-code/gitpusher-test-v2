@@ -1359,7 +1359,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     <div className="space-y-2">
                       <h3 className="font-semibold text-slate-100 text-base sm:text-sm">2. Lancer l&apos;automatisation</h3>
                       <p className="text-xs text-slate-400">
-                        GitPusher va créer un nouveau repo GitHub, générer README, .gitignore, LICENSE et CHANGELOG puis pousser
+                        Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span> va créer un nouveau repo GitHub, générer README, .gitignore, LICENSE et CHANGELOG puis pousser
                         les commits.
                       </p>
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
