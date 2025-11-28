@@ -1121,7 +1121,60 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   <p className="text-slate-400">{t("noProjects")}</p>
                 ) : (
                   <>
-                    {/* Upload step, config, launch: déjà présents plus haut dans le fichier, conservés */}
+                    {/* Étape 1 : Upload */}
+                    <div className="space-y-2">
+                      <h3 className="font-semibold text-slate-100 text-sm">1. Uploade tes fichiers</h3>
+                      <p className="text-[11px] text-slate-400">
+                        Ajoute un ZIP ou quelques fichiers (code, texte, docs). L&apos;IA analysera ce contenu pour générer
+                        la structure du repo et la documentation.
+                      </p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                        <label className="inline-flex items-center px-3 py-2 rounded-full border border-dashed border-slate-700 bg-slate-900/60 hover:bg-slate-900 cursor-pointer text-[11px]">
+                          <input
+                            type="file"
+                            multiple
+                            className="hidden"
+                            onChange={onFilesSelected}
+                            disabled={uploading || processing}
+                          />
+                          <span className="mr-2">📁 Choisir des fichiers</span>
+                          <span className="text-[10px] text-slate-500">ZIP, .py, .js, .md, PDF…</span>
+                        </label>
+                        {uploading && (
+                          <span className="text-[11px] text-cyan-300">Upload en cours…</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Étape 2 : Lancer l'automatisation */}
+                    <div className="space-y-2">
+                      <h3 className="font-semibold text-slate-100 text-sm">2. Lancer l&apos;automatisation</h3>
+                      <p className="text-[11px] text-slate-400">
+                        GitPusher va créer un nouveau repo GitHub, générer README, .gitignore, LICENSE et CHANGELOG puis pousser
+                        les commits.
+                      </p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                        <Button
+                          size="sm"
+                          className="rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs shadow-lg"
+                          onClick={launch}
+                          disabled={processing || uploading}
+                          data-testid="launch-workflow-button"
+                        >
+                          {processing ? "Traitement en cours…" : t("launch")}
+                        </Button>
+                        {progress > 0 && (
+                          <div className="flex-1 max-w-xs flex flex-col gap-1">
+                            <Progress value={progress} className="h-1.5" />
+                            <span className="text-[10px] text-slate-400">
+                              {progress === 100
+                                ? "Terminé ! Tu peux ouvrir le repo GitHub à gauche."
+                                : "Analyse et génération en cours…"}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </>
                 )}
               </CardContent>
