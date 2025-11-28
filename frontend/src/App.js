@@ -1052,7 +1052,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs text-slate-400 mb-1">Total Jobs</p>
+                  <p className="text-sm text-slate-300 mb-1">Total Jobs</p>
                   <p className="text-2xl font-bold text-violet-300">{jobs.length}</p>
                 </div>
                 <div className="h-12 w-12 rounded-full bg-violet-500/20 flex items-center justify-center">
