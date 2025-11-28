@@ -2731,7 +2731,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
               >
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <CardTitle className="text-xl font-bold">Freemium</CardTitle>
+                    <CardTitle className="text-xl font-bold">Free</CardTitle>
                     <span className="text-xs px-2 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">Gratuit</span>
                   </div>
                   <div className="flex items-baseline gap-2">
