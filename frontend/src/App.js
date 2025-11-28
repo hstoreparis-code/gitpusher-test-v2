@@ -1173,6 +1173,436 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   className="text-xs border-violet-500/50 text-violet-300 hover:bg-violet-500/20"
                 >
                   Changer Plan
+
+function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
+  const { token, user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  useEffect(() => {
+    if (!token) return;
+    const fetchAll = async () => {
+      setLoading(true);
+      try {
+        const [projectsRes, jobsRes] = await Promise.all([
+          axios.get(`${API}/workflows/projects`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get(`${API}/jobs`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+        setProjects(projectsRes.data || []);
+        setJobs(jobsRes.data || []);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAll();
+  }, [token]);
+
+  if (!token) return <Navigate to="/" replace />;
+
+  // Analytics de base
+  const totalProjects = projects.length;
+  const activeProjects = projects.filter((p) => p.status !== "archived").length;
+  const totalJobs = jobs.length;
+  const completedJobs = jobs.filter((j) => j.status === "completed").length;
+  const failedJobs = jobs.filter((j) => j.status === "failed" || j.error).length;
+  const successRate = totalJobs ? Math.round((completedJobs * 100) / totalJobs) : 0;
+
+  const providerCounts = projects.reduce((acc, p) => {
+    const key = (p.provider || "github").toLowerCase();
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+
+  const recentJobs = jobs.slice(0, 8);
+
+  return (
+    <div
+      className={`min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex flex-col transition-opacity duration-500 overflow-x-hidden ${
+        mounted ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      {/* Header Pro */}
+      <header className="w-full border-b border-cyan-400/30 backdrop-blur-sm sticky top-0 z-20 bg-slate-950/90">
+        <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 md:gap-3 min-w-0 group"
+          >
+            <div className="h-11 w-11 md:h-[52px] md:w-[52px] rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)] group-hover:scale-105 transition-transform">
+              <DownloadCloud className="h-[22px] w-[22px] md:h-[26px] md:w-[26px] text-slate-950" />
+            </div>
+            <div className="flex flex-col leading-tight truncate text-left">
+              <span className="text-[17px] md:text-[19px] font-semibold tracking-tight truncate">
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span>
+                <span className="ml-1 text-xs align-middle px-2 py-0.5 rounded-full border border-cyan-400/60 text-cyan-200 bg-cyan-500/10">
+                  Pro
+                </span>
+              </span>
+              <span className="text-[11px] md:text-[13px] text-slate-400 truncate">Dashboard avancé &amp; analytics</span>
+            </div>
+          </button>
+          <div className="flex items-center gap-2 sm:gap-4 text-[11px] sm:text-sm">
+            <Button
+              size="sm"
+              variant="outline"
+              className="hidden sm:inline-flex rounded-full border-cyan-400/60 text-cyan-200 text-[11px]"
+              onClick={() => navigate("/app")}
+            >
+              Retour au dashboard
+            </Button>
+            <div className="hidden xs:flex items-center gap-2">
+              <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
+              <Switch
+                checked={dark}
+                onCheckedChange={setDark}
+                data-testid="pro-dashboard-theme-toggle-switch"
+              />
+            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-[11px] sm:text-xs flex items-center gap-1"
+                >
+                  <span className="text-lg" aria-hidden="true">{currentLang.flag}</span>
+                  <span className="hidden sm:inline">{currentLang.label}</span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                className="mt-2 w-64 bg-slate-900/95 border border-slate-700/80 shadow-xl rounded-2xl p-2"
+              >
+                <div className="max-h-64 overflow-auto text-xs">
+                  {languages.map((lng) => (
+                    <button
+                      key={lng.code}
+                      onClick={() => setLang(lng.code)}
+                      className={`w-full flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-slate-800 text-left ${
+                        lng.code === lang ? "bg-slate-800/80" : ""
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-lg" aria-hidden="true">{lng.flag}</span>
+                        <span>{lng.label}</span>
+                      </span>
+                      {lng.code === lang && (
+                        <span className="text-[10px] text-cyan-300">Active</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-red-500/60 text-red-300 text-[11px]"
+              onClick={() => {
+                logout();
+                navigate("/");
+              }}
+            >
+              Logout
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-1 max-w-6xl mx-auto px-4 py-6 space-y-6">
+        {/* Bandeau plan Pro / Business */}
+        <Card className="bg-gradient-to-r from-cyan-500/15 via-slate-900/80 to-violet-500/10 border-cyan-400/40">
+          <CardContent className="py-4 px-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <p className="text-xs text-cyan-300 mb-1">Mode Pro</p>
+              <h1 className="text-lg sm:text-xl font-semibold">
+                Vue d&apos;ensemble avancée de tes workflows Git et de l&apos;activité IA
+              </h1>
+              <p className="text-[11px] sm:text-xs text-slate-300 mt-1">
+                Uploads illimités, analytics détaillées, multi-providers et automations avancées.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <span className="inline-flex items-center px-2 py-1 rounded-full bg-slate-900/80 border border-cyan-400/40 text-[10px] text-cyan-200">
+                {totalProjects} projets • {totalJobs} jobs
+              </span>
+              <span className="inline-flex items-center px-2 py-1 rounded-full bg-slate-900/80 border border-emerald-400/40 text-[10px] text-emerald-200">
+                {successRate}% taux de succès
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Statistiques principales */}
+        <div className="grid gap-4 md:grid-cols-4">
+          <Card className="bg-slate-900/80 border-slate-800/80">
+            <CardContent className="py-3 px-4">
+              <p className="text-[11px] text-slate-400 mb-1">Projets actifs</p>
+              <p className="text-2xl font-semibold text-cyan-300">{activeProjects}</p>
+              <p className="text-[10px] text-slate-500 mt-1">sur {totalProjects} au total</p>
+            </CardContent>
+          </Card>
+          <Card className="bg-slate-900/80 border-slate-800/80">
+            <CardContent className="py-3 px-4">
+              <p className="text-[11px] text-slate-400 mb-1">Jobs complétés</p>
+              <p className="text-2xl font-semibold text-emerald-300">{completedJobs}</p>
+              <p className="text-[10px] text-slate-500 mt-1">{failedJobs} en erreur</p>
+            </CardContent>
+          </Card>
+          <Card className="bg-slate-900/80 border-slate-800/80">
+            <CardContent className="py-3 px-4">
+              <p className="text-[11px] text-slate-400 mb-1">Taux de succès</p>
+              <p className="text-2xl font-semibold text-cyan-300">{successRate}%</p>
+              <p className="text-[10px] text-slate-500 mt-1">basé sur tous les jobs</p>
+            </CardContent>
+          </Card>
+          <Card className="bg-slate-900/80 border-slate-800/80">
+            <CardContent className="py-3 px-4">
+              <p className="text-[11px] text-slate-400 mb-1">Providers utilisés</p>
+              <div className="flex flex-wrap gap-1 mt-1 text-[10px] text-slate-200">
+                {Object.keys(providerCounts).length === 0 && <span>Aucun pour l&apos;instant</span>}
+                {Object.entries(providerCounts).map(([prov, count]) => (
+                  <span
+                    key={prov}
+                    className="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-800/80 border border-slate-700/80"
+                  >
+                    <span className="capitalize mr-1">{prov}</span>
+                    <span className="text-slate-400">×{count}</span>
+                  </span>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Activité récente & multi-providers */}
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card className="bg-slate-900/80 border-slate-800/80">
+            <CardHeader>
+              <CardTitle className="text-sm sm:text-base">Activité récente</CardTitle>
+            </CardHeader>
+            <CardContent className="text-xs sm:text-sm">
+              {loading ? (
+                <p className="text-slate-400">Chargement…</p>
+              ) : recentJobs.length === 0 ? (
+                <p className="text-slate-400">Aucun job pour l&apos;instant.</p>
+              ) : (
+                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                  {recentJobs.map((job) => {
+                    const project = projects.find((p) => p.id === job.project_id);
+                    return (
+                      <div
+                        key={job.id}
+                        className="flex items-start justify-between gap-2 border-b border-slate-800/60 pb-1.5"
+                      >
+                        <div className="min-w-0">
+                          <p className="font-medium text-slate-100 truncate">
+                            {project?.name || "Projet sans nom"}
+                          </p>
+                          <p className="font-mono text-[10px] text-slate-500 truncate">{job.id}</p>
+                          <p className="text-[10px] text-slate-500 mt-0.5">
+                            {new Date(job.created_at).toLocaleString()}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end gap-1">
+                          <span
+                            className={`inline-flex px-2 py-0.5 rounded-full text-[10px] ${
+                              job.status === "completed"
+                                ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/40"
+                                : job.status === "failed" || job.error
+                                  ? "bg-red-500/15 text-red-300 border border-red-500/40"
+                                  : "bg-slate-800 text-slate-200 border border-slate-600"
+                            }`}
+                          >
+                            {job.status}
+                          </span>
+                          {job.error && (
+                            <span className="text-[10px] text-red-300 max-w-[180px] truncate" title={job.error}>
+                              {job.error}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/80 border-slate-800/80">
+            <CardHeader>
+              <CardTitle className="text-sm sm:text-base">Multi-providers &amp; accès prioritaire</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-xs sm:text-sm">
+              <p className="text-slate-300 text-[11px]">
+                Gérez vos dépôts sur plusieurs providers depuis un même endroit. GitHub est actif aujourd&apos;hui, GitLab
+                &amp; Bitbucket arrivent en priorité pour les comptes Pro.
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="p-2 rounded-lg bg-slate-950/70 border border-emerald-500/40 flex items-center justify-between">
+                  <span className="text-[11px] text-slate-100">GitHub</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-400/50">
+                    Actif
+                  </span>
+                </div>
+                <div className="p-2 rounded-lg bg-slate-950/70 border border-slate-700/80 flex items-center justify-between opacity-70">
+                  <span className="text-[11px] text-slate-300">GitLab</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-600">
+                    Bientôt
+                  </span>
+                </div>
+                <div className="p-2 rounded-lg bg-slate-950/70 border border-slate-700/80 flex items-center justify-between opacity-70">
+                  <span className="text-[11px] text-slate-300">Bitbucket</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-600">
+                    Bientôt
+                  </span>
+                </div>
+                <div className="p-2 rounded-lg bg-slate-950/70 border border-slate-700/80 flex items-center justify-between opacity-70">
+                  <span className="text-[11px] text-slate-300">Autres</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-600">
+                    Roadmap
+                  </span>
+                </div>
+              </div>
+              <p className="text-[10px] text-slate-500">
+                Les comptes Pro &amp; Business reçoivent les nouveaux providers en priorité.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Automations & API Partner (UI avancée, backend à venir) */}
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card className="bg-slate-900/80 border-slate-800/80">
+            <CardHeader>
+              <CardTitle className="text-sm sm:text-base">Automations &amp; autopush</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-xs sm:text-sm">
+              <p className="text-[11px] text-slate-300">
+                Configure des pushs récurrents (autopush) sur tes dépôts les plus critiques. Idéal pour synchroniser du
+                contenu (docs, cours, assets) sans intervention manuelle.
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] text-slate-200">Autopush hebdomadaire</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/40">
+                    Bêta UI
+                  </span>
+                </div>
+                <p className="text-[10px] text-slate-500">
+                  UI prête, logique backend à activer : fréquence, sélection de projets, fenêtres de déploiement.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-[10px]">
+                <div className="p-2 rounded-lg bg-slate-950/70 border border-slate-700/80">
+                  <p className="text-slate-200 mb-1">Scénarios</p>
+                  <ul className="space-y-0.5 text-slate-400">
+                    <li>• Push auto chaque lundi 9h</li>
+                    <li>• Nettoyage branches mortes</li>
+                    <li>• Versioning IA des README</li>
+                  </ul>
+                </div>
+                <div className="p-2 rounded-lg bg-slate-950/70 border border-slate-700/80">
+                  <p className="text-slate-200 mb-1">À venir</p>
+                  <ul className="space-y-0.5 text-slate-400">
+                    <li>• Intégration CI/CD (GitHub Actions)</li>
+                    <li>• Workflows multi-repos</li>
+                    <li>• Notifications Slack</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/80 border-slate-800/80">
+            <CardHeader>
+              <CardTitle className="text-sm sm:text-base">API Partner &amp; webhooks</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-xs sm:text-sm">
+              <p className="text-[11px] text-slate-300">
+                Intègre GitPusher dans ta plateforme SaaS : déclenche des pushs, écoute des webhooks, gère des comptes
+                multiples.
+              </p>
+              <div className="space-y-2">
+                <div>
+                  <p className="text-[11px] text-slate-400 mb-1">Clé API Partner</p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 px-2 py-1 rounded bg-slate-950/80 border border-slate-700/80 font-mono text-[10px] text-slate-400 truncate">
+                      sk_live_************************
+                    </div>
+                    <Button
+                      size="xs"
+                      variant="outline"
+                      className="h-7 px-2 rounded-full border-slate-600 text-[10px]"
+                      onClick={() => alert("Copie de la clé API en mode démo.")}
+                    >
+                      Copier
+                    </Button>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[11px] text-slate-400 mb-1">Webhooks configurés</p>
+                  <ul className="space-y-1 text-[10px] text-slate-300">
+                    <li>• push.completed → https://votreapp.com/webhooks/gitpusher</li>
+                    <li>• push.failed → https://votreapp.com/webhooks/gitpusher-errors</li>
+                  </ul>
+                </div>
+              </div>
+              <p className="text-[10px] text-slate-500">
+                Cette section est prête niveau UI. L&apos;activation réelle de l&apos;API Partner et des webhooks dépendra de
+                ton back-end.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Bloc Business / multi-comptes (maquette) */}
+        <Card className="bg-slate-900/80 border-amber-500/40">
+          <CardHeader>
+            <CardTitle className="text-sm sm:text-base">Business &amp; équipes</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-3 md:grid-cols-3 text-xs sm:text-sm">
+            <div className="space-y-1">
+              <p className="text-slate-200 font-medium text-[12px]">Multi-utilisateurs (10 à 200)</p>
+              <p className="text-slate-400 text-[11px]">
+                Visualise et gère plusieurs comptes connectés (étudiants, équipe marketing, clients SaaS) sur un même
+                espace.
+              </p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-slate-200 font-medium text-[12px]">Branding &amp; espaces dédiés</p>
+              <p className="text-slate-400 text-[11px]">
+                Logo, couleurs, sous-domaine et règles d&apos;automatisation propres à chaque organisation.
+              </p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-slate-200 font-medium text-[12px]">SLA &amp; support prioritaire</p>
+              <p className="text-slate-400 text-[11px]">
+                Canal Slack dédié, support 12h, accompagnement à l&apos;intégration pour les offres Business.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}
+
                 </Button>
                 <Button
                   size="sm"
