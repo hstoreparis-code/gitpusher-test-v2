@@ -512,6 +512,97 @@ class AdminStatus(BaseModel):
     is_admin: bool
 
 
+
+
+class AdminUserSummary(BaseModel):
+    id: str
+    email: EmailStr
+    display_name: Optional[str] = None
+    plan: Optional[str] = None
+    credits: Optional[int] = None
+    created_at: Optional[datetime] = None
+
+
+class AdminJobSummary(BaseModel):
+    id: str
+    user_id: str
+    project_id: Optional[str] = None
+    status: str
+    error: Optional[str] = None
+    created_at: datetime
+
+
+class AdminUserPlanUpdate(BaseModel):
+    plan: Optional[str] = None
+    credits: Optional[int] = None
+
+
+@api_router.get("/admin/users", response_model=List[AdminUserSummary])
+async def admin_list_users(authorization: Optional[str] = Header(default=None)):
+    admin = await require_admin(authorization)
+    _ = admin  # unused, just to make it explicit
+    cur = db.users.find({}, {"_id": 1, "email": 1, "display_name": 1, "plan": 1, "credits": 1, "created_at": 1})
+    users: List[AdminUserSummary] = []
+    async for u in cur:
+        users.append(
+            AdminUserSummary(
+                id=str(u["_id"]),
+                email=u["email"],
+                display_name=u.get("display_name"),
+                plan=u.get("plan"),
+                credits=int(u.get("credits", 0)) if u.get("credits") is not None else None,
+                created_at=datetime.fromisoformat(u["created_at"]) if u.get("created_at") else None,
+            )
+        )
+    return users
+
+
+@api_router.get("/admin/jobs", response_model=List[AdminJobSummary])
+async def admin_list_jobs(authorization: Optional[str] = Header(default=None)):
+    admin = await require_admin(authorization)
+    _ = admin
+    cur = db.jobs.find({}, {"_id": 1, "user_id": 1, "project_id": 1, "status": 1, "error": 1, "created_at": 1}).sort(
+        "created_at", -1
+    )
+    jobs: List[AdminJobSummary] = []
+    async for j in cur:
+        jobs.append(
+            AdminJobSummary(
+                id=str(j["_id"]),
+                user_id=str(j.get("user_id")),
+                project_id=str(j.get("project_id")) if j.get("project_id") else None,
+                status=j.get("status", "unknown"),
+                error=j.get("error"),
+                created_at=datetime.fromisoformat(j["created_at"]) if j.get("created_at") else datetime.now(timezone.utc),
+            )
+        )
+    return jobs
+
+
+@api_router.patch("/admin/users/{user_id}/plan-credits")
+async def admin_update_user_plan_credits(
+    user_id: str,
+    payload: AdminUserPlanUpdate,
+    authorization: Optional[str] = Header(default=None),
+):
+    admin = await require_admin(authorization)
+    _ = admin
+    updates: Dict[str, Any] = {}
+    if payload.plan is not None:
+        updates["plan"] = payload.plan.lower()
+    if payload.credits is not None:
+        updates["credits"] = int(payload.credits)
+
+    if not updates:
+        raise HTTPException(status_code=400, detail="No updates provided")
+
+    updates["updated_at"] = datetime.now(timezone.utc).isoformat()
+    res = await db.users.update_one({"_id": user_id}, {"$set": updates})
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return {"status": "ok"}
+
 @api_router.get("/auth/admin-status", response_model=AdminStatus)
 async def admin_status(authorization: Optional[str] = Header(default=None)):
     """Return whether the current user is admin.
