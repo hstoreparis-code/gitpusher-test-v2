@@ -28,5 +28,6 @@ class GitService:
         return await git_provider.list_repos(token, limit)
     
     def get_all_providers(self) -> list:
-        \"\"\"Get all supported providers.\"\"\"\n        return self.factory.get_all_providers()
+        """Get all supported providers."""
+        return self.factory.get_all_providers()
 
