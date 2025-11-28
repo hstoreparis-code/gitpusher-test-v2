@@ -1184,7 +1184,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 
         <div className="grid md:grid-cols-[1.1fr,1.4fr] gap-3 sm:gap-6">
           {/* Projects List */}
-          <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-sm mx-2 sm:mx-0">
+          <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-sm">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3">
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center">
