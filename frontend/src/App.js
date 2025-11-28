@@ -1252,7 +1252,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                       Plan: <span className="text-violet-300">{user?.plan || "Free"}</span>
                     </p>
                     {(user?.credits || 0) <= 2 && (
-                      <p className="text-[10px] sm:text-xs text-red-400 mt-1 font-semibold animate-pulse">
+                      <p className="text-[10px] sm:text-xs text-red-400 mt-1 font-semibold">
                         ⚠️ Crédits faibles !
                       </p>
                     )}
