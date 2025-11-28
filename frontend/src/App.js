@@ -1632,8 +1632,11 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
               Publiez vos projets Git sans écrire une ligne de code.
             </h1>
             <p className="text-sm sm:text-base text-slate-300 max-w-2xl">
-              GitPusher automatise la création de vos dépôts (GitHub, GitLab, Bitbucket),
-              range vos fichiers avec l&apos;IA, génère votre README et pousse tout en un clic.
+              GitPusher automatise la création de vos dépôts (
+              <span className="text-cyan-300 drop-shadow-[0_0_10px_rgba(56,189,248,0.9)] neon-flicker">
+                GitHub, GitLab, Bitbucket, Gitea, Codeberg, Gitee
+              </span>
+              ), range vos fichiers avec l&apos;IA, génère votre README et pousse tout en un clic.
             </p>
           </section>
 
