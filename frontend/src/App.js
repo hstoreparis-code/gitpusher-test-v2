@@ -1378,11 +1378,11 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   <CheckCircle2 className="h-6 w-6 text-emerald-400" />
                 </div>
               </div>
-              <p className="text-sm text-slate-400 mb-2">Completed</p>
+              <p className="text-sm text-slate-100 mb-2 font-semibold">Completed</p>
               <p className="text-3xl font-bold text-emerald-300">
                 {projects.filter(p => p.status === "done").length}
               </p>
-              <p className="text-xs text-slate-500 mt-2">Workflows terminés avec succès</p>
+              <p className="text-xs text-slate-300 mt-2">Workflows terminés avec succès</p>
             </CardContent>
           </Card>
 
