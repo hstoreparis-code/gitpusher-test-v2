@@ -695,7 +695,7 @@ function AuthCard({ t, onSuccess, onClose }) {
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-3 top-3 text-slate-300 hover:text-white text-lg leading-none"
+        className="absolute right-3 top-2 text-slate-300 hover:text-white text-2xl leading-none"
         aria-label="Fermer"
       >
         ×
