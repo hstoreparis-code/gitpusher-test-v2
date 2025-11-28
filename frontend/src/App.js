@@ -2935,7 +2935,7 @@ function WhitePaperPage({ t, lang, setLang, dark, setDark, currentLang, language
 
         {/* Footer */}
         <div className="border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
-          <p>GitPusher © 2024 - Propulsé par Emergent AI</p>
+          <p>Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span> © 2024 - Propulsé par Emergent AI</p>
           <p className="mt-2">Version 1.0.0 • API V1 • 12 Git Providers</p>
         </div>
       </main>
