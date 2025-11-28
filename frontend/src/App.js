@@ -629,6 +629,8 @@ function AuthCard({ t, onSuccess }) {
   const [oauthProvider, setOauthProvider] = useState(null);
   const [error, setError] = useState("");
 
+  const { token } = useAuth();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
