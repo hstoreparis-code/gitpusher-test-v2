@@ -1618,6 +1618,8 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
   );
 }
 
+// TODO: cleanup duplicate test buttons removed here
+
                 </Button>
                 <Button
                   size="sm"
