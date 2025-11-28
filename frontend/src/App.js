@@ -792,14 +792,14 @@ function AuthCard({ t, onSuccess, onClose }) {
             Pour utiliser Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span>, inscris-toi ou connecte-toi avec l&apos;un de ces providers.
           </p>
         </div>
-        {/* Bouton Accès Pro sous les providers */}
+        {/* Bouton Accès Business sous les providers */}
         <div className="mt-5 flex flex-col gap-3 items-stretch">
           <Button
             className="w-full justify-center rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-sm font-semibold px-3 py-2 flex items-center gap-2 shadow-[0_0_18px_rgba(56,189,248,0.85)]"
             onClick={() => navigate("/app/pro")}
             data-testid="auth-pro-dashboard-button"
           >
-            Accès Pro
+            Accès Business
           </Button>
         </div>
 
@@ -1385,7 +1385,7 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
         <Card className="bg-gradient-to-r from-cyan-500/15 via-slate-900/80 to-violet-500/10 border-cyan-400/40">
           <CardContent className="py-4 px-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <p className="text-xs text-cyan-300 mb-1">Accès Pro</p>
+              <p className="text-xs text-cyan-300 mb-1">Accès Business</p>
               <h1 className="text-lg sm:text-xl font-semibold">
                 Vue d&apos;ensemble avancée de tes workflows Git et de l&apos;activité IA
               </h1>
