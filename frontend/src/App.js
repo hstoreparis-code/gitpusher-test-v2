@@ -2463,7 +2463,7 @@ function WhitePaperPage({ t, lang, setLang, dark, setDark, currentLang, language
           </CardHeader>
           <CardContent className="space-y-4 text-sm">
             <p className="text-slate-300">
-              GitPusher utilise des <strong className="text-violet-300">modèles d'IA avancés</strong> pour générer 
+              Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span> utilise des <strong className="text-violet-300">modèles d'IA avancés</strong> pour générer 
               automatiquement une documentation professionnelle et des fichiers de projet standards.
             </p>
             
