@@ -1071,11 +1071,11 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 
           {/* Completed Projects */}
           <Card className="bg-gradient-to-br from-emerald-500/10 via-slate-900/70 to-slate-900/70 border-emerald-500/20 backdrop-blur-sm">
-            <CardContent className="px-4 py-5 sm:p-4">
+            <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-200 mb-1">Completed</p>
-                  <p className="text-3xl sm:text-2xl font-bold text-emerald-300">
+                  <p className="text-xs sm:text-sm text-slate-300 mb-1">Completed</p>
+                  <p className="text-2xl font-bold text-emerald-300">
                     {projects.filter(p => p.status === "done").length}
                   </p>
                 </div>
