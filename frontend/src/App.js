@@ -2970,22 +2970,6 @@ function AppShell() {
       <Route
         path="/"
         element={
-      <Route 
-        path="/app/pro" 
-        element={
-          <ProDashboard 
-            t={t} 
-            lang={lang}
-            setLang={setLang}
-            dark={dark}
-            setDark={setDark}
-            currentLang={currentLang}
-            languages={languages}
-            isLoadingLang={isLoadingLang}
-          />
-        } 
-      />
-
           <Landing
             t={t}
             lang={lang}
@@ -3002,6 +2986,21 @@ function AppShell() {
         path="/app" 
         element={
           <Dashboard 
+            t={t} 
+            lang={lang}
+            setLang={setLang}
+            dark={dark}
+            setDark={setDark}
+            currentLang={currentLang}
+            languages={languages}
+            isLoadingLang={isLoadingLang}
+          />
+        } 
+      />
+      <Route 
+        path="/app/pro" 
+        element={
+          <ProDashboard 
             t={t} 
             lang={lang}
             setLang={setLang}
