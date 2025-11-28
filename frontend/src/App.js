@@ -732,7 +732,7 @@ function AuthCard({ t, onSuccess }) {
             </Button>
             <Button
               variant="outline"
-              className="w-full justify-center rounded-full border-slate-700 bg-slate-900 hover:bg-slate-800"
+              className="w-full justify-center rounded-full border-slate-700 bg-slate-900 hover:bg-slate-800 shadow-[0_0_16px_rgba(15,23,42,0.9)]"
               onClick={() => startOAuth("bitbucket")}
               data-testid="bitbucket-oauth-button"
             >
