@@ -1003,7 +1003,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs text-slate-400 mb-1">Total Projects</p>
+                  <p className="text-sm text-slate-300 mb-1">Total Projects</p>
                   <p className="text-2xl font-bold text-cyan-300">{projects.length}</p>
                 </div>
                 <div className="h-12 w-12 rounded-full bg-cyan-500/20 flex items-center justify-center">
@@ -1018,7 +1018,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs text-slate-400 mb-1">Completed</p>
+                  <p className="text-sm text-slate-300 mb-1">Completed</p>
                   <p className="text-2xl font-bold text-emerald-300">
                     {projects.filter(p => p.status === "done").length}
                   </p>
@@ -1035,7 +1035,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs text-slate-400 mb-1">Pending</p>
+                  <p className="text-sm text-slate-300 mb-1">Pending</p>
                   <p className="text-2xl font-bold text-amber-300">
                     {projects.filter(p => p.status !== "done").length}
                   </p>
