@@ -1426,7 +1426,14 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
           </Card>
           <Card className="bg-slate-900/80 border-slate-800/80">
             <CardContent className="py-3 px-3 sm:px-4">
-              <p className="text-[10px] sm:text-[11px] text-slate-400 mb-1">Jobs complétés</p>
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-[10px] sm:text-[11px] text-slate-400">Jobs complétés</p>
+                {effectivePlan === "business" && (
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-200 border border-amber-400/40">
+                    Business
+                  </span>
+                )}
+              </div>
               <p className="text-xl sm:text-2xl font-semibold text-emerald-300">{completedJobs}</p>
               <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1">{failedJobs} en erreur</p>
             </CardContent>
