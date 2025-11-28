@@ -852,6 +852,16 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       setSelected(res.data);
       setProjects((prev) => prev.map((p) => (p.id === res.data.id ? res.data : p)));
       setProgress(100);
+
+      // Rafraîchir l'historique des jobs après une automatisation réussie
+      try {
+        const jobsRes = await axios.get(`${API}/jobs`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setJobs(jobsRes.data);
+      } catch (jobsErr) {
+        console.error("Refresh jobs failed", jobsErr);
+      }
     } catch (err) {
       console.error("Process project failed", err);
       setProgress(0);
