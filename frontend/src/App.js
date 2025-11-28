@@ -916,14 +916,14 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-20 bg-slate-950/80 overflow-x-hidden">
         <div className="w-full max-w-full px-4 py-3 md:py-4 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 md:gap-3 min-w-0">
-            <div className="h-9 w-9 md:h-14 md:w-14 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
-              <DownloadCloud className="h-5 w-5 md:h-7 md:w-7 text-slate-950" />
+            <div className="h-9 w-9 md:h-12 md:w-12 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
+              <DownloadCloud className="h-5 w-5 md:h-6 md:w-6 text-slate-950" />
             </div>
             <div className="flex flex-col leading-tight truncate">
-              <span className="text-base md:text-xl font-semibold tracking-tight truncate">
+              <span className="text-base md:text-lg font-semibold tracking-tight truncate">
                 Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span>
               </span>
-              <span className="text-[10px] md:text-sm text-slate-400 truncate">No-Code GitHub workflow</span>
+              <span className="text-[10px] md:text-xs text-slate-400 truncate">No-Code GitHub workflow</span>
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-4 text-[11px] sm:text-sm">
