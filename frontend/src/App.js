@@ -1613,12 +1613,8 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
             </div>
           </CardContent>
         </Card>
-      </main>
-    </div>
-  );
-}
 
-// TODO: cleanup duplicate test buttons removed here
+        // TODO: cleanup duplicate test buttons removed here
 
         <div className="mb-4 sm:mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
