@@ -1387,10 +1387,10 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
             <div>
               <p className="text-xs text-cyan-300 mb-1">Accès Business</p>
               <h1 className="text-lg sm:text-xl font-semibold">
-                Vue d&apos;ensemble avancée de tes workflows Git et de l&apos;activité IA
+                Vue d&apos;ensemble avancée pour équipes &amp; organisations
               </h1>
               <p className="text-[11px] sm:text-xs text-slate-300 mt-1">
-                Uploads illimités, analytics détaillées, multi-providers et automations avancées.
+                10 à 200 utilisateurs, API complète + webhooks, automations avancées et tableau de bord boosté IA.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -1636,22 +1636,21 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
           </CardHeader>
           <CardContent className="grid gap-3 md:grid-cols-3 text-xs sm:text-sm">
             <div className="space-y-1">
-              <p className="text-slate-200 font-medium text-[12px]">Multi-utilisateurs (10 à 200)</p>
+              <p className="text-slate-200 font-medium text-[12px]">10 à 200 utilisateurs</p>
               <p className="text-slate-400 text-[11px]">
-                Visualise et gère plusieurs comptes connectés (étudiants, équipe marketing, clients SaaS) sur un même
-                espace.
+                Gestion multi-comptes (écoles, agences, équipes SaaS, créateurs IA) sur un même espace centralisé.
               </p>
             </div>
             <div className="space-y-1">
-              <p className="text-slate-200 font-medium text-[12px]">Branding &amp; espaces dédiés</p>
+              <p className="text-slate-200 font-medium text-[12px]">Intégration API complète + webhooks</p>
               <p className="text-slate-400 text-[11px]">
-                Logo, couleurs, sous-domaine et règles d&apos;automatisation propres à chaque organisation.
+                API Partner, webhooks avancés et automations (CI/CD auto, nettoyage, versioning IA) pour vos dépôts.
               </p>
             </div>
             <div className="space-y-1">
-              <p className="text-slate-200 font-medium text-[12px]">SLA &amp; support prioritaire</p>
+              <p className="text-slate-200 font-medium text-[12px]">Tableau de bord IA &amp; SLA entreprise</p>
               <p className="text-slate-400 text-[11px]">
-                Canal Slack dédié, support 12h, accompagnement à l&apos;intégration pour les offres Business.
+                Tableau de bord boosté IA, branding entreprise, SLA &amp; support dédié (Slack, 12h).
               </p>
             </div>
           </CardContent>
