@@ -1033,6 +1033,26 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               className="hidden sm:inline-flex rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-[11px] font-semibold shadow-[0_0_16px_rgba(56,189,248,0.8)]"
               onClick={() => navigate("/pricing#pro")}
             >
+            {/* Toggle Free / Premium */}
+            <div className="hidden sm:flex items-center gap-2 px-2 py-1 rounded-full bg-slate-900/70 border border-slate-700/80">
+              <span className="text-[10px] text-slate-400">Free</span>
+              <button
+                type="button"
+                onClick={() => navigate("/pricing#pro")}
+                className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
+                  currentPlan === "premium" ? "bg-cyan-500" : "bg-slate-300"
+                }`}
+                aria-label="Basculer vers Premium"
+              >
+                <span
+                  className={`absolute top-[3px] w-4 h-4 rounded-full bg-black transition-transform duration-200 ${
+                    currentPlan === "premium" ? "translate-x-[22px]" : "translate-x-[2px]"
+                  }`}
+                />
+              </button>
+              <span className="text-[10px] text-slate-200 font-medium">Premium</span>
+            </div>
+
               Passer Premium
             </Button>
             <div className="hidden xs:flex items-center gap-2">
