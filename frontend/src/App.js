@@ -920,10 +920,49 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
         console.error("Refresh jobs failed", jobsErr);
       }
     } catch (err) {
-      console.error("Process project failed", err);
+      console.error("Launch failed", err);
       setProgress(0);
     } finally {
       setProcessing(false);
+    }
+  };
+
+  // Delete project
+  const deleteProject = async (projectId) => {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer ce projet ?")) return;
+    
+    try {
+      await axios.delete(`${API}/workflows/projects/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProjects((prev) => prev.filter((p) => p.id !== projectId));
+      if (selected?.id === projectId) {
+        setSelected(null);
+        setProgress(0);
+      }
+    } catch (err) {
+      console.error("Delete failed", err);
+      alert("Erreur lors de la suppression du projet");
+    }
+  };
+
+  // Archive project
+  const archiveProject = async (projectId) => {
+    try {
+      await axios.patch(
+        `${API}/workflows/projects/${projectId}`,
+        { status: "archived" },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      setProjects((prev) => prev.map((p) => 
+        p.id === projectId ? { ...p, status: "archived" } : p
+      ));
+      if (selected?.id === projectId) {
+        setSelected({ ...selected, status: "archived" });
+      }
+    } catch (err) {
+      console.error("Archive failed", err);
+      alert("Erreur lors de l'archivage du projet");
     }
   };
 
