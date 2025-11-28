@@ -3445,6 +3445,8 @@ function AppShell() {
           />
         } 
       />
+      <Route path="/admin-login" element={<AdminLoginPage />} />
+      <Route path="/admin" element={<AdminDashboardPage />} />
       <Route 
         path="/auth/callback" 
         element={<OAuthCallback />} 
