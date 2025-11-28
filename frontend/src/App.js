@@ -1294,15 +1294,18 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   )}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="flex-1 flex flex-col gap-4 text-sm sm:text-sm">
+              <CardContent className="flex-1 flex flex-col gap-4 sm:gap-6 text-sm">
                 {!selected ? (
-                  <p className="text-slate-400">{t("noProjects")}</p>
+                  <p className="text-slate-400 text-center py-8">{t("noProjects")}</p>
                 ) : (
                   <>
-                    {/* Étape 1 : Upload */}
-                    <div className="space-y-3">
-                      <h3 className="font-semibold text-slate-100 text-base sm:text-sm">Nom du repo</h3>
-                      <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+                    {/* Nom du repo */}
+                    <div className="space-y-3 p-4 sm:p-6 bg-slate-950/40 rounded-xl border border-slate-800/50">
+                      <h3 className="font-semibold text-slate-100 text-base sm:text-lg flex items-center gap-2">
+                        <span className="h-6 w-6 rounded-full bg-cyan-500/20 flex items-center justify-center text-xs text-cyan-400">✏️</span>
+                        Nom du repo
+                      </h3>
+                      <div className="space-y-3">
                         <Input
                           value={selected.name}
                           onChange={(e) => setSelected({ ...selected, name: e.target.value })}
@@ -1319,23 +1322,26 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                               console.error("Failed to update project name", err);
                             }
                           }}
-                          className="h-8 text-xs bg-slate-950/60 border-slate-700 max-w-xs"
+                          className="h-9 sm:h-10 text-sm bg-slate-950/60 border-slate-700 focus:border-cyan-500/50"
                         />
-                        <p className="text-[11px] text-slate-500 max-w-xs">
+                        <p className="text-xs sm:text-sm text-slate-400">
                           Ce nom sera utilisé comme nom du dépôt GitHub créé par Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span>.
                         </p>
                       </div>
                     </div>
 
                     {/* Étape 1 : Upload */}
-                    <div className="space-y-2">
-                      <h3 className="font-semibold text-slate-100 text-base sm:text-sm">1. Uploade tes fichiers</h3>
-                      <p className="text-xs text-slate-400">
+                    <div className="space-y-3 p-4 sm:p-6 bg-slate-950/40 rounded-xl border border-slate-800/50">
+                      <h3 className="font-semibold text-slate-100 text-base sm:text-lg flex items-center gap-2">
+                        <span className="h-6 w-6 rounded-full bg-violet-500/20 flex items-center justify-center text-xs text-violet-400 font-bold">1</span>
+                        Uploade tes fichiers
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-400">
                         Ajoute un ZIP ou quelques fichiers (code, texte, docs). L&apos;IA analysera ce contenu pour générer
                         la structure du repo et la documentation.
                       </p>
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                        <label className="inline-flex items-center px-3 py-2 rounded-full border border-dashed border-slate-700 bg-slate-900/60 hover:bg-slate-900 cursor-pointer text-[11px]">
+                        <label className="inline-flex items-center px-4 py-3 rounded-xl border border-dashed border-slate-700 bg-slate-900/60 hover:bg-slate-900 hover:border-cyan-500/50 cursor-pointer text-xs sm:text-sm transition-all">
                           <input
                             type="file"
                             multiple
@@ -1344,17 +1350,20 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                             disabled={uploading || processing}
                           />
                           <span className="mr-2">📁 Choisir des fichiers</span>
-                          <span className="text-[10px] text-slate-500">ZIP, .py, .js, .md, PDF…</span>
+                          <span className="text-xs text-slate-500">ZIP, .py, .js, .md, PDF…</span>
                         </label>
                         {uploading && (
-                          <span className="text-[11px] text-cyan-300">Upload en cours…</span>
+                          <span className="text-xs sm:text-sm text-cyan-300 animate-pulse">Upload en cours…</span>
                         )}
                       </div>
                     </div>
 
                     {/* Étape 2 : Lancer l'automatisation */}
-                    <div className="space-y-2">
-                      <h3 className="font-semibold text-slate-100 text-base sm:text-sm">2. Lancer l&apos;automatisation</h3>
+                    <div className="space-y-3 p-4 sm:p-6 bg-slate-950/40 rounded-xl border border-slate-800/50">
+                      <h3 className="font-semibold text-slate-100 text-base sm:text-lg flex items-center gap-2">
+                        <span className="h-6 w-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs text-emerald-400 font-bold">2</span>
+                        Lancer l&apos;automatisation
+                      </h3>
                       <p className="text-xs text-slate-400">
                         Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span> va créer un nouveau repo GitHub, générer README, .gitignore, LICENSE et CHANGELOG puis pousser
                         les commits.
