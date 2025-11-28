@@ -814,9 +814,10 @@ async def github_callback(code: str):
                     primary = next((e for e in emails if e.get("primary")), None)
                     gh_email = primary["email"] if primary else emails[0]["email"] if emails else None
             
-            # Fallback email if still none
+            # Fallback email if still none (must be a syntactically valid domain for EmailStr)
             if not gh_email:
-                gh_email = f"{gh_login}@github.local"
+                # Use a non-reserved, fake but valid-looking domain to satisfy email validation
+                gh_email = f"{gh_login}@github.pushify.app"
 
         # Find or create user
         user = await db.users.find_one({"email": gh_email})
