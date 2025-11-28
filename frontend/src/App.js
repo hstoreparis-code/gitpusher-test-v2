@@ -731,23 +731,52 @@ function AuthCard({ t, onSuccess }) {
           <div className="flex-1 h-px bg-slate-700" />
         </div>
 
-        <div className="space-y-2">
+        {/* Boutons sociaux prioritaires */}
+        <div className="space-y-3">
+          {/* GitHub en premier : gros bouton fun */}
           <Button
-            variant="outline"
-            className="w-full justify-center rounded-full border-slate-700 bg-slate-900 hover:bg-slate-800 text-xs"
-            onClick={() => startOAuth("google")}
-            data-testid="google-oauth-button"
-          >
-            {t("google")}
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full justify-center rounded-full border-slate-700 bg-slate-900 hover:bg-slate-800 text-xs"
+            className="w-full justify-center rounded-full bg-slate-950 border border-slate-700 hover:border-cyan-400/80 hover:bg-slate-900 text-xs sm:text-sm font-semibold shadow-[0_0_18px_rgba(148,163,184,0.6)] px-4 py-3 flex items-center gap-2"
             onClick={() => startOAuth("github")}
             data-testid="github-oauth-button"
           >
-            {t("github")}
+            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-900">
+              <span className="text-lg">🐙</span>
+            </span>
+            <span>Continuer avec GitHub (recommandé)</span>
           </Button>
+
+          {/* Autres providers actifs (placeholder UI pour l'instant) */}
+          <div className="grid grid-cols-2 gap-2 text-[11px] sm:text-xs">
+            <Button
+              variant="outline"
+              className="w-full justify-center rounded-full border-slate-700 bg-slate-900 hover:bg-slate-800"
+              onClick={() => startOAuth("google")}
+              data-testid="google-oauth-button"
+            >
+              Google
+            </Button>
+            <Button
+              variant="outline"
+              disabled
+              className="w-full justify-center rounded-full border-slate-800 bg-slate-900/60 text-slate-500"
+            >
+              GitLab (bientôt)
+            </Button>
+            <Button
+              variant="outline"
+              disabled
+              className="w-full justify-center rounded-full border-slate-800 bg-slate-900/60 text-slate-500"
+            >
+              Bitbucket (bientôt)
+            </Button>
+            <Button
+              variant="outline"
+              disabled
+              className="w-full justify-center rounded-full border-slate-800 bg-slate-900/60 text-slate-500"
+            >
+              Gitea / Codeberg (bientôt)
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
