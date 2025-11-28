@@ -1163,7 +1163,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   )}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="flex-1 flex flex-col gap-4 text-xs sm:text-sm">
+              <CardContent className="flex-1 flex flex-col gap-4 text-sm sm:text-sm">
                 {!selected ? (
                   <p className="text-slate-400">{t("noProjects")}</p>
                 ) : (
@@ -1199,7 +1199,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     {/* Étape 1 : Upload */}
                     <div className="space-y-2">
                       <h3 className="font-semibold text-slate-100 text-sm">1. Uploade tes fichiers</h3>
-                      <p className="text-[11px] text-slate-400">
+                      <p className="text-xs text-slate-400">
                         Ajoute un ZIP ou quelques fichiers (code, texte, docs). L&apos;IA analysera ce contenu pour générer
                         la structure du repo et la documentation.
                       </p>
@@ -1224,7 +1224,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     {/* Étape 2 : Lancer l'automatisation */}
                     <div className="space-y-2">
                       <h3 className="font-semibold text-slate-100 text-sm">2. Lancer l&apos;automatisation</h3>
-                      <p className="text-[11px] text-slate-400">
+                      <p className="text-xs text-slate-400">
                         GitPusher va créer un nouveau repo GitHub, générer README, .gitignore, LICENSE et CHANGELOG puis pousser
                         les commits.
                       </p>
