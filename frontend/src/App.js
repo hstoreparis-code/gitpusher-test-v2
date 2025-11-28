@@ -383,7 +383,16 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               AI Git Automation
             </p>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-tight max-w-2xl mx-auto lg:mx-0">
-              {t("heroTitle")}<span className="text-cyan-300 text-6xl sm:text-7xl align-baseline leading-none drop-shadow-[0_0_14px_rgba(56,189,248,0.9)]">.</span>
+              {lang === "fr" ? (
+                <>
+                  Workflow Git <span className="whitespace-nowrap">No-Code</span>
+                </>
+              ) : (
+                <>
+                  <span className="whitespace-nowrap">No-Code</span> Git Workflow
+                </>
+              )}
+              <span className="text-cyan-300 text-6xl sm:text-7xl align-baseline leading-none drop-shadow-[0_0_14px_rgba(56,189,248,0.9)]">.</span>
             </h1>
             {lang === "fr" ? (
               <p className="text-[13px] sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0">
