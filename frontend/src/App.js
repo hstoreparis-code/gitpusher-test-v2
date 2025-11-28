@@ -911,8 +911,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
         mounted ? "opacity-100" : "opacity-0"
       }`}
     >
-      <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-20 bg-slate-950/80">
+        <div className="w-full px-4 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 min-w-0">
             <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
               <DownloadCloud className="h-5 w-5 text-slate-950" />
@@ -972,10 +972,11 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               <Popover>
                 <PopoverTrigger asChild>
                   <button
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 max-w-[160px]"
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 max-w-[140px] sm:max-w-[200px]"
                     data-testid="dashboard-user-menu-button"
                   >
-                    <span className="truncate text-slate-200 text-xs sm:text-sm">{user?.email || "Compte"}</span>
+                    <span className="hidden sm:inline truncate text-slate-200 text-xs sm:text-sm">{user?.email || "Compte"}</span>
+                    <span className="inline-flex sm:hidden items-center justify-center h-4 w-4 rounded-full bg-slate-800 text-[10px]">👤</span>
                     <span className="text-[10px] text-slate-400">▼</span>
                   </button>
                 </PopoverTrigger>
