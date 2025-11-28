@@ -1119,7 +1119,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           </Card>
         </div>
 
-        <div className="grid lg:grid-cols-[1.1fr,1.4fr] gap-6">
+        <div className="grid md:grid-cols-[1.1fr,1.4fr] gap-4 sm:gap-6">
           {/* Projects List */}
           <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-sm">
             <CardHeader className="flex flex-row items-center justify-between gap-4 pb-4">
