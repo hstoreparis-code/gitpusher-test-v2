@@ -1773,6 +1773,20 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
               </CardContent>
             </Card>
           </section>
+
+          {/* Monthly Subscriptions - Keep existing */}
+          <section className="space-y-6">
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-bold">Ou choisissez un abonnement mensuel</h2>
+              <p className="text-sm text-slate-400">Uploads illimités chaque mois</p>
+            </div>
+            
+            <div className="grid gap-6 md:grid-cols-3">
+              {/* Freemium */}
+              <Card
+                className="bg-slate-900/70 border-slate-800 flex flex-col justify-between"
+                data-testid="pricing-freemium-card"
+              >
               <CardHeader className="space-y-2">
                 <CardTitle className="text-base flex items-center justify-between">
                   <span>🌱 Freemium</span>
