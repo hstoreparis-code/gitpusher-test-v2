@@ -813,6 +813,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   
   // State for uploaded files
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  
+  // State for project actions menu
+  const [projectMenuOpen, setProjectMenuOpen] = useState(null);
 
   useEffect(() => {
     setMounted(true);
