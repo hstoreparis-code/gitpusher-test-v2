@@ -244,6 +244,17 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
+  // Ouvre automatiquement la modale de connexion si on a été redirigé depuis /app sans token
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const shouldOpen = window.localStorage.getItem("open_auth_on_landing");
+    if (shouldOpen) {
+      setAuthOpen(true);
+      window.localStorage.removeItem("open_auth_on_landing");
+    }
+  }, []);
+
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex flex-col">
       <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
@@ -301,12 +312,6 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             >
               <span className="text-cyan-300">💎</span>
               <span className="text-slate-100">Plans &amp; Tarifs</span>
-            </button>
-            <button
-              onClick={() => navigate("/app/pro")}
-              className="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-sm font-semibold shadow-[0_0_18px_rgba(56,189,248,0.85)]"
-            >
-              <span>Pro Dashboard</span>
             </button>
 
             <Popover>
@@ -369,10 +374,14 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                 className="mt-2 w-80 bg-slate-900/95 border border-slate-700/80 shadow-xl rounded-2xl p-0 overflow-hidden"
                 data-testid="auth-popover-content"
               >
-                <AuthCard t={t} onSuccess={() => {
-                  setAuthOpen(false);
-                  navigate("/app");
-                }} />
+                <AuthCard
+                  t={t}
+                  onSuccess={() => {
+                    setAuthOpen(false);
+                    navigate("/app");
+                  }}
+                  onClose={() => setAuthOpen(false)}
+                />
               </PopoverContent>
             </Popover>
             <button
@@ -624,7 +633,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
   );
 }
 
-function AuthCard({ t, onSuccess }) {
+function AuthCard({ t, onSuccess, onClose }) {
   const { login, register } = useAuth();
   const navigate = useNavigate();
   const [tab, setTab] = useState("login");
@@ -634,6 +643,8 @@ function AuthCard({ t, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [oauthProvider, setOauthProvider] = useState(null);
   const [error, setError] = useState("");
+
+  const { token } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -691,7 +702,15 @@ function AuthCard({ t, onSuccess }) {
   };
 
   return (
-    <Card className="bg-slate-900/70 border-white/10 shadow-2xl shadow-cyan-500/20 text-slate-50">
+    <Card className="bg-slate-900/70 border-white/10 shadow-2xl shadow-cyan-500/20 text-slate-50 relative">
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute right-3 top-2 text-slate-300 hover:text-white text-2xl leading-none"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
       <CardHeader>
         <CardTitle className="text-base font-semibold">
           Connexion via Git providers
@@ -773,6 +792,17 @@ function AuthCard({ t, onSuccess }) {
             Pour utiliser Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span>, inscris-toi ou connecte-toi avec l&apos;un de ces providers.
           </p>
         </div>
+        {/* Bouton Accès Business sous les providers */}
+        <div className="mt-5 flex flex-col gap-3 items-stretch">
+          <Button
+            className="w-full justify-center rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-sm font-semibold px-3 py-2 flex items-center gap-2 shadow-[0_0_18px_rgba(56,189,248,0.85)]"
+            onClick={() => navigate("/app/pro")}
+            data-testid="auth-pro-dashboard-button"
+          >
+            Accès Business
+          </Button>
+        </div>
+
 
         {/* Auth email désactivée : l'accès se fait uniquement via OAuth */}
         {/* Les onglets et formulaires email/mot de passe ont été retirés pour simplifier l'onboarding */}
@@ -804,6 +834,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   
   // State for auth modal
   const [authOpen, setAuthOpen] = useState(false);
+  const currentPlan = (user?.plan || "freemium").toLowerCase();
+
   
   // State for uploaded files
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -960,7 +992,17 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     }
   };
 
-  if (!token) return <Navigate to="/" replace />;
+  // Si pas de token, on redirige vers la landing et on demande l'ouverture de la modale de connexion
+  useEffect(() => {
+    if (!token) {
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("open_auth_on_landing", "1");
+      }
+      navigate("/", { replace: true });
+    }
+  }, [token, navigate]);
+
+  if (!token) return null;
 
   return (
     <div
@@ -984,15 +1026,38 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               </span>
               <span className="text-[11px] md:text-[13px] text-slate-400 truncate">No-Code GitHub workflow</span>
             </div>
+          {/* Toggle Free / Premium */}
+          <div className="hidden sm:flex items-center gap-2">
+            <div className="px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700/80 flex items-center gap-2 shadow-[0_0_12px_rgba(15,23,42,0.6)]">
+              <span className={`text-[10px] font-medium ${currentPlan === "freemium" ? "text-slate-50" : "text-slate-400"}`}>
+                Free
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  if (currentPlan !== "premium") {
+                    navigate("/pricing#pro");
+                  }
+                }}
+                className={`relative w-12 h-6 rounded-full transition-colors duration-200 ${
+                  currentPlan === "premium" ? "bg-cyan-500" : "bg-slate-300"
+                }`}
+                aria-label="Basculer vers Premium"
+              >
+                <span
+                  className={`absolute top-[3px] w-4 h-4 rounded-full bg-black transition-transform duration-200 ${
+                    currentPlan === "premium" ? "translate-x-[26px]" : "translate-x-[2px]"
+                  }`}
+                />
+              </button>
+              <span className={`text-[10px] font-medium ${currentPlan === "premium" ? "text-slate-50" : "text-slate-400"}`}>
+                Premium
+              </span>
+            </div>
+          </div>
+
           </button>
           <div className="flex items-center gap-2 sm:gap-4 text-[11px] sm:text-sm">
-            <Button
-              size="sm"
-              className="hidden sm:inline-flex rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-[11px] font-semibold shadow-[0_0_16px_rgba(56,189,248,0.8)]"
-              onClick={() => navigate("/app/pro")}
-            >
-              Mode Pro
-            </Button>
             <div className="hidden xs:flex items-center gap-2">
               <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
               <Switch
@@ -1184,13 +1249,18 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             </div>
           </CardContent>
         </Card>
+
+        {/* Rest of dashboard content would go here */}
       </main>
     </div>
   );
 }
 
 function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
+  // utilisateur Business / Premium
   const { token, user, logout } = useAuth();
+  const effectivePlan = user?.plan?.toLowerCase?.() || "freemium";
+
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [jobs, setJobs] = useState([]);
@@ -1343,12 +1413,12 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
         <Card className="bg-gradient-to-r from-cyan-500/15 via-slate-900/80 to-violet-500/10 border-cyan-400/40">
           <CardContent className="py-4 px-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <p className="text-xs text-cyan-300 mb-1">Mode Pro</p>
+              <p className="text-xs text-cyan-300 mb-1">Accès Business</p>
               <h1 className="text-lg sm:text-xl font-semibold">
-                Vue d&apos;ensemble avancée de tes workflows Git et de l&apos;activité IA
+                Vue d&apos;ensemble avancée pour équipes &amp; organisations
               </h1>
               <p className="text-[11px] sm:text-xs text-slate-300 mt-1">
-                Uploads illimités, analytics détaillées, multi-providers et automations avancées.
+                10 à 200 utilisateurs, API complète + webhooks, automations avancées et tableau de bord boosté IA.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -1363,32 +1433,47 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
         </Card>
 
         {/* Statistiques principales */}
-        <div className="grid gap-4 md:grid-cols-4">
+        {/* Mobile : cartes compactes en 2 colonnes ; Desktop : 4 colonnes comme avant */}
+        <div className="grid gap-3 grid-cols-2 md:gap-4 md:grid-cols-4">
           <Card className="bg-slate-900/80 border-slate-800/80">
-            <CardContent className="py-3 px-4">
-              <p className="text-[11px] text-slate-400 mb-1">Projets actifs</p>
-              <p className="text-2xl font-semibold text-cyan-300">{activeProjects}</p>
-              <p className="text-[10px] text-slate-500 mt-1">sur {totalProjects} au total</p>
+            <CardContent className="py-3 px-3 sm:px-4">
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-[10px] sm:text-[11px] text-slate-400">Projets actifs</p>
+                {(effectivePlan === "premium" || effectivePlan === "business") && (
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-400/40">
+                    {effectivePlan === "business" ? "Business" : "Premium"}
+                  </span>
+                )}
+              </div>
+              <p className="text-xl sm:text-2xl font-semibold text-cyan-300">{activeProjects}</p>
+              <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1">sur {totalProjects} au total</p>
             </CardContent>
           </Card>
           <Card className="bg-slate-900/80 border-slate-800/80">
-            <CardContent className="py-3 px-4">
-              <p className="text-[11px] text-slate-400 mb-1">Jobs complétés</p>
-              <p className="text-2xl font-semibold text-emerald-300">{completedJobs}</p>
-              <p className="text-[10px] text-slate-500 mt-1">{failedJobs} en erreur</p>
+            <CardContent className="py-3 px-3 sm:px-4">
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-[10px] sm:text-[11px] text-slate-400">Jobs complétés</p>
+                {effectivePlan === "business" && (
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-200 border border-amber-400/40">
+                    Business
+                  </span>
+                )}
+              </div>
+              <p className="text-xl sm:text-2xl font-semibold text-emerald-300">{completedJobs}</p>
+              <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1">{failedJobs} en erreur</p>
             </CardContent>
           </Card>
           <Card className="bg-slate-900/80 border-slate-800/80">
-            <CardContent className="py-3 px-4">
-              <p className="text-[11px] text-slate-400 mb-1">Taux de succès</p>
-              <p className="text-2xl font-semibold text-cyan-300">{successRate}%</p>
-              <p className="text-[10px] text-slate-500 mt-1">basé sur tous les jobs</p>
+            <CardContent className="py-3 px-3 sm:px-4">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 mb-1">Taux de succès</p>
+              <p className="text-xl sm:text-2xl font-semibold text-cyan-300">{successRate}%</p>
+              <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1">basé sur tous les jobs</p>
             </CardContent>
           </Card>
           <Card className="bg-slate-900/80 border-slate-800/80">
-            <CardContent className="py-3 px-4">
-              <p className="text-[11px] text-slate-400 mb-1">Providers utilisés</p>
-              <div className="flex flex-wrap gap-1 mt-1 text-[10px] text-slate-200">
+            <CardContent className="py-3 px-3 sm:px-4">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 mb-1">Providers utilisés</p>
+              <div className="flex flex-wrap gap-1 mt-1 text-[9px] sm:text-[10px] text-slate-200">
                 {Object.keys(providerCounts).length === 0 && <span>Aucun pour l&apos;instant</span>}
                 {Object.entries(providerCounts).map(([prov, count]) => (
                   <span
@@ -1593,22 +1678,21 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
           </CardHeader>
           <CardContent className="grid gap-3 md:grid-cols-3 text-xs sm:text-sm">
             <div className="space-y-1">
-              <p className="text-slate-200 font-medium text-[12px]">Multi-utilisateurs (10 à 200)</p>
+              <p className="text-slate-200 font-medium text-[12px]">10 à 200 utilisateurs</p>
               <p className="text-slate-400 text-[11px]">
-                Visualise et gère plusieurs comptes connectés (étudiants, équipe marketing, clients SaaS) sur un même
-                espace.
+                Gestion multi-comptes (écoles, agences, équipes SaaS, créateurs IA) sur un même espace centralisé.
               </p>
             </div>
             <div className="space-y-1">
-              <p className="text-slate-200 font-medium text-[12px]">Branding &amp; espaces dédiés</p>
+              <p className="text-slate-200 font-medium text-[12px]">Intégration API complète + webhooks</p>
               <p className="text-slate-400 text-[11px]">
-                Logo, couleurs, sous-domaine et règles d&apos;automatisation propres à chaque organisation.
+                API Partner, webhooks avancés et automations (CI/CD auto, nettoyage, versioning IA) pour vos dépôts.
               </p>
             </div>
             <div className="space-y-1">
-              <p className="text-slate-200 font-medium text-[12px]">SLA &amp; support prioritaire</p>
+              <p className="text-slate-200 font-medium text-[12px]">Tableau de bord IA &amp; SLA entreprise</p>
               <p className="text-slate-400 text-[11px]">
-                Canal Slack dédié, support 12h, accompagnement à l&apos;intégration pour les offres Business.
+                Tableau de bord boosté IA, branding entreprise, SLA &amp; support dédié (Slack, 12h).
               </p>
             </div>
           </CardContent>
@@ -1617,885 +1701,6 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
     </div>
   );
 }
-
-// TODO: cleanup duplicate test buttons removed here
-
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => {
-                    const currentUser = testUser || authUser;
-                    setTestUser({ ...currentUser, credits: 1, plan: "Free" });
-                  }}
-                  variant="outline"
-                  className="text-xs border-amber-500/50 text-amber-300 hover:bg-amber-500/20"
-                >
-                  ⚠️ Mode Alerte
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => {
-                    setTestUser(null);
-                  }}
-                  variant="outline"
-                  className="text-xs border-slate-500/50 text-slate-300 hover:bg-slate-500/20"
-                >
-                  Reset
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <div className="mb-4 sm:mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-            <div>
-              <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
-                DASHBOARD
-              </h1>
-              <p className="hidden sm:block text-slate-400 text-sm mt-1">Gérez vos workflows Git alimentés par l'IA</p>
-            </div>
-            
-            {/* Credits & Subscription Card */}
-            <Card className="bg-gradient-to-br from-violet-500/10 via-slate-900/70 to-slate-900/70 border-violet-500/30 backdrop-blur-sm transition-all">
-              <CardContent className="p-3 sm:p-4">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  {/* Circular Progress */}
-                  <div className="relative h-16 w-16 sm:h-20 sm:w-20 flex-shrink-0">
-                    <svg className="transform -rotate-90 h-full w-full" viewBox="0 0 100 100">
-                      {/* Background circle */}
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="45"
-                        fill="none"
-                        stroke="rgba(139, 92, 246, 0.1)"
-                        strokeWidth="8"
-                      />
-                      {/* Progress circle */}
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="45"
-                        fill="none"
-                        stroke={`${(user?.credits || 0) <= 2 ? 'rgba(239, 68, 68, 0.8)' : 'rgba(139, 92, 246, 0.8)'}`}
-                        strokeWidth="8"
-                        strokeLinecap="round"
-                        strokeDasharray={`${((user?.credits || 0) / 100) * 283} 283`}
-                        className="transition-all duration-500"
-                      />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className={`text-xl sm:text-2xl font-bold ${(user?.credits || 0) <= 2 ? 'text-red-400' : 'text-violet-300'}`}>
-                        {user?.credits || 0}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm text-slate-400">Crédits restants</p>
-                    <p className="text-sm sm:text-base font-semibold text-violet-200">
-                      Plan: <span className="text-violet-300">{user?.plan || "Free"}</span>
-                    </p>
-                    {(user?.credits || 0) <= 2 && (
-                      <p className="text-[10px] sm:text-xs text-red-400 mt-1 font-semibold">
-                        ⚠️ Crédits faibles !
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Desktop Button */}
-                  <Button
-                    size="sm"
-                    onClick={() => navigate("/pricing")}
-                    className="hidden sm:flex px-4 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-slate-950 text-sm font-semibold shadow-lg"
-                  >
-                    🚀 Mise à niveau
-                  </Button>
-
-                  {/* Mobile Button */}
-                  <Button
-                    size="sm"
-                    onClick={() => navigate("/pricing")}
-                    className="sm:hidden px-3 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-slate-950 text-xs font-semibold shadow-lg"
-                  >
-                    🚀
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Stats Cards - Mobile */}
-        <div className="grid grid-cols-2 gap-3 sm:hidden">
-          {/* Total Projects */}
-          <Card className="bg-slate-900/80 border border-slate-800 rounded-xl">
-            <CardContent className="p-3 flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-400">Total Projects</span>
-                <div className="h-7 w-7 rounded-lg bg-cyan-500/15 flex items-center justify-center">
-                  <GitBranch className="h-4 w-4 text-cyan-400" />
-                </div>
-              </div>
-              <p className="text-lg font-semibold text-cyan-300 leading-tight">{projects.length}</p>
-              <p className="text-[10px] text-slate-500">Workflows créés avec l&apos;IA.</p>
-            </CardContent>
-          </Card>
-
-          {/* Completed Projects */}
-          <Card className="bg-slate-900/80 border border-slate-800 rounded-xl">
-            <CardContent className="p-3 flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-400">Completed</span>
-                <div className="h-7 w-7 rounded-lg bg-emerald-500/15 flex items-center justify-center">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                </div>
-              </div>
-              <p className="text-lg font-semibold text-emerald-300 leading-tight">
-                {projects.filter(p => p.status === "done").length}
-              </p>
-              <p className="text-[10px] text-slate-500">Workflows terminés avec succès.</p>
-            </CardContent>
-          </Card>
-
-          {/* Pending Projects */}
-          <Card className="bg-slate-900/80 border border-slate-800 rounded-xl">
-            <CardContent className="p-3 flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-400">Pending</span>
-                <div className="h-7 w-7 rounded-lg bg-amber-500/15 flex items-center justify-center">
-                  <Clock className="h-4 w-4 text-amber-400" />
-                </div>
-              </div>
-              <p className="text-lg font-semibold text-amber-300 leading-tight">
-                {projects.filter(p => p.status !== "done").length}
-              </p>
-              <p className="text-[10px] text-slate-500">Workflows en attente de traitement.</p>
-            </CardContent>
-          </Card>
-
-          {/* Total Jobs */}
-          <Card className="bg-slate-900/80 border border-slate-800 rounded-xl">
-            <CardContent className="p-3 flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-400">Total Jobs</span>
-                <div className="h-7 w-7 rounded-lg bg-violet-500/15 flex items-center justify-center">
-                  <Activity className="h-4 w-4 text-violet-400" />
-                </div>
-              </div>
-              <p className="text-lg font-semibold text-violet-300 leading-tight">{jobs.length}</p>
-              <p className="text-[10px] text-slate-500">Exécutions IA effectuées.</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Stats Cards - Desktop/Tablet */}
-        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-          {/* Total Projects */}
-          <Card className="bg-gradient-to-br from-cyan-500/10 via-slate-900/70 to-slate-900/70 border-cyan-500/20 backdrop-blur-sm hover:border-cyan-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="h-12 w-12 rounded-xl bg-cyan-500/20 flex items-center justify-center ring-2 ring-cyan-500/30">
-                  <GitBranch className="h-6 w-6 text-cyan-400" />
-                </div>
-              </div>
-              <p className="text-sm text-slate-100 mb-2 font-semibold">Total Projects</p>
-              <p className="text-3xl font-bold text-cyan-300">{projects.length}</p>
-              <p className="text-xs text-slate-300 mt-2">Workflows créés avec l'IA</p>
-            </CardContent>
-          </Card>
-
-          {/* Completed Projects */}
-          <Card className="bg-gradient-to-br from-emerald-500/10 via-slate-900/70 to-slate-900/70 border-emerald-500/20 backdrop-blur-sm hover:border-emerald-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="h-12 w-12 rounded-xl bg-emerald-500/20 flex items-center justify-center ring-2 ring-emerald-500/30">
-                  <CheckCircle2 className="h-6 w-6 text-emerald-400" />
-                </div>
-              </div>
-              <p className="text-sm text-slate-100 mb-2 font-semibold">Completed</p>
-              <p className="text-3xl font-bold text-emerald-300">
-                {projects.filter(p => p.status === "done").length}
-              </p>
-              <p className="text-xs text-slate-300 mt-2">Workflows terminés avec succès</p>
-            </CardContent>
-          </Card>
-
-          {/* Pending Projects */}
-          <Card className="bg-gradient-to-br from-amber-500/10 via-slate-900/70 to-slate-900/70 border-amber-500/20 backdrop-blur-sm hover:border-amber-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/20">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="h-12 w-12 rounded-xl bg-amber-500/20 flex items-center justify-center ring-2 ring-amber-500/30">
-                  <Clock className="h-6 w-6 text-amber-400" />
-                </div>
-              </div>
-              <p className="text-sm text-slate-100 mb-2 font-semibold">Pending</p>
-              <p className="text-3xl font-bold text-amber-300">
-                {projects.filter(p => p.status !== "done").length}
-              </p>
-              <p className="text-xs text-slate-300 mt-2">En attente de traitement</p>
-            </CardContent>
-          </Card>
-
-          {/* Total Jobs */}
-          <Card className="bg-gradient-to-br from-violet-500/10 via-slate-900/70 to-slate-900/70 border-violet-500/20 backdrop-blur-sm hover:border-violet-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/20">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="h-12 w-12 rounded-xl bg-violet-500/20 flex items-center justify-center ring-2 ring-violet-500/30">
-                  <Activity className="h-6 w-6 text-violet-400" />
-                </div>
-              </div>
-              <p className="text-sm text-slate-100 mb-2 font-semibold">Total Jobs</p>
-              <p className="text-3xl font-bold text-violet-300">{jobs.length}</p>
-              <p className="text-xs text-slate-300 mt-2">Exécutions IA effectuées</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid md:grid-cols-[1fr,1.5fr] gap-3 sm:gap-6 lg:gap-8">
-          {/* Projects List */}
-          <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-sm hover:border-slate-700 transition-colors">
-            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 sm:pb-6">
-              <div className="flex items-center gap-3 w-full sm:w-auto min-w-0 flex-1">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 rounded-xl bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/30">
-                  <GitBranch className="h-5 w-5 sm:h-6 sm:w-6 text-slate-950" />
-                </div>
-                <div className="flex flex-col min-w-0 flex-1">
-                  <CardTitle className="text-sm sm:text-xl leading-snug truncate font-bold">
-                    {t("dashboardTitle")}
-                  </CardTitle>
-                  <p className="hidden sm:block text-sm text-slate-400 mt-1 truncate">
-                    Clique sur un workflow puis renomme le repo avant de lancer.
-                  </p>
-                </div>
-              </div>
-              <Button
-                size="sm"
-                className="w-full sm:w-auto flex-shrink-0 justify-center rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-3 shadow-lg hover:shadow-xl transition-all"
-                onClick={newProject}
-                disabled={creating}
-                data-testid="new-workflow-button"
-              >
-                {creating ? "…" : t("newWorkflow")}
-              </Button>
-            </CardHeader>
-            <CardContent className="flex-1 overflow-auto space-y-3">
-              {loading ? (
-                <div className="flex items-center justify-center py-8">
-                  <div className="h-8 w-8 border-3 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-                </div>
-              ) : projects.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <div className="h-16 w-16 rounded-full bg-slate-800/50 flex items-center justify-center mb-4">
-                    <GitBranch className="h-8 w-8 text-slate-600" />
-                  </div>
-                  <p className="text-sm text-slate-400" data-testid="no-projects-text">
-                    {t("noProjects")}
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-2" data-testid="projects-list">
-                  {projects.map((p) => (
-                    <div
-                      key={p.id}
-                      className={`group relative w-full text-left text-sm sm:text-sm px-3 py-2 rounded-xl border transition-all duration-200 ${
-                        selected?.id === p.id
-                          ? "bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border-cyan-400/60 shadow-lg shadow-cyan-500/20"
-                          : "bg-slate-900/80 border-slate-800 hover:border-slate-600 hover:shadow-md"
-                      }`}
-                      data-testid={`project-card-${p.id}`}
-                    >
-                      <button
-                        onClick={() => setSelected(p)}
-                        className="w-full text-left"
-                      >
-                        <div className="flex items-center justify-between gap-2 mb-2">
-                          <div className="flex items-center gap-2 flex-1 min-w-0">
-                            <div className={`h-2 w-2 rounded-full flex-shrink-0 ${
-                              p.status === "done" ? "bg-emerald-400" : 
-                              p.status === "archived" ? "bg-slate-500" : "bg-amber-400"
-                            } ${selected?.id === p.id ? "animate-pulse" : ""}`}></div>
-                            <span className="font-medium truncate">{p.name}</span>
-                          </div>
-                          <div className="flex items-center gap-2 flex-shrink-0">
-                            <span
-                              className={`text-xs px-2 py-1 rounded-full border font-medium ${
-                                p.status === "done"
-                                  ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-300"
-                                  : p.status === "archived"
-                                  ? "border-slate-500/50 bg-slate-500/10 text-slate-400"
-                                  : "border-amber-400/50 bg-amber-400/10 text-amber-200"
-                              }`}
-                              data-testid="project-status-pill"
-                        >
-                          {p.status === "archived" ? "Archivé" : p.status}
-                        </span>
-                          </div>
-                        </div>
-                        {p.github_repo_url && (
-                          <div className="flex items-center gap-1.5 text-[11px] text-cyan-400 truncate">
-                            <Rocket className="h-3 w-3" />
-                            <span className="truncate">{p.github_repo_url}</span>
-                          </div>
-                        )}
-                      </button>
-
-                      {/* Actions Menu */}
-                      <Popover open={projectMenuOpen === p.id} onOpenChange={(open) => setProjectMenuOpen(open ? p.id : null)}>
-                        <PopoverTrigger asChild>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setProjectMenuOpen(projectMenuOpen === p.id ? null : p.id);
-                            }}
-                            className="absolute top-2 right-2 p-1.5 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/30 hover:border-cyan-400/80 transition-all shadow-[0_0_8px_rgba(34,211,238,0.4)] hover:shadow-[0_0_12px_rgba(34,211,238,0.6)]"
-                          >
-                            <span className="text-cyan-300 font-bold">⋮</span>
-                          </button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-48 p-2 bg-slate-900/95 border border-slate-700/80 shadow-xl rounded-xl" align="end">
-                          <div className="space-y-1">
-                            {/* Modifier */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelected(p);
-                                setProjectMenuOpen(null);
-                              }}
-                              className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-slate-800 transition-all text-left"
-                            >
-                              <span className="text-cyan-400">✏️</span>
-                              <span className="text-sm text-slate-200">Modifier</span>
-                            </button>
-
-                            {/* Archiver/Désarchiver */}
-                            {p.status !== "archived" ? (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  archiveProject(p.id);
-                                  setProjectMenuOpen(null);
-                                }}
-                                className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-slate-800 transition-all text-left"
-                              >
-                                <span className="text-amber-400">📦</span>
-                                <span className="text-sm text-slate-200">Archiver</span>
-                              </button>
-                            ) : (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  archiveProject(p.id);
-                                  setProjectMenuOpen(null);
-                                }}
-                                className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-slate-800 transition-all text-left"
-                              >
-                                <span className="text-emerald-400">📤</span>
-                                <span className="text-sm text-slate-200">Désarchiver</span>
-                              </button>
-                            )}
-
-                            {/* Supprimer */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                deleteProject(p.id);
-                                setProjectMenuOpen(null);
-                              }}
-                              className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-red-500/20 transition-all text-left"
-                            >
-                              <span className="text-red-400">🗑️</span>
-                              <span className="text-sm text-red-300">Supprimer</span>
-                            </button>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <div className="space-y-4">
-            <Card className="bg-slate-900/70 border-slate-800 flex flex-col text-sm hover:border-slate-700 transition-colors" data-testid="project-stepper-card">
-              <CardHeader className="pb-4 sm:pb-6">
-                <CardTitle className="text-base sm:text-xl flex items-center justify-between font-bold">
-                  <span>{selected ? selected.name : t("stepUpload")}</span>
-                  {selected && selected.github_repo_url && (
-                    <a
-                      href={selected.github_repo_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-400/70 bg-cyan-500/10 hover:bg-cyan-500/30 text-xs sm:text-sm text-cyan-200 font-semibold shadow-[0_0_12px_rgba(34,211,238,0.8)] neon-flicker transition-all"
-                      data-testid="project-github-link"
-                    >
-                      <Rocket className="h-4 w-4" />
-                      <span>{t("linkRepo")}</span>
-                    </a>
-                  )}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col gap-4 sm:gap-6 text-sm">
-                {!selected ? (
-                  <p className="text-slate-400 text-center py-8">{t("noProjects")}</p>
-                ) : (
-                  <>
-                    {/* Nom du repo */}
-                    <div className="space-y-3 p-4 sm:p-6 bg-slate-950/40 rounded-xl border border-slate-800/50">
-                      <h3 className="font-semibold text-slate-100 text-base sm:text-lg flex items-center gap-2">
-                        <span className="h-6 w-6 rounded-full bg-cyan-500/20 flex items-center justify-center text-xs text-cyan-400">✏️</span>
-                        Nom du repo
-                      </h3>
-                      <div className="space-y-3">
-                        <div className="flex flex-col sm:flex-row gap-2">
-                          <Input
-                            value={selected.name}
-                            onChange={(e) => setSelected({ ...selected, name: e.target.value })}
-                            className="h-9 sm:h-10 text-sm bg-slate-950/60 border-slate-700 focus:border-cyan-500/50 flex-1"
-                            placeholder="Entrez le nom du repo"
-                          />
-                          <Button
-                            size="sm"
-                            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-sm font-semibold shadow-lg whitespace-nowrap"
-                            onClick={async () => {
-                              const newName = selected.name?.trim();
-                              if (!newName) {
-                                alert("Le nom du repo ne peut pas être vide");
-                                return;
-                              }
-                              try {
-                                await axios.patch(
-                                  `${API}/workflows/projects/${selected.id}`,
-                                  { name: newName },
-                                  { headers: { Authorization: `Bearer ${token}` } },
-                                );
-                                // Update local state with confirmed name
-                                setSelected({ ...selected, name: newName });
-                                // Show success feedback
-                                const successMsg = document.getElementById(`success-${selected.id}`);
-                                if (successMsg) {
-                                  successMsg.classList.remove('hidden');
-                                  setTimeout(() => {
-                                    successMsg.classList.add('hidden');
-                                  }, 3000);
-                                }
-                              } catch (err) {
-                                console.error("Failed to update project name", err);
-                                alert("Erreur lors de la mise à jour du nom");
-                              }
-                            }}
-                            className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-sm font-semibold shadow-lg whitespace-nowrap"
-                          >
-                            ✓ Confirmer
-                          </Button>
-                        </div>
-                        <div id={`success-${selected.id}`} className="hidden flex items-center gap-2 p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-                          <span className="text-emerald-400">✓</span>
-                          <p className="text-xs sm:text-sm text-emerald-300">
-                            Nom du repo mis à jour avec succès !
-                          </p>
-                        </div>
-                        <p className="text-xs sm:text-sm text-slate-400">
-                          Ce nom sera utilisé comme nom du dépôt GitHub créé par Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span>.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Sélection Provider Git */}
-                    <div className="space-y-3 p-4 sm:p-6 bg-slate-950/40 rounded-xl border border-slate-800/50">
-                      <h3 className="font-semibold text-slate-100 text-base sm:text-lg flex items-center gap-2">
-                        <span className="h-6 w-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs text-emerald-400">🔗</span>
-                        Choisir votre hébergeur Git
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-400">
-                        Sélectionnez la plateforme où votre dépôt sera créé
-                      </p>
-                      
-                      {/* Dropdown Menu */}
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <button
-                            className="w-full flex items-center justify-between p-4 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-900 hover:border-cyan-500/50 transition-all"
-                          >
-                            <div className="flex items-center gap-3">
-                              {selectedProvider === "github" && (
-                                <>
-                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                                  </svg>
-                                  <div className="flex flex-col items-start">
-                                    <span className="text-sm font-semibold text-slate-200">GitHub</span>
-                                    {user?.github_access_token && (
-                                      <span className="text-[10px] text-emerald-400">✓ Connecté</span>
-                                    )}
-                                  </div>
-                                </>
-                              )}
-                              {selectedProvider === "gitlab" && (
-                                <>
-                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="m23.6004 9.5927-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.9764 3.7296 2.4602 1.8633 1.4991 1.1321a1.0116 1.0116 0 0 0 1.2177 0l1.4991-1.1321 2.4602-1.8633 5.0077-3.7509.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"/>
-                                  </svg>
-                                  <span className="text-sm font-semibold text-slate-200">GitLab</span>
-                                </>
-                              )}
-                              {selectedProvider === "bitbucket" && (
-                                <>
-                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M.778 1.213a.768.768 0 00-.768.892l3.263 19.81c.084.5.515.868 1.022.873H19.95a.772.772 0 00.77-.646l3.27-20.03a.768.768 0 00-.768-.891zM14.52 15.53H9.522L8.17 8.466h7.561z"/>
-                                  </svg>
-                                  <span className="text-sm font-semibold text-slate-200">Bitbucket</span>
-                                </>
-                              )}
-                              {selectedProvider === "gitea" && (
-                                <>
-                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M4.186 5.74A9.26 9.26 0 0 0 12 18.26a9.26 9.26 0 0 0 7.814-12.52 9.26 9.26 0 0 0-15.628 0zm8.08 10.396a1.503 1.503 0 1 1 0-3.006 1.503 1.503 0 0 1 0 3.006z"/>
-                                  </svg>
-                                  <span className="text-sm font-semibold text-slate-200">Gitea</span>
-                                </>
-                              )}
-                              {selectedProvider === "codeberg" && (
-                                <>
-                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11.955.49A12 12 0 0 0 0 12.49a12 12 0 0 0 1.832 6.373L11.838 5.928a1.2 1.2 0 0 1 1.054-.623 1.2 1.2 0 0 1 1.054.623l10.006 12.935A12 12 0 0 0 24 12.49 12 12 0 0 0 11.955.49z"/>
-                                  </svg>
-                                  <span className="text-sm font-semibold text-slate-200">Codeberg</span>
-                                </>
-                              )}
-                              {selectedProvider === "gitee" && (
-                                <>
-                                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M11.984 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.016 0zm6.09 5.333c.328 0 .593.266.592.593v1.482a.594.594 0 0 1-.593.592H9.777c-.982 0-1.778.796-1.778 1.778v5.63c0 .327.266.592.593.592h5.63c.982 0 1.778-.796 1.778-1.778v-.296a.593.593 0 0 0-.592-.593h-4.15a.592.592 0 0 1-.592-.592v-1.482a.593.593 0 0 1 .593-.592h6.815c.327 0 .593.265.593.592v3.408a4 4 0 0 1-4 4H5.926a.593.593 0 0 1-.593-.593V9.778a4.444 4.444 0 0 1 4.445-4.444h8.296z"/>
-                                  </svg>
-                                  <span className="text-sm font-semibold text-slate-200">Gitee</span>
-                                </>
-                              )}
-                            </div>
-                            <span className="text-slate-400">▼</span>
-                          </button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-full p-2 bg-slate-900/95 border border-slate-700/80 shadow-xl rounded-xl">
-                          <div className="space-y-1">
-                            {/* GitHub */}
-                            <button
-                              onClick={() => {
-                                if (!user?.github_access_token) {
-                                  setAuthOpen(true);
-                                } else {
-                                  setSelectedProvider("github");
-                                }
-                              }}
-                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
-                            >
-                              <div className="flex items-center gap-3">
-                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                                </svg>
-                                <span className="text-sm font-medium text-slate-200">GitHub</span>
-                              </div>
-                              {user?.github_access_token && (
-                                <span className="text-xs text-emerald-400">✓ Connecté</span>
-                              )}
-                            </button>
-
-                            {/* GitLab */}
-                            <button
-                              onClick={() => setAuthOpen(true)}
-                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
-                            >
-                              <div className="flex items-center gap-3">
-                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="m23.6004 9.5927-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.9764 3.7296 2.4602 1.8633 1.4991 1.1321a1.0116 1.0116 0 0 0 1.2177 0l1.4991-1.1321 2.4602-1.8633 5.0077-3.7509.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"/>
-                                </svg>
-                                <span className="text-sm font-medium text-slate-200">GitLab</span>
-                              </div>
-                              <span className="text-xs text-slate-500">Bientôt</span>
-                            </button>
-
-                            {/* Bitbucket */}
-                            <button
-                              onClick={() => setAuthOpen(true)}
-                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
-                            >
-                              <div className="flex items-center gap-3">
-                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M.778 1.213a.768.768 0 00-.768.892l3.263 19.81c.084.5.515.868 1.022.873H19.95a.772.772 0 00.77-.646l3.27-20.03a.768.768 0 00-.768-.891zM14.52 15.53H9.522L8.17 8.466h7.561z"/>
-                                </svg>
-                                <span className="text-sm font-medium text-slate-200">Bitbucket</span>
-                              </div>
-                              <span className="text-xs text-slate-500">Bientôt</span>
-                            </button>
-
-                            {/* Gitea */}
-                            <button
-                              onClick={() => setAuthOpen(true)}
-                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
-                            >
-                              <div className="flex items-center gap-3">
-                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M4.186 5.74A9.26 9.26 0 0 0 12 18.26a9.26 9.26 0 0 0 7.814-12.52 9.26 9.26 0 0 0-15.628 0zm8.08 10.396a1.503 1.503 0 1 1 0-3.006 1.503 1.503 0 0 1 0 3.006z"/>
-                                </svg>
-                                <span className="text-sm font-medium text-slate-200">Gitea</span>
-                              </div>
-                              <span className="text-xs text-slate-500">Bientôt</span>
-                            </button>
-
-                            {/* Codeberg */}
-                            <button
-                              onClick={() => setAuthOpen(true)}
-                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
-                            >
-                              <div className="flex items-center gap-3">
-                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M11.955.49A12 12 0 0 0 0 12.49a12 12 0 0 0 1.832 6.373L11.838 5.928a1.2 1.2 0 0 1 1.054-.623 1.2 1.2 0 0 1 1.054.623l10.006 12.935A12 12 0 0 0 24 12.49 12 12 0 0 0 11.955.49z"/>
-                                </svg>
-                                <span className="text-sm font-medium text-slate-200">Codeberg</span>
-                              </div>
-                              <span className="text-xs text-slate-500">Bientôt</span>
-                            </button>
-
-                            {/* Gitee */}
-                            <button
-                              onClick={() => setAuthOpen(true)}
-                              className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-800 transition-all"
-                            >
-                              <div className="flex items-center gap-3">
-                                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M11.984 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.016 0zm6.09 5.333c.328 0 .593.266.592.593v1.482a.594.594 0 0 1-.593.592H9.777c-.982 0-1.778.796-1.778 1.778v5.63c0 .327.266.592.593.592h5.63c.982 0 1.778-.796 1.778-1.778v-.296a.593.593 0 0 0-.592-.593h-4.15a.592.592 0 0 1-.592-.592v-1.482a.593.593 0 0 1 .593-.592h6.815c.327 0 .593.265.593.592v3.408a4 4 0 0 1-4 4H5.926a.593.593 0 0 1-.593-.593V9.778a4.444 4.444 0 0 1 4.445-4.444h8.296z"/>
-                                </svg>
-                                <span className="text-sm font-medium text-slate-200">Gitee</span>
-                              </div>
-                              <span className="text-xs text-slate-500">Bientôt</span>
-                            </button>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
-
-                      {selectedProvider === "github" && user?.github_access_token && (
-                        <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-                          <span className="text-emerald-400">✓</span>
-                          <p className="text-xs sm:text-sm text-emerald-300">
-                            Prêt à créer sur GitHub
-                          </p>
-                        </div>
-                      )}
-
-                      {!user?.github_access_token && (
-                        <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-                          <span className="text-amber-400">⚠️</span>
-                          <p className="text-xs sm:text-sm text-amber-300">
-                            Veuillez vous connecter à un hébergeur Git pour continuer
-                          </p>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Étape 1 : Upload */}
-                    <div className="space-y-3 p-4 sm:p-6 bg-slate-950/60 rounded-2xl border border-cyan-500/25 shadow-[0_0_32px_rgba(34,211,238,0.35)]">
-                      <h3 className="font-semibold text-slate-100 text-base sm:text-lg flex items-center gap-2">
-                        <span className="h-6 w-6 rounded-full bg-violet-500/20 flex items-center justify-center text-xs text-violet-400 font-bold">1</span>
-                        Uploade tes fichiers
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-400">
-                        Ajoute un ZIP ou quelques fichiers (code, texte, docs). L&apos;IA analysera ce contenu pour générer
-                        la structure du repo et la documentation.
-                      </p>
-                      <div className="flex flex-col gap-3">
-                        <label className="inline-flex items-center px-4 py-3 rounded-xl border border-dashed border-slate-700 bg-slate-900/60 hover:bg-slate-900 hover:border-cyan-500/50 cursor-pointer text-xs sm:text-sm transition-all w-fit">
-                          <input
-                            type="file"
-                            multiple
-                            className="hidden"
-                            onChange={onFilesSelected}
-                            disabled={uploading || processing}
-                          />
-                          <span className="mr-2">📁 Choisir des fichiers</span>
-                          <span className="text-xs text-slate-500">ZIP, .py, .js, .md, PDF…</span>
-                        </label>
-                        
-                        {uploading && (
-                          <span className="text-xs sm:text-sm text-cyan-300 animate-pulse">Upload en cours…</span>
-                        )}
-
-                        {/* Uploaded Files List */}
-                        {uploadedFiles.length > 0 && (
-                          <div className="space-y-2">
-                            <p className="text-xs sm:text-sm text-slate-400 font-semibold">Fichiers uploadés :</p>
-                            <div className="space-y-1">
-                              {uploadedFiles.map((file, index) => (
-                                <div key={index} className="flex items-center justify-between p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-                                  <div className="flex items-center gap-2 min-w-0 flex-1">
-                                    <span className="text-emerald-400">✓</span>
-                                    <span className="text-xs sm:text-sm text-slate-200 truncate">{file.name}</span>
-                                  </div>
-                                  <span className="text-[10px] sm:text-xs text-slate-400 flex-shrink-0">
-                                    {(file.size / 1024).toFixed(1)} KB
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Étape 2 : Lancer l'automatisation */}
-                    <div className="space-y-3 p-4 sm:p-6 bg-slate-950/40 rounded-xl border border-slate-800/50">
-                      <h3 className="font-semibold text-slate-100 text-base sm:text-lg flex items-center gap-2">
-                        <span className="h-6 w-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs text-emerald-400 font-bold">2</span>
-                        Lancer l&apos;automatisation
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-400">
-                        Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span> va créer un nouveau repo GitHub, générer README, .gitignore, LICENSE et CHANGELOG puis pousser
-                        les commits.
-                      </p>
-                      <div className="flex flex-col gap-4">
-                        <Button
-                          size="lg"
-                          className="w-full sm:w-auto rounded-xl bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-sm sm:text-base px-6 py-3 sm:py-4 shadow-lg hover:shadow-xl transition-all font-semibold"
-                          onClick={launch}
-                          disabled={processing || uploading}
-                          data-testid="launch-workflow-button"
-                        >
-                          {processing ? "⚙️ Traitement en cours…" : `🚀 ${t("launch")}`}
-                        </Button>
-                        {progress > 0 && (
-                          <div className="flex flex-col gap-2">
-                            <Progress value={progress} className="h-2" />
-                            {progress === 100 ? (
-                              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-                                <span className="text-xs sm:text-sm text-emerald-400 font-semibold">
-                                  ✅ Terminé ! Tu peux ouvrir le repo GitHub.
-                                </span>
-                                {selected?.github_repo_url && (
-                                  <a
-                                    href={selected.github_repo_url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 text-xs sm:text-sm font-semibold shadow-lg transition-all"
-                                  >
-                                    <span>🚀 Ouvrir le repo</span>
-                                  </a>
-                                )}
-                              </div>
-                            ) : (
-                              <span className="text-xs sm:text-sm text-slate-400">
-                                ⏳ Analyse et génération en cours…
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-sm hover:border-slate-700 transition-colors" data-testid="jobs-history-card">
-              <CardHeader className="flex flex-row items-center justify-between gap-3 pb-4 sm:pb-6">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-gradient-to-br from-violet-400 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/30">
-                    <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-slate-950" />
-                  </div>
-                  <CardTitle className="text-base sm:text-xl font-bold">Historique des jobs</CardTitle>
-                </div>
-                <div className="px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/30">
-                  <span className="text-xs sm:text-sm font-semibold text-violet-300">{jobs.length} total</span>
-                </div>
-              </CardHeader>
-              <CardContent className="flex-1 overflow-auto space-y-2 text-xs sm:text-sm">
-                {jobsLoading ? (
-                  <div className="flex items-center justify-center py-8">
-                    <div className="h-8 w-8 border-3 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
-                  </div>
-                ) : jobs.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center">
-                    <div className="h-16 w-16 rounded-full bg-slate-800/50 flex items-center justify-center mb-4">
-                      <Activity className="h-8 w-8 text-slate-600" />
-                    </div>
-                    <p className="text-sm text-slate-500" data-testid="jobs-empty-text">
-                      Aucun job pour le moment. Lance une automatisation pour voir l&apos;historique ici.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-2" data-testid="jobs-list">
-                    {jobs.map((job) => (
-                      <div
-                        key={job.id}
-                        className="group flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-slate-800 bg-slate-950/60 hover:bg-slate-900/60 hover:border-slate-700 transition-all duration-200"
-                        data-testid={`job-row-${job.id}`}
-                      >
-                        <div className="flex items-center gap-3 flex-1">
-                          <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${
-                            job.status === "completed"
-                              ? "bg-emerald-500/20"
-                              : job.status === "failed"
-                                ? "bg-red-500/20"
-                                : "bg-amber-400/20"
-                          }`}>
-                            {job.status === "completed" ? (
-                              <CheckCircle2 className="h-5 w-5 text-emerald-400" />
-                            ) : job.status === "failed" ? (
-                              <XCircle className="h-5 w-5 text-red-400" />
-                            ) : (
-                              <AlertCircle className="h-5 w-5 text-amber-400" />
-                            )}
-                          </div>
-                          <div className="flex flex-col gap-1 flex-1">
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium text-xs">Job {job.id.slice(0, 8)}</span>
-                              <span
-                                className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
-                                  job.status === "completed"
-                                    ? "border-emerald-500/60 bg-emerald-500/10 text-emerald-300"
-                                    : job.status === "failed"
-                                      ? "border-red-500/60 bg-red-500/10 text-red-300"
-                                      : "border-amber-400/60 bg-amber-400/10 text-amber-200"
-                                }`}
-                                data-testid="job-status-pill"
-                              >
-                                {job.status}
-                              </span>
-                            </div>
-                            <span className="text-xs text-slate-300">
-                              {job.project_name || job.project_id}
-                            </span>
-                            {job.created_at && (
-                              <span className="text-[11px] text-slate-400 flex items-center gap-1">
-                                <Clock className="h-3 w-3" />
-                                {new Date(job.created_at).toLocaleString()}
-                              </span>
-                            )}
-                            {job.error && (
-                              <span
-                                className="text-[11px] text-red-300 flex items-center gap-1"
-                                data-testid="job-error-text"
-                              >
-                                <XCircle className="h-3 w-3" />
-                                <span className="truncate">{job.error}</span>
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Aide & Support déplacé dans le menu utilisateur pour le dashboard */}
-      </main>
-    </div>
-  );
-}
-
 
 function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
   const { token, user, logout } = useAuth();
@@ -3845,22 +3050,6 @@ function AppShell() {
       <Route
         path="/"
         element={
-      <Route 
-        path="/app/pro" 
-        element={
-          <ProDashboard 
-            t={t} 
-            lang={lang}
-            setLang={setLang}
-            dark={dark}
-            setDark={setDark}
-            currentLang={currentLang}
-            languages={languages}
-            isLoadingLang={isLoadingLang}
-          />
-        } 
-      />
-
           <Landing
             t={t}
             lang={lang}
@@ -3877,6 +3066,21 @@ function AppShell() {
         path="/app" 
         element={
           <Dashboard 
+            t={t} 
+            lang={lang}
+            setLang={setLang}
+            dark={dark}
+            setDark={setDark}
+            currentLang={currentLang}
+            languages={languages}
+            isLoadingLang={isLoadingLang}
+          />
+        } 
+      />
+      <Route 
+        path="/app/pro" 
+        element={
+          <ProDashboard 
             t={t} 
             lang={lang}
             setLang={setLang}
