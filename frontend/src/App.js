@@ -1619,34 +1619,6 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
     </div>
   );
 }
-            <CardContent className="p-3 flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-400">Total Jobs</span>
-                <div className="h-7 w-7 rounded-lg bg-violet-500/15 flex items-center justify-center">
-                  <Activity className="h-4 w-4 text-violet-400" />
-                </div>
-              </div>
-              <p className="text-lg font-semibold text-violet-300 leading-tight">{jobs.length}</p>
-              <p className="text-[10px] text-slate-500">Exécutions IA effectuées.</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Stats Cards - Desktop/Tablet */}
-        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-          {/* Total Projects */}
-          <Card className="bg-gradient-to-br from-cyan-500/10 via-slate-900/70 to-slate-900/70 border-cyan-500/20 backdrop-blur-sm hover:border-cyan-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="h-12 w-12 rounded-xl bg-cyan-500/20 flex items-center justify-center ring-2 ring-cyan-500/30">
-                  <GitBranch className="h-6 w-6 text-cyan-400" />
-                </div>
-              </div>
-              <p className="text-sm text-slate-100 mb-2 font-semibold">Total Projects</p>
-              <p className="text-3xl font-bold text-cyan-300">{projects.length}</p>
-              <p className="text-xs text-slate-300 mt-2">Workflows créés avec l'IA</p>
-            </CardContent>
-          </Card>
 
           {/* Completed Projects */}
           <Card className="bg-gradient-to-br from-emerald-500/10 via-slate-900/70 to-slate-900/70 border-emerald-500/20 backdrop-blur-sm hover:border-emerald-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20">
