@@ -1584,12 +1584,12 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
       <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
-              <DownloadCloud className="h-5 w-5 text-slate-950" />
+            <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
+              <DownloadCloud className="h-5 w-5 sm:h-6 sm:w-6 text-slate-950" />
             </div>
             <div className="flex flex-col leading-tight">
-              <span className="text-base sm:text-sm font-semibold tracking-tight">GitPusher</span>
-              <span className="text-[10px] sm:text-xs text-slate-400">Plans &amp; Tarifs</span>
+              <span className="text-base sm:text-lg font-semibold tracking-tight">GitPusher</span>
+              <span className="text-[11px] sm:text-xs text-slate-400">Plans &amp; Tarifs</span>
             </div>
           </div>
           <div className="flex items-center gap-4 text-xs sm:text-sm">
