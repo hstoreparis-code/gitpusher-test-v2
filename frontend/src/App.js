@@ -920,7 +920,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               <DownloadCloud className="h-5 w-5 text-slate-950" />
             </div>
             <div className="flex flex-col leading-tight truncate">
-              <span className="text-base sm:text-sm font-semibold tracking-tight truncate">GitPusher</span>
+              <span className="text-base sm:text-sm font-semibold tracking-tight truncate">
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span>
+              </span>
               <span className="text-[10px] sm:text-xs text-slate-400 truncate">No-Code GitHub workflow</span>
             </div>
           </div>
