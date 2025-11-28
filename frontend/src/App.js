@@ -1851,39 +1851,69 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex flex-col">
       <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
-              <DownloadCloud className="h-5 w-5 sm:h-6 sm:w-6 text-slate-950" />
+        <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="h-11 w-11 md:h-[52px] md:w-[52px] rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)] transition-colors">
+              <DownloadCloud className="h-[22px] w-[22px] md:h-[26px] md:w-[26px] text-slate-950" />
             </div>
             <div className="flex flex-col leading-tight">
-              <span className="text-base sm:text-lg font-semibold tracking-tight">
+              <span className="text-[17px] md:text-[19px] font-semibold tracking-tight">
                 Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span>
               </span>
-              <span className="text-[11px] sm:text-xs text-slate-400">Plans &amp; Tarifs</span>
+              <span className="text-[11px] md:text-[13px] text-slate-400">Plans &amp; Tarifs</span>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs sm:text-sm">
-            <button
-              onClick={() => setLang(lang === "en" ? "fr" : "en")}
-              className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs flex items-center gap-1"
-              data-testid="pricing-language-toggle-button"
-            >
-              <span className="text-lg" aria-hidden="true">{currentLang.flag}</span>
-              <span className="hidden sm:inline">{currentLang.label}</span>
-            </button>
-            <button
-              onClick={() => setDark(!dark)}
-              className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs flex items-center gap-1"
-              data-testid="pricing-theme-toggle-button"
-            >
-              <span>{t("theme")}</span>
-            </button>
+          <div className="flex items-center gap-2 md:gap-3 text-xs sm:text-sm">
+            <div className="flex items-center gap-2">
+              <span className="text-slate-400 hidden sm:inline text-sm">{t("theme")}</span>
+              <Switch
+                checked={dark}
+                onCheckedChange={setDark}
+                data-testid="pricing-theme-toggle-switch"
+              />
+            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  className="px-3 py-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-sm flex items-center gap-2"
+                  data-testid="pricing-language-popover-trigger"
+                >
+                  <span className="text-lg" aria-hidden="true">{currentLang.flag}</span>
+                  <span className="hidden sm:inline text-slate-200">{currentLang.label}</span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                className="mt-2 w-64 bg-slate-900/95 border border-slate-700/80 shadow-xl rounded-2xl p-2"
+                data-testid="pricing-language-popover-content"
+              >
+                <div className="max-h-64 overflow-auto text-xs">
+                  {languages.map((lng) => (
+                    <button
+                      key={lng.code}
+                      onClick={() => setLang(lng.code)}
+                      className={`w-full flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-slate-800 text-left ${
+                        lng.code === lang ? "bg-slate-800/80" : ""
+                      }`}
+                      data-testid={`pricing-language-option-${lng.code}`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-lg" aria-hidden="true">{lng.flag}</span>
+                        <span>{lng.label}</span>
+                      </span>
+                      {lng.code === lang && (
+                        <span className="text-[10px] text-cyan-300">Active</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
             <Button
               variant="outline"
               size="sm"
               onClick={() => window.history.back()}
-              className="rounded-full border-slate-700 text-xs"
+              className="px-4 py-2 rounded-lg border-slate-700 text-sm hover:bg-white/5"
               data-testid="pricing-back-button"
             >
               Retour
