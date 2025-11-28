@@ -1,6 +1,6 @@
 {
-  "total_tests": 9,
-  "passed_tests": 9,
+  "total_tests": 12,
+  "passed_tests": 12,
   "success_rate": 100.0,
   "test_results": [
     {
@@ -13,7 +13,7 @@
     {
       "name": "User Registration",
       "success": true,
-      "details": "Email: test_dc00fa07@example.com",
+      "details": "Email: test_fab133a6@example.com",
       "expected_status": 200,
       "actual_status": 200
     },
@@ -27,14 +27,14 @@
     {
       "name": "User Profile",
       "success": true,
-      "details": "User ID: 711ef809-b9ac-4385-925e-4bb20b223301, Email: test_dc00fa07@example.com",
+      "details": "User ID: f00318ca-3884-4ac4-a0e4-668f677f91c9, Email: test_fab133a6@example.com",
       "expected_status": 200,
       "actual_status": 200
     },
     {
       "name": "Create Project",
       "success": true,
-      "details": "Project ID: 4f1b3549-cb65-418c-9a5c-b1d6b1aa2844",
+      "details": "Project ID: dd53f00d-70e1-4a77-ad9f-412aba41f393",
       "expected_status": 200,
       "actual_status": 200
     },
@@ -55,9 +55,30 @@
     {
       "name": "Process Project (No GitHub)",
       "success": true,
-      "details": "Error message: GitHub not linked for this user",
+      "details": "Error message: Git provider token not linked for this user",
       "expected_status": 400,
       "actual_status": 400
+    },
+    {
+      "name": "Admin Login",
+      "success": true,
+      "details": "Admin successfully logged in",
+      "expected_status": null,
+      "actual_status": null
+    },
+    {
+      "name": "Admin Status Check",
+      "success": true,
+      "details": "Admin status confirmed",
+      "expected_status": null,
+      "actual_status": null
+    },
+    {
+      "name": "Admin Users Endpoint",
+      "success": true,
+      "details": "Successfully retrieved 9 users, sample email: test_dc00fa07@example.com",
+      "expected_status": 200,
+      "actual_status": 200
     },
     {
       "name": "Invalid Auth Handling",
