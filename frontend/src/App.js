@@ -2796,7 +2796,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                 </p>
                 <div className="flex items-baseline gap-2 mt-3">
                   <span className="text-2xl font-semibold text-amber-300">À partir de 199€</span>
-                  <span className="text-slate-400 text-sm">/ mois</span>
+                  <span className="text-amber-300 text-sm">/ mois</span>
                 </div>
               </CardHeader>
               <CardContent className="pt-4 md:pt-0 text-sm">
