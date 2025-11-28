@@ -907,7 +907,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 
   return (
     <div
-      className={`min-h-screen bg-slate-950 text-slate-50 flex flex-col transition-opacity duration-500 ${
+      className={`min-h-screen bg-slate-950 text-slate-50 flex flex-col transition-opacity duration-500 overflow-x-hidden ${
         mounted ? "opacity-100" : "opacity-0"
       }`}
     >
