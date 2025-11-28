@@ -468,6 +468,15 @@ async def get_user_from_token(authorization: Optional[str]) -> dict:
     return user
 
 
+async def require_admin(authorization: Optional[str]) -> dict:
+    """Ensure the current user is an admin. Raises 403 otherwise."""
+    user = await get_user_from_token(authorization)
+    if not user.get("is_admin"):
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return user
+
+
+
 @api_router.post("/billing/plan")
 async def set_plan(payload: PlanUpdate, authorization: Optional[str] = Header(default=None)):
     """Simule la mise à jour du plan (freemium, premium, business) pour l'utilisateur courant.
