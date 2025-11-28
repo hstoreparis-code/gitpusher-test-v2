@@ -1226,22 +1226,22 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           {/* Projects List */}
           <Card className="bg-slate-900/70 border-slate-800 backdrop-blur-sm flex flex-col shadow-xl text-sm hover:border-slate-700 transition-colors">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 sm:pb-6">
-              <div className="flex items-center gap-3 w-full sm:w-auto">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+              <div className="flex items-center gap-3 w-full sm:w-auto min-w-0 flex-1">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 rounded-xl bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/30">
                   <GitBranch className="h-5 w-5 sm:h-6 sm:w-6 text-slate-950" />
                 </div>
-                <div className="flex flex-col min-w-0">
+                <div className="flex flex-col min-w-0 flex-1">
                   <CardTitle className="text-sm sm:text-xl leading-snug truncate font-bold">
                     {t("dashboardTitle")}
                   </CardTitle>
-                  <p className="hidden sm:block text-sm text-slate-400 mt-1">
+                  <p className="hidden sm:block text-sm text-slate-400 mt-1 truncate">
                     Clique sur un workflow puis renomme le repo avant de lancer.
                   </p>
                 </div>
               </div>
               <Button
                 size="sm"
-                className="w-full sm:w-auto justify-center rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-3 shadow-lg hover:shadow-xl transition-all"
+                className="w-full sm:w-auto flex-shrink-0 justify-center rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-3 shadow-lg hover:shadow-xl transition-all"
                 onClick={newProject}
                 disabled={creating}
                 data-testid="new-workflow-button"
