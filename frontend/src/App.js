@@ -386,7 +386,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               <p className="text-[13px] sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0">
                 Dépose tes fichiers, l’IA organise ton projet, génère le README et pousse tes dépôts Git sur le (
                 <span className="text-cyan-300 drop-shadow-[0_0_10px_rgba(56,189,248,0.9)] neon-flicker">
-                  GitHub, GitLab, Bitbucket, Gitea, Codeberg, Gitee
+                  GitHub, GitLab, Bitbucket, Gitea, Codeberg, Gitee...
                 </span>
                 ).
               </p>
