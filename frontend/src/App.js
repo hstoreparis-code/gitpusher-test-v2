@@ -276,6 +276,18 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                 >
                   <span>Plans &amp; Tarifs</span>
                 </button>
+                {token && (
+                  <button
+                    onClick={() => {
+                      navigate("/app/pro");
+                      setMenuOpen(false);
+                    }}
+                    className="flex items-center justify-between gap-2 px-2 py-1 rounded-lg hover:bg-slate-900"
+                    data-testid="mobile-menu-pro-button"
+                  >
+                    <span>Mode Pro</span>
+                  </button>
+                )}
                 <button
                   onClick={() => setAuthOpen(true)}
                   className="flex items-center justify-between gap-2 px-2 py-1 rounded-lg hover:bg-slate-900"
