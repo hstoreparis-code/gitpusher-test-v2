@@ -911,8 +911,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
         mounted ? "opacity-100" : "opacity-0"
       }`}
     >
-      <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-20 bg-slate-950/80">
-        <div className="w-full px-4 py-3 flex items-center justify-between gap-3">
+      <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-20 bg-slate-950/80 overflow-x-hidden">
+        <div className="w-full max-w-full px-4 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 min-w-0">
             <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
               <DownloadCloud className="h-5 w-5 text-slate-950" />
