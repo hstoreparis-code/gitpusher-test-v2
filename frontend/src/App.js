@@ -748,7 +748,10 @@ function AuthCard({ t, onSuccess }) {
             </Button>
           </div>
 
-          {/* Auth email désactivée : séparateur retiré */}
+          {/* Message d'information à la place de l'auth email */}
+          <p className="text-[11px] text-slate-500 pt-1 text-center">
+            Pour utiliser Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span>, inscris-toi ou connecte-toi avec l&apos;un de ces providers.
+          </p>
         </div>
 
         {/* Auth email désactivée : l'accès se fait uniquement via OAuth */}
