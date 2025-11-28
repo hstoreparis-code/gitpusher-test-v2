@@ -1818,6 +1818,648 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
               </details>
 
               <details
+
+
+function WhitePaperPage({ t, lang, setLang, dark, setDark, currentLang, languages }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50">
+      <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-10 bg-slate-950/70">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
+              <DownloadCloud className="h-5 w-5 text-slate-950" />
+            </div>
+            <div className="flex flex-col leading-tight">
+              <span className="text-base sm:text-sm font-semibold tracking-tight">GitPusher</span>
+              <span className="text-[10px] sm:text-xs text-slate-400">Livre Blanc</span>
+            </div>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate("/")}
+            className="rounded-full border-slate-700 text-xs"
+          >
+            Retour
+          </Button>
+        </div>
+      </header>
+
+      <main className="max-w-4xl mx-auto px-4 py-12 space-y-12">
+        {/* Hero Section */}
+        <div className="text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-xs text-cyan-300 mb-4">
+            <span className="h-2 w-2 rounded-full bg-cyan-300 animate-pulse" />
+            Livre Blanc Technique
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
+            GitPusher
+            <span className="block text-2xl sm:text-3xl mt-2 bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">
+              Révolutionnez Votre Workflow Git
+            </span>
+          </h1>
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+            La plateforme No-Code qui automatise vos dépôts Git avec l'Intelligence Artificielle
+          </p>
+        </div>
+
+        {/* Executive Summary */}
+        <Card className="bg-slate-900/70 border-cyan-500/20">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-cyan-400" />
+              Résumé Exécutif
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-slate-300">
+            <p>
+              <strong className="text-cyan-300">GitPusher</strong> est une plateforme SaaS innovante qui élimine la complexité 
+              de Git pour les développeurs, designers et créateurs de contenu. En combinant l'automatisation IA et une 
+              interface No-Code, GitPusher permet de créer et gérer des repositories Git en quelques clics.
+            </p>
+            <div className="grid sm:grid-cols-3 gap-4 pt-4">
+              <div className="p-4 rounded-xl bg-slate-950/50 border border-slate-800">
+                <p className="text-2xl font-bold text-cyan-300">12</p>
+                <p className="text-xs text-slate-400">Plateformes Git</p>
+              </div>
+              <div className="p-4 rounded-xl bg-slate-950/50 border border-slate-800">
+                <p className="text-2xl font-bold text-emerald-300">4</p>
+                <p className="text-xs text-slate-400">Fichiers IA générés</p>
+              </div>
+              <div className="p-4 rounded-xl bg-slate-950/50 border border-slate-800">
+                <p className="text-2xl font-bold text-violet-300">20+</p>
+                <p className="text-xs text-slate-400">API Endpoints</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Multi-Provider Support */}
+        <Card className="bg-slate-900/70 border-slate-800">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <GitBranch className="h-5 w-5 text-violet-400" />
+              Support Multi-Plateformes
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <p className="text-slate-300">
+              GitPusher supporte <strong className="text-cyan-300">12 plateformes Git</strong> différentes, 
+              permettant une distribution mondiale et une flexibilité maximale.
+            </p>
+            
+            <div className="space-y-3">
+              <div>
+                <p className="font-semibold text-emerald-300 mb-2">✅ Providers Actifs (API Complète)</p>
+                <div className="grid sm:grid-cols-2 gap-2 text-xs">
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/50">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <span>GitHub - Leader mondial</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/50">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <span>GitLab - DevOps intégré</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/50">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <span>Bitbucket - Atlassian suite</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/50">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <span>Gitea - Self-hosted</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/50">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <span>Codeberg - Privacy-first EU</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/50">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <span>Gitee - Marché chinois</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <p className="font-semibold text-amber-300 mb-2">🟡 Providers En Développement</p>
+                <div className="grid sm:grid-cols-2 gap-2 text-xs text-slate-400">
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/30">
+                    <Clock className="h-4 w-4" />
+                    <span>Azure DevOps</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/30">
+                    <Clock className="h-4 w-4" />
+                    <span>AWS CodeCommit</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/30">
+                    <Clock className="h-4 w-4" />
+                    <span>Google Cloud Source</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-950/30">
+                    <Clock className="h-4 w-4" />
+                    <span>Alibaba Cloud + Tencent</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* AI Capabilities */}
+        <Card className="bg-gradient-to-br from-violet-500/10 via-slate-900/70 to-slate-900/70 border-violet-500/20">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Rocket className="h-5 w-5 text-violet-400" />
+              Intelligence Artificielle Intégrée
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <p className="text-slate-300">
+              GitPusher utilise des <strong className="text-violet-300">modèles d'IA avancés</strong> pour générer 
+              automatiquement une documentation professionnelle et des fichiers de projet standards.
+            </p>
+            
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="p-4 rounded-xl bg-slate-950/50 border border-violet-500/20 space-y-2">
+                <div className="h-10 w-10 rounded-lg bg-violet-500/20 flex items-center justify-center mb-2">
+                  <span className="text-lg">📝</span>
+                </div>
+                <h3 className="font-semibold text-violet-300">README.md Intelligent</h3>
+                <p className="text-xs text-slate-400">
+                  Analyse automatique du code pour générer une documentation complète : Overview, Features, Installation, Usage
+                </p>
+              </div>
+              
+              <div className="p-4 rounded-xl bg-slate-950/50 border border-violet-500/20 space-y-2">
+                <div className="h-10 w-10 rounded-lg bg-violet-500/20 flex items-center justify-center mb-2">
+                  <span className="text-lg">🔧</span>
+                </div>
+                <h3 className="font-semibold text-violet-300">.gitignore Adaptatif</h3>
+                <p className="text-xs text-slate-400">
+                  Détection automatique du stack technologique (Node.js, Python, Java, etc.) et génération du .gitignore optimal
+                </p>
+              </div>
+              
+              <div className="p-4 rounded-xl bg-slate-950/50 border border-violet-500/20 space-y-2">
+                <div className="h-10 w-10 rounded-lg bg-violet-500/20 flex items-center justify-center mb-2">
+                  <span className="text-lg">⚖️</span>
+                </div>
+                <h3 className="font-semibold text-violet-300">LICENSE Automatique</h3>
+                <p className="text-xs text-slate-400">
+                  Génération de licence MIT avec votre nom, prêt pour l'open-source
+                </p>
+              </div>
+              
+              <div className="p-4 rounded-xl bg-slate-950/50 border border-violet-500/20 space-y-2">
+                <div className="h-10 w-10 rounded-lg bg-violet-500/20 flex items-center justify-center mb-2">
+                  <span className="text-lg">📋</span>
+                </div>
+                <h3 className="font-semibold text-violet-300">CHANGELOG.md</h3>
+                <p className="text-xs text-slate-400">
+                  Format Keep a Changelog avec versionning sémantique (SemVer) pré-configuré
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* API & Architecture */}
+        <Card className="bg-slate-900/70 border-slate-800">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Activity className="h-5 w-5 text-cyan-400" />
+              API & Architecture Technique
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <div className="space-y-3">
+              <div>
+                <h3 className="font-semibold text-cyan-300 mb-2">Architecture RESTful OpenAPI 3.1</h3>
+                <p className="text-slate-400 text-xs mb-3">
+                  API complète avec 20+ endpoints, documentation Swagger/ReDoc interactive, et conformité OpenAPI.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                  <div className="p-2 rounded bg-slate-950/50 text-center">
+                    <p className="font-bold text-cyan-300">20+</p>
+                    <p className="text-slate-500">Endpoints</p>
+                  </div>
+                  <div className="p-2 rounded bg-slate-950/50 text-center">
+                    <p className="font-bold text-emerald-300">REST</p>
+                    <p className="text-slate-500">Protocol</p>
+                  </div>
+                  <div className="p-2 rounded bg-slate-950/50 text-center">
+                    <p className="font-bold text-violet-300">JWT</p>
+                    <p className="text-slate-500">Auth</p>
+                  </div>
+                  <div className="p-2 rounded bg-slate-950/50 text-center">
+                    <p className="font-bold text-amber-300">OpenAPI</p>
+                    <p className="text-slate-500">Spec 3.1</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-cyan-300 mb-2">Endpoints Clés</h3>
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-start gap-2 p-2 rounded bg-slate-950/30">
+                    <span className="text-cyan-400 font-mono">POST</span>
+                    <div>
+                      <p className="font-medium">/api/v1/upload</p>
+                      <p className="text-slate-500">Upload simplifié all-in-one</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2 p-2 rounded bg-slate-950/30">
+                    <span className="text-emerald-400 font-mono">GET</span>
+                    <div>
+                      <p className="font-medium">/api/v1/jobs/{"{id}"}</p>
+                      <p className="text-slate-500">Suivi temps réel avec logs détaillés</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2 p-2 rounded bg-slate-950/30">
+                    <span className="text-emerald-400 font-mono">GET</span>
+                    <div>
+                      <p className="font-medium">/api/v1/providers</p>
+                      <p className="text-slate-500">Liste des 12 plateformes supportées</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2 p-2 rounded bg-slate-950/30">
+                    <span className="text-violet-400 font-mono">GET</span>
+                    <div>
+                      <p className="font-medium">/api/v1/repos/by-provider</p>
+                      <p className="text-slate-500">Filtrage multi-provider</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Business Model */}
+        <Card className="bg-slate-900/70 border-slate-800">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              💰 Modèle Économique
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <div className="space-y-3">
+              <div>
+                <h3 className="font-semibold text-cyan-300 mb-2">Pay-per-Use avec Crédits</h3>
+                <p className="text-slate-400 text-xs mb-3">
+                  Système flexible de crédits permettant une facturation à l'usage sans engagement.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-3 gap-3">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-700">
+                  <p className="text-xs text-slate-400 mb-1">Pack Starter</p>
+                  <p className="text-2xl font-bold text-cyan-300">10</p>
+                  <p className="text-xs text-slate-400">crédits / 5€</p>
+                  <p className="text-[10px] text-slate-500 mt-2">Idéal pour tester</p>
+                </div>
+                
+                <div className="p-4 rounded-xl bg-gradient-to-br from-violet-500/10 to-slate-900 border border-violet-500/30">
+                  <div className="flex items-center gap-1 mb-1">
+                    <p className="text-xs text-slate-400">Pack Pro</p>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-violet-500/20 text-violet-300">Populaire</span>
+                  </div>
+                  <p className="text-2xl font-bold text-violet-300">50</p>
+                  <p className="text-xs text-slate-400">crédits / 20€</p>
+                  <p className="text-[10px] text-slate-500 mt-2">Meilleur rapport</p>
+                </div>
+                
+                <div className="p-4 rounded-xl bg-gradient-to-br from-amber-500/10 to-slate-900 border border-amber-500/30">
+                  <p className="text-xs text-slate-400 mb-1">Pack Business</p>
+                  <p className="text-2xl font-bold text-amber-300">100</p>
+                  <p className="text-xs text-slate-400">crédits / 35€</p>
+                  <p className="text-[10px] text-slate-500 mt-2">Maximum d'économies</p>
+                </div>
+              </div>
+              
+              <p className="text-xs text-slate-500 italic">
+                1 crédit = 1 upload/push complet avec génération IA
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Advanced Features */}
+        <Card className="bg-slate-900/70 border-slate-800">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Rocket className="h-5 w-5 text-cyan-400" />
+              Fonctionnalités Avancées
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-8 w-8 rounded-lg bg-cyan-500/20 flex items-center justify-center">
+                    <span className="text-sm">🔄</span>
+                  </div>
+                  <h3 className="font-semibold text-cyan-300">Autopush</h3>
+                </div>
+                <p className="text-xs text-slate-400">
+                  Automatisation programmable : poussez automatiquement vos mises à jour selon une fréquence 
+                  définie (every_upload, hourly, daily).
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-8 w-8 rounded-lg bg-violet-500/20 flex items-center justify-center">
+                    <span className="text-sm">🤝</span>
+                  </div>
+                  <h3 className="font-semibold text-violet-300">Partner API</h3>
+                </div>
+                <p className="text-xs text-slate-400">
+                  API dédiée pour intégrations SaaS : permettez à vos utilisateurs de créer des repos 
+                  directement depuis votre plateforme.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-8 w-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                    <span className="text-sm">🔔</span>
+                  </div>
+                  <h3 className="font-semibold text-emerald-300">Webhooks</h3>
+                </div>
+                <p className="text-xs text-slate-400">
+                  Notifications en temps réel pour chaque job complété, intégrable avec vos systèmes.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-8 w-8 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                    <span className="text-sm">☁️</span>
+                  </div>
+                  <h3 className="font-semibold text-amber-300">Presigned URLs</h3>
+                </div>
+                <p className="text-xs text-slate-400">
+                  Upload direct vers le stockage avec URLs pré-signées pour des performances optimales.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Market Potential */}
+        <Card className="bg-slate-900/70 border-slate-800">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-emerald-400" />
+              Potentiel de Marché
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-slate-300">
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-semibold text-emerald-300 mb-2">🎯 Audiences Cibles</h3>
+                <ul className="space-y-2 text-xs text-slate-400">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5" />
+                    <span><strong>Développeurs Juniors</strong> - Simplifie Git et élimine la courbe d'apprentissage</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5" />
+                    <span><strong>Designers & No-Coders</strong> - Publient leur travail sans connaissances techniques</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5" />
+                    <span><strong>Équipes Marketing</strong> - Gèrent des repositories de documentation facilement</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5" />
+                    <span><strong>Éducation</strong> - Étudiants et professeurs créent des repos de cours</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5" />
+                    <span><strong>SaaS Platforms</strong> - Intégration via Partner API pour générer du code</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-cyan-300 mb-2">📊 Opportunités de Croissance</h3>
+                <div className="grid sm:grid-cols-2 gap-3 text-xs">
+                  <div className="p-3 rounded-lg bg-slate-950/50 border border-slate-800">
+                    <p className="font-medium text-cyan-300 mb-1">Marché Global</p>
+                    <p className="text-slate-400">Support de 12 plateformes = accès aux marchés US, EU, Asie</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-slate-950/50 border border-slate-800">
+                    <p className="font-medium text-violet-300 mb-1">B2B SaaS</p>
+                    <p className="text-slate-400">Partner API pour intégrations white-label</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-slate-950/50 border border-slate-800">
+                    <p className="font-medium text-emerald-300 mb-1">Automatisation</p>
+                    <p className="text-slate-400">Autopush récurrent = revenus récurrents</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-slate-950/50 border border-slate-800">
+                    <p className="font-medium text-amber-300 mb-1">IA Premium</p>
+                    <p className="text-slate-400">Features IA avancées en add-on</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Technical Stack */}
+        <Card className="bg-slate-900/70 border-slate-800">
+          <CardHeader>
+            <CardTitle className="text-xl">🛠️ Stack Technique</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-semibold text-cyan-300 mb-3">Backend</h3>
+                <ul className="space-y-2 text-xs text-slate-400">
+                  <li>• FastAPI (Python) - API moderne et performante</li>
+                  <li>• MongoDB - Base de données NoSQL flexible</li>
+                  <li>• JWT - Authentification sécurisée</li>
+                  <li>• APScheduler - Tâches programmées</li>
+                  <li>• Emergent LLM - IA pour génération de contenu</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold text-violet-300 mb-3">Frontend</h3>
+                <ul className="space-y-2 text-xs text-slate-400">
+                  <li>• React 18 - Interface réactive moderne</li>
+                  <li>• Tailwind CSS - Design system cohérent</li>
+                  <li>• Shadcn/ui - Composants élégants</li>
+                  <li>• Axios - Communication API</li>
+                  <li>• React Router - Navigation fluide</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Competitive Advantages */}
+        <Card className="bg-gradient-to-br from-emerald-500/10 via-slate-900/70 to-slate-900/70 border-emerald-500/20">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+              Avantages Compétitifs
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm">
+            <div className="grid gap-3">
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-950/30">
+                <div className="h-6 w-6 rounded bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-xs">1</span>
+                </div>
+                <div>
+                  <p className="font-medium text-emerald-300">Seule plateforme multi-provider No-Code</p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Pas besoin d'apprendre Git, CLI ou workflows complexes. Interface unique pour 12 plateformes.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-950/30">
+                <div className="h-6 w-6 rounded bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-xs">2</span>
+                </div>
+                <div>
+                  <p className="font-medium text-emerald-300">IA intégrée nativement</p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Génération automatique de documentation professionnelle. Pas de concurrence directe sur ce segment.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-950/30">
+                <div className="h-6 w-6 rounded bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-xs">3</span>
+                </div>
+                <div>
+                  <p className="font-medium text-emerald-300">Architecture extensible</p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Partner API permet des intégrations B2B, créant un écosystème de partenaires.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-950/30">
+                <div className="h-6 w-6 rounded bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-xs">4</span>
+                </div>
+                <div>
+                  <p className="font-medium text-emerald-300">Modèle économique flexible</p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Pay-per-use élimine les freins à l'adoption. Pas d'abonnement forcé.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Roadmap */}
+        <Card className="bg-slate-900/70 border-slate-800">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Activity className="h-5 w-5 text-violet-400" />
+              Roadmap Produit
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <div className="space-y-4">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-2 w-2 rounded-full bg-emerald-400" />
+                  <h3 className="font-semibold text-emerald-300">Phase 1 : MVP ✅ (Actuel)</h3>
+                </div>
+                <ul className="text-xs text-slate-400 space-y-1 ml-4">
+                  <li>✅ API V1 complète (20 endpoints)</li>
+                  <li>✅ 6 providers actifs (GitHub, GitLab, Bitbucket, Gitea, Codeberg, Gitee)</li>
+                  <li>✅ Génération IA (4 fichiers)</li>
+                  <li>✅ Système crédits mocké</li>
+                  <li>✅ OAuth GitHub</li>
+                </ul>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
+                  <h3 className="font-semibold text-cyan-300">Phase 2 : Production (Q1 2025)</h3>
+                </div>
+                <ul className="text-xs text-slate-400 space-y-1 ml-4">
+                  <li>🔄 Intégration Stripe réelle</li>
+                  <li>🔄 Activation Azure, AWS, GCP providers</li>
+                  <li>🔄 Autopush avec APScheduler</li>
+                  <li>🔄 Dashboard analytics avancé</li>
+                  <li>🔄 Multi-language UI (i18n complet)</li>
+                </ul>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-2 w-2 rounded-full bg-violet-400" />
+                  <h3 className="font-semibold text-violet-300">Phase 3 : Scale (Q2 2025)</h3>
+                </div>
+                <ul className="text-xs text-slate-400 space-y-1 ml-4">
+                  <li>🚀 Support CI/CD (GitHub Actions, GitLab CI)</li>
+                  <li>🚀 Templates de projets pré-configurés</li>
+                  <li>🚀 Collaboration en équipe</li>
+                  <li>🚀 IA personnalisée par industrie</li>
+                  <li>🚀 Mobile app (iOS/Android)</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Call to Action */}
+        <div className="text-center space-y-6 py-8">
+          <div className="space-y-2">
+            <h2 className="text-3xl font-bold">Prêt à Révolutionner Votre Workflow Git ?</h2>
+            <p className="text-slate-400">
+              Rejoignez les développeurs qui ont choisi la simplicité.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Button
+              size="lg"
+              className="rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 px-8 py-3 shadow-lg text-sm"
+              onClick={() => navigate("/")}
+            >
+              Commencer Gratuitement
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="rounded-full border-slate-700 text-sm"
+              onClick={() => window.open("http://localhost:8001/docs", "_blank")}
+            >
+              Explorer l'API
+            </Button>
+          </div>
+          <p className="text-xs text-slate-500">
+            10 crédits gratuits • Aucune carte requise • Support multi-provider
+          </p>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
+          <p>GitPusher © 2024 - Propulsé par Emergent AI</p>
+          <p className="mt-2">Version 1.0.0 • API V1 • 12 Git Providers</p>
+        </div>
+      </main>
+    </div>
+  );
+}
+
                 className="group rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-3 cursor-pointer transition-colors"
                 data-testid="pricing-unique-accordion-2"
               >
