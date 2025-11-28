@@ -1480,24 +1480,53 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                         Nom du repo
                       </h3>
                       <div className="space-y-3">
-                        <Input
-                          value={selected.name}
-                          onChange={(e) => setSelected({ ...selected, name: e.target.value })}
-                          onBlur={async (e) => {
-                            const newName = e.target.value?.trim();
-                            if (!newName || newName === selected.name) return;
-                            try {
-                              await axios.patch(
-                                `${API}/workflows/projects/${selected.id}`,
-                                { name: newName },
-                                { headers: { Authorization: `Bearer ${token}` } },
-                              );
-                            } catch (err) {
-                              console.error("Failed to update project name", err);
-                            }
-                          }}
-                          className="h-9 sm:h-10 text-sm bg-slate-950/60 border-slate-700 focus:border-cyan-500/50"
-                        />
+                        <div className="flex gap-2">
+                          <Input
+                            value={selected.name}
+                            onChange={(e) => setSelected({ ...selected, name: e.target.value })}
+                            className="h-9 sm:h-10 text-sm bg-slate-950/60 border-slate-700 focus:border-cyan-500/50 flex-1"
+                            placeholder="Entrez le nom du repo"
+                          />
+                          <Button
+                            size="sm"
+                            onClick={async () => {
+                              const newName = selected.name?.trim();
+                              if (!newName) {
+                                alert("Le nom du repo ne peut pas être vide");
+                                return;
+                              }
+                              try {
+                                await axios.patch(
+                                  `${API}/workflows/projects/${selected.id}`,
+                                  { name: newName },
+                                  { headers: { Authorization: `Bearer ${token}` } },
+                                );
+                                // Update local state with confirmed name
+                                setSelected({ ...selected, name: newName });
+                                // Show success feedback
+                                const successMsg = document.getElementById(`success-${selected.id}`);
+                                if (successMsg) {
+                                  successMsg.classList.remove('hidden');
+                                  setTimeout(() => {
+                                    successMsg.classList.add('hidden');
+                                  }, 3000);
+                                }
+                              } catch (err) {
+                                console.error("Failed to update project name", err);
+                                alert("Erreur lors de la mise à jour du nom");
+                              }
+                            }}
+                            className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 text-xs sm:text-sm font-semibold shadow-lg whitespace-nowrap"
+                          >
+                            ✓ Confirmer
+                          </Button>
+                        </div>
+                        <div id={`success-${selected.id}`} className="hidden flex items-center gap-2 p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
+                          <span className="text-emerald-400">✓</span>
+                          <p className="text-xs sm:text-sm text-emerald-300">
+                            Nom du repo mis à jour avec succès !
+                          </p>
+                        </div>
                         <p className="text-xs sm:text-sm text-slate-400">
                           Ce nom sera utilisé comme nom du dépôt GitHub créé par Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span>.
                         </p>
