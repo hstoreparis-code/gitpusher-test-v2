@@ -1806,11 +1806,27 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                         {progress > 0 && (
                           <div className="flex flex-col gap-2">
                             <Progress value={progress} className="h-2" />
-                            <span className="text-xs sm:text-sm text-slate-400">
-                              {progress === 100
-                                ? "✅ Terminé ! Tu peux ouvrir le repo GitHub."
-                                : "⏳ Analyse et génération en cours…"}
-                            </span>
+                            {progress === 100 ? (
+                              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                                <span className="text-xs sm:text-sm text-emerald-400 font-semibold">
+                                  ✅ Terminé ! Tu peux ouvrir le repo GitHub.
+                                </span>
+                                {selected?.github_repo_url && (
+                                  <a
+                                    href={selected.github_repo_url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 text-xs sm:text-sm font-semibold shadow-lg transition-all"
+                                  >
+                                    <span>🚀 Ouvrir le repo</span>
+                                  </a>
+                                )}
+                              </div>
+                            ) : (
+                              <span className="text-xs sm:text-sm text-slate-400">
+                                ⏳ Analyse et génération en cours…
+                              </span>
+                            )}
                           </div>
                         )}
                       </div>
