@@ -1072,8 +1072,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   <GitBranch className="h-4 w-4 text-slate-950" />
                 </div>
                 <div className="flex flex-col">
-                  <CardTitle className="text-sm sm:text-base">{t("dashboardTitle")}</CardTitle>
-                  <p className="text-[11px] text-slate-400">Clique sur un workflow puis renomme le repo avant de lancer.</p>
+                  <CardTitle className="text-base sm:text-lg">{t("dashboardTitle")}</CardTitle>
+                  <p className="text-xs sm:text-[11px] text-slate-400">Clique sur un workflow puis renomme le repo avant de lancer.</p>
                 </div>
               </div>
               <Button
@@ -1106,7 +1106,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     <button
                       key={p.id}
                       onClick={() => setSelected(p)}
-                      className={`group w-full text-left text-xs sm:text-sm px-4 py-3 rounded-xl border transition-all duration-200 ${
+                      className={`group w-full text-left text-sm sm:text-sm px-4 py-3 rounded-xl border transition-all duration-200 ${
                         selected?.id === p.id
                           ? "bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border-cyan-400/60 shadow-lg shadow-cyan-500/20"
                           : "bg-slate-900/80 border-slate-800 hover:border-slate-600 hover:shadow-md"
