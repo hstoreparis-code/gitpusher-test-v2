@@ -1374,32 +1374,33 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
         </Card>
 
         {/* Statistiques principales */}
-        <div className="grid gap-4 md:grid-cols-4">
+        {/* Mobile : cartes compactes en 2 colonnes ; Desktop : 4 colonnes comme avant */}
+        <div className="grid gap-3 grid-cols-2 md:gap-4 md:grid-cols-4">
           <Card className="bg-slate-900/80 border-slate-800/80">
-            <CardContent className="py-3 px-4">
-              <p className="text-[11px] text-slate-400 mb-1">Projets actifs</p>
-              <p className="text-2xl font-semibold text-cyan-300">{activeProjects}</p>
-              <p className="text-[10px] text-slate-500 mt-1">sur {totalProjects} au total</p>
+            <CardContent className="py-3 px-3 sm:px-4">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 mb-1">Projets actifs</p>
+              <p className="text-xl sm:text-2xl font-semibold text-cyan-300">{activeProjects}</p>
+              <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1">sur {totalProjects} au total</p>
             </CardContent>
           </Card>
           <Card className="bg-slate-900/80 border-slate-800/80">
-            <CardContent className="py-3 px-4">
-              <p className="text-[11px] text-slate-400 mb-1">Jobs complétés</p>
-              <p className="text-2xl font-semibold text-emerald-300">{completedJobs}</p>
-              <p className="text-[10px] text-slate-500 mt-1">{failedJobs} en erreur</p>
+            <CardContent className="py-3 px-3 sm:px-4">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 mb-1">Jobs complétés</p>
+              <p className="text-xl sm:text-2xl font-semibold text-emerald-300">{completedJobs}</p>
+              <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1">{failedJobs} en erreur</p>
             </CardContent>
           </Card>
           <Card className="bg-slate-900/80 border-slate-800/80">
-            <CardContent className="py-3 px-4">
-              <p className="text-[11px] text-slate-400 mb-1">Taux de succès</p>
-              <p className="text-2xl font-semibold text-cyan-300">{successRate}%</p>
-              <p className="text-[10px] text-slate-500 mt-1">basé sur tous les jobs</p>
+            <CardContent className="py-3 px-3 sm:px-4">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 mb-1">Taux de succès</p>
+              <p className="text-xl sm:text-2xl font-semibold text-cyan-300">{successRate}%</p>
+              <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1">basé sur tous les jobs</p>
             </CardContent>
           </Card>
           <Card className="bg-slate-900/80 border-slate-800/80">
-            <CardContent className="py-3 px-4">
-              <p className="text-[11px] text-slate-400 mb-1">Providers utilisés</p>
-              <div className="flex flex-wrap gap-1 mt-1 text-[10px] text-slate-200">
+            <CardContent className="py-3 px-3 sm:px-4">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 mb-1">Providers utilisés</p>
+              <div className="flex flex-wrap gap-1 mt-1 text-[9px] sm:text-[10px] text-slate-200">
                 {Object.keys(providerCounts).length === 0 && <span>Aucun pour l&apos;instant</span>}
                 {Object.entries(providerCounts).map(([prov, count]) => (
                   <span
