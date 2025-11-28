@@ -683,15 +683,30 @@ function AuthCard({ t, onSuccess }) {
           <div className="space-y-2">
             <p className="text-[11px] text-slate-400">Connexion ultra-rapide :</p>
             <Button
-              className="w-full justify-center rounded-full bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border border-cyan-400/80 hover:border-cyan-300 hover:bg-slate-900 text-xs sm:text-sm font-semibold shadow-[0_0_26px_rgba(56,189,248,0.9)] px-4 py-3 flex items-center gap-2 neon-flicker"
+              className={`w-full justify-center rounded-full bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border text-xs sm:text-sm font-semibold px-4 py-3 flex items-center gap-2 transition-all duration-200 ${
+                oauthProvider === "github"
+                  ? "border-cyan-300 shadow-[0_0_28px_rgba(56,189,248,1)]"
+                  : "border-cyan-400/80 hover:border-cyan-300 hover:bg-slate-900 shadow-[0_0_18px_rgba(56,189,248,0.7)]"
+              }`}
               onClick={() => startOAuth("github")}
               data-testid="github-oauth-button"
+              disabled={loading}
             >
               <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 border border-cyan-400/80">
                 <Github className="h-4 w-4 text-cyan-300" />
               </span>
-              <span>Continuer avec GitHub (recommandé)</span>
+              <span className="flex items-center gap-2">
+                <span>Continuer avec GitHub (recommandé)</span>
+                {oauthProvider === "github" && (
+                  <span className="h-3 w-3 rounded-full bg-cyan-400 animate-ping" />
+                )}
+              </span>
             </Button>
+            {oauthProvider === "github" && (
+              <p className="mt-1 text-[10px] text-cyan-300/80 text-center">
+                Redirection sécurisée vers GitHub en cours…
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-2 text-[11px] sm:text-xs">
