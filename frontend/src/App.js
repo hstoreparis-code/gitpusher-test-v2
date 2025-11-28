@@ -1043,6 +1043,22 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             </div>
 
             <div className="hidden xs:flex items-center gap-2">
+            {/* Toggle Free / Premium (desktop) */}
+            <div className="hidden sm:flex items-center gap-2 mr-2">
+              <div className="px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700/80 flex items-center gap-2 shadow-[0_0_12px_rgba(15,23,42,0.6)]">
+                <span className="text-[10px] font-medium text-slate-50">Free</span>
+                <button
+                  type="button"
+                  onClick={() => navigate("/pricing#pro")}
+                  className="relative w-12 h-6 rounded-full bg-slate-300 transition-colors duration-200"
+                  aria-label="Basculer vers Premium"
+                >
+                  <span className="absolute top-[3px] w-4 h-4 rounded-full bg-black transition-transform duration-200 translate-x-[2px]" />
+                </button>
+                <span className="text-[10px] font-medium text-slate-400">Premium</span>
+              </div>
+            </div>
+
               <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
               <Switch
                 checked={dark}
