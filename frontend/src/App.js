@@ -2549,14 +2549,14 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   <span className="text-4xl font-bold text-violet-300">50</span>
                   <span className="text-slate-400 text-sm">crédits</span>
                 </div>
-                <p className="text-2xl font-semibold text-slate-300 mt-2">20€</p>
-                <p className="text-xs text-emerald-400">0,40€ par crédit • Économie de 20%</p>
+                <p className="text-2xl font-semibold text-slate-300 mt-2">39,99€</p>
+                <p className="text-xs text-emerald-400">≈ 0,80€ par crédit • 25 uploads</p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <ul className="space-y-2 text-sm text-slate-300">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="h-5 w-5 text-violet-400 flex-shrink-0 mt-0.5" />
-                    <span className="font-medium">50 uploads avec génération IA</span>
+                    <span className="font-medium">25 uploads avec génération IA</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="h-5 w-5 text-violet-400 flex-shrink-0 mt-0.5" />
@@ -2576,7 +2576,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   </li>
                 </ul>
                 <Button className="w-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 font-semibold mt-4 shadow-lg" size="lg">
-                  Acheter - 20€
+                  Acheter - 39,99€
                 </Button>
                 <p className="text-center text-xs text-slate-500">Meilleur rapport qualité/prix</p>
               </CardContent>
