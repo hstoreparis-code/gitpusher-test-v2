@@ -119,14 +119,44 @@ export function AdminSupportPanel() {
             </h1>
             <p className="text-sm text-slate-400 mt-1">Répondez aux utilisateurs en temps réel</p>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full border-slate-700 text-xs"
-            onClick={() => window.history.back()}
-          >
-            ← Retour
-          </Button>
+          <div className="flex items-center gap-3">
+            {/* Toggle Admin Online/Offline */}
+            <div className="flex items-center gap-3 px-4 py-2 bg-slate-900 border border-slate-700 rounded-full">
+              <span className="text-xs text-slate-400">Statut Admin</span>
+              <button
+                onClick={toggleAdminStatus}
+                className={`relative w-12 h-6 rounded-full transition-colors ${
+                  adminOnline ? 'bg-emerald-500' : 'bg-slate-600'
+                }`}
+              >
+                <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${
+                  adminOnline ? 'translate-x-[26px]' : 'translate-x-0.5'
+                }`} />
+              </button>
+              <div className="flex items-center gap-1.5">
+                <div className={`w-2 h-2 rounded-full ${adminOnline ? 'bg-emerald-400' : 'bg-red-400'} animate-pulse`}></div>
+                <span className={`text-xs font-medium ${adminOnline ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {adminOnline ? 'En ligne' : 'Hors ligne'}
+                </span>
+              </div>
+            </div>
+            
+            {/* Notification messages non lus */}
+            {unreadCount > 0 && (
+              <div className="px-3 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full flex items-center gap-2 shadow-[0_0_12px_rgba(245,158,11,0.5)] animate-pulse">
+                <span className="text-xs font-semibold text-amber-300">{unreadCount} nouveau{unreadCount > 1 ? 'x' : ''} message{unreadCount > 1 ? 's' : ''}</span>
+              </div>
+            )}
+            
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-slate-700 text-xs hover:border-cyan-500/40 hover:shadow-[0_0_12px_rgba(56,189,248,0.3)] transition-all"
+              onClick={() => window.history.back()}
+            >
+              ← Retour
+            </Button>
+          </div>
         </div>
 
         {loading ? (
