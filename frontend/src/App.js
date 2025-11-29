@@ -1447,7 +1447,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     )}
                   </div>
                   <div className="flex items-center gap-2">
-                    {(user?.plan || '').toLowerCase() === 'pro' || (user?.plan || '').toLowerCase() === 'enterprise' ? (
+                    {((user?.plan || '').toLowerCase() === 'premium' || (user?.plan || '').toLowerCase() === 'business') ? (
                       // Statut premium pour plans illimités
                       <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-violet-500/20 to-purple-500/20 border border-violet-400/40">
                         <span className="text-lg">✨</span>
