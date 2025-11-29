@@ -636,7 +636,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                   }}
                   data-testid="demo-login-button"
                 >
-                  Accéder à la démo
+                  {t("landingDemoCta")}
                 </Button>
               </div>
             </div>
