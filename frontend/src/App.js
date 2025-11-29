@@ -756,11 +756,26 @@ function AuthCard({ t, onSuccess, onClose }) {
         ×
       </button>
       <CardHeader>
-        <CardTitle className="text-base font-semibold">
-          Connexion via Git providers
+        <CardTitle className="text-base font-semibold text-center">
+          Bienvenue sur GitPusher.AI
         </CardTitle>
+        <p className="text-xs text-slate-400 text-center mt-2">Choisissez une option pour continuer</p>
       </CardHeader>
       <CardContent>
+        {/* Boutons de distinction Connexion / Inscription */}
+        <div className="grid grid-cols-2 gap-3 mb-6 p-1 bg-slate-950/60 rounded-full border border-slate-800">
+          <button
+            className="px-4 py-2.5 rounded-full text-sm font-medium transition-all bg-gradient-to-r from-cyan-500 to-violet-500 text-white shadow-[0_0_18px_rgba(56,189,248,0.6)]"
+          >
+            🔓 Connexion
+          </button>
+          <button
+            className="px-4 py-2.5 rounded-full text-sm font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+          >
+            ✨ Inscription
+          </button>
+        </div>
+
         {/* Bloc connexions rapides en premier */}
         <div className="mb-5 space-y-3">
           <div className="space-y-2 flex flex-col items-center">
