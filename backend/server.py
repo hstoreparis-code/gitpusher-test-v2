@@ -1436,9 +1436,9 @@ async def autofix_webhook_alert(request: Request):
         alert_payload=payload,
     )
 
-    # Re-use the same pipeline as admin-created incidents
-    dummy_auth = None  # admin_autofix_create_incident requires an Authorization header but internally uses require_admin
-    # Instead of calling that route directly, we duplicate the minimal logic here
+    # Re-use the same pipeline as admin-created incidents. We don't call the
+    # admin route directly because it expects an authenticated admin; instead
+    # we share the same helper functions.
     settings = await _get_autofix_settings()
     llm_result = await _run_autofix_llm(incident_create)
     diagnosis = llm_result.get("diagnosis") or ""
