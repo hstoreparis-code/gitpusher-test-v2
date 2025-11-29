@@ -110,7 +110,7 @@ export function AdminLoginPage() {
             {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
             <Button
               type="submit"
-              className="w-full mt-2 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm"
+              className="w-full mt-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white text-sm font-semibold shadow-[0_0_18px_rgba(56,189,248,0.6)]"
               disabled={loading}
             >
               {loading ? "…" : "Se connecter en admin"}
