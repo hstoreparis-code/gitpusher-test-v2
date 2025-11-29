@@ -1513,7 +1513,16 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                           className="w-full mt-1 rounded-md bg-slate-950/60 border border-slate-700/80 text-xs text-slate-200 p-2 resize-none min-h-[40px]"
                           rows={3}
                         />
-                        <div className="flex justify-end">
+                        <div className="flex justify-between items-center mt-1">
+                          {descriptionStatus && (
+                            <p
+                              className={`text-[10px] ${
+                                descriptionStatus.type === "success" ? "text-emerald-300" : "text-amber-300"
+                              }`}
+                            >
+                              {descriptionStatus.message}
+                            </p>
+                          )}
                           <Button
                             size="xs"
                             className="h-7 px-3 rounded-full text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-100"
