@@ -438,7 +438,7 @@ export function AdminDashboardPage() {
             <Button
               variant="outline"
               size="sm"
-              className="rounded-full border-violet-500/50 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 text-xs flex items-center gap-2"
+              className="rounded-full border-violet-500/50 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 hover:shadow-[0_0_18px_rgba(139,92,246,0.5)] text-xs flex items-center gap-2 transition-all"
               onClick={() => navigate("/admin/autofix")}
             >
               <Zap className="w-4 h-4" />
@@ -449,7 +449,7 @@ export function AdminDashboardPage() {
             <Button
               variant="outline"
               size="sm"
-              className="rounded-full border-emerald-500/50 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 text-xs flex items-center gap-2"
+              className="rounded-full border-emerald-500/50 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 hover:shadow-[0_0_18px_rgba(16,185,129,0.5)] text-xs flex items-center gap-2 transition-all"
               onClick={() => navigate("/admin/support")}
             >
               <MessageCircle className="w-4 h-4" />
@@ -460,7 +460,7 @@ export function AdminDashboardPage() {
             <Button
               variant="outline"
               size="sm"
-              className="rounded-full border-cyan-500/40 bg-slate-900 hover:bg-slate-900/80 text-slate-50 shadow-[0_0_18px_rgba(56,189,248,0.55)] transition-all text-xs"
+              className="rounded-full border-slate-700 hover:border-red-500/40 hover:shadow-[0_0_12px_rgba(239,68,68,0.3)] text-xs transition-all"
               onClick={() => {
                 localStorage.removeItem("admin_token");
                 navigate("/", { replace: true });
