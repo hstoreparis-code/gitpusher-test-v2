@@ -1104,6 +1104,11 @@ export function AdminDashboardPage() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              {/* Onglet Paramètres */}
+              <TabsContent value="settings" className="mt-4">
+                <AdminSettingsPanel />
+              </TabsContent>
             </Tabs>
           </>
         )}
