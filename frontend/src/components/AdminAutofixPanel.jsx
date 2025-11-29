@@ -355,7 +355,7 @@ export function AdminAutofixPanel() {
                     <div>
                       <h3 className="text-sm font-semibold text-slate-200 mb-3 flex items-center gap-2">
                         <Zap className="w-4 h-4 text-amber-400" />
-                        Actions suggérées par l'IA
+                        Actions suggérées par l’IA
                       </h3>
                       <div className="space-y-2">
                         {selectedIncident.suggested_actions.map((action, index) => (
