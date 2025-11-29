@@ -97,10 +97,10 @@ export function AdminLoginPage() {
             {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
             <Button
               type="submit"
-              className="w-full mt-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white text-sm font-semibold shadow-[0_0_18px_rgba(56,189,248,0.6)]"
+              className="w-full mt-4 rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white text-sm font-semibold shadow-[0_0_20px_rgba(56,189,248,0.7)] hover:shadow-[0_0_30px_rgba(56,189,248,1)] transition-all"
               disabled={loading}
             >
-              {loading ? "…" : "Se connecter en admin"}
+              {loading ? "Connexion en cours..." : "🔐 Se connecter"}
             </Button>
           </form>
         </CardContent>
