@@ -105,8 +105,90 @@ export function AdminDashboardPage() {
     activeJobs: 0,
     planDistribution: {}
   });
+  const [chartData, setChartData] = useState({
+    newUsersByDay: [],
+    subscriptionHistory: [],
+    planBreakdown: []
+  });
 
   const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
+
+  // Préparer les données pour les graphiques
+  const prepareChartData = (users) => {
+    // 1. Nouveaux utilisateurs par jour (derniers 30 jours)
+    const last30Days = [];
+    const today = new Date();
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      date.setHours(0, 0, 0, 0);
+      last30Days.push({
+        date: date.toISOString().split('T')[0],
+        label: date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' }),
+        count: 0,
+        free: 0,
+        starter: 0,
+        pro: 0,
+        premium: 0,
+        business: 0
+      });
+    }
+
+    users.forEach(user => {
+      if (user.created_at) {
+        const userDate = new Date(user.created_at);
+        userDate.setHours(0, 0, 0, 0);
+        const dateStr = userDate.toISOString().split('T')[0];
+        const dayEntry = last30Days.find(d => d.date === dateStr);
+        if (dayEntry) {
+          dayEntry.count++;
+          const plan = (user.plan || 'free').toLowerCase();
+          if (plan === 'free' || plan === 'freemium') dayEntry.free++;
+          else if (plan === 'starter') dayEntry.starter++;
+          else if (plan === 'pro') dayEntry.pro++;
+          else if (plan === 'premium') dayEntry.premium++;
+          else if (plan === 'business') dayEntry.business++;
+        }
+      }
+    });
+
+    // 2. Historique des abonnements (cumul)
+    const subscriptionHistory = last30Days.map((day, index) => {
+      const prevTotal = index > 0 ? last30Days[index - 1].count : 0;
+      return {
+        ...day,
+        total: last30Days.slice(0, index + 1).reduce((sum, d) => sum + d.count, 0)
+      };
+    });
+
+    // 3. Répartition des plans (pour pie chart)
+    const planCounts = users.reduce((acc, u) => {
+      const plan = (u.plan || 'free').toLowerCase();
+      const planName = plan === 'freemium' ? 'free' : plan;
+      acc[planName] = (acc[planName] || 0) + 1;
+      return acc;
+    }, {});
+
+    const COLORS = {
+      free: '#64748b',
+      starter: '#10b981',
+      pro: '#3b82f6',
+      premium: '#8b5cf6',
+      business: '#f59e0b'
+    };
+
+    const planBreakdown = Object.entries(planCounts).map(([plan, count]) => ({
+      name: plan.charAt(0).toUpperCase() + plan.slice(1),
+      value: count,
+      color: COLORS[plan] || '#64748b'
+    }));
+
+    return {
+      newUsersByDay: last30Days,
+      subscriptionHistory,
+      planBreakdown
+    };
+  };
 
   useEffect(() => {
     const fetchData = async () => {
