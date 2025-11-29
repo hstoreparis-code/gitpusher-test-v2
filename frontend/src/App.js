@@ -765,16 +765,30 @@ function AuthCard({ t, onSuccess, onClose }) {
         {/* Boutons de distinction Connexion / Inscription */}
         <div className="grid grid-cols-2 gap-3 mb-6 p-1 bg-slate-950/60 rounded-full border border-slate-800">
           <button
-            className="px-4 py-2.5 rounded-full text-sm font-medium transition-all bg-gradient-to-r from-cyan-500 to-violet-500 text-white shadow-[0_0_18px_rgba(56,189,248,0.6)]"
+            onClick={() => setTab("login")}
+            className={`px-4 py-2.5 rounded-full text-sm font-medium transition-all ${
+              tab === "login"
+                ? 'bg-gradient-to-r from-cyan-500 to-violet-500 text-white shadow-[0_0_18px_rgba(56,189,248,0.6)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+            }`}
           >
             🔓 Connexion
           </button>
           <button
-            className="px-4 py-2.5 rounded-full text-sm font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+            onClick={() => setTab("signup")}
+            className={`px-4 py-2.5 rounded-full text-sm font-medium transition-all ${
+              tab === "signup"
+                ? 'bg-gradient-to-r from-cyan-500 to-violet-500 text-white shadow-[0_0_18px_rgba(56,189,248,0.6)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+            }`}
           >
             ✨ Inscription
           </button>
         </div>
+
+        <p className="text-sm text-slate-300 mb-4 text-center font-medium">
+          {tab === "login" ? "Connectez-vous avec :" : "Créez votre compte avec :"}
+        </p>
 
         {/* Bloc connexions rapides en premier */}
         <div className="mb-5 space-y-3">
