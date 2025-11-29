@@ -935,6 +935,29 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       const updated = res.data;
       setSelected(updated);
       setProjects((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+  const updateDescription = async () => {
+    if (!selected) return;
+    const newDesc = editDescription;
+    if (newDesc === (selected.description || "")) return;
+
+    setUpdatingDescription(true);
+    try {
+      const res = await axios.patch(
+        `${API}/workflows/projects/${selected.id}`,
+        { description: newDesc },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      const updated = res.data;
+      setSelected(updated);
+      setProjects((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+    } catch (err) {
+      console.error("Update description failed", err);
+      alert("Erreur lors de la mise à jour de la description");
+    } finally {
+      setUpdatingDescription(false);
+    }
+  };
+
     } catch (err) {
       console.error("Rename failed", err);
       alert("Erreur lors du renommage du dépôt");
