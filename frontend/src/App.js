@@ -3363,6 +3363,7 @@ function AppShell() {
       />
       <Route path="/admin-login" element={<AdminLoginPage />} />
       <Route path="/admin" element={<AdminDashboardPage />} />
+      <Route path="/for-ai-assistants" element={<ForAIAssistants />} />
       <Route 
         path="/auth/callback" 
         element={<OAuthCallback />} 
