@@ -265,6 +265,16 @@ export function AdminDashboardPage() {
           revenueChart: financialStats.transactions_by_day || [],
           planRevenue: planRevenueData
         });
+
+        // Détecter les nouveaux abonnés (dernières 24h)
+        const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        const recentUsers = fetchedUsers.filter(u => {
+          if (!u.created_at) return false;
+          const createdDate = new Date(u.created_at);
+          return createdDate >= last24Hours;
+        });
+        setNewSubscribers(recentUsers);
+        setUnreadAlerts(recentUsers.length);
         
         setLoading(false);
       } catch (err) {
