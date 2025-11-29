@@ -424,6 +424,10 @@ export function AdminDashboardPage() {
                   <BarChart3 className="w-4 h-4 mr-2" />
                   Statistiques
                 </TabsTrigger>
+                <TabsTrigger value="finances">
+                  <DollarSign className="w-4 h-4 mr-2" />
+                  Finances
+                </TabsTrigger>
                 <TabsTrigger value="users">
                   <Users className="w-4 h-4 mr-2" />
                   Utilisateurs
