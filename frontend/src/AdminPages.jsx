@@ -538,19 +538,111 @@ export function AdminDashboardPage() {
             {/* Plan Distribution */}
             <Card className="bg-slate-900/80 border-white/10 shadow-[0_0_20px_rgba(56,189,248,0.15)]">
               <CardHeader>
-                <CardTitle className="text-base text-slate-100">Distribution des Plans</CardTitle>
+                <CardTitle className="text-base text-slate-100">Distribution des Plans IA</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                  {Object.entries(stats.planDistribution).map(([plan, count]) => (
-                    <div key={plan} className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 hover:border-cyan-500/30 hover:shadow-[0_0_12px_rgba(56,189,248,0.2)] transition-all">
-                      <p className="text-xs text-slate-400 uppercase tracking-wider">{plan}</p>
-                      <p className="text-2xl font-bold text-slate-100 mt-1">{count}</p>
-                      <p className="text-[10px] text-slate-500 mt-1">
-                        {((count / stats.totalUsers) * 100).toFixed(1)}%
-                      </p>
-                    </div>
-                  ))}
+                  {(() => {
+                    const allPlans = [
+                      { 
+                        key: 'free', 
+                        label: 'Free', 
+                        icon: '🆓',
+                        gradient: 'from-slate-500/20 to-slate-600/10',
+                        border: 'border-slate-500/30',
+                        glow: 'hover:shadow-[0_0_18px_rgba(100,116,139,0.4)]',
+                        textColor: 'text-slate-300'
+                      },
+                      { 
+                        key: 'starter', 
+                        label: 'Starter', 
+                        icon: '🚀',
+                        gradient: 'from-emerald-500/20 to-cyan-500/10',
+                        border: 'border-emerald-500/30',
+                        glow: 'hover:shadow-[0_0_18px_rgba(16,185,129,0.5)]',
+                        textColor: 'text-emerald-300'
+                      },
+                      { 
+                        key: 'pro', 
+                        label: 'Pro', 
+                        icon: '⚡',
+                        gradient: 'from-blue-500/20 to-cyan-500/10',
+                        border: 'border-blue-500/30',
+                        glow: 'hover:shadow-[0_0_18px_rgba(59,130,246,0.5)]',
+                        textColor: 'text-blue-300'
+                      },
+                      { 
+                        key: 'premium', 
+                        label: 'Premium', 
+                        icon: '💎',
+                        gradient: 'from-violet-500/20 to-purple-500/10',
+                        border: 'border-violet-500/30',
+                        glow: 'hover:shadow-[0_0_18px_rgba(139,92,246,0.5)]',
+                        textColor: 'text-violet-300'
+                      },
+                      { 
+                        key: 'business', 
+                        label: 'Business', 
+                        icon: '🏢',
+                        gradient: 'from-amber-500/20 to-orange-500/10',
+                        border: 'border-amber-500/30',
+                        glow: 'hover:shadow-[0_0_18px_rgba(245,158,11,0.5)]',
+                        textColor: 'text-amber-300'
+                      }
+                    ];
+
+                    // Normaliser les données (freemium → free, demo → free)
+                    const normalizedDistribution = {};
+                    Object.entries(stats.planDistribution).forEach(([plan, count]) => {
+                      const normalized = (plan || 'free').toLowerCase();
+                      const key = (normalized === 'freemium' || normalized === 'demo') ? 'free' : normalized;
+                      normalizedDistribution[key] = (normalizedDistribution[key] || 0) + count;
+                    });
+
+                    return allPlans.map(planConfig => {
+                      const count = normalizedDistribution[planConfig.key] || 0;
+                      const percentage = stats.totalUsers > 0 ? ((count / stats.totalUsers) * 100).toFixed(1) : '0.0';
+                      
+                      return (
+                        <div 
+                          key={planConfig.key} 
+                          className={`relative bg-gradient-to-br ${planConfig.gradient} border ${planConfig.border} rounded-xl p-4 ${planConfig.glow} transition-all group overflow-hidden`}
+                        >
+                          {/* Effet de scan IA */}
+                          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                          
+                          {/* Contenu */}
+                          <div className="relative z-10">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-2xl">{planConfig.icon}</span>
+                              <span className={`text-xs font-mono ${planConfig.textColor} opacity-60`}>
+                                [{planConfig.key.toUpperCase()}]
+                              </span>
+                            </div>
+                            <p className={`text-xs uppercase tracking-wider ${planConfig.textColor} font-semibold mb-1`}>
+                              {planConfig.label}
+                            </p>
+                            <p className={`text-3xl font-bold ${planConfig.textColor} mb-1`}>
+                              {count}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <p className="text-[10px] text-slate-500">
+                                {percentage}%
+                              </p>
+                              {count > 0 && (
+                                <span className="text-[10px] text-emerald-400 animate-pulse">● Actif</span>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Bordure animée pour les plans actifs */}
+                          {count > 0 && (
+                            <div className="absolute inset-0 border-2 border-transparent group-hover:border-cyan-400/20 rounded-xl transition-all"></div>
+                          )}
+                        </div>
+                      );
+                    });
+                  })()}
                 </div>
               </CardContent>
             </Card>
