@@ -1770,16 +1770,16 @@ async def run_project_pipeline(user: Dict, project: Dict, uploads: List[Dict]) -
 
     # 8) Upload generated files
     if readme_md:
-        await put_file_for_provider(provider, gh_token, repo_info, "README.md", readme_md.encode("utf-8"), main_commit)
+        await put_file_for_provider(provider, git_token, repo_info, "README.md", readme_md.encode("utf-8"), main_commit)
     
     if gitignore_content:
-        await put_file_for_provider(provider, gh_token, repo_info, ".gitignore", gitignore_content.encode("utf-8"), main_commit)
+        await put_file_for_provider(provider, git_token, repo_info, ".gitignore", gitignore_content.encode("utf-8"), main_commit)
     
     if license_content:
-        await put_file_for_provider(provider, gh_token, repo_info, "LICENSE", license_content.encode("utf-8"), main_commit)
+        await put_file_for_provider(provider, git_token, repo_info, "LICENSE", license_content.encode("utf-8"), main_commit)
     
     if changelog_content:
-        await put_file_for_provider(provider, gh_token, repo_info, "CHANGELOG.md", changelog_content.encode("utf-8"), main_commit)
+        await put_file_for_provider(provider, git_token, repo_info, "CHANGELOG.md", changelog_content.encode("utf-8"), main_commit)
 
     now = datetime.now(timezone.utc).isoformat()
     await db.projects.update_one(
