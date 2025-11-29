@@ -3718,7 +3718,7 @@ function AppShell() {
       />
       <Route path="/admin-login" element={<AdminLoginPage />} />
       <Route path="/admin" element={<AdminDashboardPage />} />
-      <Route path="/admin/support" element={<AdminSupportPanel token={localStorage.getItem("admin_token")} />} />
+      <Route path="/admin/support" element={<AdminSupportPanel />} />
       <Route path="/for-ai-assistants" element={<ForAIAssistants />} />
       <Route 
         path="/auth/callback" 
