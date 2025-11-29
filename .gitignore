@@ -1,0 +1,54 @@
+```
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*~
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+.installed.cfg
+lib/
+lib64/
+*.egg
+
+# Dependencies
+requirements.txt
+Pipfile.lock
+poetry.lock
+
+# Environment files
+.env
+.env.local
+.env.prod
+.env.development
+.env.test
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swm
+```
