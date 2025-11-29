@@ -274,7 +274,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             </div>
             <div className="flex flex-col leading-tight text-left">
               <span className="text-[17px] md:text-[19px] font-semibold tracking-tight">
-                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span>
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span><span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent text-[10px] md:text-[11px] ml-0.5">.AI</span>
               </span>
               <span className="text-[11px] md:text-[13px] text-slate-400">No-Code GitHub workflow</span>
             </div>
