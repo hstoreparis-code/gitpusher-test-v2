@@ -400,7 +400,7 @@ export function AdminDashboardPage() {
             {/* Plan Distribution */}
             <Card className="bg-slate-900/80 border-slate-800">
               <CardHeader>
-                <CardTitle className="text-base text-slate-100">Distribution des Plans</CardTitle>
+                <CardTitle className="text-base">Distribution des Plans</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
@@ -443,7 +443,7 @@ export function AdminDashboardPage() {
                 {/* Graphique: Nouveaux abonnés par jour */}
                 <Card className="bg-slate-900/80 border-slate-800">
                   <CardHeader>
-                    <CardTitle className="text-base flex items-center gap-2 text-slate-100">
+                    <CardTitle className="text-base flex items-center gap-2">
                       <Calendar className="w-5 h-5 text-cyan-400" />
                       Nouveaux abonnés par jour (30 derniers jours)
                     </CardTitle>
@@ -484,7 +484,7 @@ export function AdminDashboardPage() {
                   {/* Graphique: Croissance cumulative */}
                   <Card className="bg-slate-900/80 border-slate-800">
                     <CardHeader>
-                      <CardTitle className="text-base flex items-center gap-2 text-slate-100">
+                      <CardTitle className="text-base flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-emerald-400" />
                         Croissance cumulative des abonnements
                       </CardTitle>
@@ -526,7 +526,7 @@ export function AdminDashboardPage() {
                   {/* Graphique: Répartition des plans */}
                   <Card className="bg-slate-900/80 border-slate-800">
                     <CardHeader>
-                      <CardTitle className="text-base flex items-center gap-2 text-slate-100">
+                      <CardTitle className="text-base flex items-center gap-2">
                         <Activity className="w-5 h-5 text-violet-400" />
                         Répartition des plans
                       </CardTitle>
@@ -564,7 +564,7 @@ export function AdminDashboardPage() {
                 {/* Tableau: Historique détaillé jour par jour */}
                 <Card className="bg-slate-900/80 border-slate-800">
                   <CardHeader>
-                    <CardTitle className="text-base flex items-center gap-2 text-slate-100">
+                    <CardTitle className="text-base flex items-center gap-2">
                       <Calendar className="w-5 h-5 text-cyan-400" />
                       Historique détaillé des abonnements
                     </CardTitle>
@@ -673,7 +673,7 @@ export function AdminDashboardPage() {
                       {/* Revenue over time */}
                       <Card className="bg-slate-900/80 border-slate-800">
                         <CardHeader>
-                          <CardTitle className="text-base flex items-center gap-2 text-slate-100">
+                          <CardTitle className="text-base flex items-center gap-2">
                             <TrendingUp className="w-5 h-5 text-emerald-400" />
                             Revenus par jour (30 derniers jours)
                           </CardTitle>
@@ -722,7 +722,7 @@ export function AdminDashboardPage() {
                       {/* Revenue by plan */}
                       <Card className="bg-slate-900/80 border-slate-800">
                         <CardHeader>
-                          <CardTitle className="text-base flex items-center gap-2 text-slate-100">
+                          <CardTitle className="text-base flex items-center gap-2">
                             <Activity className="w-5 h-5 text-violet-400" />
                             Revenus par plan
                           </CardTitle>
@@ -762,7 +762,7 @@ export function AdminDashboardPage() {
                     <Card className="bg-slate-900/80 border-slate-800">
                       <CardHeader>
                         <div className="flex items-center justify-between">
-                          <CardTitle className="text-base flex items-center gap-2 text-slate-100">
+                          <CardTitle className="text-base flex items-center gap-2">
                             <CreditCardIcon className="w-5 h-5 text-cyan-400" />
                             Transactions récentes
                             <span className="text-xs text-slate-500 ml-2">(connecté à Stripe en temps réel)</span>
@@ -873,7 +873,7 @@ export function AdminDashboardPage() {
                 {/* Users Table */}
                 <Card className="bg-slate-900/80 border-slate-800">
                   <CardHeader>
-                    <CardTitle className="text-sm sm:text-base text-slate-100">Gestion des Utilisateurs</CardTitle>
+                    <CardTitle className="text-sm sm:text-base">Gestion des Utilisateurs</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="overflow-x-auto text-xs sm:text-sm">
@@ -907,7 +907,7 @@ export function AdminDashboardPage() {
               <TabsContent value="jobs" className="mt-4 space-y-3">
                 <Card className="bg-slate-900/80 border-slate-800">
                   <CardHeader>
-                    <CardTitle className="text-sm sm:text-base text-slate-100">Historique des Jobs</CardTitle>
+                    <CardTitle className="text-sm sm:text-base">Historique des Jobs</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="overflow-x-auto text-xs sm:text-sm">
