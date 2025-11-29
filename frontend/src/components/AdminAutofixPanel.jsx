@@ -345,7 +345,7 @@ export function AdminAutofixPanel() {
                       </h3>
                       <span className={`inline-flex px-3 py-1.5 rounded-full text-sm font-medium border ${getStatusColor(selectedIncident.status)}`}>
                         {selectedIncident.status === 'resolved' ? '✓ Résolu' :
-                         selectedIncident.status === 'pending_approval' ? '⏳ En attente d\'approbation' :
+                         selectedIncident.status === 'pending_approval' ? '⏳ En attente d’ approbation' :
                          selectedIncident.status === 'investigating' ? '🔍 Investigation en cours' :
                          selectedIncident.status}
                       </span>
