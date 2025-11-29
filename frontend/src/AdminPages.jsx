@@ -308,6 +308,16 @@ export function AdminDashboardPage() {
         });
         setNewSubscribers(recentUsers);
         setUnreadAlerts(recentUsers.length);
+
+        // Charger les messages support non lus
+        try {
+          const unreadRes = await axios.get(`${API}/support/unread-count`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setSupportUnreadCount(unreadRes.data.unread_count || 0);
+        } catch (err) {
+          console.error("Failed to load unread count", err);
+        }
         
         setLoading(false);
       } catch (err) {
