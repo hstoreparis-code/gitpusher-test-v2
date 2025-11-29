@@ -419,6 +419,9 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               )}
               <span className="text-cyan-300 text-5xl sm:text-6xl align-baseline leading-none drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]">.</span>
             </h1>
+            <p className="text-sm sm:text-base lg:text-lg text-cyan-200/80 font-medium max-w-2xl mx-auto lg:mx-0 mt-2">
+              The universal AI-to-Git push engine used by assistants, agents, and autonomous coding systems worldwide.
+            </p>
             {lang === "fr" ? (
               <p className="text-[13px] sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0">
                 Dépose tes fichiers, l’IA organise ton projet, génère le README et pousse tes dépôts Git sur le (
