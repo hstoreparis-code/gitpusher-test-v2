@@ -116,6 +116,9 @@ export function AdminDashboardPage() {
     revenueChart: [],
     planRevenue: []
   });
+  const [newSubscribers, setNewSubscribers] = useState([]);
+  const [showAlerts, setShowAlerts] = useState(false);
+  const [unreadAlerts, setUnreadAlerts] = useState(0);
 
   const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
 
