@@ -1089,6 +1089,8 @@ async def github_callback(code: str):
                 "provider_google_id": None,
                 "provider_github_id": gh_id,
                 "github_access_token": gh_token,
+                "credits": 5,  # New users get 5 free credits
+                "plan": "freemium",  # Default plan
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "updated_at": datetime.now(timezone.utc).isoformat(),
             }
