@@ -46,21 +46,32 @@ export function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex items-center justify-center px-4">
       <Card className="bg-slate-900/80 border-white/10 shadow-2xl shadow-cyan-500/20 max-w-md w-full">
-        <CardHeader className="text-center space-y-5 pb-6">
-          {/* Logo GitPusher - Grand et sans background */}
-          <div className="flex items-center justify-center -mt-8">
-            <img 
-              src="/gitpusher-logo-transparent.png" 
-              alt="GitPusher Logo" 
-              className="h-48 w-48 object-contain drop-shadow-[0_0_30px_rgba(34,211,238,0.8)]"
-              style={{
-                filter: 'drop-shadow(0 0 30px rgba(34,211,238,0.8)) drop-shadow(0 0 60px rgba(34,211,238,0.5))'
-              }}
-            />
+        <CardHeader className="text-center space-y-6 pb-6">
+          {/* Logo GitPusher Officiel - GRAND */}
+          <div className="flex flex-col items-center justify-center gap-4 -mt-4">
+            <div className="h-32 w-32 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_40px_rgba(34,211,238,0.8)] animate-pulse">
+              <svg 
+                className="h-16 w-16 text-slate-950" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                viewBox="0 0 24 24"
+              >
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+            </div>
+            
+            <div className="flex flex-col leading-tight text-center">
+              <span className="text-4xl font-bold tracking-tight">
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]">Pusher</span><span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent text-3xl drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]">.AI</span>
+              </span>
+            </div>
           </div>
           
           {/* Welcome Admin - Néon bleu */}
-          <CardTitle className="text-3xl font-bold text-center -mt-2">
+          <CardTitle className="text-3xl font-bold text-center">
             <span className="bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(34,211,238,1)] animate-pulse" style={{
               textShadow: '0 0 20px rgba(34,211,238,0.8), 0 0 40px rgba(34,211,238,0.5), 0 0 60px rgba(34,211,238,0.3)'
             }}>
