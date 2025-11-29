@@ -50,12 +50,11 @@ export function AdminLoginPage() {
           {/* Logo GitPusher - Grand et sans background */}
           <div className="flex items-center justify-center -mt-8">
             <img 
-              src="/gitpusher-logo.png" 
+              src="/gitpusher-logo-transparent.png" 
               alt="GitPusher Logo" 
-              className="h-40 w-40 object-contain drop-shadow-[0_0_25px_rgba(34,211,238,0.7)]"
+              className="h-48 w-48 object-contain drop-shadow-[0_0_30px_rgba(34,211,238,0.8)]"
               style={{
-                filter: 'drop-shadow(0 0 25px rgba(34,211,238,0.7)) drop-shadow(0 0 50px rgba(34,211,238,0.4))',
-                mixBlendMode: 'screen'
+                filter: 'drop-shadow(0 0 30px rgba(34,211,238,0.8)) drop-shadow(0 0 60px rgba(34,211,238,0.5))'
               }}
             />
           </div>
