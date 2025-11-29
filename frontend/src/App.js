@@ -627,6 +627,12 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             >
               Tarifs
             </button>
+            <button
+              onClick={() => navigate("/for-ai-assistants")}
+              className="hover:text-cyan-300 transition-colors"
+            >
+              🤖 For AI Assistants
+            </button>
           </div>
         </div>
       </footer>
