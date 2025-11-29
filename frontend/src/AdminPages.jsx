@@ -347,15 +347,17 @@ export function AdminDashboardPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className={`rounded-full border-slate-700 text-xs flex items-center gap-2 ${
-                  unreadAlerts > 0 ? 'border-amber-500/50 bg-amber-500/10' : ''
+                className={`rounded-full text-xs flex items-center gap-2 transition-all ${
+                  unreadAlerts > 0 
+                    ? 'border-amber-500/50 bg-amber-500/10 shadow-[0_0_18px_rgba(245,158,11,0.5)] text-amber-300' 
+                    : 'border-slate-700 hover:border-cyan-500/40 hover:shadow-[0_0_12px_rgba(56,189,248,0.3)]'
                 }`}
                 onClick={() => setShowAlerts(!showAlerts)}
               >
                 <Bell className={`w-4 h-4 ${unreadAlerts > 0 ? 'text-amber-400 animate-pulse' : ''}`} />
                 Alertes
                 {unreadAlerts > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse shadow-[0_0_12px_rgba(245,158,11,0.8)]">
                     {unreadAlerts}
                   </span>
                 )}
