@@ -878,6 +878,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   const [uploadedFiles, setUploadedFiles] = useState([]);
   
   const [editName, setEditName] = useState("");
+  const [renameStatus, setRenameStatus] = useState(null);
+  const [descriptionStatus, setDescriptionStatus] = useState(null);
+
   const [renaming, setRenaming] = useState(false);
   const [editDescription, setEditDescription] = useState("");
   const [updatingDescription, setUpdatingDescription] = useState(false);
