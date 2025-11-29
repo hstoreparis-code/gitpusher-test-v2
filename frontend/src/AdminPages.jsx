@@ -335,17 +335,110 @@ export function AdminDashboardPage() {
             </h1>
             <p className="text-sm text-slate-400 mt-1">Gérez l'intégralité de votre plateforme</p>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full border-slate-700 text-xs"
-            onClick={() => {
-              localStorage.removeItem("admin_token");
-              navigate("/", { replace: true });
-            }}
-          >
-            Déconnexion
-          </Button>
+          <div className="flex items-center gap-3">
+            {/* Bouton Alertes Nouveaux Abonnés */}
+            <div className="relative">
+              <Button
+                variant="outline"
+                size="sm"
+                className={`rounded-full border-slate-700 text-xs flex items-center gap-2 ${
+                  unreadAlerts > 0 ? 'border-amber-500/50 bg-amber-500/10' : ''
+                }`}
+                onClick={() => setShowAlerts(!showAlerts)}
+              >
+                <Bell className={`w-4 h-4 ${unreadAlerts > 0 ? 'text-amber-400 animate-pulse' : ''}`} />
+                Alertes
+                {unreadAlerts > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
+                    {unreadAlerts}
+                  </span>
+                )}
+              </Button>
+              
+              {/* Popup Alertes */}
+              {showAlerts && (
+                <div className="absolute right-0 top-12 w-96 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-50 max-h-96 overflow-auto">
+                  <div className="p-4 border-b border-slate-800">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-slate-100">Nouveaux abonnés (24h)</h3>
+                      <button 
+                        onClick={() => {
+                          setUnreadAlerts(0);
+                          setShowAlerts(false);
+                        }}
+                        className="text-xs text-cyan-400 hover:text-cyan-300"
+                      >
+                        Marquer comme lu
+                      </button>
+                    </div>
+                  </div>
+                  <div className="divide-y divide-slate-800">
+                    {newSubscribers.length === 0 ? (
+                      <div className="p-4 text-center text-sm text-slate-400">
+                        Aucun nouvel abonné dans les dernières 24h
+                      </div>
+                    ) : (
+                      newSubscribers.map((user, index) => (
+                        <div key={index} className="p-3 hover:bg-slate-800/50 transition-colors">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="flex-1">
+                              <p className="text-sm font-medium text-slate-200">{user.email}</p>
+                              <p className="text-xs text-slate-400 mt-1">{user.display_name || 'Sans nom'}</p>
+                              <div className="flex items-center gap-2 mt-2">
+                                <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium ${
+                                  (user.plan || '').toLowerCase() === 'premium' || (user.plan || '').toLowerCase() === 'business'
+                                    ? 'bg-violet-500/10 text-violet-300 border border-violet-500/20'
+                                    : (user.plan || '').toLowerCase() === 'pro'
+                                    ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20'
+                                    : (user.plan || '').toLowerCase() === 'starter'
+                                    ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+                                    : 'bg-slate-700/50 text-slate-300 border border-slate-600'
+                                }`}>
+                                  {user.plan || 'free'}
+                                </span>
+                                <span className="text-[10px] text-slate-500">
+                                  {new Date(user.created_at).toLocaleString('fr-FR', { 
+                                    day: '2-digit', 
+                                    month: 'short',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                  })}
+                                </span>
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 px-2 text-xs text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10"
+                              onClick={() => {
+                                window.location.href = `mailto:${user.email}?subject=Bienvenue sur GitPusher&body=Bonjour,\n\nMerci de vous être inscrit !`;
+                              }}
+                            >
+                              <Mail className="w-3 h-3 mr-1" />
+                              Email
+                            </Button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Bouton Déconnexion */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-slate-700 text-xs"
+              onClick={() => {
+                localStorage.removeItem("admin_token");
+                navigate("/", { replace: true });
+              }}
+            >
+              Déconnexion
+            </Button>
+          </div>
         </div>
 
         {error && <p className="text-xs text-red-400 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">{error}</p>}
