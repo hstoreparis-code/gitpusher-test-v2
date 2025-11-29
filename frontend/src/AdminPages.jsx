@@ -47,17 +47,21 @@ export function AdminLoginPage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex items-center justify-center px-4">
       <Card className="bg-slate-900/80 border-white/10 shadow-2xl shadow-cyan-500/20 max-w-md w-full">
         <CardHeader className="text-center space-y-5 pb-6">
-          {/* Logo GitPusher */}
-          <div className="flex items-center justify-center">
+          {/* Logo GitPusher - Grand et sans background */}
+          <div className="flex items-center justify-center -mt-8">
             <img 
               src="/gitpusher-logo.png" 
               alt="GitPusher Logo" 
-              className="h-24 w-24 object-contain drop-shadow-[0_0_20px_rgba(34,211,238,0.6)]"
+              className="h-40 w-40 object-contain drop-shadow-[0_0_25px_rgba(34,211,238,0.7)]"
+              style={{
+                filter: 'drop-shadow(0 0 25px rgba(34,211,238,0.7)) drop-shadow(0 0 50px rgba(34,211,238,0.4))',
+                mixBlendMode: 'screen'
+              }}
             />
           </div>
           
           {/* Welcome Admin - Néon bleu */}
-          <CardTitle className="text-3xl font-bold text-center">
+          <CardTitle className="text-3xl font-bold text-center -mt-2">
             <span className="bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(34,211,238,1)] animate-pulse" style={{
               textShadow: '0 0 20px rgba(34,211,238,0.8), 0 0 40px rgba(34,211,238,0.5), 0 0 60px rgba(34,211,238,0.3)'
             }}>
