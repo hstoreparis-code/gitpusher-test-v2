@@ -1265,6 +1265,8 @@ async def admin_autofix_update_settings(payload: AutofixSettings, authorization:
         upsert=True,
     )
 
+    return payload
+
 
 class AutofixIncidentCreate(BaseModel):
     alert_name: str
