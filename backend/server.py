@@ -1684,10 +1684,23 @@ async def run_project_pipeline(user: Dict, project: Dict, uploads: List[Dict]) -
 
     Extrait de /process pour pouvoir être réutilisé par les jobs.
     """
-    if not user.get("github_access_token"):
-        # Pour l'instant, nous utilisons encore le token GitHub comme jeton unique.
-        # Plus tard, on pourra stocker un token par provider.
-        raise HTTPException(status_code=400, detail="Git provider token not linked for this user")
+    # Get the provider and corresponding token
+    provider = project.get("provider", "github").lower()
+    
+    # Get the appropriate token based on provider
+    git_token = None
+    if provider == "github":
+        git_token = user.get("github_access_token")
+    elif provider == "gitlab":
+        git_token = user.get("gitlab_access_token")
+    elif provider == "bitbucket":
+        git_token = user.get("bitbucket_access_token")
+    else:
+        # Default to GitHub token for other providers
+        git_token = user.get("github_access_token")
+    
+    if not git_token:
+        raise HTTPException(status_code=400, detail=f"Git provider token not linked for this user (provider: {provider})")
 
     if not uploads:
         raise HTTPException(status_code=400, detail="No files uploaded for this project")
@@ -1698,7 +1711,6 @@ async def run_project_pipeline(user: Dict, project: Dict, uploads: List[Dict]) -
     ]
 
     language = project.get("language", "en")
-    provider = project.get("provider", "github")
     auto_prompts = project.get("auto_prompts", {
         "readme": True,
         "gitignore": True,
@@ -1747,15 +1759,14 @@ async def run_project_pipeline(user: Dict, project: Dict, uploads: List[Dict]) -
     main_commit = commit_messages[0] if commit_messages else "chore: initial import"
 
     # 6) Create Git repo for selected provider
-    gh_token = user["github_access_token"]  # TODO: provider-specific tokens
-    repo_info = await create_repo_for_provider(provider, gh_token, project["name"], project.get("description"))
+    repo_info = await create_repo_for_provider(provider, git_token, project["name"], project.get("description"))
     repo_url = repo_info.url
 
     # 7) Upload user files via provider contents API
     for upload in uploads:
         path = os.path.basename(upload["stored_path"])
         content_bytes = Path(upload["stored_path"]).read_bytes()
-        await put_file_for_provider(provider, gh_token, repo_info, path, content_bytes, main_commit)
+        await put_file_for_provider(provider, git_token, repo_info, path, content_bytes, main_commit)
 
     # 8) Upload generated files
     if readme_md:
