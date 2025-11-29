@@ -61,14 +61,33 @@ export function AdminSupportPanel() {
 
   const loadConversations = async () => {
     try {
-      const res = await axios.get(`${API}/support/conversations`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setConversations(res.data);
+      const [convRes, unreadRes] = await Promise.all([
+        axios.get(`${API}/support/conversations`, {
+          headers: { Authorization: `Bearer ${token}` }
+        }),
+        axios.get(`${API}/support/unread-count`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      ]);
+      setConversations(convRes.data);
+      setUnreadCount(unreadRes.data.unread_count || 0);
       setLoading(false);
     } catch (err) {
       console.error("Failed to load conversations", err);
       setLoading(false);
+    }
+  };
+
+  const toggleAdminStatus = async () => {
+    try {
+      await axios.patch(
+        `${API}/support/admin-status`,
+        { online: !adminOnline },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setAdminOnline(!adminOnline);
+    } catch (err) {
+      console.error("Failed to update admin status", err);
     }
   };
 
