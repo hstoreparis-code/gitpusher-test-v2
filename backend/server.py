@@ -973,6 +973,227 @@ async def github_callback(code: str):
         return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=oauth_failed")
 
 
+# =============================================
+# GitLab OAuth Endpoints
+# =============================================
+
+@api_router.get("/auth/oauth/gitlab/url")
+async def gitlab_oauth_url():
+    """Get GitLab OAuth authorization URL."""
+    if not GITLAB_CLIENT_ID:
+        raise HTTPException(status_code=500, detail="GitLab OAuth not configured")
+    scope = "api read_user read_repository write_repository"
+    url = (
+        "https://gitlab.com/oauth/authorize"
+        f"?client_id={GITLAB_CLIENT_ID}"
+        f"&redirect_uri={GITLAB_REDIRECT_URI}"
+        f"&response_type=code"
+        f"&scope={scope}"
+    )
+    return {"url": url}
+
+
+@api_router.get("/auth/oauth/gitlab/callback")
+async def gitlab_callback(code: str):
+    """GitLab OAuth callback - login/signup with GitLab."""
+    if not GITLAB_CLIENT_ID or not GITLAB_CLIENT_SECRET:
+        return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=oauth_not_configured")
+
+    try:
+        async with httpx.AsyncClient() as client_http:
+            # Exchange code for access token
+            token_res = await client_http.post(
+                "https://gitlab.com/oauth/token",
+                data={
+                    "client_id": GITLAB_CLIENT_ID,
+                    "client_secret": GITLAB_CLIENT_SECRET,
+                    "code": code,
+                    "grant_type": "authorization_code",
+                    "redirect_uri": GITLAB_REDIRECT_URI,
+                },
+                headers={"Accept": "application/json"},
+                timeout=20,
+            )
+            if token_res.status_code != 200:
+                logger.error(f"GitLab token exchange failed: {token_res.text}")
+                return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=failed_token_exchange")
+            
+            token_data = token_res.json()
+            gl_token = token_data.get("access_token")
+            if not gl_token:
+                return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=no_gitlab_token")
+
+            # Fetch GitLab user profile
+            user_res = await client_http.get(
+                "https://gitlab.com/api/v4/user",
+                headers={"Authorization": f"Bearer {gl_token}"},
+                timeout=20,
+            )
+            if user_res.status_code != 200:
+                return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=failed_profile_fetch")
+            
+            gl_profile = user_res.json()
+            gl_id = str(gl_profile.get("id"))
+            gl_email = gl_profile.get("email")
+            gl_username = gl_profile.get("username")
+            gl_name = gl_profile.get("name") or gl_username
+
+            # Fallback email
+            if not gl_email:
+                gl_email = f"{gl_username}@gitlab.pushify.app"
+
+        # Find or create user
+        user = await db.users.find_one({"email": gl_email})
+        if user:
+            await db.users.update_one(
+                {"_id": user["_id"]},
+                {
+                    "$set": {
+                        "provider_gitlab_id": gl_id,
+                        "gitlab_access_token": gl_token,
+                        "updated_at": datetime.now(timezone.utc).isoformat(),
+                    }
+                },
+            )
+        else:
+            user_id = str(uuid.uuid4())
+            user = {
+                "_id": user_id,
+                "email": gl_email,
+                "display_name": gl_name,
+                "password_hash": None,
+                "provider_gitlab_id": gl_id,
+                "gitlab_access_token": gl_token,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }
+            await db.users.insert_one(user)
+
+        token = create_access_token({"sub": user["_id"]})
+        return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?token={token}")
+
+    except Exception as e:
+        logger.error(f"GitLab OAuth error: {str(e)}")
+        return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=oauth_failed")
+
+
+# =============================================
+# Bitbucket OAuth Endpoints
+# =============================================
+
+@api_router.get("/auth/oauth/bitbucket/url")
+async def bitbucket_oauth_url():
+    """Get Bitbucket OAuth authorization URL."""
+    if not BITBUCKET_CLIENT_ID:
+        raise HTTPException(status_code=500, detail="Bitbucket OAuth not configured")
+    url = (
+        "https://bitbucket.org/site/oauth2/authorize"
+        f"?client_id={BITBUCKET_CLIENT_ID}"
+        f"&redirect_uri={BITBUCKET_REDIRECT_URI}"
+        f"&response_type=code"
+    )
+    return {"url": url}
+
+
+@api_router.get("/auth/oauth/bitbucket/callback")
+async def bitbucket_callback(code: str):
+    """Bitbucket OAuth callback - login/signup with Bitbucket."""
+    if not BITBUCKET_CLIENT_ID or not BITBUCKET_CLIENT_SECRET:
+        return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=oauth_not_configured")
+
+    try:
+        async with httpx.AsyncClient() as client_http:
+            # Exchange code for access token (Bitbucket uses Basic Auth)
+            import base64
+            auth_header = base64.b64encode(f"{BITBUCKET_CLIENT_ID}:{BITBUCKET_CLIENT_SECRET}".encode()).decode()
+            
+            token_res = await client_http.post(
+                "https://bitbucket.org/site/oauth2/access_token",
+                data={
+                    "grant_type": "authorization_code",
+                    "code": code,
+                    "redirect_uri": BITBUCKET_REDIRECT_URI,
+                },
+                headers={
+                    "Authorization": f"Basic {auth_header}",
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                timeout=20,
+            )
+            if token_res.status_code != 200:
+                logger.error(f"Bitbucket token exchange failed: {token_res.text}")
+                return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=failed_token_exchange")
+            
+            token_data = token_res.json()
+            bb_token = token_data.get("access_token")
+            if not bb_token:
+                return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=no_bitbucket_token")
+
+            # Fetch Bitbucket user profile
+            user_res = await client_http.get(
+                "https://api.bitbucket.org/2.0/user",
+                headers={"Authorization": f"Bearer {bb_token}"},
+                timeout=20,
+            )
+            if user_res.status_code != 200:
+                return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=failed_profile_fetch")
+            
+            bb_profile = user_res.json()
+            bb_id = bb_profile.get("account_id") or bb_profile.get("uuid")
+            bb_username = bb_profile.get("username") or bb_profile.get("nickname")
+            bb_name = bb_profile.get("display_name") or bb_username
+
+            # Fetch email from emails endpoint
+            emails_res = await client_http.get(
+                "https://api.bitbucket.org/2.0/user/emails",
+                headers={"Authorization": f"Bearer {bb_token}"},
+                timeout=20,
+            )
+            bb_email = None
+            if emails_res.status_code == 200:
+                emails_data = emails_res.json()
+                emails = emails_data.get("values", [])
+                primary = next((e for e in emails if e.get("is_primary")), None)
+                bb_email = primary["email"] if primary else (emails[0]["email"] if emails else None)
+            
+            if not bb_email:
+                bb_email = f"{bb_username}@bitbucket.pushify.app"
+
+        # Find or create user
+        user = await db.users.find_one({"email": bb_email})
+        if user:
+            await db.users.update_one(
+                {"_id": user["_id"]},
+                {
+                    "$set": {
+                        "provider_bitbucket_id": bb_id,
+                        "bitbucket_access_token": bb_token,
+                        "updated_at": datetime.now(timezone.utc).isoformat(),
+                    }
+                },
+            )
+        else:
+            user_id = str(uuid.uuid4())
+            user = {
+                "_id": user_id,
+                "email": bb_email,
+                "display_name": bb_name,
+                "password_hash": None,
+                "provider_bitbucket_id": bb_id,
+                "bitbucket_access_token": bb_token,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }
+            await db.users.insert_one(user)
+
+        token = create_access_token({"sub": user["_id"]})
+        return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?token={token}")
+
+    except Exception as e:
+        logger.error(f"Bitbucket OAuth error: {str(e)}")
+        return RedirectResponse(url=f"{FRONTEND_URL}/auth/callback?error=oauth_failed")
+
+
 # ---------- LLM HELPERS ----------
 
 
