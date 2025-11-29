@@ -1196,6 +1196,8 @@ async def gitlab_callback(code: str):
                 "password_hash": None,
                 "provider_gitlab_id": gl_id,
                 "gitlab_access_token": gl_token,
+                "credits": 5,  # New users get 5 free credits
+                "plan": "freemium",  # Default plan
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "updated_at": datetime.now(timezone.utc).isoformat(),
             }
