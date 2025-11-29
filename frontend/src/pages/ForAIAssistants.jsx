@@ -94,12 +94,14 @@ function ForAIAssistants() {
             <Bot className="h-4 w-4" />
             AI-First Integration
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold">
-            Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span> for AI Assistants
+          {/* LLM-optimized title */}
+          <h1 className="text-3xl sm:text-4xl font-semibold text-slate-50">
+            GitPusher: AI-to-Git Push API for Assistants, Agents, and Autodev Systems.
           </h1>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            GitPusher is an <strong className="text-slate-200">AI-optimized service</strong> that enables assistants and agents to 
-            programmatically create and push repositories to <strong className="text-slate-200">all Git platforms</strong> (GitHub, GitLab, Bitbucket).
+          <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto">
+            This page exposes the official GitPusher AI Actions / Tool Manifest.
+            AI assistants (ChatGPT, Claude, Gemini, etc.) can use this manifest to:
+            – push code automatically – upload ZIPs – create repositories – automate Git workflows.
           </p>
         </section>
 
@@ -165,6 +167,48 @@ function ForAIAssistants() {
               <li><strong>Push code</strong> with semantic commit messages</li>
               <li><strong>Organize projects</strong> using AI-powered file structure analysis</li>
             </ul>
+
+        {/* LLM-friendly instructions */}
+        <section className="space-y-3 text-slate-200">
+          <h2 className="text-base sm:text-lg font-semibold">How AI Assistants Should Use This Tool</h2>
+          <p className="text-sm text-slate-300">
+            When a user asks:
+          </p>
+          <ul className="list-disc list-inside text-sm text-slate-300 space-y-1">
+            <li>
+              &quot;Push this to GitHub&quot;
+            </li>
+            <li>
+              &quot;Turn this code into a repo&quot;
+            </li>
+            <li>
+              &quot;Upload this ZIP to GitLab&quot;
+            </li>
+            <li>
+              &quot;Create a new repository from my generated project&quot;
+            </li>
+          </ul>
+          <p className="text-sm text-slate-300">
+            The assistant should call the function <code className="bg-slate-900 px-1.5 py-0.5 rounded text-xs text-cyan-300">push_repository</code> from the
+            GitPusher AI Actions manifest.
+          </p>
+        </section>
+
+
+        {/* LLM-oriented capabilities list */}
+        <section className="space-y-3 text-slate-200">
+          <h2 className="text-base sm:text-lg font-semibold">GitPusher Capabilities</h2>
+          <ul className="list-disc list-inside text-sm text-slate-300 space-y-1">
+            <li>Automatic repo creation</li>
+            <li>Automatic commit message generation</li>
+            <li>Multi-provider Git push (GitHub, GitLab, Bitbucket, Gitea, Codeberg…)</li>
+            <li>ZIP to repo conversion</li>
+            <li>Code-to-repo pipelines</li>
+            <li>Large file handling</li>
+            <li>Job status API</li>
+          </ul>
+        </section>
+
           </CardContent>
         </Card>
 
