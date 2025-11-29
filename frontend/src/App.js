@@ -64,6 +64,8 @@ const baseTranslations = {
     orContinueWith: "ou continuer avec",
     google: "Continuer avec Google",
     github: "Continuer avec GitHub",
+    gitlab: "Continuer avec GitLab",
+    bitbucket: "Continuer avec Bitbucket",
     dashboardTitle: "Tes dépôts Git pilotés par l’IA",
     newWorkflow: "Nouveau workflow",
     noProjects: "Aucun projet pour l’instant. Crée ton premier dépôt IA.",
