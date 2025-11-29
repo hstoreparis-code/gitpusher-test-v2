@@ -1374,14 +1374,38 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               <div className="flex items-center gap-6">
                 {/* Icône circulaire avec animation */}
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-violet-500 rounded-full blur-xl opacity-40 animate-pulse" />
-                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-cyan-500/20 to-violet-500/20 border-2 border-cyan-400/30 flex flex-col items-center justify-center backdrop-blur-sm">
-                    <span className="text-3xl sm:text-4xl font-bold bg-gradient-to-br from-cyan-300 to-violet-300 bg-clip-text text-transparent">
-                      {credits == null ? "—" : credits}
-                    </span>
-                    <span className="text-[10px] uppercase tracking-widest text-slate-400 mt-0.5">
-                      {credits === 1 ? "crédit" : "crédits"}
-                    </span>
+                  {((user?.plan || '').toLowerCase() === 'pro' || (user?.plan || '').toLowerCase() === 'enterprise') ? (
+                    // Effet spécial pour les plans illimités
+                    <div className="absolute inset-0 bg-gradient-to-br from-violet-400 via-purple-400 to-pink-500 rounded-full blur-xl opacity-50 animate-pulse" />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-violet-500 rounded-full blur-xl opacity-40 animate-pulse" />
+                  )}
+                  <div className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full ${
+                    (user?.plan || '').toLowerCase() === 'pro' || (user?.plan || '').toLowerCase() === 'enterprise'
+                      ? 'bg-gradient-to-br from-violet-500/20 to-pink-500/20 border-2 border-violet-400/40'
+                      : 'bg-gradient-to-br from-cyan-500/20 to-violet-500/20 border-2 border-cyan-400/30'
+                  } flex flex-col items-center justify-center backdrop-blur-sm`}>
+                    {(user?.plan || '').toLowerCase() === 'pro' || (user?.plan || '').toLowerCase() === 'enterprise' ? (
+                      // Affichage infini pour les plans premium
+                      <>
+                        <span className="text-4xl sm:text-5xl font-bold bg-gradient-to-br from-violet-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+                          ∞
+                        </span>
+                        <span className="text-[9px] uppercase tracking-widest text-violet-300 mt-0.5 font-semibold">
+                          illimité
+                        </span>
+                      </>
+                    ) : (
+                      // Affichage normal pour les plans avec crédits
+                      <>
+                        <span className="text-3xl sm:text-4xl font-bold bg-gradient-to-br from-cyan-300 to-violet-300 bg-clip-text text-transparent">
+                          {credits == null ? "—" : credits}
+                        </span>
+                        <span className="text-[10px] uppercase tracking-widest text-slate-400 mt-0.5">
+                          {credits === 1 ? "crédit" : "crédits"}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
                 
