@@ -1497,11 +1497,6 @@ async def autofix_webhook_alert(request: Request):
     return _serialize_incident(doc)
 
 
-    return payload
-
-    return {"online": True, "admin_name": "Support Team"}
-
-
 @api_router.get("/auth/admin-status", response_model=AdminStatus)
 async def admin_status(authorization: Optional[str] = Header(default=None)):
     """Return whether the current user is admin.
