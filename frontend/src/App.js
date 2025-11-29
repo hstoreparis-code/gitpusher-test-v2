@@ -1043,6 +1043,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   const launch = async () => {
     if (!selected) return;
     setProcessing(true);
+    setLastAutomationStatus(null);
     setProgress(60);
     try {
       const res = await axios.post(
@@ -1053,6 +1054,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       setSelected(res.data);
       setProjects((prev) => prev.map((p) => (p.id === res.data.id ? res.data : p)));
       setProgress(100);
+
+      setLastAutomationStatus({ type: "success", message: "Automatisation réussie. Tu peux maintenant vérifier ton dépôt sur la plateforme." });
 
       // Rafraîchir l'historique des jobs après une automatisation réussie
       try {
@@ -1066,6 +1069,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     } catch (err) {
       console.error("Launch failed", err);
       setProgress(0);
+      setLastAutomationStatus({ type: "error", message: "Échec de l'automatisation. Vérifie les logs ou réessaie." });
     } finally {
       setProcessing(false);
     }
