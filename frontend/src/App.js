@@ -934,6 +934,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     if (!newName || newName === (selected.name || "")) return;
 
     setRenaming(true);
+    setRenameStatus(null);
     try {
       const res = await axios.patch(
         `${API}/workflows/projects/${selected.id}`,
@@ -943,9 +944,16 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       const updated = res.data;
       setSelected(updated);
       setProjects((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+
+      // Feedback visuel : succès
+      setRenameStatus({ type: "success", message: "Nom du dépôt mis à jour (Git provider synchronisé si possible)." });
     } catch (err) {
       console.error("Rename failed", err);
-      alert("Erreur lors du renommage du dépôt");
+      // Feedback visuel : échec provider, mais nom local peut être à jour
+      setRenameStatus({
+        type: "error",
+        message: "Erreur lors du renommage sur le provider. Le nom peut être mis à jour seulement côté GitPusher.",
+      });
     } finally {
       setRenaming(false);
     }
