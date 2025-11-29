@@ -252,12 +252,12 @@ function ForAIAssistants() {
               <li>
                 <span className="font-mono text-cyan-300">AI Agent Manifest:</span>{" "}
                 <a
-                  href={`${BACKEND_URL}/api/ai/discovery`}
+                  href={`${BACKEND_URL}/api/ai/gitpusher.json`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-cyan-300 hover:text-cyan-200 underline"
                 >
-                  {`${BACKEND_URL}/api/ai/discovery`}
+                  {`${BACKEND_URL}/api/ai/gitpusher.json`}
                 </a>
               </li>
               <li>
