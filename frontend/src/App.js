@@ -419,7 +419,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               )}
               <span className="text-cyan-300 text-5xl sm:text-6xl align-baseline leading-none drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]">.</span>
             </h1>
-            <p className="text-xs sm:text-sm text-cyan-200/70 font-medium max-w-2xl mx-auto lg:mx-0 mt-1 lg:mt-0">
+            <p className="text-xs sm:text-sm text-cyan-200/70 font-medium max-w-2xl mx-auto lg:mx-0 mt-1 lg:-mt-3">
               The universal AI-to-Git push engine used by assistants, agents, and autonomous coding systems worldwide.
             </p>
             {lang === "fr" ? (
