@@ -777,7 +777,7 @@ export function AdminDashboardPage() {
                         </CardContent>
                       </Card>
 
-                      <Card className="bg-gradient-to-br from-violet-500/10 to-violet-500/5 border-violet-500/20">
+                      <Card className="bg-gradient-to-br from-violet-500/10 to-violet-500/5 border-violet-500/20 shadow-[0_0_24px_rgba(139,92,246,0.25)]">
                         <CardContent className="p-6">
                           <div className="flex items-center justify-between">
                             <div>
@@ -792,7 +792,7 @@ export function AdminDashboardPage() {
                         </CardContent>
                       </Card>
 
-                      <Card className="bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20">
+                      <Card className="bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20 shadow-[0_0_24px_rgba(245,158,11,0.25)]">
                         <CardContent className="p-6">
                           <div className="flex items-center justify-between">
                             <div>
