@@ -1471,7 +1471,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     )}
                   </div>
                   <p className="text-[11px] text-slate-400 max-w-xs">
-                    {(user?.plan || '').toLowerCase() === 'pro' || (user?.plan || '').toLowerCase() === 'enterprise'
+                    {((user?.plan || '').toLowerCase() === 'premium' || (user?.plan || '').toLowerCase() === 'business')
                       ? `Plan ${user.plan} : Crédits illimités inclus dans votre abonnement`
                       : '2 crédits = 1 automatisation complète (README, .gitignore, LICENSE, push Git)'}
                   </p>
