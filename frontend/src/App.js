@@ -286,10 +286,15 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
   useEffect(() => {
     if (typeof window === "undefined") return;
     const shouldOpen = window.localStorage.getItem("open_auth_on_landing");
-    if (shouldOpen) {
+    if (!shouldOpen) return;
+
+    // ouvrir la modale après le premier rendu pour éviter les warnings React
+    const id = window.setTimeout(() => {
       setAuthOpen(true);
       window.localStorage.removeItem("open_auth_on_landing");
-    }
+    }, 0);
+
+    return () => window.clearTimeout(id);
   }, []);
 
 
