@@ -482,7 +482,7 @@ export function AdminDashboardPage() {
           <>
             {/* Statistics Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border-cyan-500/20">
+              <Card className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border-cyan-500/20 shadow-[0_0_24px_rgba(34,211,238,0.25)]">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
@@ -494,19 +494,20 @@ export function AdminDashboardPage() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gradient-to-br from-violet-500/10 to-violet-500/5 border-violet-500/20">
+              <Card className="bg-gradient-to-br from-violet-500/10 to-violet-500/5 border-violet-500/20 shadow-[0_0_24px_rgba(139,92,246,0.25)]">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Crédits Total</p>
+                      <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Crédits Plateforme</p>
                       <p className="text-3xl font-bold text-violet-300">{stats.totalCredits}</p>
+                      <p className="text-[10px] text-slate-500 mt-1">Somme de tous les utilisateurs</p>
                     </div>
                     <CreditCard className="w-10 h-10 text-violet-400/40" />
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20">
+              <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20 shadow-[0_0_24px_rgba(16,185,129,0.25)]">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
@@ -518,7 +519,7 @@ export function AdminDashboardPage() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20">
+              <Card className="bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20 shadow-[0_0_24px_rgba(245,158,11,0.25)]">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
