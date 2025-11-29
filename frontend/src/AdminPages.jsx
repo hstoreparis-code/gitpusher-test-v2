@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Users, Activity, CreditCard, TrendingUp, Search, Filter, Download, BarChart3, Calendar, DollarSign, CreditCard as CreditCardIcon } from "lucide-react";
+import { Users, Activity, CreditCard, TrendingUp, Search, Filter, Download, BarChart3, Calendar, DollarSign, CreditCard as CreditCardIcon, Bell, Mail } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
