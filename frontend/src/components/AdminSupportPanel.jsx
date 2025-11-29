@@ -16,6 +16,8 @@ export function AdminSupportPanel() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messageInput, setMessageInput] = useState("");
   const [loading, setLoading] = useState(true);
+  const [adminOnline, setAdminOnline] = useState(true);
+  const [unreadCount, setUnreadCount] = useState(0);
   const [scenarios, setScenarios] = useState([
     {
       id: 1,
