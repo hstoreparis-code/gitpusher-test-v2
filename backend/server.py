@@ -758,12 +758,14 @@ async def register(payload: UserCreate):
         "provider_google_id": None,
         "provider_github_id": None,
         "github_access_token": None,
+        "credits": 5,  # New users get 5 free credits
+        "plan": "freemium",  # Default plan
         "created_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
     }
     await db.users.insert_one(doc)
 
-    return UserPublic(id=user_id, email=doc["email"], display_name=doc["display_name"])
+    return UserPublic(id=user_id, email=doc["email"], display_name=doc["display_name"], credits=doc["credits"], plan=doc["plan"])
 
 
 @api_router.post("/auth/demo", response_model=TokenResponse)
