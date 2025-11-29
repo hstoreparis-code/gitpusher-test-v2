@@ -574,6 +574,10 @@ export function AdminDashboardPage() {
                   <Activity className="w-4 h-4 mr-2" />
                   Jobs
                 </TabsTrigger>
+                <TabsTrigger value="settings">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Paramètres
+                </TabsTrigger>
               </TabsList>
 
               {/* Onglet Statistiques */}
