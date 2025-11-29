@@ -2556,8 +2556,8 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
           {/* Monthly Subscriptions - Keep existing */}
           <section className="space-y-6">
             <div className="text-center space-y-2">
-              <h2 className="text-2xl font-bold">Ou choisissez un abonnement mensuel</h2>
-              <p className="text-sm text-slate-400">Uploads illimités chaque mois</p>
+              <h2 className="text-2xl font-bold">{t("pricingMonthlyTitle")}</h2>
+              <p className="text-sm text-slate-400">{t("pricingMonthlySubtitle")}</p>
             </div>
             
             <div className="grid gap-6 md:grid-cols-3">
