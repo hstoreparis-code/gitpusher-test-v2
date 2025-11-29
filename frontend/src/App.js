@@ -879,6 +879,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   
   const [editName, setEditName] = useState("");
   const [renaming, setRenaming] = useState(false);
+  const [editDescription, setEditDescription] = useState("");
+  const [updatingDescription, setUpdatingDescription] = useState(false);
+
 
   // State for project actions menu
   const [projectMenuOpen, setProjectMenuOpen] = useState(null);
