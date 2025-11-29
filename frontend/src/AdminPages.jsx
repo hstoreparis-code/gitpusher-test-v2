@@ -239,6 +239,29 @@ export function AdminDashboardPage() {
         // Préparer les données pour les graphiques
         const charts = prepareChartData(fetchedUsers);
         setChartData(charts);
+
+        // Récupérer les données financières
+        const [transactionsRes, statsRes] = await Promise.all([
+          axios.get(`${API}/admin/transactions`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API}/admin/financial-stats`, { headers: { Authorization: `Bearer ${token}` } })
+        ]);
+
+        const transactions = transactionsRes.data || [];
+        const financialStats = statsRes.data;
+
+        // Préparer les données pour les graphiques financiers
+        const planRevenueData = Object.entries(financialStats.revenue_by_plan || {}).map(([plan, revenue]) => ({
+          name: plan.charAt(0).toUpperCase() + plan.slice(1),
+          value: revenue,
+          color: { starter: '#10b981', pro: '#3b82f6', premium: '#8b5cf6', business: '#f59e0b' }[plan] || '#64748b'
+        }));
+
+        setFinancialData({
+          stats: financialStats,
+          transactions,
+          revenueChart: financialStats.transactions_by_day || [],
+          planRevenue: planRevenueData
+        });
         
         setLoading(false);
       } catch (err) {
