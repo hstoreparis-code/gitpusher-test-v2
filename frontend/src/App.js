@@ -3725,7 +3725,7 @@ function AppShell() {
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
     <SupportChatbot />
-  </React.Fragment>
+  </>
   );
 }
 
