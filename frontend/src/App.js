@@ -423,7 +423,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               The universal AI-to-Git push engine used by assistants, agents, and autonomous coding systems worldwide.
             </p>
             {lang === "fr" ? (
-              <p className="text-[13px] sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0">
+              <p className="text-[13px] sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 mt-3">
                 Dépose tes fichiers, l’IA organise ton projet, génère le README et pousse tes dépôts Git sur le (
                 <span className="text-cyan-300 drop-shadow-[0_0_10px_rgba(56,189,248,0.9)] neon-flicker">
                   GitHub, GitLab, Bitbucket, Gitea, Codeberg, Gitee...
@@ -431,7 +431,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                 ).
               </p>
             ) : (
-              <p className="text-[13px] sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0">
+              <p className="text-[13px] sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 mt-3">
                 {t("heroSubtitle")}
               </p>
             )}
