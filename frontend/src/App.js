@@ -1455,27 +1455,6 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               </CardTitle>
             </CardHeader>
             <CardContent className="p-2 sm:p-3 text-xs sm:text-sm space-y-2">
-              {/* Bloc crédits utilisateur */}
-              <div className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-950/60 px-2.5 py-1.5 mb-1">
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Crédits</span>
-                  <span className="text-[11px] text-slate-100 font-medium">
-                    {credits == null ? "—" : `${credits} crédit${credits > 1 ? "s" : ""}`}
-                  </span>
-                </div>
-                {credits != null && credits <= 2 ? (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/15 text-amber-300 border border-amber-400/40 animate-pulse">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-300" />
-                    Crédit bas
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-400/30">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-                    OK
-                  </span>
-                )}
-              </div>
-
               {loading ? (
                 <p className="text-slate-400 text-xs">Chargement des projets...</p>
               ) : projects.length === 0 ? (
