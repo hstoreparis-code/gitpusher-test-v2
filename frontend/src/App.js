@@ -1481,7 +1481,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
               {/* Partie droite - Actions rapides */}
               <div className="flex flex-col gap-2 min-w-[140px]">
                 <div className="text-[10px] uppercase tracking-widest text-slate-400 mb-1">Actions rapides</div>
-                {(user?.plan || '').toLowerCase() === 'free' || (user?.plan || '').toLowerCase() === 'freemium' || (user?.plan || '').toLowerCase() === 'demo' || (user?.plan || '').toLowerCase() === 'starter' ? (
+                {((user?.plan || '').toLowerCase() === 'free' || (user?.plan || '').toLowerCase() === 'freemium' || (user?.plan || '').toLowerCase() === 'demo' || (user?.plan || '').toLowerCase() === 'starter') ? (
                   <>
                     <Button
                       size="sm"
