@@ -356,7 +356,7 @@ export function AdminDashboardPage() {
                 onClick={() => setShowAlerts(!showAlerts)}
               >
                 <Bell className={`w-4 h-4 ${unreadAlerts > 0 ? 'text-amber-400 animate-pulse' : ''}`} />
-                Alertes
+                Nouvelles Conversions
                 {unreadAlerts > 0 && (
                   <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse shadow-[0_0_12px_rgba(245,158,11,0.8)]">
                     {unreadAlerts}
