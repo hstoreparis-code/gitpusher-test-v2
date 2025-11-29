@@ -654,19 +654,19 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               onClick={() => navigate("/whitepaper")}
               className="hover:text-cyan-300 transition-colors underline"
             >
-              📄 Livre Blanc
+              📄 {t("navWhitepaper")}
             </button>
             <button
               onClick={() => navigate("/pricing")}
               className="hover:text-cyan-300 transition-colors"
             >
-              Tarifs
+              {t("navPricing")}
             </button>
             <button
               onClick={() => navigate("/for-ai-assistants")}
               className="hover:text-cyan-300 transition-colors"
             >
-              🤖 For AI Assistants
+              🤖 {t("navForAIAssistants")}
             </button>
           </div>
         </div>
