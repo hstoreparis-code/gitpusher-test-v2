@@ -1263,6 +1263,137 @@ async def admin_autofix_update_settings(payload: AutofixSettings, authorization:
         upsert=True,
     )
 
+
+class AutofixIncidentCreate(BaseModel):
+    alert_name: str
+    severity: str = "info"
+    description: str
+    alert_payload: Optional[Dict[str, Any]] = None
+
+
+async def _get_autofix_settings() -> AutofixSettings:
+    doc = await db.admin_settings.find_one({"_id": "autofix_settings"})
+    if not doc:
+        return AutofixSettings(auto_mode=False)
+    return AutofixSettings(auto_mode=bool(doc.get("auto_mode", False)))
+
+
+async def _run_autofix_llm(incident: AutofixIncidentCreate) -> Dict[str, Any]:
+    """Call LLM to get diagnosis and remediation actions for an incident.
+
+    Expected JSON output:
+    {
+      "diagnosis": "...",
+      "requires_human_approval": true/false,
+      "actions": [
+        {"action_type": "restart_pod|scale_replicas|clear_cache|rotate_token",
+         "risk": "low|medium|high",
+         "description": "..."}
+      ]
+    }
+    """
+    # Build prompt inspired by diagnostic_prompt.txt from the standalone module
+    alert_block = {
+        "alert_name": incident.alert_name,
+        "severity": incident.severity,
+        "description": incident.description,
+        "payload": incident.alert_payload or {},
+    }
+
+    prompt = (
+        "SYSTEM: You are an operations assistant specialized in diagnosing "
+        "infrastructure incidents.\n\n"
+        "USER: You receive the following alert as JSON. "
+        "You must return a JSON object with the fields: diagnosis (string), "
+        "requires_human_approval (bool), actions (array of {action_type, risk, description}).\n"
+        "Use ONLY action_type values from: restart_pod, scale_replicas, clear_cache, rotate_token.\n"
+        "Alert JSON: " + json.dumps(alert_block)
+    )
+
+    raw = await call_llm(prompt, language="en")
+    try:
+        data = json.loads(raw)
+        if not isinstance(data, dict):
+            raise ValueError("LLM did not return a JSON object")
+        return data
+    except Exception:  # noqa: BLE001
+        # Fallback safe structure
+        return {
+            "diagnosis": raw[:500],
+            "requires_human_approval": True,
+            "actions": [],
+        }
+
+
+@api_router.post("/admin/autofix/incidents", response_model=AutofixIncident)
+async def admin_autofix_create_incident(payload: AutofixIncidentCreate, authorization: Optional[str] = Header(default=None)):
+    """Create a new Autofix incident and immediately run LLM analysis.
+
+    - Always stores the incident in MongoDB.
+    - If auto_mode is enabled and all actions are low risk, marks as resolved
+      and simulates execution.
+    - Otherwise marks as pending_approval with suggested_actions only.
+    """
+    admin = await require_admin(authorization)
+    _ = admin  # unused for now
+
+    settings = await _get_autofix_settings()
+
+    # Call LLM for diagnosis and actions
+    llm_result = await _run_autofix_llm(payload)
+    diagnosis = llm_result.get("diagnosis") or ""
+    actions = llm_result.get("actions") or []
+    requires_human = bool(llm_result.get("requires_human_approval", False))
+
+    # Derive suggested_actions as human readable strings
+    suggested_texts: List[str] = []
+    low_risk_only = True
+    for a in actions:
+        atype = a.get("action_type", "action")
+        risk = (a.get("risk") or "low").lower()
+        desc = a.get("description") or ""
+        suggested_texts.append(f"[{risk.upper()}] {atype}: {desc}")
+        if risk != "low":
+            low_risk_only = False
+
+    now = datetime.now(timezone.utc)
+
+    # Decide status based on auto_mode + risk + requires_human
+    executed_actions: List[str] = []
+    status = "investigating"
+    resolved_at: Optional[str] = None
+
+    if not actions:
+        # Nothing concrete to do: keep investigating
+        status = "investigating"
+    elif requires_human or not settings.auto_mode or not low_risk_only:
+        status = "pending_approval"
+    else:
+        status = "resolved"
+        executed_actions = [
+            "Auto-exécution des actions approuvées par la policy (low risk)",
+        ]
+        resolved_at = now.isoformat()
+
+    incident_id = str(uuid.uuid4())
+    doc = {
+        "_id": incident_id,
+        "alert_name": payload.alert_name,
+        "severity": payload.severity,
+        "status": status,
+        "description": payload.description,
+        "suggested_actions": suggested_texts,
+        "executed_actions": executed_actions,
+        "diagnosis": diagnosis,
+        "alert_payload": payload.alert_payload or {},
+        "created_at": now.isoformat(),
+        "resolved_at": resolved_at,
+    }
+    await db.autofix_incidents.insert_one(doc)
+
+    return _serialize_incident(doc)
+
+
     return payload
 
     return {"online": True, "admin_name": "Support Team"}
