@@ -1460,11 +1460,24 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     </div>
                     <div>
                       <Label className="text-[11px] text-slate-300">Description</Label>
-                      <textarea
-                        value={selected.description || ""}
-                        disabled
-                        className="w-full mt-1 rounded-md bg-slate-950/60 border border-slate-700/80 text-xs text-slate-200 p-2 resize-none min-h-[40px]"
-                      />
+                      <div className="flex flex-col gap-1">
+                        <textarea
+                          value={editDescription}
+                          onChange={(e) => setEditDescription(e.target.value)}
+                          className="w-full mt-1 rounded-md bg-slate-950/60 border border-slate-700/80 text-xs text-slate-200 p-2 resize-none min-h-[40px]"
+                          rows={3}
+                        />
+                        <div className="flex justify-end">
+                          <Button
+                            size="xs"
+                            className="h-7 px-3 rounded-full text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-100"
+                            onClick={updateDescription}
+                            disabled={updatingDescription || editDescription === (selected.description || "")}
+                          >
+                            {updatingDescription ? "..." : "Mettre à jour"}
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
