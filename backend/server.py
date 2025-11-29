@@ -1096,6 +1096,7 @@ class AutofixIncident(BaseModel):
     description: str
     suggested_actions: List[str] = []
     executed_actions: List[str] = []
+    diagnosis: Optional[str] = None
     created_at: datetime
     resolved_at: Optional[datetime] = None
 
