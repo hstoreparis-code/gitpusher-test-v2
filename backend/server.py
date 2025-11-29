@@ -916,6 +916,116 @@ async def admin_financial_stats(authorization: Optional[str] = Header(default=No
         transactions_by_day=transactions_by_day
     )
 
+
+# ---------- SUPPORT CHAT ENDPOINTS ----------
+
+@api_router.post("/support/messages")
+async def send_support_message(payload: SendMessageRequest, authorization: Optional[str] = Header(default=None)):
+    """User or admin sends a support message"""
+    user = await get_user_from_token(authorization)
+    
+    # Check if user is admin
+    is_admin = user.get("is_admin", False)
+    
+    message_id = str(uuid.uuid4())
+    message_doc = {
+        "_id": message_id,
+        "user_id": payload.user_id if is_admin and payload.user_id else user["_id"],
+        "sender_id": user["_id"],
+        "message": payload.message,
+        "is_admin": is_admin,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.support_messages.insert_one(message_doc)
+    
+    return {"ok": True, "message_id": message_id}
+
+
+@api_router.get("/support/conversations", response_model=List[SupportConversation])
+async def get_support_conversations(authorization: Optional[str] = Header(default=None)):
+    """Admin: Get all support conversations"""
+    admin = await require_admin(authorization)
+    _ = admin
+    
+    # Get all unique users who sent messages
+    pipeline = [
+        {"$group": {
+            "_id": "$user_id",
+            "last_message_at": {"$max": "$created_at"}
+        }},
+        {"$sort": {"last_message_at": -1}}
+    ]
+    
+    user_ids = []
+    async for doc in db.support_messages.aggregate(pipeline):
+        user_ids.append(doc["_id"])
+    
+    conversations = []
+    for uid in user_ids:
+        # Get user info
+        user = await db.users.find_one({"_id": uid}, {"_id": 0, "email": 1, "display_name": 1})
+        if not user:
+            continue
+        
+        # Get messages for this user
+        messages_cursor = db.support_messages.find({"user_id": uid}).sort("created_at", 1)
+        messages = []
+        unread = 0
+        async for msg in messages_cursor:
+            messages.append(SupportMessage(
+                id=str(msg["_id"]),
+                user_id=str(msg.get("user_id")),
+                user_email=user.get("email"),
+                user_name=user.get("display_name"),
+                message=msg.get("message", ""),
+                is_admin=msg.get("is_admin", False),
+                created_at=datetime.fromisoformat(msg["created_at"])
+            ))
+            if not msg.get("is_admin") and not msg.get("read"):
+                unread += 1
+        
+        if messages:
+            conversations.append(SupportConversation(
+                user_id=uid,
+                user_email=user.get("email", ""),
+                user_name=user.get("display_name"),
+                messages=messages,
+                unread_count=unread,
+                last_message_at=messages[-1].created_at
+            ))
+    
+    return conversations
+
+
+@api_router.get("/support/my-messages", response_model=List[SupportMessage])
+async def get_my_support_messages(authorization: Optional[str] = Header(default=None)):
+    """User: Get my support messages"""
+    user = await get_user_from_token(authorization)
+    
+    messages_cursor = db.support_messages.find({"user_id": user["_id"]}).sort("created_at", 1)
+    messages = []
+    async for msg in messages_cursor:
+        messages.append(SupportMessage(
+            id=str(msg["_id"]),
+            user_id=str(msg.get("user_id")),
+            user_email=user.get("email"),
+            user_name=user.get("display_name"),
+            message=msg.get("message", ""),
+            is_admin=msg.get("is_admin", False),
+            created_at=datetime.fromisoformat(msg["created_at"])
+        ))
+    
+    return messages
+
+
+@api_router.get("/support/admin-online")
+async def check_admin_online():
+    """Check if an admin is currently online (simplified version)"""
+    # For now, return mock status
+    # TODO: Implement real presence detection with WebSocket or Redis
+    return {"online": True, "admin_name": "Support Team"}
+
+
 @api_router.get("/auth/admin-status", response_model=AdminStatus)
 async def admin_status(authorization: Optional[str] = Header(default=None)):
     """Return whether the current user is admin.
