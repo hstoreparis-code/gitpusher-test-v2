@@ -34,6 +34,8 @@ const baseTranslations = {
     orContinueWith: "or continue with",
     google: "Continue with Google",
     github: "Continue with GitHub",
+    gitlab: "Continue with GitLab",
+    bitbucket: "Continue with Bitbucket",
     dashboardTitle: "Your AI-powered Git repos",
     newWorkflow: "New workflow",
     noProjects: "No project yet. Create your first AI-powered repo.",
