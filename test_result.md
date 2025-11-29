@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test admin GET /api/admin/users endpoint after AdminUserSummary model modification (email: EmailStr -> email: str)"
+user_problem_statement: "Test complete support chat system including user messages, admin conversations, and admin responses"
 
 backend:
   - task: "Admin /api/admin/users listing"
@@ -116,6 +116,66 @@ backend:
         - working: true
           agent: "testing"
           comment: "Admin endpoint tested successfully. EmailStr validation bug fixed - endpoint now returns HTTP 200 with JSON array of users instead of 500 error. Admin authentication working correctly with admin@pushin.app credentials."
+
+  - task: "Support Chat - POST /api/support/messages (User)"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "User can successfully send support messages. Demo user logged in and sent message 'J'ai un problème avec mes crédits'. Message saved to database with correct user_id and is_admin=false flag."
+
+  - task: "Support Chat - GET /api/support/conversations (Admin)"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Admin can retrieve all support conversations. Successfully retrieved conversations list with user details (email, display_name) and all messages. Demo user's message was found in the conversation."
+
+  - task: "Support Chat - POST /api/support/messages (Admin Response)"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Admin can send responses to users. Admin successfully sent response 'Bonjour, je peux vous aider. Quel est le problème exact ?' to demo user using user_id parameter. Message saved with is_admin=true flag."
+
+  - task: "Support Chat - GET /api/support/my-messages (User)"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "User can retrieve their support messages. Demo user successfully retrieved all messages including their own message and admin's response. Both messages correctly identified with is_admin flag."
+
+  - task: "Support Chat - GET /api/support/admin-online"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Admin online status endpoint working. Returns JSON with 'online' status and 'admin_name'. Currently returns mock data (online: true, admin_name: 'Support Team')."
 
 frontend:
   - task: "Admin dashboard UI"
@@ -133,12 +193,12 @@ frontend:
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 1
+  test_sequence: 2
   run_ui: false
 
 test_plan:
   current_focus:
-    - "Admin /api/admin/users listing"
+    - "Support Chat System"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -146,3 +206,5 @@ test_plan:
 agent_communication:
     - agent: "testing"
       message: "Admin endpoint /api/admin/users tested successfully. The EmailStr -> str model change fixed the validation issue. Endpoint now returns HTTP 200 with proper JSON array of users (9 users found). Admin authentication flow working correctly."
+    - agent: "testing"
+      message: "Complete support chat system tested successfully. All 5 endpoints working correctly: (1) User send message - ✅ (2) Admin get conversations - ✅ (3) User get messages - ✅ (4) Admin send response - ✅ (5) Admin online status - ✅. Full conversation flow verified: demo user sent message, admin retrieved it, admin responded, user received response. All messages correctly stored in database with proper user_id and is_admin flags."
