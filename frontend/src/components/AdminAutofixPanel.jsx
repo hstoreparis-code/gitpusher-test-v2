@@ -174,6 +174,32 @@ export function AdminAutofixPanel() {
               variant="outline"
               size="sm"
               className="rounded-full border-slate-700 text-xs"
+              onClick={async () => {
+                try {
+                  await axios.post(
+                    `${API}/admin/autofix/incidents`,
+                    {
+                      alert_name: "Test AutoFix Incident",
+                      severity: "warning",
+                      description: "Incident de test généré depuis le dashboard admin",
+                      alert_payload: { source: "admin-ui", type: "test" }
+                    },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                  );
+                  loadIncidents();
+                } catch (err) {
+                  console.error("Erreur lors de la création de l'incident de test", err);
+                  alert("Impossible de créer l'incident de test Autofix.");
+                }
+              }}
+            >
+              <Play className="w-3 h-3 mr-1" />
+              Incident de test
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-slate-700 text-xs"
               onClick={() => navigate("/admin")}
             >
               ← Retour
