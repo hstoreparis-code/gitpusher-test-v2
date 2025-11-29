@@ -453,42 +453,94 @@ export function AdminDashboardPage() {
 function AdminUserRow({ user, onUpdate }) {
   const [plan, setPlan] = useState(user.plan || "");
   const [credits, setCredits] = useState(user.credits ?? "");
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleSave = () => {
+    onUpdate(user.id, plan, credits);
+    setIsEditing(false);
+  };
 
   return (
-    <tr className="border-b border-slate-800/60">
-      <td className="py-1.5 pr-2 text-[11px] sm:text-xs text-slate-200">{user.email}</td>
-      <td className="py-1.5 px-2 text-[11px] sm:text-xs text-slate-300">{user.display_name || "-"}</td>
-      <td className="py-1.5 px-2">
-        <select
-          className="bg-slate-950/60 border border-slate-700 rounded px-1.5 py-0.5 text-[11px] text-slate-100"
-          value={plan}
-          onChange={(e) => setPlan(e.target.value)}
-        >
-          <option value="">-</option>
-          <option value="freemium">Free</option>
-          <option value="premium">Premium</option>
-          <option value="business">Business</option>
-        </select>
+    <tr className="border-b border-slate-800/60 hover:bg-slate-800/20 transition-colors">
+      <td className="py-2.5 pr-2 text-[11px] sm:text-xs text-slate-200">{user.email}</td>
+      <td className="py-2.5 px-2 text-[11px] sm:text-xs text-slate-300">{user.display_name || "-"}</td>
+      <td className="py-2.5 px-2">
+        {isEditing ? (
+          <select
+            className="bg-slate-950/60 border border-slate-700 rounded px-2 py-1 text-[11px] text-slate-100 focus:border-cyan-500 focus:outline-none"
+            value={plan}
+            onChange={(e) => setPlan(e.target.value)}
+          >
+            <option value="">-</option>
+            <option value="free">Free</option>
+            <option value="freemium">Freemium</option>
+            <option value="starter">Starter</option>
+            <option value="pro">Pro</option>
+            <option value="premium">Premium</option>
+            <option value="business">Business</option>
+          </select>
+        ) : (
+          <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium ${
+            (user.plan || '').toLowerCase() === 'premium' || (user.plan || '').toLowerCase() === 'business'
+              ? 'bg-violet-500/10 text-violet-300 border border-violet-500/20'
+              : (user.plan || '').toLowerCase() === 'pro'
+              ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20'
+              : (user.plan || '').toLowerCase() === 'starter'
+              ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+              : 'bg-slate-700/50 text-slate-300 border border-slate-600'
+          }`}>
+            {user.plan || 'free'}
+          </span>
+        )}
       </td>
-      <td className="py-1.5 px-2">
-        <Input
-          type="number"
-          className="h-7 text-[11px] bg-slate-950/60 border-slate-700 max-w-[80px]"
-          value={credits}
-          onChange={(e) => setCredits(e.target.value)}
-        />
+      <td className="py-2.5 px-2">
+        {isEditing ? (
+          <Input
+            type="number"
+            className="h-8 text-[11px] bg-slate-950/60 border-slate-700 max-w-[100px] focus:border-cyan-500"
+            value={credits}
+            onChange={(e) => setCredits(e.target.value)}
+          />
+        ) : (
+          <span className="text-xs font-mono text-slate-300">{user.credits ?? '-'}</span>
+        )}
       </td>
-      <td className="py-1.5 px-2 text-[11px] text-slate-400">
-        {user.created_at ? new Date(user.created_at).toLocaleDateString() : "-"}
+      <td className="py-2.5 px-2 text-[11px] text-slate-400">
+        {user.created_at ? new Date(user.created_at).toLocaleDateString('fr-FR') : "-"}
       </td>
-      <td className="py-1.5 pl-2 text-right">
-        <Button
-          size="sm"
-          className="h-7 px-3 rounded-full bg-cyan-500 hover:bg-cyan-400 text-[11px] text-slate-950"
-          onClick={() => onUpdate(user.id, plan, credits)}
-        >
-          Enregistrer
-        </Button>
+      <td className="py-2.5 pl-2 text-right">
+        {isEditing ? (
+          <div className="flex gap-1 justify-end">
+            <Button
+              size="sm"
+              className="h-7 px-3 rounded-full bg-cyan-500 hover:bg-cyan-400 text-[11px] text-slate-950"
+              onClick={handleSave}
+            >
+              ✓ Sauver
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-7 px-3 rounded-full border-slate-700 text-[11px]"
+              onClick={() => {
+                setPlan(user.plan || "");
+                setCredits(user.credits ?? "");
+                setIsEditing(false);
+              }}
+            >
+              ✕ Annuler
+            </Button>
+          </div>
+        ) : (
+          <Button
+            size="sm"
+            variant="outline"
+            className="h-7 px-3 rounded-full border-slate-700 hover:border-cyan-500 text-[11px]"
+            onClick={() => setIsEditing(true)}
+          >
+            ✎ Modifier
+          </Button>
+        )}
       </td>
     </tr>
   );
