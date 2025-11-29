@@ -82,45 +82,6 @@ export function AdminAutofixPanel() {
     return () => clearInterval(interval);
   }, [token, navigate]);
 
-  const generateMockIncidents = () => {
-    const now = new Date();
-    return [
-      {
-        id: "inc_001",
-        alert_name: "High CPU Usage - Frontend",
-        severity: "warning",
-        status: "resolved",
-        description: "CPU usage exceeded 85% on frontend pod",
-        suggested_actions: ["Restart frontend pod", "Scale to 2 replicas"],
-        executed_actions: ["Restarted frontend pod"],
-        created_at: new Date(now - 3600000).toISOString(),
-        resolved_at: new Date(now - 3000000).toISOString()
-      },
-      {
-        id: "inc_002",
-        alert_name: "Database Connection Pool Exhausted",
-        severity: "critical",
-        status: "pending_approval",
-        description: "MongoDB connection pool reached maximum capacity",
-        suggested_actions: ["Increase connection pool size", "Restart backend service"],
-        executed_actions: [],
-        created_at: new Date(now - 1800000).toISOString(),
-        resolved_at: null
-      },
-      {
-        id: "inc_003",
-        alert_name: "Memory Leak - Backend",
-        severity: "warning",
-        status: "investigating",
-        description: "Backend memory usage growing steadily over 24h",
-        suggested_actions: ["Analyze heap dump", "Restart backend pod", "Review recent deployments"],
-        executed_actions: [],
-        created_at: new Date(now - 7200000).toISOString(),
-        resolved_at: null
-      }
-    ];
-  };
-
   const handleApprove = async (incidentId) => {
     try {
       await axios.post(
