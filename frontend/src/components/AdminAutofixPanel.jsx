@@ -25,7 +25,7 @@ export function AdminAutofixPanel() {
       setLoading(false);
     } catch (err) {
       console.error("Failed to load incidents", err);
-      // Generate mock data for demo
+      // Fallback demo data if backend is unavailable
       setIncidents(generateMockIncidents());
       setLoading(false);
     }
