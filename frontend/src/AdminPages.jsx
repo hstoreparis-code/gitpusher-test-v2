@@ -753,7 +753,7 @@ export function AdminDashboardPage() {
                 {financialData.stats && (
                   <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20">
+                      <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20 shadow-[0_0_24px_rgba(16,185,129,0.25)]">
                         <CardContent className="p-6">
                           <div className="flex items-center justify-between">
                             <div>
@@ -765,7 +765,7 @@ export function AdminDashboardPage() {
                         </CardContent>
                       </Card>
 
-                      <Card className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border-cyan-500/20">
+                      <Card className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border-cyan-500/20 shadow-[0_0_24px_rgba(34,211,238,0.25)]">
                         <CardContent className="p-6">
                           <div className="flex items-center justify-between">
                             <div>
