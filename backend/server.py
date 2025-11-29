@@ -890,7 +890,13 @@ async def login(payload: UserLogin):
 async def me(authorization: Optional[str] = Header(default=None)):
 
     user = await get_user_from_token(authorization)
-    return UserPublic(id=user["_id"], email=user["email"], display_name=user.get("display_name"))
+    return UserPublic(
+        id=user["_id"], 
+        email=user["email"], 
+        display_name=user.get("display_name"),
+        credits=user.get("credits"),
+        plan=user.get("plan")
+    )
 
 
 # ---------- GOOGLE OAUTH ----------
