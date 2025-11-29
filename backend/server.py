@@ -1022,6 +1022,72 @@ async def get_my_support_messages(authorization: Optional[str] = Header(default=
 async def check_admin_online():
     """Check if an admin is currently online (simplified version)"""
     # For now, return mock status
+
+
+@api_router.get("/support/unread-count")
+async def get_unread_support_messages(authorization: Optional[str] = Header(default=None)):
+    """Admin: Get count of unread support messages"""
+    admin = await require_admin(authorization)
+    _ = admin
+    
+    # Count messages from users that haven't been read
+    count = await db.support_messages.count_documents({
+        "is_admin": False,
+        "read": {"$ne": True}
+    })
+    
+    return {"unread_count": count}
+
+
+@api_router.post("/support/mark-read/{user_id}")
+async def mark_messages_read(user_id: str, authorization: Optional[str] = Header(default=None)):
+    """Admin: Mark all messages from a user as read"""
+    admin = await require_admin(authorization)
+    _ = admin
+    
+    await db.support_messages.update_many(
+        {"user_id": user_id, "is_admin": False},
+        {"$set": {"read": True}}
+    )
+    
+    return {"ok": True}
+
+
+@api_router.patch("/support/admin-status")
+async def update_admin_status(payload: dict, authorization: Optional[str] = Header(default=None)):
+    """Admin: Update online/offline status"""
+    admin = await require_admin(authorization)
+    
+    # Store admin status in database
+    await db.admin_settings.update_one(
+        {"_id": "support_status"},
+        {"$set": {
+            "admin_id": admin["_id"],
+            "online": payload.get("online", True),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }},
+        upsert=True
+    )
+    
+    return {"ok": True, "online": payload.get("online", True)}
+
+
+@api_router.get("/support/admin-online")
+async def check_admin_online():
+    """Check if an admin is currently online"""
+    # Check database for admin status
+    status = await db.admin_settings.find_one({"_id": "support_status"})
+    
+    if status and status.get("online"):
+        # Check if status was updated recently (within last 5 minutes)
+        if status.get("updated_at"):
+            updated = datetime.fromisoformat(status["updated_at"])
+            five_mins_ago = datetime.now(timezone.utc) - timedelta(minutes=5)
+            if updated > five_mins_ago:
+                return {"online": True, "admin_name": "Support Team"}
+    
+    return {"online": False, "admin_name": "Support Team"}
+
     # TODO: Implement real presence detection with WebSocket or Redis
     return {"online": True, "admin_name": "Support Team"}
 
