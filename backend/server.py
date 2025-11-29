@@ -107,6 +107,8 @@ class UserLogin(BaseModel):
 
 class UserPublic(UserBase):
     id: str
+    credits: Optional[int] = None
+    plan: Optional[str] = None
 
 
 class TokenResponse(BaseModel):
