@@ -426,6 +426,17 @@ export function AdminDashboardPage() {
               )}
             </div>
 
+            {/* Bouton Autofix */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-violet-500/50 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 text-xs flex items-center gap-2"
+              onClick={() => navigate("/admin/autofix")}
+            >
+              <Zap className="w-4 h-4" />
+              Autofix
+            </Button>
+
             {/* Bouton Support Chat */}
             <Button
               variant="outline"
