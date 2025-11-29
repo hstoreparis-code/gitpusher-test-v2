@@ -76,9 +76,12 @@ export function AdminAutofixPanel() {
       navigate("/admin-login", { replace: true });
       return;
     }
-    loadIncidents();
-    // Auto-refresh every 10 seconds
-    const interval = setInterval(loadIncidents, 10000);
+    // Chargement initial + refresh périodique
+    const run = () => {
+      loadIncidents();
+    };
+    run();
+    const interval = setInterval(run, 10000);
     return () => clearInterval(interval);
   }, [token, navigate]);
 
