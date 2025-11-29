@@ -555,15 +555,15 @@ export function AdminDashboardPage() {
             </Card>
 
             {/* Main Content Tabs */}
-            <Tabs defaultValue="overview" className="mt-4">
+            <Tabs defaultValue="finances" className="mt-4">
               <TabsList className="bg-slate-900/80 border border-slate-700/80">
-                <TabsTrigger value="overview">
-                  <BarChart3 className="w-4 h-4 mr-2" />
-                  Statistiques
-                </TabsTrigger>
                 <TabsTrigger value="finances">
                   <DollarSign className="w-4 h-4 mr-2" />
                   Finances
+                </TabsTrigger>
+                <TabsTrigger value="overview">
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  Statistiques
                 </TabsTrigger>
                 <TabsTrigger value="users">
                   <Users className="w-4 h-4 mr-2" />
