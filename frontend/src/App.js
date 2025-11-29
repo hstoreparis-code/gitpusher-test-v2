@@ -876,6 +876,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   
   // State for auth modal
   const [authOpen, setAuthOpen] = useState(false);
+  const [lastAutomationStatus, setLastAutomationStatus] = useState(null);
+
   const currentPlan = (user?.plan || "freemium").toLowerCase();
 
   
