@@ -46,8 +46,38 @@ export function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex items-center justify-center px-4">
       <Card className="bg-slate-900/80 border-white/10 shadow-2xl shadow-cyan-500/20 max-w-md w-full">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-center">Admin Login</CardTitle>
+        <CardHeader className="text-center space-y-4 pb-6">
+          {/* Logo GitPusher */}
+          <div className="flex items-center justify-center">
+            <div className="h-16 w-16 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.65)]">
+              <svg
+                className="h-9 w-9 text-white"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+          </div>
+          
+          {/* Logo Text */}
+          <div className="text-center">
+            <h2 className="text-xl font-bold tracking-tight">
+              Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Pusher</span>.AI
+            </h2>
+          </div>
+          
+          {/* Welcome Admin - Néon bleu */}
+          <CardTitle className="text-2xl font-bold text-center">
+            <span className="bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] animate-pulse">
+              WELCOME ADMIN
+            </span>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-3">
