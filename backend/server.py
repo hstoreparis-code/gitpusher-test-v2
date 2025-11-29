@@ -1083,6 +1083,186 @@ async def check_admin_online():
     return {"online": False, "admin_name": "Support Team"}
 
     # TODO: Implement real presence detection with WebSocket or Redis
+
+
+# ---------- AUTOFIX INCIDENTS (ADMIN) ----------
+
+
+class AutofixIncident(BaseModel):
+    id: str
+    alert_name: str
+    severity: str
+    status: str
+    description: str
+    suggested_actions: List[str] = []
+    executed_actions: List[str] = []
+    created_at: datetime
+    resolved_at: Optional[datetime] = None
+
+
+class AutofixSettings(BaseModel):
+    auto_mode: bool = False
+
+
+async def _seed_mock_autofix_incidents() -> List[AutofixIncident]:
+    """Seed a few mock incidents in DB if none exist yet.
+
+    This keeps the existing demo behaviour (mock data) but moves it server-side
+    so the AdminAutofixPanel can always call the same real endpoint.
+    """
+    existing = await db.autofix_incidents.find_one({})
+    if existing:
+        return []
+
+    now = datetime.now(timezone.utc)
+    docs = [
+        {
+            "_id": "inc_001",
+            "alert_name": "High CPU Usage - Frontend",
+            "severity": "warning",
+            "status": "resolved",
+            "description": "CPU usage exceeded 85% on frontend pod",
+            "suggested_actions": [
+                "Restart frontend pod",
+                "Scale to 2 replicas",
+            ],
+            "executed_actions": ["Restarted frontend pod"],
+            "created_at": (now - timedelta(hours=1)).isoformat(),
+            "resolved_at": (now - timedelta(minutes=50)).isoformat(),
+        },
+        {
+            "_id": "inc_002",
+            "alert_name": "Database Connection Pool Exhausted",
+            "severity": "critical",
+            "status": "pending_approval",
+            "description": "MongoDB connection pool reached maximum capacity",
+            "suggested_actions": [
+                "Increase connection pool size",
+                "Restart backend service",
+            ],
+            "executed_actions": [],
+            "created_at": (now - timedelta(minutes=30)).isoformat(),
+            "resolved_at": None,
+        },
+        {
+            "_id": "inc_003",
+            "alert_name": "Memory Leak - Backend",
+            "severity": "warning",
+            "status": "investigating",
+            "description": "Backend memory usage growing steadily over 24h",
+            "suggested_actions": [
+                "Analyze heap dump",
+                "Restart backend pod",
+                "Review recent deployments",
+            ],
+            "executed_actions": [],
+            "created_at": (now - timedelta(hours=2)).isoformat(),
+            "resolved_at": None,
+        },
+    ]
+    if docs:
+        await db.autofix_incidents.insert_many(docs)
+    return []
+
+
+def _serialize_incident(doc: dict) -> AutofixIncident:
+    return AutofixIncident(
+        id=str(doc.get("_id")),
+        alert_name=doc.get("alert_name", "Unknown alert"),
+        severity=doc.get("severity", "info"),
+        status=doc.get("status", "investigating"),
+        description=doc.get("description", ""),
+        suggested_actions=list(doc.get("suggested_actions", [])),
+        executed_actions=list(doc.get("executed_actions", [])),
+        created_at=datetime.fromisoformat(doc["created_at"]) if doc.get("created_at") else datetime.now(timezone.utc),
+        resolved_at=datetime.fromisoformat(doc["resolved_at"]) if doc.get("resolved_at") else None,
+    )
+
+
+@api_router.get("/admin/autofix/incidents", response_model=List[AutofixIncident])
+async def admin_autofix_list_incidents(authorization: Optional[str] = Header(default=None)):
+    """List Autofix incidents for the admin dashboard.
+
+    - Seeds a few demo incidents server-side if collection is empty (MVP).
+    - Returns a stable schema consumed by AdminAutofixPanel.
+    """
+    await require_admin(authorization)
+
+    # Seed demo incidents once
+    await _seed_mock_autofix_incidents()
+
+    incidents: List[AutofixIncident] = []
+    cursor = db.autofix_incidents.find({}, {"_id": 1, "alert_name": 1, "severity": 1, "status": 1, "description": 1, "suggested_actions": 1, "executed_actions": 1, "created_at": 1, "resolved_at": 1}).sort("created_at", -1)
+    async for doc in cursor:
+        incidents.append(_serialize_incident(doc))
+    return incidents
+
+
+@api_router.post("/admin/autofix/incidents/{incident_id}/approve")
+async def admin_autofix_approve_incident(incident_id: str, authorization: Optional[str] = Header(default=None)):
+    """Mark an incident as approved and resolved.
+
+    For now this simply updates status/executed_actions to keep behaviour
+    close to the original mock UI. Later we can plug real AutoFix actions
+    and LLM decisions here.
+    """
+    await require_admin(authorization)
+
+    doc = await db.autofix_incidents.find_one({"_id": incident_id})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Incident not found")
+
+    executed = list(doc.get("executed_actions", []))
+    if "Actions approuvées manuellement" not in executed:
+        executed.append("Actions approuvées manuellement")
+
+    await db.autofix_incidents.update_one(
+        {"_id": incident_id},
+        {
+            "$set": {
+                "status": "resolved",
+                "executed_actions": executed,
+                "resolved_at": datetime.now(timezone.utc).isoformat(),
+            }
+        },
+    )
+    return {"ok": True}
+
+
+@api_router.post("/admin/autofix/incidents/{incident_id}/reject")
+async def admin_autofix_reject_incident(incident_id: str, authorization: Optional[str] = Header(default=None)):
+    await require_admin(authorization)
+    res = await db.autofix_incidents.update_one(
+        {"_id": incident_id},
+        {
+            "$set": {
+                "status": "failed",
+                "resolved_at": datetime.now(timezone.utc).isoformat(),
+            }
+        },
+    )
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Incident not found")
+    return {"ok": True}
+
+
+@api_router.patch("/admin/autofix/settings", response_model=AutofixSettings)
+async def admin_autofix_update_settings(payload: AutofixSettings, authorization: Optional[str] = Header(default=None)):
+    await require_admin(authorization)
+
+    await db.admin_settings.update_one(
+        {"_id": "autofix_settings"},
+        {
+            "$set": {
+                "auto_mode": payload.auto_mode,
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }
+        },
+        upsert=True,
+    )
+
+    return payload
+
     return {"online": True, "admin_name": "Support Team"}
 
 
