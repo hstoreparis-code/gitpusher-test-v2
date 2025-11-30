@@ -705,6 +705,7 @@ function AuthCard({ t, onSuccess, onClose, initialTab = "login" }) {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [oauthProvider, setOauthProvider] = useState(null);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState("");
 
   const { token } = useAuth();
