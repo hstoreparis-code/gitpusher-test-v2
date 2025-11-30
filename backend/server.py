@@ -1602,9 +1602,7 @@ async def register(payload: UserCreate):
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    # Get initial credits from admin settings
-    credit_settings = await db.admin_settings.find_one({"_id": "credit_settings"})
-    initial_credits = credit_settings.get("initial_credits_free", 5) if credit_settings else 5
+    initial_credits = await get_initial_credits()
 
     user_id = str(uuid.uuid4())
     doc = {
