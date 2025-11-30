@@ -1842,9 +1842,10 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                             href={selected.github_repo_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-medium bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-950 shadow-[0_0_12px_rgba(16,185,129,0.7)] animate-pulse hover:animate-none"
+                            className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-400 text-slate-950 shadow-[0_0_18px_rgba(16,185,129,0.9)] animate-pulse hover:animate-[pulse_1s_ease-in-out_infinite]"
                           >
-                            <span>✨ Vérifier le dépôt</span>
+                            <span className="text-yellow-500">✨</span>
+                            <span>Aller voir le dépôt sur GitHub</span>
                           </a>
                         )}
                       </div>
