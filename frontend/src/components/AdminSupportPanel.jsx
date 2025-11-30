@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -46,6 +46,9 @@ export function AdminSupportPanel() {
     offline_message: "Notre équipe est actuellement hors ligne. Laissez un message et nous vous répondrons dès que possible.",
     response_delay: 1000
   });
+  const messagesEndRef = useRef(null);
+
+
   const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
 
   const loadAdminStatus = async () => {
