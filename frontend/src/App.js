@@ -1008,6 +1008,11 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           }),
         ]);
         setProjects(projectsRes.data);
+      if (projectsRes.data.length > 0 && !selected) {
+        const first = projectsRes.data[0];
+        setSelected(first);
+        if (first.provider) setSelectedProvider(first.provider);
+      }
         setJobs(jobsRes.data);
       } finally {
         setLoading(false);
