@@ -3739,7 +3739,22 @@ function AppShell() {
   return (
     <>
       <Routes>
-        <Route path="/signup" element={<Landing t={t} lang={lang} setLang={setLang} dark={dark} setDark={setDark} currentLang={currentLang} languages={languages} isLoadingLang={isLoadingLang} forceSignupMode />}
+        <Route
+          path="/signup"
+          element={
+            <Landing
+              t={t}
+              lang={lang}
+              setLang={setLang}
+              dark={dark}
+              setDark={setDark}
+              currentLang={currentLang}
+              languages={languages}
+              isLoadingLang={isLoadingLang}
+              forceSignupMode
+            />
+          }
+        />
         <Route
         path="/"
         element={
