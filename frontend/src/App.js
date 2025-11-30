@@ -1576,7 +1576,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     <Button
                       size="sm"
                       variant="outline"
-                      className="w-full justify-start text-xs rounded-lg border-cyan-500/30 bg-cyan-500/5 hover:bg-cyan-500/10 text-cyan-300 hover:text-cyan-200"
+                      className="w-full justify-start text-xs rounded-lg border-cyan-400/70 bg-gradient-to-r from-cyan-500 via-sky-500 to-cyan-400 text-slate-950 font-semibold shadow-[0_0_18px_rgba(34,211,238,0.8)] hover:shadow-[0_0_26px_rgba(34,211,238,1)]"
                       onClick={() => navigate("/pricing")}
                     >
                       <span className="mr-2">💳</span> Acheter des crédits
@@ -1584,11 +1584,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     <Button
                       size="sm"
                       variant="outline"
-                      className="w-full justify-start text-xs rounded-lg border-violet-500/30 bg-violet-500/5 hover:bg-violet-500/10 text-violet-300 hover:text-violet-200"
+                      className="w-full justify-start text-xs rounded-lg border-cyan-400/70 bg-gradient-to-r from-cyan-500 via-sky-500 to-cyan-400 text-slate-950 font-semibold shadow-[0_0_18px_rgba(34,211,238,0.8)] hover:shadow-[0_0_26px_rgba(34,211,238,1)]"
                       onClick={() => navigate("/pricing")}
-
-
-
                     >
                       <span className="mr-2">⭐</span> Passer au Premium
                     </Button>
