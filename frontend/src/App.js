@@ -1435,7 +1435,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-50">Dashboard</h1>
             {/* Bannière discrète de mise en avant des offres (uniquement pour Free/Freemium/Demo, desktop) */}
             {(currentPlan === "free" || currentPlan === "freemium" || currentPlan === "demo") && (
-              <div className="hidden lg:flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-slate-900/80 border border-cyan-500/30 shadow-[0_0_18px_rgba(34,211,238,0.5)] text-[11px] lg:w-[340px] justify-end">
+              <div className="hidden lg:flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-slate-900/80 border border-cyan-500/30 shadow-[0_0_18px_rgba(34,211,238,0.5)] text-[11px] lg:w-[390px] justify-end">
                 <span className="text-cyan-300/90 font-medium whitespace-nowrap">Offre Premium</span>
                 <span className="text-slate-400 hidden xl:inline text-[10px]">
                   Uploads illimités & génération IA avancée pour vos dépôts.
