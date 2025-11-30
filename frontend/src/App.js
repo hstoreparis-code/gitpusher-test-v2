@@ -2705,6 +2705,7 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
     </div>
   );
 }
+*/
 
 function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
   const { token, user, logout } = useAuth();
