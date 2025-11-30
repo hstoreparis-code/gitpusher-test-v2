@@ -789,7 +789,7 @@ function AuthCard({ t, onSuccess, onClose, initialTab = "login" }) {
           <span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent ml-0.5">
             Pusher
           </span>
-          <span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent text-[11px] align-top ml-0.5">
+          <span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent text-[11px] ml-0.5">
             .AI
           </span>
         </CardTitle>
