@@ -336,7 +336,7 @@ export function AdminSettingsPanel() {
                   const API = `${BACKEND_URL}/api`;
                   try {
                     await fetch(`${API}/admin/autofix/settings`, {
-                      method: 'PATCH',
+                      method: "PATCH",
                       headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`
