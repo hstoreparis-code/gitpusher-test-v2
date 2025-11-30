@@ -1630,7 +1630,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 <span>Projets</span>
                 <Button
                   size="sm"
-                  className="text-xs rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950"
+                  className="text-[11px] rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 shadow-[0_0_18px_rgba(34,211,238,0.9)] border border-cyan-300"
                   onClick={newProject}
                   disabled={creating}
                   data-testid="dashboard-new-project-button"
