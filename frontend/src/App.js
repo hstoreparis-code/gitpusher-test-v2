@@ -2864,7 +2864,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   </li>
                 </ul>
                 <Button className="w-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 font-semibold mt-4 shadow-lg" size="lg">
-                  Acheter - 39,99€
+                  Acheter - 29,99€
                 </Button>
                 <p className="text-center text-xs text-slate-500">Meilleur rapport qualité/prix</p>
               </CardContent>
