@@ -1936,6 +1936,7 @@ async def github_callback(code: str):
             )
         else:
             # Create new user
+            initial_credits = await get_initial_credits()
             user_id = str(uuid.uuid4())
             user = {
                 "_id": user_id,
@@ -1945,7 +1946,7 @@ async def github_callback(code: str):
                 "provider_google_id": None,
                 "provider_github_id": gh_id,
                 "github_access_token": gh_token,
-                "credits": 5,  # New users get 5 free credits
+                "credits": initial_credits,
                 "plan": "freemium",  # Default plan
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "updated_at": datetime.now(timezone.utc).isoformat(),
