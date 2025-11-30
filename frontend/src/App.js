@@ -677,7 +677,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
   );
 }
 
-function AuthCard({ t, onSuccess, onClose }) {
+function AuthCard({ t, onSuccess, onClose, initialTab = "login" }) {
   const { login, register } = useAuth();
   const navigate = useNavigate();
   const [tab, setTab] = useState("login");
