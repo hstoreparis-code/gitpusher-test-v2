@@ -1484,7 +1484,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   ) : (
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-violet-500 rounded-full blur-xl opacity-40 animate-pulse" />
                   )}
-                  <div className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full ${
+                  <div className={`relative w-24 h-24 sm:w-28 sm:h-28 rounded-full ${
                     (user?.plan || '').toLowerCase() === 'premium' || (user?.plan || '').toLowerCase() === 'business'
                       ? 'bg-gradient-to-br from-violet-700/60 to-indigo-800/60 border-2 border-violet-400/60'
                       : 'bg-gradient-to-br from-slate-900 to-slate-950 border-2 border-cyan-400/40'
