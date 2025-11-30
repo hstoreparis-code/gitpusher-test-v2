@@ -997,13 +997,6 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     if (!token) return;
     const fetchAll = async () => {
 
-  useEffect(() => {
-    if (!newsItems.length) return;
-    const id = setInterval(() => {
-      setNewsIndex((prev) => (prev + 1) % newsItems.length);
-    }, 4500);
-    return () => clearInterval(id);
-  }, [newsItems.length]);
 
 
       setLoading(true);
