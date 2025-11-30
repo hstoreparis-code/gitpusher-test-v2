@@ -2412,6 +2412,7 @@ async def create_project(payload: ProjectCreate, authorization: Optional[str] = 
         "name": name,
         "description": payload.description,
         "language": payload.language,
+        "provider": (payload.provider or "github").lower(),
         "status": "pending",
         "github_repo_url": None,
         "github_repo_name": None,
