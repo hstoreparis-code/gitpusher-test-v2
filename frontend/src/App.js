@@ -284,20 +284,11 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
-  // Ouvre automatiquement la modale de connexion si on a été redirigé depuis /app sans token
+  // Sur la landing, on n'ouvre plus la modale automatiquement : uniquement sur action explicite
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const shouldOpen = window.localStorage.getItem("open_auth_on_landing");
-    if (!shouldOpen) return;
-
-    // ouvrir la modale après le premier rendu pour éviter les warnings React
-    const id = window.setTimeout(() => {
-      setAuthOpen(true);
-      window.localStorage.removeItem("open_auth_on_landing");
-    }, 0);
-
-    return () => window.clearTimeout(id);
-  }, []);
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
 
   // Si on est en mode /signup, ouvrir immédiatement le bloc d'inscription
   useEffect(() => {
