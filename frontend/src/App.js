@@ -916,6 +916,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   
   // State for uploaded files
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  // Pending File objects to upload on launch (permet de retirer des fichiers avant l'envoi)
+  const [pendingFiles, setPendingFiles] = useState([]);
   
   const [editName, setEditName] = useState("");
   const [renameStatus, setRenameStatus] = useState(null);
@@ -1051,26 +1053,19 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
+    // Store File objects for later upload (avant le lancement)
+    setPendingFiles(files);
+
     // Store uploaded files info for display
-    const filesInfo = files.map(f => ({
+    const filesInfo = files.map((f) => ({
       name: f.name,
       size: f.size,
-      type: f.type
+      type: f.type,
     }));
     setUploadedFiles(filesInfo);
 
-    const formData = new FormData();
-    files.forEach((f) => formData.append("files", f));
-
-    setUploading(true);
-    try {
-      await axios.post(`${API}/workflows/projects/${selected.id}/upload`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setProgress(33);
-    } finally {
-      setUploading(false);
-    }
+    // On ne fait plus l'upload ici : il sera effectué juste avant launch()
+    setProgress(33);
   };
 
   const launch = async () => {
