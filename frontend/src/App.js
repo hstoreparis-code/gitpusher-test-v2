@@ -796,7 +796,7 @@ function AuthCard({ t, onSuccess, onClose, initialTab = "login" }) {
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
             }`}
           >
-            🔓 Connexion
+            Connexion
           </button>
           <button
             onClick={() => setTab("signup")}
@@ -806,7 +806,7 @@ function AuthCard({ t, onSuccess, onClose, initialTab = "login" }) {
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
             }`}
           >
-            ✨ Inscription
+            Inscription
           </button>
         </div>
 
