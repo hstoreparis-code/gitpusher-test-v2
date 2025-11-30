@@ -1596,6 +1596,10 @@ async def register(payload: UserCreate):
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
 
+    # Get initial credits from admin settings
+    credit_settings = await db.admin_settings.find_one({"_id": "credit_settings"})
+    initial_credits = credit_settings.get("initial_credits_free", 5) if credit_settings else 5
+
     user_id = str(uuid.uuid4())
     doc = {
         "_id": user_id,
@@ -1605,7 +1609,7 @@ async def register(payload: UserCreate):
         "provider_google_id": None,
         "provider_github_id": None,
         "github_access_token": None,
-        "credits": 5,  # New users get 5 free credits
+        "credits": initial_credits,
         "plan": "freemium",  # Default plan
         "created_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
