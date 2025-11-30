@@ -598,6 +598,12 @@ async def get_user_from_token(authorization: Optional[str]) -> dict:
     return user
 
 
+async def get_initial_credits() -> int:
+    """Get initial credits for new users from admin settings"""
+    credit_settings = await db.admin_settings.find_one({"_id": "credit_settings"})
+    return credit_settings.get("initial_credits_free", 5) if credit_settings else 5
+
+
 async def require_admin(authorization: Optional[str]) -> dict:
     """Ensure the current user is an admin. Raises 403 otherwise."""
     user = await get_user_from_token(authorization)
