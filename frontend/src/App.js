@@ -1072,8 +1072,23 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     if (!selected) return;
     setProcessing(true);
     setLastAutomationStatus(null);
-    setProgress(60);
+
     try {
+      // Si des fichiers sont en attente, on les upload d'abord
+      if (pendingFiles.length > 0) {
+        const formData = new FormData();
+        pendingFiles.forEach((f) => formData.append("files", f));
+        setUploading(true);
+        await axios.post(`${API}/workflows/projects/${selected.id}/upload`, formData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUploading(false);
+        setPendingFiles([]);
+        setProgress(50);
+      } else {
+        setProgress(40);
+      }
+
       const res = await axios.post(
         `${API}/workflows/projects/${selected.id}/process`,
         {},
