@@ -262,7 +262,7 @@ export function AdminSupportPanel() {
                   </CardHeader>
                   <CardContent className="p-0 flex flex-col">
                     {/* Messages */}
-                    <div className="flex-1 overflow-y-scroll p-4 space-y-4 h-[520px] bg-slate-950">
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 h-[520px] bg-slate-950 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
                       {selectedConversation?.messages.map((msg, index) => (
                         <div key={index} className={`flex ${msg.is_admin ? 'justify-end' : 'justify-start'}`}>
                           <div className={`max-w-[70%] rounded-2xl px-4 py-2 ${
