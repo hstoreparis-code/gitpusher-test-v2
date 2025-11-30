@@ -1108,12 +1108,6 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
   }, [token, selected, landingFilesHandled]);
 
 
-      setSelected(res.data);
-    } finally {
-      setCreating(false);
-    }
-  };
-
   const openAccountSettings = () => {
     if (!user) return;
     navigate("/account");
