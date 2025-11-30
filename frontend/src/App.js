@@ -1767,8 +1767,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                       </span>
                       <span className="text-[10px] text-slate-500 mt-1">
                         {uploadedFiles.length > 0
-                          ? `${uploadedFiles.length} fichier${uploadedFiles.length > 1 ? "s" : ""} sélectionné${uploadedFiles.length > 1 ? "s" : ""} (${Math.round(uploadedFiles.reduce((acc, f) => acc + f.size, 0) / 1024)} Ko)`
-                          : "Aucun fichier sélectionné (0 Ko)"}
+                          ? `${uploadedFiles.length} fichier${uploadedFiles.length > 1 ? "s" : ""} sélectionné${uploadedFiles.length > 1 ? "s" : ""} (${Math.round(uploadedFiles.reduce((acc, f) => acc + f.size, 0) / 1024)} Ko / 51200 Ko max)`
+                          : "Aucun fichier sélectionné (0 Ko / 51200 Ko max)"}
                       </span>
                       <input
                         type="file"
