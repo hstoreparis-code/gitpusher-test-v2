@@ -2140,10 +2140,6 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
                 data-testid="pro-dashboard-theme-toggle-switch"
               />
             </div>
-            <Popover>
-              <PopoverTrigger asChild>
-                <button
-
 function TermsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex flex-col">
