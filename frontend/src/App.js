@@ -263,7 +263,7 @@ function useAuth() {
   return { token, user, login, register, logout };
 }
 
-function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
+function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang, forceSignupMode = false }) {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [authOpen, setAuthOpen] = useState(false);
