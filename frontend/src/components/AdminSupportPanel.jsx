@@ -529,7 +529,7 @@ export function AdminSupportPanel() {
                     <div className="p-4 bg-cyan-500/5 border border-cyan-500/20 rounded-lg">
                       <p className="text-xs text-cyan-300 mb-2">💡 Astuce</p>
                       <p className="text-xs text-slate-400">
-                        Les prompts personnalisés permettent d'adapter le ton et le comportement du chatbot IA. 
+                        Les prompts personnalisés permettent d&apos;adapter le ton et le comportement du chatbot IA. 
                         Incluez des exemples de conversations pour améliorer la qualité des réponses.
                       </p>
                     </div>
