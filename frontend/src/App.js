@@ -783,8 +783,11 @@ function AuthCard({ t, onSuccess, onClose, initialTab = "login" }) {
         <CardTitle className="text-base font-semibold text-center">
           Bienvenue sur
           {" "}
-          <span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">
-            GitPusher
+          <span className="text-slate-50">
+            Git
+          </span>
+          <span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent ml-0.5">
+            Pusher
           </span>
           <span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent text-[11px] align-top ml-0.5">
             .AI
