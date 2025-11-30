@@ -1931,10 +1931,10 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                             href={selected.repo_url || selected.github_repo_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-400 text-slate-950 shadow-[0_0_18px_rgba(16,185,129,0.9)] animate-pulse hover:animate-[pulse_1s_ease-in-out_infinite]"
+                            className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-[11px] font-semibold bg-gradient-to-r from-cyan-300 via-sky-400 to-cyan-300 text-slate-950 shadow-[0_0_20px_rgba(56,189,248,0.95)] border border-cyan-200 animate-pulse hover:animate-[pulse_1s_ease-in-out_infinite]"
                           >
-                            <span className="text-yellow-500">✨</span>
-                            <span>Aller voir le dépôt sur l’hébergeur</span>
+                            <span className="text-yellow-400 text-xs">✨</span>
+                            <span>Voir le dépôt (GitHub / GitLab / Bitbucket…)</span>
                           </a>
                         )}
                       </div>
