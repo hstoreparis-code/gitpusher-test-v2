@@ -367,6 +367,20 @@ export function AdminAutofixPanel() {
                       </div>
                     </div>
 
+                    {/* Diagnosis */}
+                    {selectedIncident.diagnosis && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-slate-200 mb-3 flex items-center gap-2">
+                          <Activity className="w-4 h-4 text-emerald-400" />
+                          Analyse IA
+                        </h3>
+                        <div className="p-3 bg-slate-950/60 border border-slate-800 rounded-lg max-h-64 overflow-y-auto text-sm text-slate-300 whitespace-pre-wrap">
+                          {selectedIncident.diagnosis}
+                        </div>
+                      </div>
+                    )}
+
+
                     {/* Executed Actions */}
                     {selectedIncident.executed_actions.length > 0 && (
                       <div>
