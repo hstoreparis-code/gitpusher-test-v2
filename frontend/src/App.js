@@ -1822,12 +1822,12 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                       <p className="text-[11px] text-slate-400">Automatisation</p>
                       <Button
                         size="sm"
-                        className="text-[11px] rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950"
+                        className="text-[11px] rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 shadow-[0_0_18px_rgba(34,211,238,0.9)] border border-cyan-300"
                         onClick={launch}
                         disabled={processing}
                         data-testid="dashboard-launch-button"
                       >
-                        {processing ? "En cours..." : "Lancer"}
+                        {processing ? "En cours..." : "Lancer l'automatisation"}
                       </Button>
                     </div>
                     {processing || progress > 0 ? (
