@@ -1491,7 +1491,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           <Card className="bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-800/70 border border-cyan-500/20 shadow-none overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/5 via-transparent to-violet-500/5 pointer-events-none" />
             <CardContent className="p-6 relative z-10">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
                 {/* Partie gauche - Compteur principal */}
                 <div className="flex items-center gap-6">
                 {/* Icône circulaire avec animation */}
