@@ -2911,7 +2911,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   </li>
                 </ul>
                 <Button className="w-full rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold mt-4" size="lg">
-                  Acheter - 79,99€
+                  Acheter - 49,99€
                 </Button>
                 <p className="text-center text-xs text-slate-500">Maximum d'économies</p>
               </CardContent>
