@@ -1622,6 +1622,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             </div>
           </CardContent>
         </Card>
+      </div>
 
         {/* CONTENU PRINCIPAL DU DASHBOARD USER */}
         <div className="grid gap-4 lg:grid-cols-[2fr,3fr] mt-4">
