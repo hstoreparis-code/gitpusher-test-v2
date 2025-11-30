@@ -285,6 +285,7 @@ export function AdminSupportPanel() {
                           </div>
                         </div>
                       ))}
+                      <div ref={messagesEndRef} />
                     </div>
 
                     {/* Input */}
