@@ -1639,40 +1639,6 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                       className="w-full justify-start text-xs rounded-lg border-violet-500/30 bg-violet-500/5 hover:bg-violet-500/10 text-violet-300 hover:text-violet-200"
                       onClick={() => navigate("/pricing")}
 
-        {/* Carte Actualités (fil rapide) */}
-        <Card className="mt-4 bg-slate-900/80 border border-slate-800/80 shadow-[0_0_22px_rgba(15,23,42,0.8)]">
-          <CardContent className="p-3 sm:p-4 flex items-start justify-between gap-4">
-            <div className="flex-1 min-w-0">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-cyan-300/80 mb-1">Actualit e9s</p>
-              <div className="h-14 sm:h-16 overflow-hidden relative">
-                <div
-                  className="transition-transform duration-500"
-                  style={{ transform: `translateY(-${newsIndex * 100}%)` }}
-                >
-                  {newsItems.map((item, idx) => (
-                    <div key={idx} className="space-y-0.5 min-h-[3.5rem]">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-medium text-slate-50 truncate">{item.title}</span>
-                        <span className="text-[9px] px-2 py-0.5 rounded-full bg-slate-800 text-cyan-300 uppercase tracking-wide">
-                          {item.tag}
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-slate-400 line-clamp-2">{item.body}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <Button
-              size="sm"
-              variant="outline"
-              className="hidden sm:inline-flex rounded-full border-cyan-500/40 text-[10px] text-cyan-300 hover:bg-cyan-500/10"
-              onClick={() => setShowNewsPanel(true)}
-            >
-              Voir tout
-            </Button>
-          </CardContent>
-        </Card>
 
 
                     >
