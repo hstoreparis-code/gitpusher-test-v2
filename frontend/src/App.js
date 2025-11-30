@@ -2428,9 +2428,9 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
               >
                 Logout
               </Button>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
       <main className="flex-1 max-w-6xl mx-auto px-4 py-6 space-y-6">
         {/* Bandeau plan Pro / Business */}
