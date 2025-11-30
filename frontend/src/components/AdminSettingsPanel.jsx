@@ -417,7 +417,7 @@ export function AdminSettingsPanel() {
               <div className="flex items-center justify-between p-4 bg-slate-950/60 border border-slate-800 rounded-lg">
                 <div>
                   <p className="text-sm text-slate-200">Email de bienvenue</p>
-                  <p className="text-xs text-slate-400 mt-1">Envoi automatique lors de l'inscription</p>
+                  <p className="text-xs text-slate-400 mt-1">Envoi automatique lors de l’inscription</p>
                 </div>
                 <button
                   onClick={() => setEmailSettings({...emailSettings, welcome_email_enabled: !emailSettings.welcome_email_enabled})}
