@@ -351,7 +351,6 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-400/50 hover:border-cyan-400/80 hover:from-cyan-500/30 hover:to-violet-500/30 transition-all text-sm font-medium"
               data-testid="nav-pricing-button"
             >
-              <span className="text-cyan-300">💎</span>
               <span className="text-slate-100">Plans &amp; Tarifs</span>
             </button>
 
