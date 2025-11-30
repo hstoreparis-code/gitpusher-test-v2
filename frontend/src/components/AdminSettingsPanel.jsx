@@ -101,9 +101,6 @@ export function AdminSettingsPanel() {
       });
   }, []);
 
-
-  });
-
   const saveSettings = (section) => {
     alert(`Paramètres ${section} sauvegardés !`);
   };
