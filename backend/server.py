@@ -2521,6 +2521,8 @@ async def update_project(project_id: str, payload: ProjectUpdate, authorization:
         updates["description"] = payload.description
     if payload.language is not None:
         updates["language"] = payload.language
+    if payload.provider is not None:
+        updates["provider"] = payload.provider.lower()
 
     if updates:
         updates["updated_at"] = datetime.now(timezone.utc).isoformat()
