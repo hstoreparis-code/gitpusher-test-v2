@@ -287,8 +287,8 @@ export function AdminSettingsPanel() {
               <div className="space-y-2">
                 <label className="text-sm text-slate-300 mb-1 block">Secret Webhook Autofix</label>
                 <p className="text-xs text-slate-500 mb-1">
-                  Utilisé pour sécuriser l'endpoint public <code className="bg-slate-950/60 px-1 py-0.5 rounded border border-slate-700">POST /api/autofix/webhook/alert</code>.
-                  Le système externe doit inclure l'en-tête <code className="bg-slate-950/60 px-1 py-0.5 rounded border border-slate-700">X-Autofix-Secret</code>.
+                  Utilisé pour sécuriser l’endpoint public <code className="bg-slate-950/60 px-1 py-0.5 rounded border border-slate-700">POST /api/autofix/webhook/alert</code>.
+                  Le système externe doit inclure l’en-tête <code className="bg-slate-950/60 px-1 py-0.5 rounded border border-slate-700">X-Autofix-Secret</code>.
                 </p>
                 <Input
                   type="text"
