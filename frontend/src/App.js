@@ -1756,8 +1756,20 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     <label
                       className="relative flex flex-col items-center justify-center gap-3 border-2 border-dashed border-cyan-400 rounded-2xl bg-slate-950/60 hover:bg-slate-900/80 cursor-pointer py-8 shadow-[0_0_30px_rgba(56,189,248,0.4)]"
                     >
-                      <span className="text-[11px] uppercase tracking-[0.22em] text-cyan-300">Zone de dépôt de fichiers</span>
-                      <span className="text-xs text-slate-200 font-medium">Glisse-dépose tes fichiers ici ou clique pour les sélectionner</span>
+                      <span className="text-[11px] uppercase tracking-[0.22em] text-cyan-300">
+                        {t("landingDropLabel")}
+                      </span>
+                      <span className="text-xs text-slate-200 font-medium">
+                        {t("landingDropTitle")}
+                      </span>
+                      <span className="text-[11px] text-slate-400 max-w-[80%] text-center">
+                        {t("landingDropDescription")}
+                      </span>
+                      <span className="text-[10px] text-slate-500 mt-1">
+                        {uploadedFiles.length > 0
+                          ? `${uploadedFiles.length} fichier${uploadedFiles.length > 1 ? "s" : ""} sélectionné${uploadedFiles.length > 1 ? "s" : ""} (${Math.round(uploadedFiles.reduce((acc, f) => acc + f.size, 0) / 1024)} Ko)`
+                          : "Aucun fichier sélectionné (0 Ko)"}
+                      </span>
                       <input
                         type="file"
                         multiple
