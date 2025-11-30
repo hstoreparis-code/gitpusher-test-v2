@@ -94,6 +94,9 @@ export function AdminSupportPanel() {
     const interval = setInterval(run, 5000);
     return () => clearInterval(interval);
   }, [token, navigate]);
+  const selectedConversation = conversations.find(c => c.user_id === selectedUser?.user_id);
+
+
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -129,8 +132,6 @@ export function AdminSupportPanel() {
       console.error("Failed to send message", err);
     }
   };
-
-  const selectedConversation = conversations.find(c => c.user_id === selectedUser?.user_id);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 px-4 py-6">
