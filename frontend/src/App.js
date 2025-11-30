@@ -1629,8 +1629,8 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           {/* Colonne projets */}
           <Card className="bg-slate-900/80 border-slate-800/80">
             <CardHeader>
-              <CardTitle className="text-sm sm:text-base flex items-center justify-between gap-2">
-                <span>Projets</span>
+              <CardTitle className="text-base sm:text-lg flex items-center justify-between gap-2">
+                <span className="font-semibold">Projets</span>
                 <Button
                   size="sm"
                   className="text-[11px] rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 shadow-[0_0_18px_rgba(34,211,238,0.9)] border border-cyan-300"
