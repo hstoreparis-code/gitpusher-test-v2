@@ -1864,10 +1864,18 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                             <option value="gitlab">GitLab</option>
                             <option value="bitbucket">Bitbucket</option>
                           </optgroup>
-                          <optgroup label="À venir">
+                          <optgroup
+                            label="À venir"
+                            title="Ces providers sont en cours d'intégration et seront bientôt disponibles dans GitPusher.AI"
+                          >
                             <option value="gitea" disabled>Gitea (à venir)</option>
                             <option value="codeberg" disabled>Codeberg (à venir)</option>
                             <option value="gitee" disabled>Gitee (à venir)</option>
+                            <option value="azure-devops" disabled>Azure DevOps (à venir)</option>
+                            <option value="aws-codecommit" disabled>AWS CodeCommit (à venir)</option>
+                            <option value="google-cloud-source" disabled>Google Cloud Source (à venir)</option>
+                            <option value="alibaba-cloud" disabled>Alibaba Cloud (à venir)</option>
+                            <option value="tencent-cloud" disabled>Tencent Cloud (à venir)</option>
                           </optgroup>
                         </select>
                       </div>
