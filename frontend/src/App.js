@@ -1468,7 +1468,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 <span className="absolute top-[3px] w-4 h-4 rounded-full bg-black transition-transform duration-200 translate-x-[2px]" />
               </button>
 
-        {/* TEST MODE - Simulateur d'abonnement (réactivé pour debug) */}
+        {/* TEST MODE - Simulateur d'abonnement (caché en prod, garder pour debug)
         <Card className="mb-4 bg-amber-500/10 border-amber-500/30">
           <CardContent className="p-3 sm:p-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -1549,6 +1549,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             </div>
           </CardContent>
         </Card>
+        */}
 
               <span className="text-[10px] font-medium text-slate-400">Premium</span>
             </div>
