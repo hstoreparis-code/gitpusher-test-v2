@@ -1262,6 +1262,14 @@ async def admin_autofix_update_settings(payload: AutofixSettings, authorization:
                 "updated_at": datetime.now(timezone.utc).isoformat(),
             }
         },
+
+
+@api_router.get("/admin/autofix/settings", response_model=AutofixSettings)
+async def admin_autofix_get_settings(authorization: Optional[str] = Header(default=None)):
+    """Return current Autofix settings for the admin UI."""
+    await require_admin(authorization)
+    return await _get_autofix_settings()
+
         upsert=True,
     )
 
