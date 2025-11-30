@@ -1847,6 +1847,19 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                             className={`mt-1 text-[10px] ${
                               renameStatus.type === "success" ? "text-emerald-300" : "text-amber-300"
                             }`}
+                      <div className="flex-1 flex flex-col gap-1">
+                        <Label className="text-[11px] text-slate-300">Provider Git</Label>
+                        <select
+                          className="h-8 rounded-md bg-slate-950/60 border border-slate-700/80 text-xs text-slate-200 px-2"
+                          value={selectedProvider}
+                          onChange={(e) => setSelectedProvider(e.target.value)}
+                        >
+                          <option value="github">GitHub</option>
+                          <option value="gitlab">GitLab</option>
+                          <option value="bitbucket">Bitbucket</option>
+                        </select>
+                      </div>
+
                           >
                             {renameStatus.message}
                           </p>
