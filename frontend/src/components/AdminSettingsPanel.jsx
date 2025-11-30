@@ -359,43 +359,7 @@ export function AdminSettingsPanel() {
           </Card>
         </TabsContent>
 
-        {/* Onglet Crédits & Plans - Suite */}
-        <TabsContent value="credits" className="mt-4 space-y-4">
-          <Card className="bg-slate-900/80 border-white/10 shadow-[0_0_20px_rgba(56,189,248,0.15)]">
-            <CardHeader>
-              <CardTitle className="text-base text-slate-100">Limites par Plan</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm text-slate-300 mb-2 block">Projets max - Free</label>
-                  <Input
-                    type="number"
-                    value={creditSettings.free_max_projects}
-                    onChange={(e) => setCreditSettings({...creditSettings, free_max_projects: parseInt(e.target.value)})}
-                    className="bg-slate-950/60 border-slate-700 text-slate-100"
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between p-4 bg-slate-950/60 border border-slate-800 rounded-lg">
-                <div>
-                  <p className="text-sm text-slate-200">Premium & Business - Illimité</p>
-                  <p className="text-xs text-slate-400 mt-1">Crédits et projets illimités pour ces plans</p>
-                </div>
-                <span className="text-sm font-bold text-violet-300">✓ Activé</span>
-              </div>
-
-              <Button
-                className="w-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white shadow-[0_0_18px_rgba(56,189,248,0.5)]"
-                onClick={() => saveSettings('crédits')}
-              >
-                <Save className="w-4 h-4 mr-2" />
-                Sauvegarder la configuration crédits
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
+ 
 
         {/* Onglet OAuth */}
         <TabsContent value="oauth" className="mt-4 space-y-4">
