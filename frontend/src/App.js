@@ -2887,7 +2887,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                 <ul className="space-y-2 text-sm text-slate-400">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="h-5 w-5 text-amber-400 flex-shrink-0 mt-0.5" />
-                    <span>50 uploads avec génération IA</span>
+                    <span>100 uploads avec génération IA</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="h-5 w-5 text-amber-400 flex-shrink-0 mt-0.5" />
