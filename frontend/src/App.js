@@ -1061,8 +1061,14 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
         { headers: { Authorization: `Bearer ${token}` } },
       );
       setProjects((prev) => [res.data, ...prev]);
+      setSelected(res.data);
+    } finally {
+      setCreating(false);
+    }
+  };
+
   // Si on arrive sur le dashboard juste après un drag&drop sur la landing,
-  // récupérer les fichiers temporaires stockés en global et créer un projet + uploader
+  // récupérer les fichiers temporaires stockés en global et préparer l'upload
   useEffect(() => {
     if (!token) return;
     if (landingFilesHandled) return;
@@ -1099,7 +1105,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
     };
 
     run();
-  }, [token, selected, landingFilesHandled, API, setProjects]);
+  }, [token, selected, landingFilesHandled]);
 
 
       setSelected(res.data);
