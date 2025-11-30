@@ -1754,10 +1754,10 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   <div className="mt-3">
                     <p className="text-[11px] text-slate-400 mb-1">Fichiers du projet</p>
                     <label
-                      className="relative flex flex-col items-center justify-center gap-2 border border-dashed border-cyan-400/60 rounded-xl bg-slate-950/40 hover:bg-slate-900/60 cursor-pointer py-6"
+                      className="relative flex flex-col items-center justify-center gap-3 border-2 border-dashed border-cyan-400 rounded-2xl bg-slate-950/60 hover:bg-slate-900/80 cursor-pointer py-8 shadow-[0_0_30px_rgba(56,189,248,0.4)]"
                     >
-                      <span className="text-[11px] uppercase tracking-[0.18em] text-cyan-300">Drag &amp; Drop</span>
-                      <span className="text-xs text-slate-200">Dépose tes fichiers ici ou clique pour parcourir</span>
+                      <span className="text-[11px] uppercase tracking-[0.22em] text-cyan-300">Zone de dépôt de fichiers</span>
+                      <span className="text-xs text-slate-200 font-medium">Glisse-dépose tes fichiers ici ou clique pour les sélectionner</span>
                       <input
                         type="file"
                         multiple
