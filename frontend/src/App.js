@@ -284,12 +284,6 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
-  // Sur la landing, on n'ouvre plus la modale automatiquement : uniquement sur action explicite
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
-
   // Si on est en mode /signup, ouvrir immédiatement le bloc d'inscription
   useEffect(() => {
     if (!forceSignupMode) return;
