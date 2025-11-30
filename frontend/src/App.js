@@ -447,11 +447,11 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-tight max-w-2xl mx-auto lg:mx-0">
               {lang === "fr" ? (
                 <>
-                  Workflow Git <span className="whitespace-nowrap">No-Code</span>
+                  Workflow Git <span className="whitespace-nowrap bg-gradient-to-r from-cyan-300 via-sky-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_22px_rgba(56,189,248,1)] neon-flicker">No-Code</span>
                 </>
               ) : (
                 <>
-                  <span className="whitespace-nowrap">No-Code</span> Git Workflow
+                  <span className="whitespace-nowrap bg-gradient-to-r from-cyan-300 via-sky-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_22px_rgba(56,189,248,1)] neon-flicker">No-Code</span> Git Workflow
                 </>
               )}
               <span className="text-cyan-300 text-5xl sm:text-6xl align-baseline leading-none drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]">.</span>
