@@ -783,6 +783,85 @@ async def admin_update_user_plan_credits(
     return {"ok": True}
 
 
+@api_router.post("/admin/users/{user_id}/add-credits")
+async def admin_add_credits_to_user(
+    user_id: str,
+    payload: dict,
+    authorization: Optional[str] = Header(default=None),
+):
+    """Admin endpoint to manually add credits to a specific user"""
+    admin = await require_admin(authorization)
+    _ = admin
+    
+    credits_to_add = payload.get("credits", 0)
+    if credits_to_add <= 0:
+        raise HTTPException(status_code=400, detail="Credits must be positive")
+    
+    # Get current user
+    user = await db.users.find_one({"_id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    current_credits = user.get("credits", 0)
+    new_credits = current_credits + credits_to_add
+    
+    # Update user credits
+    await db.users.update_one(
+        {"_id": user_id},
+        {"$set": {"credits": new_credits, "updated_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    return {"ok": True, "new_credits": new_credits, "added": credits_to_add}
+
+
+@api_router.get("/admin/credit-settings")
+async def admin_get_credit_settings(
+    authorization: Optional[str] = Header(default=None),
+):
+    """Get credit settings (initial credits for new users and packs)"""
+    admin = await require_admin(authorization)
+    _ = admin
+    
+    settings = await db.admin_settings.find_one({"_id": "credit_settings"})
+    if not settings:
+        # Default values
+        settings = {
+            "initial_credits_free": 5,
+            "initial_credits_business_pack": 200
+        }
+    
+    return settings
+
+
+@api_router.patch("/admin/credit-settings")
+async def admin_update_credit_settings(
+    payload: dict,
+    authorization: Optional[str] = Header(default=None),
+):
+    """Update credit settings"""
+    admin = await require_admin(authorization)
+    _ = admin
+    
+    updates = {}
+    if "initial_credits_free" in payload:
+        updates["initial_credits_free"] = int(payload["initial_credits_free"])
+    if "initial_credits_business_pack" in payload:
+        updates["initial_credits_business_pack"] = int(payload["initial_credits_business_pack"])
+    
+    if not updates:
+        raise HTTPException(status_code=400, detail="No updates provided")
+    
+    updates["updated_at"] = datetime.now(timezone.utc).isoformat()
+    
+    await db.admin_settings.update_one(
+        {"_id": "credit_settings"},
+        {"$set": updates},
+        upsert=True
+    )
+    
+    return {"ok": True, "settings": updates}
+
+
 @api_router.get("/admin/transactions", response_model=List[AdminTransactionSummary])
 async def admin_list_transactions(authorization: Optional[str] = Header(default=None)):
     """List all financial transactions (real + mock data for demo)"""
