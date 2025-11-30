@@ -2313,10 +2313,57 @@ function TermsPage() {
   );
 }
 
-                  className="px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-[11px] sm:text-xs flex items-center gap-1"
+function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, isLoadingLang }) {
+  const { token, user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  if (!token) return <Navigate to="/" replace />;
+
+  return (
+    <div
+      className={`min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex flex-col transition-opacity duration-500 ${
+        mounted ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <header className="w-full border-b border-white/5 backdrop-blur-sm sticky top-0 z-20 bg-slate-950/80">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center shadow-[0_0_18px_rgba(56,189,248,0.8)]">
+              <DownloadCloud className="h-4 w-4 text-slate-950" />
+            </div>
+            <div className="flex flex-col leading-tight">
+              <span className="text-base font-semibold tracking-tight">
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span><span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent text-sm">.AI</span>
+              </span>
+              <span className="text-xs text-slate-400">Paramètres du compte</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="text-slate-400 hidden sm:inline">{t("theme")}</span>
+              <Switch
+                checked={dark}
+                onCheckedChange={setDark}
+                data-testid="account-theme-toggle-switch"
+              />
+            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  className="px-3 py-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-sm flex items-center gap-2"
+                  data-testid="account-language-popover-trigger"
                 >
                   <span className="text-lg" aria-hidden="true">{currentLang.flag}</span>
-                  <span className="hidden sm:inline">{currentLang.label}</span>
+                  <span className="hidden sm:inline text-slate-200">{currentLang.label}</span>
                 </button>
               </PopoverTrigger>
               <PopoverContent
@@ -2344,7 +2391,13 @@ function TermsPage() {
                 </div>
               </PopoverContent>
             </Popover>
-            <Button
+            <div className="flex items-center gap-2 text-xs">
+              {user && (
+                <span className="hidden sm:inline text-slate-400" data-testid="account-user-email">
+                  {user.email}
+                </span>
+              )}
+              <Button
               variant="outline"
               size="sm"
               className="rounded-full border-red-500/60 text-red-300 text-[11px]"
