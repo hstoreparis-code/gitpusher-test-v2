@@ -138,6 +138,10 @@ export function AdminSettingsPanel() {
             <Zap className="w-4 h-4 mr-2" />
             Features
           </TabsTrigger>
+          <TabsTrigger value="autofix">
+            <Zap className="w-4 h-4 mr-2" />
+            Autofix
+          </TabsTrigger>
         </TabsList>
 
         {/* Onglet Général */}
