@@ -1592,49 +1592,88 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   Aucun projet pour l&apos;instant. Crée ton premier dépôt IA avec le bouton "Nouveau".
                 </p>
               ) : (
-                <div className="space-y-1 max-h-[260px] overflow-y-auto pr-1" data-testid="dashboard-projects-list">
-                  {projects.map((project) => (
-                    <button
-                      key={project.id}
-                      type="button"
-                      onClick={() => setSelected(project)}
-                      className={`w-full flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg border text-left transition-colors text-[11px] sm:text-xs ${
-                        selected?.id === project.id
-                          ? "border-cyan-400/70 bg-cyan-500/10 text-slate-50"
-                          : "border-slate-800 bg-slate-950/60 hover:bg-slate-900/60 text-slate-200"
-                      }`}
-                    >
-                      <div className="min-w-0">
-                        <p className="font-medium truncate">{project.name || "Projet sans nom"}</p>
-                        <p className="text-[10px] text-slate-400 truncate">{project.description || "Sans description"}</p>
-                      </div>
-                      <div className="flex flex-col items-end gap-1">
-                        <span
-                          className={`px-2 py-0.5 rounded-full text-[10px] border ${
-                            project.status === "completed"
-                              ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/40"
-                              : project.status === "archived"
-                                ? "bg-slate-800 text-slate-300 border-slate-600"
-                                : "bg-cyan-500/15 text-cyan-300 border-cyan-500/40"
-                          }`}
-                        >
-                          {project.status || "draft"}
-                        </span>
-                        {project.repo_url && (
-                          <a
-                            href={project.repo_url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex items-center gap-1 text-[10px] text-cyan-300 hover:text-cyan-200"
+                <>
+                  {/* Projets actifs */}
+                  <div className="space-y-1 max-h-[260px] overflow-y-auto pr-1" data-testid="dashboard-projects-list">
+                    {projects.filter((project) => project.status !== "archived").length === 0 ? (
+                      <p className="text-slate-500 text-[11px]">
+                        Aucun projet actif. Crée un nouveau projet ou restaure un projet archivé.
+                      </p>
+                    ) : (
+                      projects
+                        .filter((project) => project.status !== "archived")
+                        .map((project) => (
+                          <button
+                            key={project.id}
+                            type="button"
+                            onClick={() => setSelected(project)}
+                            className={`w-full flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg border text-left transition-colors text-[11px] sm:text-xs ${
+                              selected?.id === project.id
+                                ? "border-cyan-400/70 bg-cyan-500/10 text-slate-50"
+                                : "border-slate-800 bg-slate-950/60 hover:bg-slate-900/60 text-slate-200"
+                            }`}
                           >
-                            <Github className="w-3 h-3" />
-                            Repo
-                          </a>
-                        )}
+                            <div className="min-w-0">
+                              <p className="font-medium truncate">{project.name || "Projet sans nom"}</p>
+                              <p className="text-[10px] text-slate-400 truncate">{project.description || "Sans description"}</p>
+                            </div>
+                            <div className="flex flex-col items-end gap-1">
+                              <span
+                                className={`px-2 py-0.5 rounded-full text-[10px] border ${
+                                  project.status === "completed"
+                                    ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/40"
+                                    : "bg-cyan-500/15 text-cyan-300 border-cyan-500/40"
+                                }`}
+                              >
+                                {project.status || "draft"}
+                              </span>
+                              {project.repo_url && (
+                                <a
+                                  href={project.repo_url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="inline-flex items-center gap-1 text-[10px] text-cyan-300 hover:text-cyan-200"
+                                >
+                                  <Github className="w-3 h-3" />
+                                  Repo
+                                </a>
+                              )}
+                            </div>
+                          </button>
+                        ))
+                    )}
+                  </div>
+
+                  {/* Bloc d'archives */}
+                  {projects.filter((project) => project.status === "archived").length > 0 && (
+                    <div className="mt-3 pt-2 border-t border-slate-800/70">
+                      <p className="text-[10px] text-slate-400 mb-1">Archives</p>
+                      <div className="space-y-1 max-h-[140px] overflow-y-auto pr-1">
+                        {projects
+                          .filter((project) => project.status === "archived")
+                          .map((project) => (
+                            <div
+                              key={project.id}
+                              className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px] sm:text-xs"
+                            >
+                              <div className="min-w-0">
+                                <p className="font-medium truncate">{project.name || "Projet archivé"}</p>
+                                <p className="text-[10px] text-slate-500 truncate">{project.description || "Sans description"}</p>
+                              </div>
+                              <Button
+                                size="xs"
+                                variant="outline"
+                                className="h-7 px-2 rounded-full border-red-500/60 text-red-300 text-[10px]"
+                                onClick={() => deleteProject(project.id)}
+                              >
+                                Supprimer
+                              </Button>
+                            </div>
+                          ))}
                       </div>
-                    </button>
-                  ))}
-                </div>
+                    </div>
+                  )}
+                </>
               )}
             </CardContent>
           </Card>
