@@ -2775,11 +2775,12 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
               variant="outline"
               size="sm"
               onClick={() => window.history.back()}
-              className="px-4 py-2 rounded-lg border-cyan-400 text-cyan-300 text-sm bg-cyan-500/10 hover:bg-cyan-500/20 shadow-[0_0_18px_rgba(34,211,238,0.65)] hover:shadow-[0_0_26px_rgba(34,211,238,0.9)] transition-all flex items-center gap-2"
+              className="group relative px-3 py-2 rounded-full border border-cyan-400/70 bg-gradient-to-r from-cyan-500 via-sky-500 to-cyan-400 text-slate-950 text-sm font-semibold shadow-[0_0_22px_rgba(34,211,238,0.9)] hover:shadow-[0_0_32px_rgba(34,211,238,1)] transition-all flex items-center gap-2 overflow-hidden"
               data-testid="pricing-back-button"
             >
-              <ArrowLeft className="h-4 w-4" />
-              <span>Retour</span>
+              <span className="absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(244,244,245,0.35),transparent_55%)] opacity-60 group-hover:opacity-90 transition-opacity" />
+              <ArrowLeft className="relative z-10 h-4 w-4 drop-shadow-[0_0_8px_rgba(15,23,42,0.9)]" />
+              <span className="relative z-10 text-xs sm:text-sm tracking-wide">Retour</span>
             </Button>
           </div>
         </div>
