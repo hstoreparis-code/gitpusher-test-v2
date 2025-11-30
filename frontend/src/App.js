@@ -272,11 +272,11 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
 
   const handleGetStarted = () => {
     if (token) {
-      // Utilisateur connecté : on l'envoie directement sur les tarifs, ancre Freemium
-      navigate("/pricing#freemium");
+      // Utilisateur connecté : accès direct au dashboard
+      navigate("/app");
     } else {
-      // Non connecté : on ouvre le modal d'authentification comme avant
-      setAuthOpen(true);
+      // Non connecté : redirection vers la page de création de compte
+      navigate("/signup");
     }
   };
 
