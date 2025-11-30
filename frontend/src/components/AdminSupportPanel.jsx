@@ -204,7 +204,7 @@ export function AdminSupportPanel() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="overflow-y-scroll h-[600px]">
+                <div className="overflow-y-auto h-[600px] scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
                   {conversations.length === 0 ? (
                     <div className="p-8 text-center text-sm text-slate-400">
                       Aucune conversation pour le moment
