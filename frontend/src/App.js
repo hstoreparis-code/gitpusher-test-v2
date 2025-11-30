@@ -1502,7 +1502,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                       <>
                         <span
                           className={
-                            credits === 2
+                            credits != null && credits <= 2
                               ? "text-3xl sm:text-4xl font-bold bg-gradient-to-br from-amber-300 via-yellow-300 to-amber-100 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(250,204,21,0.9)]"
                               : "text-3xl sm:text-4xl font-bold bg-gradient-to-br from-cyan-300 via-sky-300 to-cyan-100 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(34,211,238,0.9)]"
                           }
