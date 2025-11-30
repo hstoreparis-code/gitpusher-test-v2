@@ -1428,77 +1428,37 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
       </header>
 
       <main className="flex-1 w-full max-w-full sm:max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-8 space-y-3 sm:space-y-8 overflow-x-hidden">
-        {/* TEST MODE - Developer Controls */}
-        <Card className="mb-4 bg-amber-500/10 border-amber-500/30">
+        {/* Bannière discrète de mise en avant des offres */}
+        <Card className="mb-4 bg-slate-900/70 border border-cyan-500/20 shadow-[0_0_32px_rgba(34,211,238,0.25)]">
           <CardContent className="p-3 sm:p-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div>
-                <p className="text-xs sm:text-sm font-semibold text-amber-300 mb-1">🧪 MODE TEST - Simulateur d'abonnement</p>
-                <p className="text-[10px] sm:text-xs text-slate-400">Testez les différents scénarios de crédits et d'abonnement</p>
+              <div className="space-y-1">
+                <p className="text-[11px] sm:text-xs uppercase tracking-[0.22em] text-cyan-300/80">
+                  Offre en avant-première
+                </p>
+                <p className="text-sm sm:text-base font-medium text-slate-50">
+                  Passez en <span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent font-semibold">Premium</span> et laissez l&apos;IA gérer tous vos dépôts sans limite.
+                </p>
+                <p className="text-[11px] sm:text-xs text-slate-400 max-w-xl">
+                  Uploads illimités, génération avancée de README, gestion multi-providers Git et support prioritaire. Sans engagement, annulation en un clic.
+                </p>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex items-center gap-2 self-stretch sm:self-auto">
                 <Button
                   size="sm"
-                  onClick={() => {
-                    const currentUser = testUser || authUser;
-                    const newCredits = Math.max(0, (currentUser?.credits || 0) - 1);
-                    setTestUser({ ...currentUser, credits: newCredits });
-                  }}
-                  variant="outline"
-                  className="text-xs border-red-500/50 text-red-300 hover:bg-red-500/20"
+                  className="rounded-full bg-gradient-to-r from-cyan-500 via-sky-500 to-cyan-400 text-slate-950 text-xs sm:text-sm font-semibold shadow-[0_0_22px_rgba(34,211,238,0.8)] hover:shadow-[0_0_30px_rgba(34,211,238,1)]"
+                  onClick={() => navigate("/pricing#premium")}
+                  data-testid="dashboard-banner-premium-cta"
                 >
-                  -1 crédit
+                  Découvrir Premium
                 </Button>
-                <Button
-                  size="sm"
-                  onClick={() => {
-                    const currentUser = testUser || authUser;
-                    setTestUser({ ...currentUser, credits: (currentUser?.credits || 0) + 5 });
-                  }}
-                  variant="outline"
-                  className="text-xs border-green-500/50 text-green-300 hover:bg-green-500/20"
+                <button
+                  type="button"
+                  onClick={() => navigate("/pricing#credit-packs")}
+                  className="hidden sm:inline-flex text-[11px] text-slate-400 hover:text-cyan-200 underline underline-offset-4"
                 >
-                  +5 crédits
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => {
-                    const currentUser = testUser || authUser;
-                    setTestUser({ ...currentUser, credits: (currentUser?.credits || 0) + 50 });
-                  }}
-                  variant="outline"
-                  className="text-xs border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/20"
-                >
-                  +50 crédits
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => {
-                    const currentUser = testUser || authUser;
-                    const plans = ["Free", "Starter", "Pro", "Premium", "Business"];
-                    const currentIndex = plans.indexOf(currentUser?.plan || "Free");
-                    const nextPlan = plans[(currentIndex + 1) % plans.length];
-                    
-                    // Attribuer les crédits selon le plan
-                    let newCredits = currentUser?.credits || 2;
-                    if (nextPlan === "Free") {
-                      newCredits = 2;
-                    } else if (nextPlan === "Starter") {
-                      newCredits = 10;
-                    } else if (nextPlan === "Pro") {
-                      newCredits = 50;
-                    } else if (nextPlan === "Premium" || nextPlan === "Business") {
-                      // Premium et Business ont un accès illimité
-                      newCredits = 999999;
-                    }
-                    
-                    setTestUser({ ...currentUser, plan: nextPlan, credits: newCredits });
-                  }}
-                  variant="outline"
-                  className="text-xs border-violet-500/50 text-violet-300 hover:bg-violet-500/20"
-                >
-                  Changer Plan
-                </Button>
+                  Voir les packs de crédits
+                </button>
               </div>
             </div>
           </CardContent>
