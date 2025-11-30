@@ -3962,6 +3962,7 @@ function AppShell() {
   return (
     <>
       <Routes>
+        <Route path="/terms" element={<TermsPage />} />
         <Route
           path="/signup"
           element={
