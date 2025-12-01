@@ -3180,31 +3180,25 @@ async def v1_upload_and_push(
     if not user.get("github_access_token"):
         raise HTTPException(status_code=400, detail="GitHub token not linked. Please connect via OAuth first.")
     
-    # Check credits
-    if not await credits_service.consume_credits(user["_id"], 1):
-        raise HTTPException(status_code=402, detail="Insufficient credits. Please purchase more credits.")
-    
-    # Create job first
-    job_id = str(uuid.uuid4())
-    now = datetime.now(timezone.utc).isoformat()
-    
-    await db.jobs_v1.insert_one({
-        "_id": job_id,
-        "user_id": user["_id"],
-        "provider": provider,
-        "repo_name": repoName,
-        "status": "pending",
-        "logs": ["Job created"],
-        "created_at": now,
-        "updated_at": now
-    })
+    # Create job using JobManager (checks credits but doesn't consume yet)
+    try:
+        job = await job_manager.create_job(
+            user_id=user["_id"],
+            job_type="upload",
+            job_data={
+                "provider": provider,
+                "repo_name": repoName
+            },
+            required_credits=1
+        )
+        job_id = job["_id"]
+    except ValueError as e:
+        raise HTTPException(status_code=402, detail=str(e))
     
     try:
-        # Update job status
-        await db.jobs_v1.update_one(
-            {"_id": job_id},
-            {"$set": {"status": "running"}, "$push": {"logs": "Processing upload..."}}
-        )
+        # Start job
+        await job_manager.start_job(job_id)
+        await job_manager.add_log(job_id, "Processing upload...")
         
         # Read file
         content = await file.read()
