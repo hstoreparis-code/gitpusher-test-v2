@@ -205,15 +205,18 @@ test_plan:
 
   - task: "Frontend QA robuste (Playwright + rotation rapports)"
     implemented: true
-    working: "NA"
+    working: true
     file: "App.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
-          comment: "Demande de QA robuste multi-pages (landing, login, formulaire, logout) inspiré du script QA avec rotation de rapports." 
+          comment: "Demande de QA robuste multi-pages (landing, login, formulaire, logout) inspiré du script QA avec rotation de rapports."
+        - working: true
+          agent: "testing"
+          comment: "✅ QA Frontend Robuste GitPusher COMPLET. Toutes les étapes testées avec succès: (1) Landing page - logo GitPusher.AI, titre 'No-Code Git Workflow', boutons 'Start for free' et 'Access the demo', zone drag & drop ✅ (2) Navigation - toggle thème, sélecteur langue, navigation pricing ✅ (3) Modal auth - boutons OAuth GitHub/Google/GitLab présents ✅ (4) Demo login - redirection dashboard réussie, token JWT stocké, dashboard avec titre, projets, crédits (2 disponibles), menu utilisateur ✅ (5) Workflow dashboard - interaction projets, zone upload, affichage crédits fonctionnels ✅ (6) Logout - retour landing page, token supprimé ✅. Application entièrement stable et fonctionnelle." 
 
 
   - task: "Frontend QA full workflow (Playwright smoke)"
