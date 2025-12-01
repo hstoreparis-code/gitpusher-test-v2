@@ -3695,6 +3695,7 @@ async def v1_job_completed_webhook(payload: WebhookJobCompleted):
 
 # Mount v1 router
 api_router.include_router(v1_router)
+api_router.include_router(admin_dashboard_router, prefix="/admin")
 
 
 # ---------- BASIC ROOT & HEALTH ----------
