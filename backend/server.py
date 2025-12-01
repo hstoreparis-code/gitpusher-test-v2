@@ -3324,34 +3324,26 @@ async def v1_upload_and_push(
             provider
         )
         
-        await db.jobs_v1.update_one(
-            {"_id": job_id},
-            {"$push": {"logs": "All files uploaded successfully!"}}
-        )
+        await job_manager.add_log(job_id, "All files uploaded successfully!")
         
         # Store repo in DB
+        repo_id = str(uuid.uuid4())
         await db.repos_v1.insert_one({
-            "_id": str(uuid.uuid4()),
+            "_id": repo_id,
             "user_id": user["_id"],
             "job_id": job_id,
             "name": repoName,
             "url": repo_info.url,
             "provider": provider,
             "private": False,
-            "created_at": now
+            "created_at": datetime.now(timezone.utc).isoformat()
         })
         
-        # Mark job as success
-        await db.jobs_v1.update_one(
-            {"_id": job_id},
-            {
-                "$set": {
-                    "status": "success",
-                    "repo_url": repo_info.url,
-                    "updated_at": datetime.now(timezone.utc).isoformat()
-                },
-                "$push": {"logs": f"✅ Complete! Repo: {repo_info.url}"}
-            }
+        # Complete job successfully (CRITICAL: Credits consumed here)
+        await job_manager.complete_job(
+            job_id=job_id,
+            success=True,
+            result_data={"repo_url": repo_info.url}
         )
         
         # Cleanup
@@ -3365,13 +3357,11 @@ async def v1_upload_and_push(
         }
         
     except Exception as e:
-        # Mark job as failed
-        await db.jobs_v1.update_one(
-            {"_id": job_id},
-            {
-                "$set": {"status": "failed"},
-                "$push": {"logs": f"❌ Error: {str(e)}"}
-            }
+        # Complete job with failure (CRITICAL: Credits NOT consumed)
+        await job_manager.complete_job(
+            job_id=job_id,
+            success=False,
+            error=str(e)
         )
         
         raise HTTPException(status_code=500, detail=str(e))
