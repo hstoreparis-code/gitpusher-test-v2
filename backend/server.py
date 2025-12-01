@@ -3272,10 +3272,7 @@ async def v1_upload_and_push(
                         provider=provider
                     )
                     
-                    await db.jobs_v1.update_one(
-                        {"_id": job_id},
-                        {"$push": {"logs": f"Uploaded: {rel_path}"}}
-                    )
+                    await job_manager.add_log(job_id, f"Uploaded: {rel_path}")
         else:
             # Single file
             file_path = upload_path / file.filename
