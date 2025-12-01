@@ -203,6 +203,19 @@ test_plan:
   test_all: false
   test_priority: "high_first"
 
+  - task: "Frontend QA robuste (Playwright + rotation rapports)"
+    implemented: true
+    working: "NA"
+    file: "App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Demande de QA robuste multi-pages (landing, login, formulaire, logout) inspiré du script QA avec rotation de rapports." 
+
+
   - task: "Frontend QA full workflow (Playwright smoke)"
     implemented: true
     working: true
