@@ -266,8 +266,6 @@ Here are the entries (as key: text):
 """
     text = await call_llm(prompt, language=req.target_lang)
 
-api_router.include_router(admin_dashboard_router, prefix="/admin")
-
     try:
         translated = json.loads(text)
         if not isinstance(translated, dict):  # fallback if LLM didn't follow instructions
