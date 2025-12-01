@@ -5,6 +5,7 @@ Tests the full job lifecycle with credit consumption.
 """
 
 import pytest
+import pytest_asyncio
 from httpx import AsyncClient
 from unittest.mock import AsyncMock, patch
 import os
@@ -16,8 +17,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from server import app, db, credits_service, job_manager
 
 
-@pytest.fixture
-@pytest.mark.asyncio
+@pytest_asyncio.fixture
 async def test_user():
     """Create a test user with credits"""
     user_id = "test_user_e2e_123"
