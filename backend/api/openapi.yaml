@@ -21,7 +21,7 @@ x-ai-metadata:
     - "Credit-based billing"
 
 paths:
-  /push:
+  /api/push:
     post:
       summary: Create and push a repository from code/files
       operationId: pushRepo
