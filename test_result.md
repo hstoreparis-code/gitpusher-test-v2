@@ -203,6 +203,23 @@ test_plan:
   test_all: false
   test_priority: "high_first"
 
+  - task: "Frontend QA full workflow (Playwright smoke)"
+    implemented: true
+    working: "NA"
+    file: "N/A"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Demande de QA complet multi-pages (landing, login, formulaire, logout) via script Playwright helper."
+
+agent_communication:
+    - agent: "main"
+      message: "Merci d'exécuter un test QA frontend complet de type smoke : ouvrir la landing, cliquer quelques boutons principaux, tester login demo, tester un petit formulaire (si présent), puis logout. Générer un court rapport de statut par étape (OK/FAIL)."
+
+
 agent_communication:
     - agent: "testing"
       message: "Admin endpoint /api/admin/users tested successfully. The EmailStr -> str model change fixed the validation issue. Endpoint now returns HTTP 200 with proper JSON array of users (9 users found). Admin authentication flow working correctly."
