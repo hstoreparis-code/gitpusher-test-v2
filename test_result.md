@@ -205,15 +205,18 @@ test_plan:
 
   - task: "Frontend QA full workflow (Playwright smoke)"
     implemented: true
-    working: "NA"
-    file: "N/A"
+    working: true
+    file: "App.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Demande de QA complet multi-pages (landing, login, formulaire, logout) via script Playwright helper."
+        - working: true
+          agent: "testing"
+          comment: "✅ Test de smoke complet réussi. Landing page: logo GitPusher, titre, navigation fonctionnels. Navigation: pricing, sélecteur langue, toggle thème OK. Auth: modal OAuth avec boutons GitHub/Google/GitLab présents. Demo login: redirection dashboard réussie. Dashboard: titre, menu utilisateur, crédits affichés. Logout: retour landing page OK. File dropzone et bouton Get Started présents. Aucune erreur détectée."
 
 agent_communication:
     - agent: "main"
