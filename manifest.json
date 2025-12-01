@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.emergentframework.com/manifest.v1.json",
+  "name": "gitpusher-autofix",
+  "version": "1.0.0",
+  "description": "AI AutoFix + GitPusher Admin Backend + AI Messaging Engine",
+  "entrypoints": {
+    "dashboard": "frontend/dashboard/index.jsx",
+    "api": "backend/api/index.js"
+  },
+  "actions": {
+    "ai_autofix_diagnose": {
+      "type": "rest",
+      "method": "POST",
+      "path": "/autofix/diagnose",
+      "description": "Diagnose errors automatically and return a fix plan."
+    },
+    "ai_autofix_fix": {
+      "type": "rest",
+      "method": "POST",
+      "path": "/autofix/fix",
+      "description": "Apply automated fixes initiated by AI AutoFix."
+    },
+    "ai_autofix_report": {
+      "type": "rest",
+      "method": "GET",
+      "path": "/autofix/report",
+      "description": "Return latest system health & verification logs."
+    },
+    "ai_message_generate": {
+      "type": "rest",
+      "method": "POST",
+      "path": "/ai/messages/generate",
+      "description": "Generate scripts and community messages with AI."
+    }
+  },
+  "permissions": {
+    "network": {
+      "domains": ["*"],
+      "allowWildcard": true
+    },
+    "filesystem": {
+      "read": ["backend/**", "frontend/**"],
+      "write": ["logs/**", "tmp/**"]
+    }
+  },
+  "api.openapi": "/backend/api/openapi.yaml"
+}
