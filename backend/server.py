@@ -3461,26 +3461,23 @@ async def v1_create_job(payload: JobCreateRequest, authorization: str = Header(N
     if not upload:
         raise HTTPException(status_code=404, detail="Upload not found")
     
-    if not await credits_service.consume_credits(user["_id"], 1):
-        raise HTTPException(status_code=402, detail="Insufficient credits")
+    # Create job using JobManager (checks credits but doesn't consume yet)
+    try:
+        job = await job_manager.create_job(
+            user_id=user["_id"],
+            job_type="upload",
+            job_data={
+                "upload_id": payload.uploadId,
+                "repo_name": payload.repoName,
+                "visibility": payload.visibility,
+                "auto_prompts": payload.autoPrompts.dict() if payload.autoPrompts else {}
+            },
+            required_credits=1
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=402, detail=str(e))
     
-    job_id = str(uuid.uuid4())
-    now = datetime.now(timezone.utc).isoformat()
-    
-    await db.jobs_v1.insert_one({
-        "_id": job_id,
-        "user_id": user["_id"],
-        "upload_id": payload.uploadId,
-        "repo_name": payload.repoName,
-        "visibility": payload.visibility,
-        "auto_prompts": payload.autoPrompts.dict() if payload.autoPrompts else {},
-        "status": "queued",
-        "logs": [],
-        "created_at": now,
-        "updated_at": now
-    })
-    
-    return JobCreateResponse(jobId=job_id, startedAt=now)
+    return JobCreateResponse(jobId=job["_id"], startedAt=job["created_at"])
 
 
 @v1_router.get("/jobs/{job_id}", response_model=JobStatus)
