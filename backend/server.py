@@ -3025,6 +3025,7 @@ async def process_project(project_id: str, authorization: Optional[str] = Header
 credits_service = CreditsService(db)
 storage_service = StorageService()
 git_service = GitService()
+job_manager = JobManager(db, credits_service)
 
 # V1 Router
 v1_router = APIRouter(prefix="/v1")
