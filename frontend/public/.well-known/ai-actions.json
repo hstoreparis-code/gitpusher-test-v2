@@ -1,0 +1,20 @@
+{
+  "ai_actions": [
+    {
+      "name": "gitpusher.push",
+      "description": "Push code, zip or AI output to Git providers via GitPusher.",
+      "method": "POST",
+      "path": "/push",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "source": { "type": "string", "enum": ["zip","folder","code","ai_output"] },
+          "provider": { "type": "string", "description": "github|gitlab|bitbucket|all" },
+          "repo_name": { "type": "string" },
+          "content": { "type": "object" }
+        },
+        "required": ["source","provider","content"]
+      }
+    }
+  ]
+}
