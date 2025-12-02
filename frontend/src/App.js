@@ -1561,7 +1561,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           <div className="pointer-events-none absolute -inset-x-4 -inset-y-3 rounded-3xl bg-gradient-to-r from-cyan-500/35 via-sky-500/30 to-violet-500/35 blur-2xl opacity-80 lg:hidden" />
 
           {/* Carte Crédits disponibles */}
-          <Card className="bg-slate-900/80 border-2 border-dashed border-blue-500/60 shadow-[0_0_24px_rgba(59,130,246,0.4)] rounded-xl overflow-hidden relative">
+          <Card className="bg-slate-900/80 border-2 border-dashed border-violet-500/60 shadow-[0_0_24px_rgba(139,92,246,0.4)] rounded-xl overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/5 via-transparent to-violet-500/5 pointer-events-none" />
             
             {/* Badge plan en haut à droite */}
