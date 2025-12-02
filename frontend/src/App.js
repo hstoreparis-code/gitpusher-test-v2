@@ -2255,12 +2255,12 @@ function TermsPage() {
               <span className="text-[10px] text-slate-400">Conditions générales d'utilisation</span>
             </div>
           </div>
-          <Link
-            to="/"
+          <a
+            href="/"
             className="text-[11px] px-3 py-1 rounded-full border border-slate-700 text-slate-300 hover:text-slate-50 hover:border-cyan-400/70 hover:bg-slate-900/70 transition-colors"
           >
             Retour à l'accueil
-          </Link>
+          </a>
         </div>
       </header>
 
