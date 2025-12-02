@@ -178,9 +178,28 @@ class PlanUpdate(BaseModel):
 # FastAPI app
 app = FastAPI(title="GitPusher API")
 
+class PushRequest(BaseModel):
+    source: str  # "url" or "base64"
+    provider: str  # "github", "gitlab", etc.
+    repo_name: Optional[str] = None
+    content: Dict[str, Any]  # {"url": "..."} or {"data": "base64...", "filename": "..."}
+    api_key: Optional[str] = None  # User API key for authentication
+    auto_prompts: Optional[Dict[str, Any]] = None  # AI generation options
+
+
+api_router = APIRouter(prefix="/api")
+
+@api_router.get("/openapi.yaml")
+async def api_openapi():
+    """Serve the static OpenAPI YAML for AI agents."""
+    from fastapi.responses import PlainTextResponse
+    yaml_path = ROOT_DIR / "api" / "openapi.yaml"
+    content = yaml_path.read_text(encoding="utf-8")
+    return PlainTextResponse(content, media_type="application/yaml")
+
 @app.get("/openapi.yaml")
 async def public_openapi():
-    """Serve the static OpenAPI YAML for AI agents."""
+    """Redirect to /api/openapi.yaml"""
     from fastapi.responses import PlainTextResponse
     yaml_path = ROOT_DIR / "api" / "openapi.yaml"
     content = yaml_path.read_text(encoding="utf-8")
@@ -193,17 +212,6 @@ async def public_providers():
 @app.get("/status")
 async def public_status():
     return {"status": "ok", "service": "gitpusher", "time": datetime.now(timezone.utc).isoformat()}
-
-class PushRequest(BaseModel):
-    source: str  # "url" or "base64"
-    provider: str  # "github", "gitlab", etc.
-    repo_name: Optional[str] = None
-    content: Dict[str, Any]  # {"url": "..."} or {"data": "base64...", "filename": "..."}
-    api_key: Optional[str] = None  # User API key for authentication
-    auto_prompts: Optional[Dict[str, Any]] = None  # AI generation options
-
-
-api_router = APIRouter(prefix="/api")
 
 
 @api_router.post("/push")
