@@ -1726,6 +1726,72 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                     >
                       <span className="mr-2">🎵</span> Partager l'expérience
                     </Button>
+                    
+                    {/* Icônes réseaux sociaux */}
+                    <div className="flex items-center gap-2 justify-center pt-1">
+                      {/* TikTok */}
+                      <button
+                        onClick={() => {
+                          const shareUrl = encodeURIComponent(window.location.origin);
+                          const shareText = encodeURIComponent("🚀 GitPusher.AI - No-Code GitHub Workflow ✨");
+                          window.open(`https://www.tiktok.com/share?url=${shareUrl}&title=${shareText}`, '_blank');
+                        }}
+                        className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500/20 to-cyan-500/20 border border-pink-400/40 flex items-center justify-center hover:bg-pink-500/30 hover:border-pink-400/60 transition-all shadow-[0_0_12px_rgba(236,72,153,0.3)] hover:shadow-[0_0_18px_rgba(236,72,153,0.6)]"
+                        title="Partager sur TikTok"
+                      >
+                        <span className="text-lg">🎵</span>
+                      </button>
+                      
+                      {/* Twitter/X */}
+                      <button
+                        onClick={() => {
+                          const shareUrl = encodeURIComponent(window.location.origin);
+                          const shareText = encodeURIComponent("🚀 Découvrez GitPusher.AI - No-Code GitHub Workflow ! Automatisez vos dépôts Git en un clic ✨");
+                          window.open(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}`, '_blank');
+                        }}
+                        className="w-10 h-10 rounded-full bg-slate-800/40 border border-slate-600/40 flex items-center justify-center hover:bg-slate-700/60 hover:border-slate-500 transition-all"
+                        title="Partager sur X (Twitter)"
+                      >
+                        <span className="text-lg">𝕏</span>
+                      </button>
+                      
+                      {/* LinkedIn */}
+                      <button
+                        onClick={() => {
+                          const shareUrl = encodeURIComponent(window.location.origin);
+                          window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
+                        }}
+                        className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-500/40 flex items-center justify-center hover:bg-blue-600/30 hover:border-blue-500/60 transition-all"
+                        title="Partager sur LinkedIn"
+                      >
+                        <span className="text-lg">💼</span>
+                      </button>
+                      
+                      {/* Facebook */}
+                      <button
+                        onClick={() => {
+                          const shareUrl = encodeURIComponent(window.location.origin);
+                          window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`, '_blank');
+                        }}
+                        className="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-400/40 flex items-center justify-center hover:bg-blue-500/30 hover:border-blue-400/60 transition-all"
+                        title="Partager sur Facebook"
+                      >
+                        <span className="text-lg">📘</span>
+                      </button>
+                      
+                      {/* WhatsApp */}
+                      <button
+                        onClick={() => {
+                          const shareUrl = encodeURIComponent(window.location.origin);
+                          const shareText = encodeURIComponent("🚀 GitPusher.AI - No-Code GitHub Workflow ✨");
+                          window.open(`https://wa.me/?text=${shareText}%20${shareUrl}`, '_blank');
+                        }}
+                        className="w-10 h-10 rounded-full bg-green-600/20 border border-green-500/40 flex items-center justify-center hover:bg-green-600/30 hover:border-green-500/60 transition-all"
+                        title="Partager sur WhatsApp"
+                      >
+                        <span className="text-lg">💬</span>
+                      </button>
+                    </div>
                   </>
                 )}
               </div>
