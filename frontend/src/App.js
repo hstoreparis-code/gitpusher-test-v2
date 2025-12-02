@@ -1566,7 +1566,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             
             {/* Badge plan en haut à droite */}
             {user?.plan && (
-              <div className="absolute top-3 right-4 z-20">
+              <div className="absolute top-2 sm:top-3 right-4 z-20">
                 <span className={`px-2 py-0.5 sm:px-3 sm:py-1.5 rounded-full text-[9px] sm:text-[11px] font-bold uppercase tracking-wide sm:tracking-wider shadow-lg ${
                   (user.plan || '').toLowerCase() === 'free' || (user.plan || '').toLowerCase() === 'freemium' || (user.plan || '').toLowerCase() === 'demo'
                     ? 'bg-gradient-to-r from-cyan-300/30 via-sky-400/30 to-cyan-300/30 text-cyan-100 border border-cyan-300/70 shadow-[0_0_18px_rgba(56,189,248,0.9)]'
