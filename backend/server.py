@@ -1573,7 +1573,7 @@ async def admin_autofix_list_incidents(authorization: Optional[str] = Header(def
     await _seed_mock_autofix_incidents()
 
     incidents: List[AutofixIncident] = []
-    cursor = db.autofix_incidents.find({}, {"_id": 1, "alert_name": 1, "severity": 1, "status": 1, "description": 1, "suggested_actions": 1, "executed_actions": 1, "created_at": 1, "resolved_at": 1}).sort("created_at", -1)
+    cursor = db.autofix_incidents.find({}, {"_id": 1, "alert_name": 1, "severity": 1, "status": 1, "description": 1, "suggested_actions": 1, "executed_actions": 1, "created_at": 1, "resolved_at": 1}).sort("created_at", -1).limit(100)
     async for doc in cursor:
         incidents.append(_serialize_incident(doc))
     return incidents
