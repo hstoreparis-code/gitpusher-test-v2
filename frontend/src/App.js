@@ -1588,7 +1588,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             <CardContent className="p-5 sm:p-6 relative z-10">
               <div className="flex items-start sm:items-center gap-4 sm:gap-6">
                 {/* Icône circulaire avec animation */}
-                <div className="relative flex-shrink-0 mt-6 sm:mt-0">
+                <div className="relative flex-shrink-0 mt-4 sm:mt-0">
                   {((user?.plan || '').toLowerCase() === 'premium' || (user?.plan || '').toLowerCase() === 'business') ? (
                     <div className="absolute inset-0 bg-gradient-to-br from-violet-400 via-purple-400 to-pink-500 rounded-full blur-xl opacity-50 animate-pulse" />
                   ) : (
