@@ -1601,10 +1601,10 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   } flex flex-col items-center justify-center backdrop-blur-sm`}>
                     {((user?.plan || '').toLowerCase() === 'premium' || (user?.plan || '').toLowerCase() === 'business') ? (
                       <>
-                        <span className="text-5xl sm:text-5xl font-bold bg-gradient-to-br from-cyan-300 via-sky-300 to-cyan-100 bg-clip-text text-transparent">
+                        <span className="text-4xl sm:text-5xl font-bold bg-gradient-to-br from-cyan-300 via-sky-300 to-cyan-100 bg-clip-text text-transparent">
                           ∞
                         </span>
-                        <span className="text-[10px] sm:text-[9px] uppercase tracking-widest text-cyan-200 mt-1 sm:mt-0.5 font-semibold">
+                        <span className="text-[9px] sm:text-[9px] uppercase tracking-widest text-cyan-200 mt-0.5 font-semibold">
                           illimité
                         </span>
                       </>
