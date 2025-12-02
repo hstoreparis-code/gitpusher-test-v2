@@ -1659,9 +1659,14 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                       </div>
                     )}
                   </div>
-                  <p className="text-[11px] text-slate-400 max-w-xs">
+                  <p className="text-[11px] text-slate-400 max-w-xs leading-relaxed">
                     {((user?.plan || '').toLowerCase() === 'premium' || (user?.plan || '').toLowerCase() === 'business')
-                      ? `Plan ${user.plan} : Crédits illimités inclus dans votre abonnement`
+                      ? (
+                        <>
+                          Plan {user.plan} :<br />
+                          Crédits illimités inclus dans votre abonnement
+                        </>
+                      )
                       : "2 crédits = 1 automatisation complète (README, .gitignore, LICENSE, push Git). En dessous de 3 crédits, pensez à recharger pour éviter toute interruption."}
                   </p>
                 </div>
