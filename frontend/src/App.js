@@ -15,6 +15,7 @@ import { AdminLoginPage, AdminDashboardPage } from "./AdminPages";
 import { AdminSupportPanel } from "./components/AdminSupportPanel";
 import { AdminAutofixPanel } from "./components/AdminAutofixPanel";
 import ForAIAssistants from "./pages/ForAIAssistants";
+import { HelpPage } from "./pages/HelpPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
