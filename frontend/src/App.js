@@ -1642,9 +1642,9 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                   </h3>
                   <div className="flex items-center gap-2">
                     {((user?.plan || '').toLowerCase() === 'premium' || (user?.plan || '').toLowerCase() === 'business') ? (
-                      <div className="flex items-center gap-2 px-3 py-1.5 sm:px-5 sm:py-3 rounded-full bg-gradient-to-r from-violet-500/20 to-purple-500/20 border border-violet-400/40">
-                        <span className="text-lg sm:text-2xl">✨</span>
-                        <span className="text-xs sm:text-base font-semibold text-violet-300">Accès illimité</span>
+                      <div className="flex items-center gap-1.5 px-2.5 py-1 sm:px-5 sm:py-3 rounded-full bg-gradient-to-r from-violet-500/20 to-purple-500/20 border border-violet-400/40">
+                        <span className="text-base sm:text-2xl">✨</span>
+                        <span className="text-[11px] sm:text-base font-semibold text-violet-300">Accès illimité</span>
                       </div>
                     ) : credits != null && credits <= 2 ? (
                       <div className="flex items-center gap-2 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/40 animate-pulse">
