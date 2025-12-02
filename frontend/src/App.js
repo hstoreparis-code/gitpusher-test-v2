@@ -1681,7 +1681,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
           </Card>
 
           {/* Carte Actions rapides & paiement */}
-          <Card className="bg-gradient-to-br from-slate-950 via-blue-950/90 to-slate-950 border border-cyan-500/30 shadow-[0_0_32px_rgba(6,182,212,0.25)] mt-4 lg:mt-0">
+          <Card className="bg-slate-900/80 border-2 border-dashed border-cyan-400/60 shadow-[0_0_24px_rgba(34,211,238,0.4)] rounded-xl mt-4 lg:mt-0">
             <CardContent className="p-5 flex flex-col gap-3">
               <div className="space-y-1">
                 <div className="text-[10px] uppercase tracking-widest text-slate-400 mb-0.5">Actions rapides</div>
