@@ -1634,7 +1634,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
                 </div>
 
                 {/* Texte et statut */}
-                <div className="flex flex-col gap-2 flex-1 min-w-0 pt-3 sm:pt-0">
+                <div className="flex flex-col gap-2 flex-1 min-w-0 pt-2 sm:pt-0">
                   <h3 className="text-lg sm:text-xl font-semibold text-slate-100 pr-20 sm:pr-16">
                     {((user?.plan || '').toLowerCase() === 'premium' || (user?.plan || '').toLowerCase() === 'business') 
                       ? "Mon offre" 
