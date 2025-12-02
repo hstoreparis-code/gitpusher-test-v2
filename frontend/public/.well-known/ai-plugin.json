@@ -1,0 +1,19 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "GitPusher.AI",
+  "name_for_model": "gitpusher",
+  "description_for_human": "No-Code GitHub Workflow - Automatisez vos dépôts Git en un clic",
+  "description_for_model": "GitPusher.AI allows AI agents to automatically create and push code to Git repositories (GitHub, GitLab, Bitbucket). Upload code via URL or base64, get automatic README, .gitignore, LICENSE generation, and instant Git push. Credit-based system with robust job management.",
+  "auth": {
+    "type": "user_http",
+    "authorization_type": "bearer"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gitpusher.ai/api/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gitpusher.ai/logo.png",
+  "contact_email": "support@gitpusher.ai",
+  "legal_info_url": "https://gitpusher.ai/terms"
+}

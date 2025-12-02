@@ -1,0 +1,39 @@
+{
+  "x-indexers": [
+    "openai",
+    "anthropic",
+    "google",
+    "mistral",
+    "meta",
+    "microsoft",
+    "perplexity",
+    "langchain",
+    "llamaindex",
+    "autogpt",
+    "replit",
+    "cursor"
+  ],
+  "x-ai-category": "ai-to-git",
+  "x-ai-purpose": "automatic repository creation and management",
+  "x-compatibility-level": "high",
+  "x-rate-limits": {
+    "public_endpoints": "60/min per IP",
+    "push_endpoint": "10/min per user"
+  },
+  "x-response-format": "json",
+  "x-next-actions-support": true,
+  "x-credit-system": "1 credit per successful push",
+  "x-supported-providers": [
+    "github",
+    "gitlab",
+    "bitbucket",
+    "gitea",
+    "codeberg",
+    "gitee",
+    "azure_devops",
+    "aws_codecommit",
+    "google_cloud_source",
+    "alibaba_cloud",
+    "tencent_cloud"
+  ]
+}
