@@ -473,8 +473,6 @@ async def public_push(req: PushRequest, x_api_key: Optional[str] = Header(None))
         raise HTTPException(status_code=500, detail=str(e))
 
 
-api_router = APIRouter(prefix="/api")
-
 # Import services after DB is initialized
 import sys
 sys.path.insert(0, str(ROOT_DIR))
