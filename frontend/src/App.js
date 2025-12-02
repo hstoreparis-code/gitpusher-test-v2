@@ -1562,7 +1562,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
 
           {/* Carte Crédits disponibles */}
           <Card className="bg-slate-900/80 border-2 border-dashed border-blue-500/60 shadow-[0_0_24px_rgba(59,130,246,0.4)] rounded-xl overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/5 via-transparent to-violet-500/5 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/5 via-transparent to-violet-500/5 pointer-events-none" />
             
             {/* Badge plan en haut à droite */}
             {user?.plan && (
