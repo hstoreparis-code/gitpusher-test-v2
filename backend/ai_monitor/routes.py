@@ -1,7 +1,10 @@
 from fastapi import APIRouter, Header, Depends
+from fastapi.responses import StreamingResponse
 from datetime import datetime, timezone, timedelta
 from typing import Optional, List
 import json
+import asyncio
+import random
 
 router = APIRouter(prefix="/admin/ai-monitor")
 
@@ -12,6 +15,21 @@ async def get_db():
 async def require_admin_auth(authorization: Optional[str] = Header(None)):
     from server import require_admin
     return await require_admin(authorization)
+
+@router.get("/stream")
+async def ai_monitor_stream(authorization: Optional[str] = Header(None)):
+    """SSE stream for realtime AI activity"""
+    await require_admin_auth(authorization)
+    
+    async def event_generator():
+        while True:
+            freq = random.random() * 100
+            likelihood = min(100, max(0, int(freq + (random.random() * 15 - 7))))
+            data = json.dumps({"freq": freq, "likelihood": likelihood, "t": int(datetime.now(timezone.utc).timestamp() * 1000)})
+            yield f"data: {data}\n\n"
+            await asyncio.sleep(0.8)
+    
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 @router.get("/live")
 async def ai_monitor_live(authorization: Optional[str] = Header(None)):
