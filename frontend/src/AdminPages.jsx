@@ -407,7 +407,11 @@ export function AdminDashboardPage() {
           });
           setTrafficStats(prev => ({
             ...prev,
-            top_endpoints: res.data.top_endpoints || {}
+            top_endpoints: res.data.top_endpoints || {},
+            by_country: res.data.by_country || {},
+            by_hour: res.data.by_hour || [],
+            top_pages: res.data.top_pages || {},
+            unique_visitors: res.data.unique_visitors || 0
           }));
         } catch (err) {
           console.error("Traffic stats error", err);
