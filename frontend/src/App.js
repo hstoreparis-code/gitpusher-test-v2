@@ -22,6 +22,12 @@ import SeoDeployAiCodePage from "./pages/seo/deploy-ai-code";
 import SeoPushWithoutGitPage from "./pages/seo/push-without-git";
 import SeoAiToGitAutomationPage from "./pages/seo/ai-to-git-automation";
 import SeoCreateRepoAutomaticallyPage from "./pages/seo/create-repo-automatically";
+import AeoPushAutomaticallyPage from "./pages/aeo/push-automatically";
+import AeoDeployAiCodePage from "./pages/aeo/deploy-ai-code";
+import AeoPushWithoutGitPage from "./pages/aeo/push-without-git";
+import AeoAiToGitAutomationPage from "./pages/aeo/ai-to-git-automation";
+import AeoCreateRepoAutomaticallyPage from "./pages/aeo/create-repo-automatically";
+
 
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
