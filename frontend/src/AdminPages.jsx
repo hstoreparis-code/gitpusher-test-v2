@@ -732,32 +732,7 @@ export function AdminDashboardPage() {
 
               {/* Onglet AI Monitor */}
               <TabsContent value="ai-monitor" className="mt-4 space-y-4">
-                <Card className="bg-slate-900/80 border-white/10">
-                  <CardHeader>
-                    <CardTitle className="text-base">🤖 Monitoring Recommandations IA</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid gap-4 md:grid-cols-3">
-                      <div className="p-4 rounded-lg bg-cyan-500/10 border border-cyan-400/30">
-                        <p className="text-xs text-slate-400">Événements 24h</p>
-                        <p className="text-2xl font-bold text-cyan-400">0</p>
-                      </div>
-                      <div className="p-4 rounded-lg bg-violet-500/10 border border-violet-400/30">
-                        <p className="text-xs text-slate-400">Événements 7j</p>
-                        <p className="text-2xl font-bold text-violet-400">0</p>
-                      </div>
-                      <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-400/30">
-                        <p className="text-xs text-slate-400">Status</p>
-                        <p className="text-lg font-bold text-emerald-400">✓ OK</p>
-                      </div>
-                    </div>
-                    <div className="mt-4 p-3 rounded-lg bg-blue-500/10 border border-blue-400/30">
-                      <p className="text-xs text-blue-300">
-                        💡 Les événements IA seront enregistrés automatiquement lorsque des agents (ChatGPT, Claude, Gemini, etc.) utiliseront les endpoints publics.
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
+                <AIMonitorDashboard />
               </TabsContent>
 
               {/* Onglet Statistiques */}
