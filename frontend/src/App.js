@@ -3061,7 +3061,26 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                     <span>Support prioritaire (24h)</span>
                   </li>
                 </ul>
-                <Button className="w-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 font-semibold mt-4 shadow-lg" size="lg">
+                <Button
+                  onClick={async () => {
+                    const token = localStorage.getItem("token");
+                    if (!token) {
+                      window.location.href = "/";
+                      return;
+                    }
+                    try {
+                      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/billing/purchase`, 
+                        { packId: "pack_50" },
+                        { headers: { Authorization: `Bearer ${token}` } }
+                      );
+                      window.location.href = res.data.checkoutUrl;
+                    } catch (err) {
+                      alert("Erreur: " + (err.response?.data?.detail || "Connexion requise"));
+                    }
+                  }}
+                  className="w-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 font-bold shadow-[0_0_18px_rgba(139,92,246,0.8)] hover:shadow-[0_0_24px_rgba(139,92,246,1)] transition-all mt-4"
+                  size="lg"
+                >
                   Acheter - 29,99€
                 </Button>
                 <p className="text-center text-xs text-slate-500">Meilleur rapport qualité/prix</p>
