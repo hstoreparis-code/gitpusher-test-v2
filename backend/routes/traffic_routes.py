@@ -16,16 +16,23 @@ async def traffic_stream(authorization: Optional[str] = Header(None)):
     await require_admin_auth(authorization)
     
     async def event_generator():
-        from real_traffic_monitor import real_traffic_monitor
+        from server import db
+        from datetime import timedelta
         
         while True:
-            stats = real_traffic_monitor.get_realtime_stats()
+            now = datetime.now(timezone.utc)
+            one_min_ago = (now - timedelta(minutes=1)).isoformat()
+            
+            recent = await db.traffic_logs.find({"timestamp": {"$gte": one_min_ago}}).to_list(1000)
+            rps = len(recent) / 60 if recent else 0
+            unique_ips = await db.traffic_logs.distinct("ip", {"timestamp": {"$gte": one_min_ago}})
+            avg_response = sum(r.get("duration_ms", 0) for r in recent) / len(recent) if recent else 0
             
             data = json.dumps({
                 "t": int(datetime.now(timezone.utc).timestamp() * 1000),
-                "rps": stats["rps"],
-                "users": stats["active_users"],
-                "response_ms": stats["avg_response_ms"]
+                "rps": round(rps, 2),
+                "users": len(unique_ips),
+                "response_ms": round(avg_response, 2)
             })
             yield f"data: {data}\n\n"
             await asyncio.sleep(1)
