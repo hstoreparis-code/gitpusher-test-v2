@@ -860,9 +860,9 @@ export function AdminDashboardPage() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 text-slate-950 font-bold text-sm shadow-[0_0_24px_rgba(34,211,238,0.9)] hover:shadow-[0_0_32px_rgba(34,211,238,1)] transition-all hover:scale-105"
                   >
-                    👁️ Ouvrir Monitor Visuel Temps Réel
+                    👁️ Oscillogramme IA
                   </a>
-                  <p className="text-xs text-slate-500 mt-2">Oscillogramme IA + Jauge prédictive</p>
+                  <p className="text-xs text-slate-500 mt-2">Monitoring temps réel + Jauge prédictive</p>
                 </div>
 
                 {/* Stats Cards */}
