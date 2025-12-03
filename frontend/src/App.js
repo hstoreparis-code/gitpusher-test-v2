@@ -17,6 +17,12 @@ import { AdminAutofixPanel } from "./components/AdminAutofixPanel";
 import ForAIAssistants from "./pages/ForAIAssistants";
 import { HelpPage } from "./pages/HelpPage";
 import { AdminMonitorPage } from "./pages/AdminMonitorPage";
+import SeoPushAutomaticallyPage from "./pages/seo/push-automatically";
+import SeoDeployAiCodePage from "./pages/seo/deploy-ai-code";
+import SeoPushWithoutGitPage from "./pages/seo/push-without-git";
+import SeoAiToGitAutomationPage from "./pages/seo/ai-to-git-automation";
+import SeoCreateRepoAutomaticallyPage from "./pages/seo/create-repo-automatically";
+
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
