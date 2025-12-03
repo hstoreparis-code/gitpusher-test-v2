@@ -9,6 +9,7 @@ class CreditsService:
             "pack_10": {"credits": 10, "price": 9.99, "currency": "EUR", "name": "Pack Starter"},
             "pack_50": {"credits": 50, "price": 29.99, "currency": "EUR", "name": "Pack Pro"},
             "pack_100": {"credits": 100, "price": 19.99, "currency": "EUR", "name": "Pack Premium", "recurring": "monthly"},
+            "pack_business": {"credits": 999999, "price": 99, "currency": "EUR", "name": "Pack Business", "recurring": "monthly"},
         }
     
     async def get_user_credits(self, user_id: str) -> int:
