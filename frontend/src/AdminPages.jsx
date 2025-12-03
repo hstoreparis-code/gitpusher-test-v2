@@ -147,7 +147,9 @@ export function AdminDashboardPage() {
     by_country: {},
     by_hour: [],
     top_pages: {},
-    unique_visitors: 0
+    unique_visitors: 0,
+    total_ai_requests: 0,
+    ai_traffic: {}
   });
   const [stats, setStats] = useState({
     totalUsers: 0,
