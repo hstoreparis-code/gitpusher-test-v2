@@ -3919,6 +3919,10 @@ api_router.include_router(admin_dashboard_router, prefix="/admin")
 from ai_monitor.routes import router as ai_monitor_router
 api_router.include_router(ai_monitor_router)
 
+# Mount Traffic monitor router
+from routes.traffic_routes import router as traffic_router
+api_router.include_router(traffic_router)
+
 
 # ---------- BASIC ROOT & HEALTH ----------
 
