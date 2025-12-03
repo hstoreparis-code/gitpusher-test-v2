@@ -69,8 +69,14 @@ export function AdminMonitorPage() {
       </div>
 
       {/* Oscillogramme */}
-      <div style={{ marginBottom: "50px" }}>
-        <svg width="100%" height="200" style={{ background: "#000", border: "2px solid #0ef" }}>
+      <div style={{ marginBottom: "50px", width: "100%", maxWidth: "900px", margin: "0 auto 50px" }}>
+        <svg
+          width="100%"
+          height="200"
+          viewBox="0 0 900 200"
+          preserveAspectRatio="none"
+          style={{ background: "#000", border: "2px solid #0ef", maxWidth: "100%" }}
+        >
           <polyline
             points={waveData.map((val, i) => `${i * 6},${200 - val * 1.5}`).join(" ")}
             fill="none"
@@ -81,11 +87,15 @@ export function AdminMonitorPage() {
       </div>
 
       {/* Jauge Prédictive */}
-      <div style={{ maxWidth: "400px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "400px", margin: "0 auto", padding: "0 20px" }}>
         <h2 style={{ textAlign: "center", marginBottom: "20px", fontSize: "18px" }}>
           Probabilité Recommandation IA
         </h2>
-        <svg viewBox="0 0 100 100" style={{ width: "100%", height: "auto" }}>
+        <svg
+          id="gauge"
+          viewBox="0 0 100 100"
+          style={{ display: "block", margin: "0 auto", maxWidth: "100%" }}
+        >
           {/* Arcs de zones */}
           <path d="M10 50 A40 40 0 0 1 50 10" stroke="#00ff99" strokeWidth="4" fill="none" />
           <path d="M50 10 A40 40 0 0 1 90 50" stroke="#ffee00" strokeWidth="4" fill="none" />
