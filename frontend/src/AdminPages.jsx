@@ -9,6 +9,7 @@ import { Users, Activity, CreditCard, TrendingUp, Search, Filter, Download, BarC
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { AdminSettingsPanel } from "./components/AdminSettingsPanel";
 import { AdminCreditsPanel } from "./components/AdminCreditsPanel";
+import { AdminPasswordChange } from "./components/AdminPasswordChange";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
