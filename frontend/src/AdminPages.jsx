@@ -413,7 +413,9 @@ export function AdminDashboardPage() {
             by_country: res.data.by_country || {},
             by_hour: res.data.by_hour || [],
             top_pages: res.data.top_pages || {},
-            unique_visitors: res.data.unique_visitors || 0
+            unique_visitors: res.data.unique_visitors || 0,
+            total_ai_requests: res.data.total_ai_requests || 0,
+            ai_traffic: res.data.ai_traffic || {}
           }));
         } catch (err) {
           console.error("Traffic stats error", err);
