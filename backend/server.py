@@ -2268,7 +2268,7 @@ async def gitlab_oauth_url():
     """Get GitLab OAuth authorization URL."""
     if not GITLAB_CLIENT_ID:
         raise HTTPException(status_code=500, detail="GitLab OAuth not configured")
-    scope = "api read_user read_repository write_repository"
+    scope = "read_user+read_api+write_repository"
     url = (
         "https://gitlab.com/oauth/authorize"
         f"?client_id={GITLAB_CLIENT_ID}"
