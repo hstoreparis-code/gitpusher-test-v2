@@ -27,7 +27,25 @@ export function AdminEmailPanel() {
 
   useEffect(() => {
     loadTemplates();
+    loadSMTPConfig();
   }, []);
+
+  const loadSMTPConfig = async () => {
+    try {
+      const res = await axios.get(`${API}/admin/smtp/config`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setSmtpConfig({
+        SMTP_HOST: res.data.smtp_host || "",
+        SMTP_PORT: res.data.smtp_port || "587",
+        SMTP_USER: res.data.smtp_user || "",
+        SMTP_PASS: res.data.smtp_pass === "***" ? "" : res.data.smtp_pass || "",
+        EMAIL_FROM: res.data.email_from || "welcome@gitpusher.ai"
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const loadTemplates = async () => {
     try {
