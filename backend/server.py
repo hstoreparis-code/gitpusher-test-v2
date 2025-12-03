@@ -4081,6 +4081,10 @@ api_router.include_router(stripe_stats_router)
 from routes.admin_users import router as admin_users_router
 api_router.include_router(admin_users_router)
 
+# Mount Features Health router
+from routes.features_health import router as features_health_router
+api_router.include_router(features_health_router)
+
 
 # ---------- BASIC ROOT & HEALTH ----------
 
