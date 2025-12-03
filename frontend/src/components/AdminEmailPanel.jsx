@@ -223,7 +223,31 @@ export function AdminEmailPanel() {
             <Input value={smtpConfig.EMAIL_FROM} onChange={(e) => setSmtpConfig({...smtpConfig, EMAIL_FROM: e.target.value})} placeholder="welcome@gitpusher.ai" className="bg-slate-950/60 h-8" />
           </div>
           <div className="flex items-end">
-            <Button variant="outline" size="sm" className="w-full">💾 Sauvegarder Config SMTP</Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white border-0"
+              onClick={async () => {
+                try {
+                  await axios.post(`${API}/admin/smtp/config`, {
+                    smtp_host: smtpConfig.SMTP_HOST,
+                    smtp_port: smtpConfig.SMTP_PORT,
+                    smtp_user: smtpConfig.SMTP_USER,
+                    smtp_pass: smtpConfig.SMTP_PASS,
+                    email_from: smtpConfig.EMAIL_FROM
+                  }, {
+                    headers: { Authorization: `Bearer ${token}` }
+                  });
+                  setMessage("✅ Config SMTP sauvegardée. Redémarrez le backend pour appliquer.");
+                  setTimeout(() => setMessage(""), 5000);
+                } catch (err) {
+                  setMessage("❌ Erreur sauvegarde SMTP");
+                  setTimeout(() => setMessage(""), 3000);
+                }
+              }}
+            >
+              💾 Sauvegarder Config SMTP
+            </Button>
           </div>
         </CardContent>
       </Card>
