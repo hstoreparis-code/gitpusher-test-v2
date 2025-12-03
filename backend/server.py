@@ -4077,6 +4077,10 @@ app.include_router(ping_ai_router)
 from routes.stripe_stats import router as stripe_stats_router
 api_router.include_router(stripe_stats_router)
 
+# Mount Admin Users router
+from routes.admin_users import router as admin_users_router
+api_router.include_router(admin_users_router)
+
 
 # ---------- BASIC ROOT & HEALTH ----------
 
