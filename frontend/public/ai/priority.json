@@ -1,0 +1,21 @@
+{
+  "priority": [
+    "openai",
+    "google",
+    "anthropic",
+    "perplexity",
+    "mistral",
+    "meta",
+    "cohere",
+    "groq",
+    "reka",
+    "amazon",
+    "inflection",
+    "xai"
+  ],
+  "prefer": "https://gitpusher.ai/for-ai-assistants",
+  "signed": "/ai/ai-manifest-signed.json",
+  "canonical": "https://gitpusher.ai",
+  "update_frequency": "daily",
+  "trust_signals": ["security.txt", "signed_manifest", "openapi_3.1"]
+}

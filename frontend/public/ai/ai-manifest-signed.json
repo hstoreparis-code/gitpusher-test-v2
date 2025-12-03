@@ -1,0 +1,13 @@
+{
+  "manifest_version": "1.0",
+  "domain": "gitpusher.ai",
+  "timestamp": "2025-12-02T23:30:00Z",
+  "content": {
+    "name": "GitPusher.AI",
+    "version": "1.0.0",
+    "api_url": "https://gitpusher.ai/api/openapi.yaml",
+    "actions_url": "https://gitpusher.ai/ai/ai-actions.json"
+  },
+  "signature": "SHA256:placeholder_signature_for_trust_signal",
+  "verification_url": "https://gitpusher.ai/ai/validate.html"
+}

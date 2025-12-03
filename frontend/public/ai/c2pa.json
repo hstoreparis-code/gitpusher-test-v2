@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "claim_generator": "GitPusher.AI",
+  "claim_generator_info": [
+    {"name": "GitPusher Content Provenance"}
+  ],
+  "assertions": [
+    {
+      "label": "c2pa.hash.data",
+      "data": {
+        "name": "sha256",
+        "hash": "placeholder_sha256_of_openapi_yaml"
+      }
+    }
+  ],
+  "signature_info": {
+    "issuer": "GitPusher.AI",
+    "time": "2025-12-02T23:30:00Z"
+  }
+}
