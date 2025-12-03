@@ -3885,6 +3885,7 @@ function AppShell() {
       <Routes>
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/help" element={<HelpPage />} />
+        <Route path="/admin-monitor" element={<AdminMonitorPage />} />
         <Route
           path="/signup"
           element={
