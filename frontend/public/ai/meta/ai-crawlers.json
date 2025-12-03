@@ -1,0 +1,31 @@
+{
+  "allow": [
+    "openai",
+    "anthropic",
+    "google",
+    "perplexity",
+    "groq",
+    "mistral",
+    "meta",
+    "xai",
+    "inflection",
+    "cohere",
+    "reka",
+    "amazon"
+  ],
+  "status": "allowed",
+  "indexers": [
+    {"name": "ChatGPT", "provider": "OpenAI"},
+    {"name": "Claude", "provider": "Anthropic"},
+    {"name": "Gemini", "provider": "Google"},
+    {"name": "Perplexity", "provider": "Perplexity"},
+    {"name": "Groq", "provider": "Groq"},
+    {"name": "Mistral", "provider": "Mistral"},
+    {"name": "LLaMA", "provider": "Meta"},
+    {"name": "Grok", "provider": "xAI"},
+    {"name": "Inflection", "provider": "Inflection"},
+    {"name": "Cohere", "provider": "Cohere"},
+    {"name": "Reka", "provider": "Reka"},
+    {"name": "Nova", "provider": "Amazon"}
+  ]
+}

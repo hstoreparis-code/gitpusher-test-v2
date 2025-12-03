@@ -1,0 +1,10 @@
+{
+  "service": "GitPusher",
+  "version": "1.0.0",
+  "description": "Universal AI-to-Git push engine.",
+  "endpoints": [
+    {"path": "/push", "method": "POST"},
+    {"path": "/providers", "method": "GET"},
+    {"path": "/status", "method": "GET"}
+  ]
+}

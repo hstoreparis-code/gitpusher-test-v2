@@ -15,5 +15,6 @@
   },
   "logo_url": "https://gitpusher.ai/logo.png",
   "contact_email": "support@gitpusher.ai",
-  "legal_info_url": "https://gitpusher.ai/terms"
+  "legal_info_url": "https://gitpusher.ai/terms",
+  "redirect_to": "/for-ai"
 }

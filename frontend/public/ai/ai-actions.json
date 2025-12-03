@@ -1,0 +1,22 @@
+{
+  "openapi_url": "https://gitpusher.ai/api/openapi.yaml",
+  "actions": [
+    {
+      "name": "gitpusher.push",
+      "description": "Push code, zip or AI output to Git providers via GitPusher.",
+      "method": "POST",
+      "path": "/api/push",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "source": {"type": "string", "enum": ["url","base64"]},
+          "provider": {"type": "string", "enum": ["github","gitlab","bitbucket"]},
+          "repo_name": {"type": "string"},
+          "content": {"type": "object"},
+          "api_key": {"type": "string"}
+        },
+        "required": ["source","provider","content"]
+      }
+    }
+  ]
+}
