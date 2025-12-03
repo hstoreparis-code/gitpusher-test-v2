@@ -48,9 +48,9 @@ async def traffic_stats(authorization: Optional[str] = Header(None)):
     # Get traffic from MongoDB
     now = datetime.now(timezone.utc)
     one_min_ago = (now - timedelta(minutes=1)).isoformat()
-    one_hour_ago = (now - timedelta(hours=1)).isoformat()
     
     total = await db.traffic_logs.count_documents({})
+    total_ai = await db.traffic_logs.count_documents({"is_ai": True})
     recent = await db.traffic_logs.find({"timestamp": {"$gte": one_min_ago}}).to_list(1000)
     
     rps = len(recent) / 60 if recent else 0
@@ -68,6 +68,15 @@ async def traffic_stats(authorization: Optional[str] = Header(None)):
     top_endpoints_list = await db.traffic_logs.aggregate(pipeline_endpoints).to_list(10)
     top_endpoints = {item["_id"]: item["count"] for item in top_endpoints_list}
     
+    # AI Traffic
+    pipeline_ai = [
+        {"$match": {"is_ai": True}},
+        {"$group": {"_id": "$ai_source", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}}
+    ]
+    ai_traffic_list = await db.traffic_logs.aggregate(pipeline_ai).to_list(20)
+    ai_traffic = {item["_id"]: item["count"] for item in ai_traffic_list}
+    
     # By hour
     pipeline_hour = [
         {"$group": {"_id": {"$substr": ["$timestamp", 0, 13]}, "count": {"$sum": 1}}},
@@ -83,9 +92,29 @@ async def traffic_stats(authorization: Optional[str] = Header(None)):
         "unique_visitors": len(unique_ips),
         "avg_response_ms": round(avg_response, 2),
         "total_requests": total,
+        "total_ai_requests": total_ai,
         "top_endpoints": top_endpoints,
+        "ai_traffic": ai_traffic,
         "by_country": {"France": len(unique_ips)},
         "by_hour": by_hour,
         "top_pages": top_endpoints
     }
+
+@router.get("/export")
+async def export_traffic(authorization: Optional[str] = Header(None)):
+    await require_admin_auth(authorization)
+    from server import db
+    from fastapi.responses import StreamingResponse
+    import io
+    
+    logs = await db.traffic_logs.find({}, {"_id": 0}).sort("timestamp", -1).limit(1000).to_list(1000)
+    
+    json_data = json.dumps({"traffic_logs": logs, "exported_at": datetime.now(timezone.utc).isoformat()}, indent=2)
+    
+    return StreamingResponse(
+        io.BytesIO(json_data.encode()),
+        media_type="application/json",
+        headers={"Content-Disposition": f"attachment; filename=traffic-export-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}.json"}
+    )
+
 
