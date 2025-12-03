@@ -1677,9 +1677,16 @@ export function AdminDashboardPage() {
                       <CardTitle className="text-sm">🎯 Top Endpoints</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-1 text-xs max-h-64 overflow-y-auto">
-                      <div className="flex justify-between p-2 bg-slate-950/60 rounded"><span>/api/auth/demo</span><span className="text-cyan-400">---</span></div>
-                      <div className="flex justify-between p-2 bg-slate-950/60 rounded"><span>/api/v1/jobs</span><span className="text-cyan-400">---</span></div>
-                      <div className="flex justify-between p-2 bg-slate-950/60 rounded"><span>/api/push</span><span className="text-cyan-400">---</span></div>
+                      {Object.entries(trafficStats.top_endpoints || {}).length === 0 ? (
+                        <p className="text-slate-500 text-center py-4">Aucune donnée</p>
+                      ) : (
+                        Object.entries(trafficStats.top_endpoints).map(([path, count]) => (
+                          <div key={path} className="flex justify-between p-2 bg-slate-950/60 rounded">
+                            <span className="truncate">{path}</span>
+                            <span className="text-cyan-400 font-mono">{count}</span>
+                          </div>
+                        ))
+                      )}
                     </CardContent>
                   </Card>
 
