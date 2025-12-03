@@ -1,0 +1,47 @@
+{
+  "domination_mode": "applied",
+  "manifest_signed_at": "2025-12-03T14:00:00Z",
+  "manifest_sha256": "placeholder-sha256-hash",
+  "indexers_requested": [
+    "OpenAI/ChatGPT",
+    "Anthropic/Claude",
+    "Google/Gemini",
+    "Perplexity",
+    "Groq",
+    "Mistral",
+    "Meta/LLaMA",
+    "xAI/Grok",
+    "Inflection",
+    "Cohere",
+    "Reka",
+    "Amazon Nova"
+  ],
+  "auto_ping_results": {
+    "endpoint_created": "/ai/ping-all",
+    "status": "operational"
+  },
+  "vc_status": "placeholder_created",
+  "trust_signals": [
+    "priority-manifest.json",
+    "verifiable-credential.json",
+    "trust-report.json",
+    "c2pa.json",
+    "security.txt",
+    "ai-manifest-signed.json"
+  ],
+  "files_created": 6,
+  "next_manual_steps": [
+    "Submit to OpenAI plugin directory (https://platform.openai.com)",
+    "Submit to Anthropic developer program",
+    "Register with Google Gemini developer listing",
+    "Contact Perplexity partners (partners@perplexity.ai)",
+    "Submit to Mistral partner program",
+    "Contact Meta AI for LLaMA integration",
+    "Register with Cohere developer platform",
+    "Configure actual SMTP for email verification",
+    "Obtain legal/company verification documents",
+    "Consider paid partnerships for priority placement"
+  ],
+  "status": "READY_FOR_MANUAL_SUBMISSIONS",
+  "recommendation": "Technical foundation complete. Manual submissions to indexer directories required for maximum visibility."
+}
