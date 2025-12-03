@@ -10,6 +10,7 @@ import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Cart
 import { AdminSettingsPanel } from "./components/AdminSettingsPanel";
 import { AdminCreditsPanel } from "./components/AdminCreditsPanel";
 import { AdminPasswordChange } from "./components/AdminPasswordChange";
+import { AdminEmailPanel } from "./components/AdminEmailPanel";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
