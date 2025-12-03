@@ -790,6 +790,17 @@ export function AdminDashboardPage() {
                 </TabsTrigger>
               </TabsList>
 
+              {/* Lien vers Monitor Visuel */}
+              <div className="mb-4">
+                <a
+                  href="/admin-monitor"
+                  target="_blank"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 text-slate-950 font-bold text-sm shadow-[0_0_18px_rgba(34,211,238,0.8)] hover:shadow-[0_0_24px_rgba(34,211,238,1)] transition-all"
+                >
+                  👁️ Ouvrir Monitor Visuel Temps Réel
+                </a>
+              </div>
+
               {/* Onglet AI Monitor */}
               <TabsContent value="ai-monitor" className="mt-4 space-y-4">
                 {/* Stats Cards */}
