@@ -4085,6 +4085,10 @@ api_router.include_router(admin_users_router)
 from routes.features_health import router as features_health_router
 api_router.include_router(features_health_router)
 
+# Mount SMTP Config router
+from routes.smtp_config import router as smtp_config_router
+api_router.include_router(smtp_config_router)
+
 
 # ---------- BASIC ROOT & HEALTH ----------
 
