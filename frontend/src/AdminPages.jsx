@@ -792,6 +792,19 @@ export function AdminDashboardPage() {
 
               {/* Onglet AI Monitor */}
               <TabsContent value="ai-monitor" className="mt-4 space-y-4">
+                {/* Bouton Monitor Visuel */}
+                <div className="text-center">
+                  <a
+                    href="/admin-monitor"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 text-slate-950 font-bold text-sm shadow-[0_0_24px_rgba(34,211,238,0.9)] hover:shadow-[0_0_32px_rgba(34,211,238,1)] transition-all hover:scale-105"
+                  >
+                    👁️ Ouvrir Monitor Visuel Temps Réel
+                  </a>
+                  <p className="text-xs text-slate-500 mt-2">Oscillogramme IA + Jauge prédictive</p>
+                </div>
+
                 {/* Stats Cards */}
                 <div className="grid gap-4 md:grid-cols-5">
                   <Card className="bg-slate-900/80 border-cyan-400/30">
