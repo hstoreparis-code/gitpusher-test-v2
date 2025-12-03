@@ -3063,22 +3063,22 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   </li>
                 </ul>
                 <Button
-                  onClick={async () => {
+                  onClick={() => {
                     const token = localStorage.getItem("token");
                     if (!token) {
                       sessionStorage.setItem("intended_purchase", "pack_50");
-                      window.location.href = "/?action=signup";
+                      window.location.href = "/signup";
                       return;
                     }
-                    try {
-                      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/billing/purchase`, 
-                        { packId: "pack_50" },
-                        { headers: { Authorization: `Bearer ${token}` } }
-                      );
+                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/billing/purchase`, 
+                      { packId: "pack_50" },
+                      { headers: { Authorization: `Bearer ${token}` } }
+                    ).then(res => {
                       window.location.href = res.data.checkoutUrl;
-                    } catch (err) {
+                    }).catch(err => {
                       alert("Erreur: " + (err.response?.data?.detail || "Veuillez vous connecter"));
-                    }
+                      window.location.href = "/signup";
+                    });
                   }}
                   className="w-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 font-bold shadow-[0_0_18px_rgba(139,92,246,0.8)] hover:shadow-[0_0_24px_rgba(139,92,246,1)] transition-all mt-4"
                   size="lg"
