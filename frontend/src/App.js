@@ -2525,6 +2525,10 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [githubToken, setGithubToken] = useState("");
+  const [gitlabToken, setGitlabToken] = useState("");
+  const [bitbucketToken, setBitbucketToken] = useState("");
+  const [savingTokens, setSavingTokens] = useState(false);
 
   useEffect(() => {
     if (!token) {
