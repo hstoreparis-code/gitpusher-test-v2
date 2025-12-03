@@ -1957,11 +1957,24 @@ async def register(payload: UserCreate):
         "provider_github_id": None,
         "github_access_token": None,
         "credits": initial_credits,
-        "plan": "freemium",  # Default plan
+        "plan": "freemium",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
     }
     await db.users.insert_one(doc)
+    
+    # Send welcome email (async, non-blocking)
+    try:
+        from services.email_service import EmailService
+        email_service = EmailService(db)
+        await email_service.send_from_template(
+            "welcome_email",
+            doc["email"],
+            {"name": doc.get("display_name", doc["email"].split("@")[0])}
+        )
+        logger.info(f"Welcome email sent to {doc['email']}")
+    except Exception as e:
+        logger.warning(f"Welcome email failed for {doc['email']}: {str(e)}")
 
     return UserPublic(id=user_id, email=doc["email"], display_name=doc["display_name"], credits=doc["credits"], plan=doc["plan"])
 
