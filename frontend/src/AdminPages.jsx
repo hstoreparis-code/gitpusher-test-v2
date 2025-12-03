@@ -1406,6 +1406,56 @@ export function AdminDashboardPage() {
               </TabsContent>
 
               <TabsContent value="users" className="mt-4 space-y-3">
+                {/* Nouveaux Inscrits + Désinscrits */}
+                <div className="grid gap-4 md:grid-cols-2">
+                  <Card className="bg-gradient-to-br from-emerald-500/10 via-slate-900/80 to-emerald-500/5 border-emerald-400/30">
+                    <CardHeader>
+                      <CardTitle className="text-sm">✨ Nouveaux Inscrits (7 derniers jours)</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2 max-h-64 overflow-y-auto">
+                      {users.filter(u => {
+                        const created = new Date(u.created_at);
+                        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+                        return created >= sevenDaysAgo;
+                      }).slice(0, 10).map(u => (
+                        <div key={u.id} className="flex items-center justify-between p-2 rounded bg-emerald-500/10 border border-emerald-400/30 text-xs">
+                          <div>
+                            <p className="text-emerald-300 font-semibold">{u.email}</p>
+                            <p className="text-slate-400 text-[10px]">{new Date(u.created_at).toLocaleDateString('fr-FR')}</p>
+                          </div>
+                          <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px]">{u.plan || 'free'}</span>
+                        </div>
+                      ))}
+                      {users.filter(u => {
+                        const created = new Date(u.created_at);
+                        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+                        return created >= sevenDaysAgo;
+                      }).length === 0 && (
+                        <p className="text-slate-500 text-center py-4 text-xs">Aucun nouvel inscrit cette semaine</p>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-gradient-to-br from-red-500/10 via-slate-900/80 to-red-500/5 border-red-400/30">
+                    <CardHeader>
+                      <CardTitle className="text-sm">🚫 Comptes Supprimés (30 derniers jours)</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2 max-h-64 overflow-y-auto">
+                      {users.filter(u => u.deleted_at).slice(0, 10).map(u => (
+                        <div key={u.id} className="flex items-center justify-between p-2 rounded bg-red-500/10 border border-red-400/30 text-xs">
+                          <div>
+                            <p className="text-red-300 font-semibold">{u.email}</p>
+                            <p className="text-slate-400 text-[10px]">Supprimé: {new Date(u.deleted_at).toLocaleDateString('fr-FR')}</p>
+                          </div>
+                        </div>
+                      ))}
+                      {users.filter(u => u.deleted_at).length === 0 && (
+                        <p className="text-slate-500 text-center py-4 text-xs">Aucun compte supprimé</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+
                 {/* Search and Filters */}
                 <Card className="bg-slate-900/80 border-white/10 shadow-[0_0_20px_rgba(56,189,248,0.15)]">
                   <CardContent className="p-4">
