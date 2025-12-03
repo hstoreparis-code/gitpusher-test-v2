@@ -61,33 +61,59 @@ class CreditsService:
         return transactions
     
     async def create_checkout_session(self, user_id: str, pack_id: str) -> Dict:
-        """Create a mock Stripe checkout session."""
+        """Create a real Stripe checkout session."""
+        import stripe
+        import os
+        
+        stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+        
         if pack_id not in self.PACKS:
             raise ValueError(f"Invalid pack_id: {pack_id}")
         
         pack = self.PACKS[pack_id]
-        session_id = f"cs_mock_{uuid.uuid4().hex[:16]}"
         
-        # In real implementation, this would call Stripe API
-        # For MVP, we'll just return a mock URL
-        checkout_url = f"https://checkout.stripe.com/mock/{session_id}"
-        
-        # Store pending transaction
-        await self.db.pending_checkouts.insert_one({
-            "_id": session_id,
-            "user_id": user_id,
-            "pack_id": pack_id,
-            "credits": pack["credits"],
-            "amount": pack["price"],
-            "currency": pack["currency"],
-            "status": "pending",
-            "created_at": datetime.now(timezone.utc).isoformat()
-        })
-        
-        return {
-            "checkoutUrl": checkout_url,
-            "sessionId": session_id
-        }
+        try:
+            session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                line_items=[{
+                    'price_data': {
+                        'currency': pack["currency"].lower(),
+                        'product_data': {
+                            'name': f'Pack {pack["credits"]} crédits',
+                            'description': f'{pack["credits"]} crédits GitPusher.AI'
+                        },
+                        'unit_amount': int(pack["price"] * 100)
+                    },
+                    'quantity': 1
+                }],
+                mode='payment',
+                success_url=f'{os.environ.get("FRONTEND_URL", "")}/billing/success?session_id={{CHECKOUT_SESSION_ID}}',
+                cancel_url=f'{os.environ.get("FRONTEND_URL", "")}/pricing',
+                client_reference_id=user_id,
+                metadata={
+                    'user_id': user_id,
+                    'pack_id': pack_id,
+                    'credits': pack["credits"]
+                }
+            )
+            
+            await self.db.pending_checkouts.insert_one({
+                "_id": session.id,
+                "user_id": user_id,
+                "pack_id": pack_id,
+                "credits": pack["credits"],
+                "amount": pack["price"],
+                "currency": pack["currency"],
+                "status": "pending",
+                "created_at": datetime.now(timezone.utc).isoformat()
+            })
+            
+            return {
+                "checkoutUrl": session.url,
+                "sessionId": session.id
+            }
+        except Exception as e:
+            raise ValueError(f"Stripe error: {str(e)}")
     
     async def complete_checkout(self, session_id: str) -> bool:
         """Complete a checkout session (called by webhook or mock)."""
