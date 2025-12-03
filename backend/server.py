@@ -837,6 +837,7 @@ app.add_middleware(
 @app.middleware("http")
 async def traffic_logging_middleware(request: Request, call_next):
     import time
+    from ai_monitor.middleware import detect_ai_source
     
     start_time = time.time()
     response = await call_next(request)
@@ -845,6 +846,9 @@ async def traffic_logging_middleware(request: Request, call_next):
     # Log to MongoDB for persistence
     try:
         client_ip = request.client.host if request.client else "unknown"
+        user_agent = request.headers.get("user-agent", "")
+        ai_source = detect_ai_source(user_agent)
+        
         await db.traffic_logs.insert_one({
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "method": request.method,
@@ -852,7 +856,9 @@ async def traffic_logging_middleware(request: Request, call_next):
             "status": response.status_code,
             "duration_ms": duration_ms,
             "ip": client_ip,
-            "user_agent": request.headers.get("user-agent", "")[:100]
+            "user_agent": user_agent[:100],
+            "is_ai": ai_source is not None,
+            "ai_source": ai_source
         })
     except:
         pass
