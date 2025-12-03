@@ -738,7 +738,110 @@ export function AdminDashboardPage() {
 
               {/* Onglet AI Monitor */}
               <TabsContent value="ai-monitor" className="mt-4 space-y-4">
-                <AIMonitorDashboard />
+                {/* Stats Cards */}
+                <div className="grid gap-4 md:grid-cols-4">
+                  <Card className="bg-slate-900/80 border-cyan-400/30">
+                    <CardContent className="p-4">
+                      <p className="text-xs text-slate-400">Événements 24h</p>
+                      <p className="text-2xl font-bold text-cyan-400">{aiStats.stats_24h || 0}</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-slate-900/80 border-violet-400/30">
+                    <CardContent className="p-4">
+                      <p className="text-xs text-slate-400">Événements 7j</p>
+                      <p className="text-2xl font-bold text-violet-400">{aiStats.stats_7d || 0}</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-slate-900/80 border-emerald-400/30">
+                    <CardContent className="p-4">
+                      <p className="text-xs text-slate-400">IA Actives</p>
+                      <p className="text-2xl font-bold text-emerald-400">{aiStats.by_source?.length || 0}</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-slate-900/80 border-amber-400/30">
+                    <CardContent className="p-4">
+                      <p className="text-xs text-slate-400">Health</p>
+                      <p className="text-lg font-bold text-emerald-400">✓ {aiStats.health || "OK"}</p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Graphique Origines IA */}
+                <Card className="bg-slate-900/80 border-white/10">
+                  <CardHeader>
+                    <CardTitle className="text-base">🔍 Origine des Recommandations IA</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <BarChart data={aiStats.by_source || []}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                        <XAxis dataKey="_id" stroke="#94a3b8" style={{ fontSize: '11px' }} />
+                        <YAxis stroke="#94a3b8" style={{ fontSize: '11px' }} />
+                        <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569' }} />
+                        <Bar dataKey="count" fill="#8b5cf6" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+
+                {/* Événements récents */}
+                <Card className="bg-slate-900/80 border-white/10">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base">📋 Derniers Événements IA</CardTitle>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-xs"
+                        onClick={async () => {
+                          try {
+                            const res = await axios.get(`${API}/admin/ai-monitor/live`, {
+                              headers: { Authorization: `Bearer ${token}` }
+                            });
+                            const blob = new Blob([JSON.stringify(res.data, null, 2)], { type: 'application/json' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `ai-events-${new Date().toISOString()}.json`;
+                            a.click();
+                          } catch (e) {
+                            console.error(e);
+                          }
+                        }}
+                      >
+                        📥 Exporter
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2 max-h-96 overflow-y-auto">
+                      {aiEvents.length === 0 ? (
+                        <p className="text-xs text-slate-500 text-center py-4">Aucun événement IA enregistré</p>
+                      ) : (
+                        aiEvents.slice(0, 50).map((evt, idx) => (
+                          <div key={idx} className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 text-xs">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-semibold text-cyan-400">{evt.source || "Unknown"}</span>
+                              <span className="text-slate-500">{new Date(evt.timestamp).toLocaleString('fr-FR')}</span>
+                            </div>
+                            <div className="text-slate-400">
+                              <span className="text-violet-400">{evt.event_type}</span> • {evt.endpoint || "N/A"}
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Info */}
+                <Card className="bg-blue-500/10 border-blue-400/30">
+                  <CardContent className="p-4">
+                    <p className="text-xs text-blue-300">
+                      💡 Les événements IA sont enregistrés automatiquement via User-Agent des requêtes (ChatGPT, Claude, Gemini, Perplexity, Mistral, etc.)
+                    </p>
+                  </CardContent>
+                </Card>
               </TabsContent>
 
               {/* Onglet Statistiques */}
