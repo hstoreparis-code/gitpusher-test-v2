@@ -4144,6 +4144,11 @@ function AppShell() {
         path="/auth/callback" 
         element={<OAuthCallback />} 
       />
+      <Route path="/seo/push-automatically" element={<SeoPushAutomaticallyPage />} />
+      <Route path="/seo/deploy-ai-code" element={<SeoDeployAiCodePage />} />
+      <Route path="/seo/push-without-git" element={<SeoPushWithoutGitPage />} />
+      <Route path="/seo/ai-to-git-automation" element={<SeoAiToGitAutomationPage />} />
+      <Route path="/seo/create-repo-automatically" element={<SeoCreateRepoAutomaticallyPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
     <SupportChatbot />
