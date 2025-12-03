@@ -2925,7 +2925,6 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
             </div>
           </CardContent>
         </Card>
-        </div>
 
         {/* Suppression compte */}
         <Card className="bg-red-950/40 border-red-700/60" data-testid="account-delete-card">
