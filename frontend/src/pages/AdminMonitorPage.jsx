@@ -37,103 +37,130 @@ export function AdminMonitorPage() {
   const zoneColor = likelihood < 30 ? "#00ff99" : likelihood < 70 ? "#ffee00" : "#ff0033";
 
   return (
-    <div className="admin-monitor-container" style={{
+    <div style={{
       minHeight: "100vh",
-      background: "#0a0a0c",
+      background: "linear-gradient(180deg, #0a0a0c 0%, #0f0f12 100%)",
       color: "#0ef",
       fontFamily: "monospace",
-      padding: "30px",
-      position: "relative"
+      padding: "20px",
+      overflow: "hidden"
     }}>
       <button
         onClick={() => navigate("/admin")}
         style={{
-          position: "absolute",
+          position: "fixed",
           top: "20px",
           right: "20px",
-          padding: "8px 16px",
+          padding: "10px 20px",
           background: "#0ef",
           color: "#000",
           border: "none",
-          borderRadius: "4px",
+          borderRadius: "8px",
           cursor: "pointer",
-          fontWeight: "bold"
+          fontWeight: "bold",
+          zIndex: 1000
         }}
       >
         ← Dashboard
       </button>
 
-      <div style={{ textAlign: "center", marginBottom: "40px" }}>
-        <h1 style={{ fontSize: "32px", marginBottom: "10px" }}>👁️ AI LIVE MONITOR</h1>
-        <p style={{ color: "#0ef", fontSize: "14px" }}>Oscillations d&apos;activité IA + jauge de recommandation imminente</p>
+      <div style={{ textAlign: "center", marginBottom: "30px", maxWidth: "1200px", margin: "0 auto 30px" }}>
+        <h1 style={{ fontSize: "clamp(24px, 5vw, 36px)", marginBottom: "10px", textShadow: "0 0 20px #0ef" }}>
+          👁️ AI LIVE MONITOR
+        </h1>
+        <p style={{ color: "#0ef", fontSize: "clamp(12px, 2.5vw, 16px)", opacity: 0.8 }}>
+          Oscillations d&apos;activité IA + Jauge prédictive
+        </p>
       </div>
 
-      {/* Oscillogramme */}
-      <div style={{ marginBottom: "50px", width: "100%", maxWidth: "900px", margin: "0 auto 50px" }}>
+      <div style={{ maxWidth: "1000px", margin: "0 auto", marginBottom: "40px" }}>
         <svg
           width="100%"
           height="200"
           viewBox="0 0 900 200"
-          preserveAspectRatio="none"
-          style={{ background: "#000", border: "2px solid #0ef", maxWidth: "100%" }}
+          preserveAspectRatio="xMidYMid meet"
+          style={{ 
+            background: "#000", 
+            border: "2px solid #0ef", 
+            borderRadius: "8px",
+            boxShadow: "0 0 20px rgba(0,240,255,0.3)"
+          }}
         >
           <polyline
             points={waveData.map((val, i) => `${i * 6},${200 - val * 1.5}`).join(" ")}
             fill="none"
             stroke="#0ef"
             strokeWidth="2"
+            style={{ filter: "drop-shadow(0 0 4px #0ef)" }}
           />
         </svg>
       </div>
 
-      {/* Jauge Prédictive */}
-      <div style={{ maxWidth: "400px", margin: "0 auto", padding: "0 20px" }}>
-        <h2 style={{ textAlign: "center", marginBottom: "20px", fontSize: "18px" }}>
+      <div style={{ maxWidth: "500px", margin: "0 auto", padding: "0 20px" }}>
+        <h2 style={{ 
+          textAlign: "center", 
+          marginBottom: "30px", 
+          fontSize: "clamp(16px, 3vw, 20px)",
+          color: "#0ef"
+        }}>
           Probabilité Recommandation IA
         </h2>
+        
         <svg
-          id="gauge"
           viewBox="0 0 100 100"
-          style={{ display: "block", margin: "0 auto", maxWidth: "100%" }}
+          style={{ 
+            display: "block", 
+            margin: "0 auto", 
+            maxWidth: "100%",
+            width: "clamp(200px, 50vw, 350px)",
+            height: "auto"
+          }}
         >
-          {/* Arcs de zones */}
-          <path d="M10 50 A40 40 0 0 1 50 10" stroke="#00ff99" strokeWidth="4" fill="none" />
-          <path d="M50 10 A40 40 0 0 1 90 50" stroke="#ffee00" strokeWidth="4" fill="none" />
-          <path d="M90 50 A40 40 0 0 1 50 90" stroke="#ff0033" strokeWidth="4" fill="none" />
+          <path d="M10 50 A40 40 0 0 1 50 10" stroke="#00ff99" strokeWidth="6" fill="none" opacity="0.7" />
+          <path d="M50 10 A40 40 0 0 1 90 50" stroke="#ffee00" strokeWidth="6" fill="none" opacity="0.7" />
+          <path d="M90 50 A40 40 0 0 1 50 90" stroke="#ff0033" strokeWidth="6" fill="none" opacity="0.7" />
           
-          {/* Aiguille */}
           <line
             x1="50"
             y1="50"
             x2="50"
             y2="15"
             stroke={zoneColor}
-            strokeWidth="3"
+            strokeWidth="4"
             strokeLinecap="round"
             transform={`rotate(${gaugeAngle} 50 50)`}
-            style={{ transition: "transform 0.3s ease-out" }}
+            style={{ 
+              transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+              filter: `drop-shadow(0 0 8px ${zoneColor})`
+            }}
           />
           
-          {/* Point central */}
-          <circle cx="50" cy="50" r="3" fill="#0ef" />
+          <circle cx="50" cy="50" r="4" fill="#0ef" style={{ filter: "drop-shadow(0 0 6px #0ef)" }} />
         </svg>
 
         <div style={{ 
           textAlign: "center", 
-          marginTop: "20px",
-          fontSize: "48px",
+          marginTop: "30px",
+          fontSize: "clamp(36px, 10vw, 56px)",
           fontWeight: "bold",
           color: zoneColor,
-          textShadow: `0 0 20px ${zoneColor}`
+          textShadow: `0 0 30px ${zoneColor}, 0 0 50px ${zoneColor}`
         }}>
           {Math.round(likelihood)}%
         </div>
 
-        <div style={{ textAlign: "center", marginTop: "10px", fontSize: "12px", color: "#666" }}>
+        <div style={{ 
+          textAlign: "center", 
+          marginTop: "20px", 
+          fontSize: "clamp(10px, 2vw, 13px)", 
+          color: "#666",
+          display: "flex",
+          justifyContent: "center",
+          gap: "15px",
+          flexWrap: "wrap"
+        }}>
           <span style={{ color: "#00ff99" }}>■ 0-30% Baseline</span>
-          {" | "}
           <span style={{ color: "#ffee00" }}>■ 30-70% Activité</span>
-          {" | "}
           <span style={{ color: "#ff0033" }}>■ 70-100% Imminent</span>
         </div>
       </div>
