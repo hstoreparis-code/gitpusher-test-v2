@@ -342,13 +342,29 @@ export function AdminDashboardPage() {
     fetchData();
 
     // SSE for AI Monitor realtime
-    const eventSource = new EventSource(`${API}/admin/ai-monitor/stream`);
-    eventSource.onmessage = (e) => {
-      const data = JSON.parse(e.data);
-      setAiLiveData(prev => [...prev.slice(-149), { t: data.t, freq: data.freq }]);
-      setAiLikelihood(data.likelihood);
+    let eventSource;
+    try {
+      eventSource = new EventSource(`${API}/admin/ai-monitor/stream`);
+      eventSource.onmessage = (e) => {
+        try {
+          const data = JSON.parse(e.data);
+          setAiLiveData(prev => [...prev.slice(-149), { t: data.t, freq: data.freq }]);
+          setAiLikelihood(data.likelihood);
+        } catch (err) {
+          console.error("SSE parse error", err);
+        }
+      };
+      eventSource.onerror = () => {
+        console.warn("SSE connection lost");
+        setAiLikelihood(35);
+      };
+    } catch (err) {
+      console.error("SSE init error", err);
+    }
+    
+    return () => {
+      if (eventSource) eventSource.close();
     };
-    return () => eventSource.close();
   }, [navigate, token]);
 
   const handleUpdateUser = async (userId, plan, credits) => {
