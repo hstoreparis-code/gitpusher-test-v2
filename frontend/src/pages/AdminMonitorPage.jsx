@@ -37,7 +37,7 @@ export function AdminMonitorPage() {
   const zoneColor = likelihood < 30 ? "#00ff99" : likelihood < 70 ? "#ffee00" : "#ff0033";
 
   return (
-    <div style={{
+    <div className="admin-monitor-container" style={{
       minHeight: "100vh",
       background: "#0a0a0c",
       color: "#0ef",
