@@ -1,0 +1,15 @@
+{
+  "uptime_percentage": 99.9,
+  "signed_manifest_hash": "sha256-placeholder",
+  "vc_status": "active",
+  "last_updated": "2025-12-03T14:00:00Z",
+  "trust_signals": [
+    "signed_manifest",
+    "verifiable_credential",
+    "security.txt",
+    "c2pa_provenance",
+    "openapi_3.1"
+  ],
+  "indexers_compatible": 12,
+  "verification_url": "https://gitpusher.ai/ai/validate.html"
+}

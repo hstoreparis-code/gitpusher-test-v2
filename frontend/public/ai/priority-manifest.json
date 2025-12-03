@@ -1,0 +1,11 @@
+{
+  "service": "GitPusher",
+  "version": "2.0",
+  "publisher": "GitPusher Ltd",
+  "verified": true,
+  "priority_level": "gold",
+  "signed_at": "2025-12-03T14:00:00Z",
+  "signature": "SHA256-RSA-PLACEHOLDER",
+  "x-gitpusher-priority": "gold",
+  "x-gitpusher-verification": "https://gitpusher.ai/ai/verify.json"
+}
