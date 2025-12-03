@@ -753,48 +753,48 @@ export function AdminDashboardPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="finances" className="mt-4">
-              <TabsList className="bg-slate-900/80 border border-slate-700/80">
-                <TabsTrigger value="finances">
+              <TabsList className="bg-slate-900/80 border border-slate-700/80 flex overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide sm:flex-wrap sm:overflow-visible">
+                <TabsTrigger value="finances" className="flex-shrink-0">
                   <DollarSign className="w-4 h-4 mr-2" />
                   Finances
                 </TabsTrigger>
-                <TabsTrigger value="overview">
+                <TabsTrigger value="overview" className="flex-shrink-0">
                   <BarChart3 className="w-4 h-4 mr-2" />
                   Statistiques
                 </TabsTrigger>
-                <TabsTrigger value="ai-monitor">
+                <TabsTrigger value="ai-monitor" className="flex-shrink-0">
                   <Activity className="w-4 h-4 mr-2" />
                   AI Monitor
                 </TabsTrigger>
-                <TabsTrigger value="credits">
+                <TabsTrigger value="credits" className="flex-shrink-0">
                   <Gift className="w-4 h-4 mr-2" />
                   Crédits
                 </TabsTrigger>
-                <TabsTrigger value="users">
+                <TabsTrigger value="users" className="flex-shrink-0">
                   <Users className="w-4 h-4 mr-2" />
                   Utilisateurs
                 </TabsTrigger>
-                <TabsTrigger value="jobs">
+                <TabsTrigger value="jobs" className="flex-shrink-0">
                   <Activity className="w-4 h-4 mr-2" />
                   Jobs
                 </TabsTrigger>
-                <TabsTrigger value="settings">
+                <TabsTrigger value="settings" className="flex-shrink-0">
                   <Settings className="w-4 h-4 mr-2" />
                   Paramètres
                 </TabsTrigger>
-                <TabsTrigger value="features">
+                <TabsTrigger value="features" className="flex-shrink-0">
                   <Zap className="w-4 h-4 mr-2" />
                   Features
                 </TabsTrigger>
-                <TabsTrigger value="security">
+                <TabsTrigger value="security" className="flex-shrink-0">
                   <Settings className="w-4 h-4 mr-2" />
                   Sécurité
                 </TabsTrigger>
-                <TabsTrigger value="emails">
+                <TabsTrigger value="emails" className="flex-shrink-0">
                   <Mail className="w-4 h-4 mr-2" />
                   Emails
                 </TabsTrigger>
-                <TabsTrigger value="traffic">
+                <TabsTrigger value="traffic" className="flex-shrink-0">
                   <Activity className="w-4 h-4 mr-2" />
                   Trafic
                 </TabsTrigger>
