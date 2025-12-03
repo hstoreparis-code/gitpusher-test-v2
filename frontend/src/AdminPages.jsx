@@ -136,6 +136,8 @@ export function AdminDashboardPage() {
   const [aiStats, setAiStats] = useState({ stats_24h: 0, stats_7d: 0, by_source: [], health: "OK" });
   const [aiLiveData, setAiLiveData] = useState([]);
   const [aiLikelihood, setAiLikelihood] = useState(75);
+  const [trafficLive, setTrafficLive] = useState([]);
+  const [trafficStats, setTrafficStats] = useState({ rps: 0, users: 0, response_ms: 0 });
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalCredits: 0,
