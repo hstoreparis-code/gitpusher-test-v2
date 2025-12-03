@@ -6,10 +6,11 @@ class CreditsService:
     def __init__(self, db):
         self.db = db
         self.PACKS = {
-            "pack_10": {"credits": 10, "price": 9.99, "currency": "EUR", "name": "Starter"},
-            "pack_50": {"credits": 50, "price": 29.99, "currency": "EUR", "name": "Pro"},
-            "pack_100": {"credits": 100, "price": 19.99, "currency": "EUR", "name": "Premium", "recurring": "monthly"},
-            "pack_business": {"credits": 999999, "price": 99.00, "currency": "EUR", "name": "Business", "recurring": "monthly"},
+            "pack_10": {"credits": 10, "price": 9.99, "currency": "EUR", "name": "Pack Starter"},
+            "pack_50": {"credits": 50, "price": 29.99, "currency": "EUR", "name": "Pack Pro"},
+            "pack_200": {"credits": 200, "price": 49.99, "currency": "EUR", "name": "Pack Business"},
+            "sub_premium": {"credits": 999999, "price": 19.99, "currency": "EUR", "name": "Abonnement Premium", "recurring": "monthly"},
+            "sub_business": {"credits": 999999, "price": 99.00, "currency": "EUR", "name": "Abonnement Business", "recurring": "monthly"},
         }
     
     async def get_user_credits(self, user_id: str) -> int:
