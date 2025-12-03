@@ -2922,8 +2922,9 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   💡 Les tokens sont stockés de manière sécurisée et utilisés uniquement pour créer des dépôts sur vos comptes Git
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </CardContent>
+        </Card>
         </div>
 
         {/* Suppression compte */}
