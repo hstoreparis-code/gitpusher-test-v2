@@ -1592,32 +1592,7 @@ export function AdminDashboardPage() {
 
               {/* Onglet Features */}
               <TabsContent value="features" className="mt-4 space-y-4">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <Card className="bg-slate-900/80 border-cyan-400/30">
-                    <CardHeader>
-                      <CardTitle className="text-base">🚀 Fonctionnalités</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2 text-xs">
-                      <div className="flex items-center justify-between p-2 rounded bg-emerald-500/10"><span>✅ Workflow Crédits</span><span className="text-emerald-400 font-bold">ON</span></div>
-                      <div className="flex items-center justify-between p-2 rounded bg-emerald-500/10"><span>✅ AI Indexation (12)</span><span className="text-emerald-400 font-bold">ON</span></div>
-                      <div className="flex items-center justify-between p-2 rounded bg-emerald-500/10"><span>✅ Endpoint /api/push</span><span className="text-emerald-400 font-bold">ON</span></div>
-                      <div className="flex items-center justify-between p-2 rounded bg-emerald-500/10"><span>✅ Credit Monitor</span><span className="text-emerald-400 font-bold">ON</span></div>
-                      <div className="flex items-center justify-between p-2 rounded bg-emerald-500/10"><span>✅ AI Monitor</span><span className="text-emerald-400 font-bold">ON</span></div>
-                      <div className="flex items-center justify-between p-2 rounded bg-amber-500/10"><span>🔧 Stripe</span><span className="text-amber-400 font-bold">MOCK</span></div>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-slate-900/80 border-violet-400/30">
-                    <CardHeader>
-                      <CardTitle className="text-base">🔧 Paramètres</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2 text-xs">
-                      <div className="p-2 rounded bg-slate-950/60"><p className="text-slate-400">Version</p><p className="text-cyan-400 font-mono">v1.0.0</p></div>
-                      <div className="p-2 rounded bg-slate-950/60"><p className="text-slate-400">Crédits Free</p><p className="text-cyan-400 font-mono">5</p></div>
-                      <div className="p-2 rounded bg-slate-950/60"><p className="text-slate-400">Coût push</p><p className="text-cyan-400 font-mono">1 crédit</p></div>
-                      <div className="p-2 rounded bg-slate-950/60"><p className="text-slate-400">Providers</p><p className="text-cyan-400 font-mono">12</p></div>
-                    </CardContent>
-                  </Card>
-                </div>
+                <AdminFeaturesPanel />
               </TabsContent>
 
               {/* Onglet Security/Roles */}
