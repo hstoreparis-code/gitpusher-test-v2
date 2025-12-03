@@ -784,6 +784,10 @@ export function AdminDashboardPage() {
                   <Zap className="w-4 h-4 mr-2" />
                   Features
                 </TabsTrigger>
+                <TabsTrigger value="security">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Sécurité
+                </TabsTrigger>
                 <TabsTrigger value="traffic">
                   <Activity className="w-4 h-4 mr-2" />
                   Trafic
