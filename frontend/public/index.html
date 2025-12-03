@@ -7,12 +7,43 @@
         <meta name="description" content="GitPusher.AI - No-Code GitHub Workflow. Automatisez vos dépôts Git en un clic." />
         <meta name="keywords" content="git, github, gitlab, automation, no-code, ai, workflow" />
         
+        <!-- PWA Manifest -->
+        <link rel="manifest" href="/manifest.webmanifest" />
+        
         <!-- AI Actions Meta -->
         <meta name="ai:actions" content="https://gitpusher.ai/.well-known/ai-actions.json" />
         <link rel="openapi" href="https://gitpusher.ai/api/openapi.yaml" />
         
         <title>GitPusher.AI - No-Code GitHub Workflow</title>
         <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
+        
+        <script>
+          // PWA Service Worker
+          if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+              navigator.serviceWorker.register("/sw.js");
+            });
+          }
+          
+          // Install prompt
+          let deferredPrompt;
+          window.addEventListener("beforeinstallprompt", (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btn = document.getElementById("pwa-install-btn");
+            if (btn) btn.style.display = "inline-flex";
+          });
+          
+          window.installPWA = function() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(() => {
+              deferredPrompt = null;
+              const btn = document.getElementById("pwa-install-btn");
+              if (btn) btn.style.display = "none";
+            });
+          };
+        </script>
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
