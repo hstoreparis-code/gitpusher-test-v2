@@ -3066,7 +3066,8 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                   onClick={async () => {
                     const token = localStorage.getItem("token");
                     if (!token) {
-                      window.location.href = "/";
+                      sessionStorage.setItem("intended_purchase", "pack_50");
+                      window.location.href = "/?action=signup";
                       return;
                     }
                     try {
@@ -3076,7 +3077,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
                       );
                       window.location.href = res.data.checkoutUrl;
                     } catch (err) {
-                      alert("Erreur: " + (err.response?.data?.detail || "Connexion requise"));
+                      alert("Erreur: " + (err.response?.data?.detail || "Veuillez vous connecter"));
                     }
                   }}
                   className="w-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-slate-950 font-bold shadow-[0_0_18px_rgba(139,92,246,0.8)] hover:shadow-[0_0_24px_rgba(139,92,246,1)] transition-all mt-4"
