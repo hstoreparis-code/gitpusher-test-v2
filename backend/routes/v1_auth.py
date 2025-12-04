@@ -6,6 +6,9 @@ from datetime import datetime, timezone
 import uuid
 import os
 
+from rate_limit import check_login_lockout, record_login_failure
+from logging_config import log_security
+
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
