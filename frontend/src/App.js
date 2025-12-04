@@ -17,6 +17,7 @@ import { AdminAutofixPanel } from "./components/AdminAutofixPanel";
 import ForAIAssistants from "./pages/ForAIAssistants";
 import { HelpPage } from "./pages/HelpPage";
 import { AdminMonitorPage } from "./pages/AdminMonitorPage";
+import ForAgentsDevtoolsPage from "./pages/for-agents-devtools";
 import SeoPushAutomaticallyPage from "./pages/seo/push-automatically";
 import SeoDeployAiCodePage from "./pages/seo/deploy-ai-code";
 import SeoPushWithoutGitPage from "./pages/seo/push-without-git";
