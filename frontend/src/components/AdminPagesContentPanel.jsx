@@ -19,16 +19,11 @@ export function AdminPagesContentPanel() {
   const [checking, setChecking] = useState(false);
   const [autofixing, setAutofixing] = useState(false);
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
-
   useEffect(() => {
-    if (!token) return;
     const load = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`${API}/admin/pages`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(`${API}/admin/pages`);
         setPages(res.data || []);
       } finally {
         setLoading(false);
