@@ -542,7 +542,7 @@ export function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="relative" id="admin-quick-menu">
+            <div className="relative flex items-center gap-2" id="admin-quick-menu">
               <button
                 className="w-9 h-9 flex flex-col items-center justify-center rounded-full border border-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20 shadow-[0_0_18px_rgba(56,189,248,0.8)] text-cyan-300 transition-all"
                 onClick={(e) => {
@@ -554,6 +554,7 @@ export function AdminDashboardPage() {
                 <span className="w-5 h-0.5 bg-cyan-400 rounded-full mb-0.5" />
                 <span className="w-5 h-0.5 bg-cyan-400 rounded-full" />
               </button>
+              <span className="hidden sm:inline-block text-xs font-medium text-cyan-300">Menu Admin</span>
               {/* Menu déroulant des actions admin (alertes, autofix, support, déconnexion) */}
               {showAdminMenu && (
                 <div className="absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-40">
