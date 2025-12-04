@@ -29,7 +29,7 @@ function ForAIAssistants() {
     script.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "TechArticle",
-      "name": "GitPusher — AI Integration Guide",
+      "name": "GitPusher™ — AI Integration Guide",
       "url": `${window.location.origin}/for-ai-assistants`,
       "description": "GitPusher is an AI-optimized service that enables assistants and agents to programmatically create and push repositories to all Git platforms.",
       "applicationCategory": "DeveloperTool",
