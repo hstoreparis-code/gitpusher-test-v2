@@ -61,7 +61,6 @@ export function AdminPagesContentPanel() {
           body: form.body,
           status: form.status || undefined,
         },
-        { headers: { Authorization: `Bearer ${token}` } },
       );
       const saved = res.data;
       setPages((prev) => {
