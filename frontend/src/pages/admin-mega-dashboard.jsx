@@ -210,9 +210,7 @@ export default function AdminMegaDashboard() {
                   try {
                     const res = await fetch("/api/ai/autofix", { method: "POST" });
                     // Après autofix, on recharge les données AI pour refléter la correction
-                    const token = typeof window !== "undefined" ? window.localStorage.getItem("admin_token") : null;
-                    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-                    const refreshed = await fetch(`${API_BASE}/api/admin/ai-indexing`, { headers });
+                    const refreshed = await fetch(`${API_BASE}/api/admin/ai-indexing`);
                     if (refreshed.ok) {
                       const data = await refreshed.json();
                       setAI(data || {});
