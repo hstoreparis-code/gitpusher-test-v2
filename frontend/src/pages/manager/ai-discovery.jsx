@@ -209,6 +209,34 @@ export default function AiDiscoveryManagerPage() {
                       {p._id}
                     </code>
                     <span className="text-[11px] text-slate-400 ml-2">
+        <Card className="bg-slate-900/70 border-slate-700/70 md:col-span-3">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+              IA actives (7 jours)
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-xs text-slate-300">
+            {topAiSources7d && topAiSources7d.length > 0 ? (
+              <div className="space-y-1">
+                {topAiSources7d.map((s) => (
+                  <div key={s._id || s.source} className="flex items-center justify-between">
+                    <span className="text-[11px] font-mono bg-slate-900 px-2 py-0.5 rounded truncate max-w-[260px] sm:max-w-md">
+                      {s._id || s.source}
+                    </span>
+                    <span className="text-[11px] text-slate-400 ml-2">
+                      {s.total || s.count} requêtes
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-[11px] text-slate-500">
+                Aucune IA détectée dans les journaux de trafic sur les 7 derniers jours (ou trafic insuffisant).
+              </p>
+            )}
+          </CardContent>
+        </Card>
+
                       {p.visits} visites IA
                     </span>
                   </div>
