@@ -208,6 +208,43 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         # Basic CSP to reduce XSS risk. Adapt if needed.
         response.headers["Content-Security-Policy"] = (
             "default-src 'self'; "
+
+
+class SecurityMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        path = request.url.path
+        client_ip = request.client.host if request.client else "unknown"
+
+        # 1) Rate limiting on sensitive endpoints
+        try:
+            if path.startswith("/api/auth") or path.startswith("/api/v1/push") or path.startswith("/api/admin"):
+                key = f"{client_ip}:{path}"
+                check_rate_limit(key)
+        except Exception:
+            log_security("Rate limit triggered", ip=client_ip, path=path)
+            raise HTTPException(status_code=429, detail="Too many requests")
+
+        # 2) Admin IP restriction (only in secure env)
+        if is_secure_env() and (path.startswith("/admin") or path.startswith("/api/admin")):
+            allowed_ips = get_admin_allowed_ips()
+            if allowed_ips and client_ip not in allowed_ips:
+                log_security("Admin IP blocked", ip=client_ip, path=path)
+                raise HTTPException(status_code=403, detail="Admin IP not allowed")
+
+        # 3) Admin OTP header for /api/admin in secure env
+        if is_secure_env() and path.startswith("/api/admin"):
+            if ADMIN_OTP:
+                otp_header = request.headers.get("X-Admin-OTP")
+                if otp_header != ADMIN_OTP:
+                    log_security("Invalid admin OTP", ip=client_ip, path=path)
+                    raise HTTPException(status_code=403, detail="Invalid admin OTP")
+
+        response = await call_next(request)
+        return response
+
+
+app.add_middleware(SecurityMiddleware)
+
             "script-src 'self'; "
             "style-src 'self' 'unsafe-inline'; "
             "img-src 'self' data:; "
