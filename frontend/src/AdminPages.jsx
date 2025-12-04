@@ -398,9 +398,7 @@ export function AdminDashboardPage() {
 
         // Charger les messages support non lus
         try {
-          const unreadRes = await axios.get(`${API}/support/unread-count`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
+          const unreadRes = await axios.get(`${API}/support/unread-count`);
           setSupportUnreadCount(unreadRes.data.unread_count || 0);
         } catch (err) {
           console.error("Failed to load unread count", err);
