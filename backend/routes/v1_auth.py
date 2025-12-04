@@ -7,6 +7,13 @@ import uuid
 import os
 
 from rate_limit import check_login_lockout, record_login_failure
+
+
+def _get_identity_from_token(auth_header: Optional[str]) -> str:
+    if not auth_header:
+        return "github-token:unknown"
+    return f"github-token:{auth_header[:16]}"
+
 from logging_config import log_security
 
 router = APIRouter(prefix="/auth", tags=["auth"])
