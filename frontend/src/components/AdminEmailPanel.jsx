@@ -23,7 +23,6 @@ export function AdminEmailPanel() {
     EMAIL_FROM: "welcome@gitpusher.ai"
   });
   
-  const token = localStorage.getItem("admin_token");
 
   useEffect(() => {
     loadTemplates();
