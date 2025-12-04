@@ -1910,8 +1910,8 @@ async def admin_autofix_approve_incident(incident_id: str, request: Request, aut
 
 
 @api_router.post("/admin/autofix/incidents/{incident_id}/reject")
-async def admin_autofix_reject_incident(incident_id: str, authorization: Optional[str] = Header(default=None)):
-    await require_admin(authorization)
+async def admin_autofix_reject_incident(incident_id: str, request: Request, authorization: Optional[str] = Header(default=None)):
+    await require_admin(authorization, request)
     res = await db.autofix_incidents.update_one(
         {"_id": incident_id},
         {
