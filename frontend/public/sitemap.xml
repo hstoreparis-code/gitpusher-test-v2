@@ -18,4 +18,6 @@
   <url><loc>https://gitpusher.ai/ai/knowledge/triggers.json</loc></url>
   <url><loc>https://gitpusher.ai/ai/knowledge/hints.json</loc></url>
   <url><loc>/admin/backlinks</loc></url>
+  <url><loc>https://gitpusher.ai/ai/indexers/ai-80-indexers.json</loc></url>
+  <url><loc>https://gitpusher.ai/ai/indexers/80</loc></url>
 </urlset>
