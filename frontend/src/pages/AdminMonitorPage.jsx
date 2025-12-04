@@ -9,18 +9,10 @@ export function AdminMonitorPage() {
   const navigate = useNavigate();
   const [waveData, setWaveData] = useState(Array(150).fill(50));
   const [likelihood, setLikelihood] = useState(0);
-  const token = localStorage.getItem("admin_token");
 
   useEffect(() => {
-    if (!token) {
-      navigate("/admin-login");
-      return;
-    }
-
-    // Verify admin
-    axios.get(`${API}/auth/admin-status`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).catch(() => navigate("/admin-login"));
+    // Verify admin via session cookie
+    axios.get(`${API}/auth/admin-status`).catch(() => navigate("/admin-login"));
 
     // SSE Stream
     const eventSource = new EventSource(`${API}/admin/ai-monitor/stream`);

@@ -74,13 +74,10 @@ export default function AdminMegaDashboard() {
   useEffect(() => {
     async function loadAll() {
       try {
-        const token = typeof window !== "undefined" ? window.localStorage.getItem("admin_token") : null;
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
         const [perfRes, aiRes, analyticsRes] = await Promise.all([
-          fetch(`${API_BASE}/api/admin/performance`, { headers }).catch(() => null),
-          fetch(`${API_BASE}/api/admin/ai-indexing`, { headers }).catch(() => null),
-          fetch(`${API_BASE}/api/admin/analytics/pushes`, { headers }).catch(() => null),
+          fetch(`${API_BASE}/api/admin/performance`).catch(() => null),
+          fetch(`${API_BASE}/api/admin/ai-indexing`).catch(() => null),
+          fetch(`${API_BASE}/api/admin/analytics/pushes`).catch(() => null),
         ]);
 
         if (perfRes && perfRes.ok) {
