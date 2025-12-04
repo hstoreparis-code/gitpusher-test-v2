@@ -93,6 +93,9 @@ export default function AiDiscoveryManagerPage() {
             onClick={() => navigate("/admin")}
           >
             <ArrowLeft className="w-4 h-4" />
+          </div>
+        </div>
+
           </Button>
           <div>
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
