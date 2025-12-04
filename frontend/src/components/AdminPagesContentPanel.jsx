@@ -173,7 +173,7 @@ export function AdminPagesContentPanel() {
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="text-base text-slate-100">Pages SEO / AEO</CardTitle>
         <div className="flex items-center gap-2">
-          <span className="hidden md:inline text-[10px] text-slate-400">
+          <span className="hidden md:inline text-[10px] text-slate-200">
             Vert = page accessible (HTTP 200) · Rouge = erreur d’accès (404/500…) · Autofix tente de corriger et explique quoi faire si le rouge persiste.
           </span>
           <Button
