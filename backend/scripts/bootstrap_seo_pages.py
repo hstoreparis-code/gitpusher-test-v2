@@ -49,7 +49,7 @@ Start pushing code automatically with GitPusher.ai.
 """,
     },
     {
-        "slug": "seo/deploy-ai-code",
+        "slug": "seo/deploy-ai-code-en",
         "page_type": "seo",
         "title": "How to deploy AI-generated code — GitPusher.ai",
         "description": "Safely deploy AI-generated code to GitHub with GitPusher.ai. Turn raw AI output into a structured repository with README, .gitignore and clean history.",
