@@ -285,6 +285,7 @@ from routes.admin_security import router as admin_security_router
 from routes.admin_security_status import router as admin_security_status_router
 from routes.ai_qa import router as ai_qa_router
 from routes.legal_terms import router as legal_terms_router
+from routes.auth_2fa import router as auth_2fa_router
 
 app.include_router(admin_health_router)
 app.include_router(admin_performance_router)
