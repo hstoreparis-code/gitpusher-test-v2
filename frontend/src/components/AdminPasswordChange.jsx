@@ -40,7 +40,6 @@ export function AdminPasswordChange() {
           current_password: currentPassword,
           new_password: newPassword
         },
-        { headers: { Authorization: `Bearer ${token}` } }
       );
       
       setMessage("✅ Mot de passe modifié avec succès !");
