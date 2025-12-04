@@ -217,6 +217,9 @@ export default function AdminLegalPage() {
               <pre className="max-h-48 overflow-y-auto text-[10px] bg-slate-950/70 border border-slate-800 rounded-md p-2 text-slate-300 whitespace-pre-wrap">
 {`### Informations légales\n${JSON.stringify(legalInfo, null, 2)}\n\n### CGU\n${JSON.stringify(cgu, null, 2)}\n\n### Contact & réclamations\n${contact}`}
               </pre>
+              {status && (
+                <p className="mt-2 text-[11px] text-slate-400">{status}</p>
+              )}
             </div>
           </CardContent>
         </Card>
