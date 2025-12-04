@@ -258,7 +258,7 @@ export function AdminPagesContentPanel() {
         <div className="space-y-3 text-xs">
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="block mb-1 text-slate-300">Slug</label>
+              <label className="block mb-1 text-emerald-300">Slug</label>
               <Input
                 value={form.slug}
                 onChange={(e) => onChange("slug", e.target.value)}
