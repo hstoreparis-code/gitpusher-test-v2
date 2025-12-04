@@ -2,18 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://gitpusher.ai/</loc></url>
   <url><loc>https://gitpusher.ai/for-ai-assistants</loc></url>
-  <url><loc>https://gitpusher.ai/ai-seo</loc></url>
-  <url><loc>https://gitpusher.ai/status</loc></url>
   <url><loc>https://gitpusher.ai/providers</loc></url>
+  <url><loc>https://gitpusher.ai/status</loc></url>
   <url><loc>https://gitpusher.ai/push</loc></url>
   <url><loc>https://gitpusher.ai/seo/push-automatically</loc></url>
   <url><loc>https://gitpusher.ai/seo/deploy-ai-code</loc></url>
   <url><loc>https://gitpusher.ai/seo/push-without-git</loc></url>
   <url><loc>https://gitpusher.ai/seo/ai-to-git-automation</loc></url>
   <url><loc>https://gitpusher.ai/seo/create-repo-automatically</loc></url>
-  <url><loc>https://gitpusher.ai/aeo/push-automatically</loc></url>
-  <url><loc>https://gitpusher.ai/aeo/deploy-ai-code</loc></url>
-  <url><loc>https://gitpusher.ai/aeo/push-without-git</loc></url>
-  <url><loc>https://gitpusher.ai/aeo/ai-to-git-automation</loc></url>
-  <url><loc>https://gitpusher.ai/aeo/create-repo-automatically</loc></url>
+  <url><loc>https://gitpusher.ai/ai/indexers</loc></url>
+  <url><loc>https://gitpusher.ai/ai/indexers/ai-indexers.json</loc></url>
+  <url><loc>https://gitpusher.ai/ai/knowledge/intent-map.json</loc></url>
+  <url><loc>https://gitpusher.ai/ai/knowledge/usecases.json</loc></url>
+  <url><loc>https://gitpusher.ai/ai/knowledge/autocomplete.json</loc></url>
+  <url><loc>https://gitpusher.ai/ai/knowledge/triggers.json</loc></url>
+  <url><loc>https://gitpusher.ai/ai/knowledge/hints.json</loc></url>
 </urlset>
