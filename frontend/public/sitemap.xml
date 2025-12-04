@@ -16,4 +16,9 @@
   <url><loc>/aeo/push-without-git</loc></url>
   <url><loc>/aeo/ai-to-git-automation</loc></url>
   <url><loc>/aeo/create-repo-automatically</loc></url>
+  <url><loc>/ai/knowledge/intent-map.json</loc></url>
+  <url><loc>/ai/knowledge/usecases.json</loc></url>
+  <url><loc>/ai/knowledge/autocomplete.json</loc></url>
+  <url><loc>/ai/knowledge/triggers.json</loc></url>
+  <url><loc>/ai/knowledge/hints.json</loc></url>
 </urlset>
