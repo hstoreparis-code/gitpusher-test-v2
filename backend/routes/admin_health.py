@@ -14,8 +14,12 @@ START_TIME = time.time()
 @router.get("/api/admin/health")
 async def admin_health():
     uptime = time.time() - START_TIME
-    cpu = psutil.cpu_percent(interval=None)
-    memory = psutil.virtual_memory().percent
+    if psutil is not None:
+        cpu = psutil.cpu_percent(interval=None)
+        memory = psutil.virtual_memory().percent
+    else:
+        cpu = 0.0
+        memory = 0.0
     return {
         "status": "ok",
         "uptime": uptime,
