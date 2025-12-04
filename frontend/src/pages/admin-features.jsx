@@ -100,137 +100,149 @@ export default function AdminFeaturesDashboard() {
         </div>
       </header>
 
-      {/* ========== SYSTEM STATUS ========== */}
-      <Box title="System Status Overview">
-        {status ? (
-          <>
+      {/* Top cards */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+              API Status
+            </CardTitle>
+            <ServerCog className="w-4 h-4 text-emerald-400" />
+          </CardHeader>
+          <CardContent className="space-y-1 text-xs text-slate-300">
             <p>
-              API Status: <StatusTag ok={!status.error} />
+              Global: <span className="font-semibold">{status?.error ? "ERROR" : "OK"}</span>
             </p>
-            <p>Version: {status.version || "N/A"}</p>
-            <p>Uptime: {status.uptime || "N/A"}</p>
-          </>
-        ) : (
-          <p>Loading system status...</p>
-        )}
-      </Box>
+            <p>Version: {status?.version || "N/A"}</p>
+            <p>Uptime: {status?.uptime || "N/A"}</p>
+          </CardContent>
+        </Card>
 
-      {/* ========== PROVIDERS ========== */}
-      <Box title="Git Providers Connectivity">
-        {providers.length ? (
-          <ul>
-            {providers.map((p, i) => (
-              <li key={i}>
-                {p.name}
-                <StatusTag ok={p.ok} />
-              </li>
+        <Card className="bg-slate-900/70 border-slate-700/70">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+              Push Pipeline
+            </CardTitle>
+            <GitBranch className="w-4 h-4 text-cyan-400" />
+          </CardHeader>
+          <CardContent className="space-y-1 text-xs text-slate-300">
+            <p>
+              Queue: <span className="font-semibold">{health?.queue_ok === false ? "ERROR" : "OK"}</span>
+            </p>
+            <p>
+              ZIP: <span className="font-semibold">{health?.zip_ok === false ? "ERROR" : "OK"}</span>
+            </p>
+            <p>
+              Repo: <span className="font-semibold">{health?.repo_ok === false ? "ERROR" : "OK"}</span>
+            </p>
+            <p>
+              Push: <span className="font-semibold">{health?.push_ok === false ? "ERROR" : "OK"}</span>
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-900/70 border-slate-700/70">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+              Providers
+            </CardTitle>
+            <Globe2 className="w-4 h-4 text-violet-400" />
+          </CardHeader>
+          <CardContent className="space-y-1 text-xs text-slate-300">
+            {providers && providers.length > 0 ? (
+              providers.map((p, i) => (
+                <p key={i} className="flex items-center justify-between">
+                  <span>{p.name}</span>
+                  <span className={`text-[11px] ${p.ok === false ? "text-red-400" : "text-emerald-300"}`}>
+                    {p.ok === false ? "ERROR" : "OK"}
+                  </span>
+                </p>
+              ))
+            ) : (
+              <p className="text-slate-500">No providers detected or connection error.</p>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Detailed sections */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className="bg-slate-900/70 border-slate-700/70">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+              Pages / Features Monitoring
+            </CardTitle>
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          </CardHeader>
+          <CardContent className="space-y-1 text-xs text-slate-300">
+            <ul className="space-y-1">
+              <li>/push</li>
+              <li>/providers</li>
+              <li>/status</li>
+              <li>/for-ai-assistants</li>
+              <li>/admin</li>
+              <li>/seo/* pages</li>
+              <li>/ai/indexers/*</li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-900/70 border-slate-700/70">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+              AI &amp; SEO Indexation Integrity
+            </CardTitle>
+            <HeartPulse className="w-4 h-4 text-cyan-400" />
+          </CardHeader>
+          <CardContent className="space-y-1 text-xs text-slate-300">
+            <p>AI Manifest (/ai/actions.json): OK</p>
+            <p>OpenAPI Exposure (link rel="openapi"): OK</p>
+            <p>AI Toolpacks: OK</p>
+            <p>Sitemap Integrity: OK</p>
+            <p>Robots.txt: OK</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card className="bg-slate-900/70 border-slate-700/70">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+            Light Usage Graph (Simulated)
+          </CardTitle>
+          <Activity className="w-4 h-4 text-emerald-400" />
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-end gap-1 h-24">
+            {[40, 80, 65, 100, 50, 70].map((h, i) => (
+              <div
+                key={i}
+                style={{
+                  width: "18%",
+                  height: h,
+                  background: "linear-gradient(180deg, #58a6ff, #1f6feb)",
+                  borderRadius: "4px",
+                }}
+              />
             ))}
-          </ul>
-        ) : (
-          <p>No providers detected or connection error.</p>
-        )}
-      </Box>
+          </div>
+          <p className="text-[11px] text-slate-500 mt-2">Daily activity (simulated display)</p>
+        </CardContent>
+      </Card>
 
-      {/* ========== PUSH HEALTH ========== */}
-      <Box title="Push Pipeline Health">
-        {health ? (
-          <>
-            <p>
-              Queue System: <StatusTag ok={health.queue_ok} />
-            </p>
-            <p>
-              ZIP Processing: <StatusTag ok={health.zip_ok} />
-            </p>
-            <p>
-              Repo Creation: <StatusTag ok={health.repo_ok} />
-            </p>
-            <p>
-              Git Push: <StatusTag ok={health.push_ok} />
-            </p>
-          </>
-        ) : (
-          <p>Loading push health...</p>
-        )}
-      </Box>
-
-      {/* ========== PAGES MONITORING ========== */}
-      <Box title="Pages / Features Monitoring">
-        <ul>
-          <li>
-            /push <StatusTag ok={true} />
-          </li>
-          <li>
-            /providers <StatusTag ok={true} />
-          </li>
-          <li>
-            /status <StatusTag ok={true} />
-          </li>
-          <li>
-            /for-ai-assistants <StatusTag ok={true} />
-          </li>
-          <li>
-            /admin <StatusTag ok={true} />
-          </li>
-          <li>
-            /seo/* pages <StatusTag ok={true} />
-          </li>
-          <li>
-            /ai/indexers/* <StatusTag ok={true} />
-          </li>
-        </ul>
-      </Box>
-
-      {/* ========== AI / SEO HEALTH ========== */}
-      <Box title="AI & SEO Indexation Integrity">
-        <p>
-          AI Manifest (<code>/ai/actions.json</code>): <StatusTag ok={true} />
-        </p>
-        <p>
-          OpenAPI Exposure (<code>link rel="openapi"</code>): <StatusTag ok={true} />
-        </p>
-        <p>
-          AI Toolpacks: <StatusTag ok={true} />
-        </p>
-        <p>
-          Sitemap Integrity: <StatusTag ok={true} />
-        </p>
-        <p>
-          Robots.txt: <StatusTag ok={true} />
-        </p>
-      </Box>
-
-      {/* ========== LIGHT GRAPHS ========== */}
-      <Box title="Light Usage Graph (Simulated)">
-        <div
-          style={{
-            display: "flex",
-            gap: "6px",
-            alignItems: "flex-end",
-            height: "120px",
-          }}
-        >
-          {[40, 80, 65, 100, 50, 70].map((h, i) => (
-            <div
-              key={i}
-              style={{
-                width: "18%",
-                height: h,
-                background: "linear-gradient(180deg, #58a6ff, #1f6feb)",
-                borderRadius: "4px",
-              }}
-            ></div>
-          ))}
-        </div>
-        <p style={{ opacity: 0.7, fontSize: "0.8rem" }}>Daily activity (simulated display)</p>
-      </Box>
-
-      {/* ========== LOGS ========== */}
-      <Box title="Error Logs (Last 10)">
-        <p>No critical errors.</p>
-        <p style={{ opacity: 0.6 }}>
-          (Connect real logs later via /api/logs or admin pipeline.)
-        </p>
-      </Box>
+      <Card className="bg-slate-900/70 border-slate-700/70">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+            Error Logs (Last 10)
+          </CardTitle>
+          <Zap className="w-4 h-4 text-amber-400" />
+        </CardHeader>
+        <CardContent className="space-y-1 text-xs text-slate-300">
+          <p>No critical errors.</p>
+          <p className="text-[11px] text-slate-500">
+            (Connect real logs later via /api/logs or admin pipeline.)
+          </p>
+        </CardContent>
+      </Card>
     </main>
   );
 }
