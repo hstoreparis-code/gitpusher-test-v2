@@ -4148,6 +4148,8 @@ function AppShell() {
       <Route path="/admin/support" element={<AdminSupportPanel />} />
       <Route path="/admin/autofix" element={<AdminAutofixPanel />} />
       <Route path="/for-ai-assistants" element={<ForAIAssistants />} />
+      <Route path="/manager/seo-monitor" element={<SeoMonitorManagerPage />} />
+
       <Route path="/manager/ai-discovery" element={<AiDiscoveryManagerPage />} />
       <Route 
         path="/auth/callback" 
