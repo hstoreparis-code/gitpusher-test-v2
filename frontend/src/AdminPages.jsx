@@ -512,139 +512,62 @@ export function AdminDashboardPage() {
             <p className="text-sm text-slate-400 mt-1">Gérez l'intégralité de votre plateforme</p>
           </div>
           <div className="flex items-center gap-3">
-            {/* Bouton Alertes Nouveaux Abonnés */}
             <div className="relative">
-              <Button
-                variant="outline"
-                size="sm"
-                className={`rounded-full text-xs flex items-center gap-2 transition-all ${
-                  unreadAlerts > 0 
-                    ? 'border-amber-500/50 bg-amber-500/10 shadow-[0_0_18px_rgba(245,158,11,0.5)] text-amber-300' 
-                    : 'border-slate-700 hover:border-cyan-500/40 hover:shadow-[0_0_12px_rgba(56,189,248,0.3)]'
-                }`}
-                onClick={() => setShowAlerts(!showAlerts)}
+              <button
+                className="w-9 h-9 flex flex-col items-center justify-center rounded-full border border-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20 shadow-[0_0_18px_rgba(56,189,248,0.8)] text-cyan-300 transition-all"
               >
-                <Bell className={`w-4 h-4 ${unreadAlerts > 0 ? 'text-amber-400 animate-pulse' : ''}`} />
-                Nouvelles Conversions
-                {unreadAlerts > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse shadow-[0_0_12px_rgba(245,158,11,0.8)]">
-                    {unreadAlerts}
+                <span className="w-5 h-0.5 bg-cyan-400 rounded-full mb-0.5" />
+                <span className="w-5 h-0.5 bg-cyan-400 rounded-full mb-0.5" />
+                <span className="w-5 h-0.5 bg-cyan-400 rounded-full" />
+              </button>
+              {/* Menu déroulant des actions admin (alertes, autofix, support, déconnexion) */}
+              <div className="absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-40">
+                <button
+                  className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800"
+                  onClick={() => setShowAlerts(!showAlerts)}
+                >
+                  <span className="flex items-center gap-2">
+                    <Bell className="w-3 h-3" />
+                    Nouvelles conversions
                   </span>
-                )}
-              </Button>
-              
-              {/* Popup Alertes */}
-              {showAlerts && (
-                <div className="absolute right-0 top-12 w-96 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-50 max-h-96 overflow-auto">
-                  <div className="p-4 border-b border-slate-800">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-semibold text-slate-100">Nouveaux abonnés (24h)</h3>
-                      <button 
-                        onClick={() => {
-                          setUnreadAlerts(0);
-                          setShowAlerts(false);
-                        }}
-                        className="text-xs text-cyan-400 hover:text-cyan-300"
-                      >
-                        Marquer comme lu
-                      </button>
-                    </div>
-                  </div>
-                  <div className="divide-y divide-slate-800">
-                    {newSubscribers.length === 0 ? (
-                      <div className="p-4 text-center text-sm text-slate-400">
-                        Aucun nouvel abonné dans les dernières 24h
-                      </div>
-                    ) : (
-                      newSubscribers.map((user, index) => (
-                        <div key={index} className="p-3 hover:bg-slate-800/50 transition-colors">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex-1">
-                              <p className="text-sm font-medium text-slate-200">{user.email}</p>
-                              <p className="text-xs text-slate-400 mt-1">{user.display_name || 'Sans nom'}</p>
-                              <div className="flex items-center gap-2 mt-2">
-                                <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium ${
-                                  (user.plan || '').toLowerCase() === 'premium' || (user.plan || '').toLowerCase() === 'business'
-                                    ? 'bg-violet-500/10 text-violet-300 border border-violet-500/20'
-                                    : (user.plan || '').toLowerCase() === 'pro'
-                                    ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20'
-                                    : (user.plan || '').toLowerCase() === 'starter'
-                                    ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
-                                    : 'bg-slate-700/50 text-slate-300 border border-slate-600'
-                                }`}>
-                                  {user.plan || 'free'}
-                                </span>
-                                <span className="text-[10px] text-slate-500">
-                                  {new Date(user.created_at).toLocaleString('fr-FR', { 
-                                    day: '2-digit', 
-                                    month: 'short',
-                                    hour: '2-digit',
-                                    minute: '2-digit'
-                                  })}
-                                </span>
-                              </div>
-                            </div>
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              className="h-7 px-2 text-xs text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10"
-                              onClick={() => {
-                                window.location.href = `mailto:${user.email}?subject=Bienvenue sur GitPusher&body=Bonjour,\n\nMerci de vous être inscrit !`;
-                              }}
-                            >
-                              <Mail className="w-3 h-3 mr-1" />
-                              Email
-                            </Button>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Bouton Autofix */}
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full border-violet-500/50 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 hover:shadow-[0_0_18px_rgba(139,92,246,0.5)] text-xs flex items-center gap-2 transition-all"
-              onClick={() => navigate("/admin/autofix")}
-            >
-              <Zap className="w-4 h-4" />
-              Autofix
-            </Button>
-
-            {/* Bouton Support Chat */}
-            <div className="relative">
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-full border-emerald-500/50 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 hover:shadow-[0_0_18px_rgba(16,185,129,0.5)] text-xs flex items-center gap-2 transition-all"
-                onClick={() => navigate("/admin/support")}
-              >
-                <MessageCircle className="w-4 h-4" />
-                Support Chat
-                {supportUnreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse shadow-[0_0_12px_rgba(239,68,68,0.8)]">
-                    {supportUnreadCount}
+                  {unreadAlerts > 0 && (
+                    <span className="ml-2 px-2 py-0.5 rounded-full bg-amber-500 text-[10px] text-white font-semibold">
+                      {unreadAlerts}
+                    </span>
+                  )}
+                </button>
+                <button
+                  className="w-full flex items-center px-3 py-2 text-xs text-slate-200 hover:bg-slate-800 gap-2"
+                  onClick={() => navigate("/admin/autofix")}
+                >
+                  <Zap className="w-3 h-3 text-violet-300" />
+                  <span>Autofix</span>
+                </button>
+                <button
+                  className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800"
+                  onClick={() => navigate("/admin/support")}
+                >
+                  <span className="flex items-center gap-2">
+                    <MessageCircle className="w-3 h-3 text-emerald-300" />
+                    Support Chat
                   </span>
-                )}
-              </Button>
+                  {supportUnreadCount > 0 && (
+                    <span className="ml-2 px-2 py-0.5 rounded-full bg-red-500 text-[10px] text-white font-semibold">
+                      {supportUnreadCount}
+                    </span>
+                  )}
+                </button>
+                <button
+                  className="w-full flex items-center px-3 py-2 text-xs text-red-300 hover:bg-red-500/10 border-t border-slate-800"
+                  onClick={() => {
+                    localStorage.removeItem("admin_token");
+                    navigate("/", { replace: true });
+                  }}
+                >
+                  Déconnexion
+                </button>
+              </div>
             </div>
-
-            {/* Bouton Déconnexion */}
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full border-slate-700 hover:border-red-500/40 hover:shadow-[0_0_12px_rgba(239,68,68,0.3)] text-xs transition-all"
-              onClick={() => {
-                localStorage.removeItem("admin_token");
-                navigate("/", { replace: true });
-              }}
-            >
-              Déconnexion
-            </Button>
           </div>
         </div>
 
