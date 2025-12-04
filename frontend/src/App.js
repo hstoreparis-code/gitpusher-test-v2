@@ -2443,7 +2443,7 @@ function TermsPage() {
             </ul>
           </section>
 
-          {/* Bloc 2 : Conditions générales d'utilisation (CGU) */}
+          {/* Bloc 2 : Conditions générales d'utilisation (contenu dynamique depuis /api/legal/terms) */ation (CGU) */}
           <section className="space-y-2">
             <h2 className="text-base sm:text-lg font-semibold text-slate-100">2. Conditions générales d'utilisation</h2>
             <p className="text-slate-300">
