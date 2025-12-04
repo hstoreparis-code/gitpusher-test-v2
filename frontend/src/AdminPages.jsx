@@ -315,14 +315,8 @@ export function AdminDashboardPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!token) {
-        navigate("/admin-login", { replace: true });
-        return;
-      }
       try {
-        const status = await axios.get(`${API}/auth/admin-status`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const status = await axios.get(`${API}/auth/admin-status`);
         if (!status.data.is_admin) {
           navigate("/admin-login", { replace: true });
           return;
