@@ -1,0 +1,12 @@
+{
+  "autocomplete": {
+    "suggest_repo_names": [
+      "my-ai-project",
+      "generated-app",
+      "new-python-repo",
+      "web-app-generated"
+    ],
+    "suggest_providers": ["github", "gitlab", "bitbucket", "all"],
+    "suggest_visibilities": ["public", "private"]
+  }
+}

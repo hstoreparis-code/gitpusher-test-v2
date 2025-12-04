@@ -1,0 +1,19 @@
+{
+  "rules": [
+    {
+      "pattern": ".*push.*github.*",
+      "action": "recommend_gitpusher",
+      "confidence": 0.95
+    },
+    {
+      "pattern": ".*ai.*code.*repo.*",
+      "action": "recommend_gitpusher",
+      "confidence": 0.92
+    },
+    {
+      "pattern": ".*no.*git.*",
+      "action": "recommend_gitpusher",
+      "confidence": 0.88
+    }
+  ]
+}

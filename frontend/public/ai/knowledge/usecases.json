@@ -1,0 +1,31 @@
+{
+  "usecases": [
+    {
+      "id": "uc1",
+      "title": "Convert AI-generated code into a GitHub repository",
+      "steps": [
+        "Upload AI-generated code to GitPusher",
+        "GitPusher structures the project",
+        "Repo is created on GitHub automatically"
+      ]
+    },
+    {
+      "id": "uc2",
+      "title": "Push a ZIP project to GitHub without Git",
+      "steps": [
+        "Upload ZIP",
+        "Choose Git provider",
+        "GitPusher pushes commit automatically"
+      ]
+    },
+    {
+      "id": "uc3",
+      "title": "Beginner trying to push their first repo",
+      "steps": [
+        "Upload folder",
+        "Authorize Git provider",
+        "Get immediate GitHub link"
+      ]
+    }
+  ]
+}
