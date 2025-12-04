@@ -224,9 +224,9 @@ export function AdminPagesContentPanel() {
       <CardContent className="grid grid-cols-1 md:grid-cols-[220px_minmax(0,1fr)] gap-4">
         <div className="space-y-2 max-h-80 overflow-y-auto border border-slate-800 rounded-lg p-2 text-xs">
           {loading ? (
-            <p className="text-slate-400">Chargement…</p>
+            <p className="text-emerald-300">Chargement…</p>
           ) : pages.length === 0 ? (
-            <p className="text-slate-500">Aucune page enregistrée pour l’instant.</p>
+            <p className="text-emerald-300">Aucune page enregistrée pour l’instant.</p>
           ) : (
             pages.map((p) => (
               <button
