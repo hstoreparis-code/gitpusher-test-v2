@@ -531,7 +531,13 @@ export function AdminDashboardPage() {
               onClick={() => navigate("/manager/seo-monitor")}
               className="inline-flex items-center px-4 py-2 rounded-full bg-cyan-500 text-slate-950 text-xs font-semibold shadow-[0_0_25px_rgba(56,189,248,0.9)] hover:shadow-[0_0_40px_rgba(56,189,248,1)] hover:bg-cyan-400 transition-all border border-cyan-300/80"
             >
-              📈 SEO Monitor
+              📈 Google SEO Monitor
+            </button>
+            <button
+              onClick={() => navigate("/manager/tiktok-monitor")}
+              className="inline-flex items-center px-4 py-2 rounded-full bg-pink-500 text-slate-950 text-xs font-semibold shadow-[0_0_25px_rgba(244,114,182,0.9)] hover:shadow-[0_0_40px_rgba(244,114,182,1)] hover:bg-pink-400 transition-all border border-pink-300/80"
+            >
+              🎵 TikTok SEO Monitor
             </button>
           </div>
 
