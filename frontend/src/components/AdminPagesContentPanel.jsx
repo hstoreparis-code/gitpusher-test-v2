@@ -30,7 +30,7 @@ export function AdminPagesContentPanel() {
       }
     };
     load();
-  }, [token]);
+  }, []);
 
   const onSelect = (page) => {
     setSelected(page.slug);
