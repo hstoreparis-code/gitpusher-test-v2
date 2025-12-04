@@ -114,5 +114,6 @@ def run_autofix():
       "ai_discovery_fixed": autofix_ai_discovery(),
       "ai_indexers_fixed": autofix_ai_indexers_json(),
       "knowledge_fixed": autofix_knowledge_files(),
+      "seo_aeo_fixed": autofix_seo_aeo(),
   }
   return fixes
