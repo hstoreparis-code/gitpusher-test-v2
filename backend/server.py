@@ -1927,8 +1927,8 @@ async def admin_autofix_reject_incident(incident_id: str, request: Request, auth
 
 
 @api_router.patch("/admin/autofix/settings", response_model=AutofixSettings)
-async def admin_autofix_update_settings(payload: AutofixSettings, authorization: Optional[str] = Header(default=None)):
-    await require_admin(authorization)
+async def admin_autofix_update_settings(payload: AutofixSettings, request: Request, authorization: Optional[str] = Header(default=None)):
+    await require_admin(authorization, request)
 
     await db.admin_settings.update_one(
         {"_id": "autofix_settings"},
