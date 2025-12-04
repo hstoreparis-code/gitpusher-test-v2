@@ -101,10 +101,13 @@ export function AdminPagesContentPanel() {
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="text-base">Pages SEO / AEO</CardTitle>
         <div className="flex items-center gap-2">
+          <span className="hidden md:inline text-[10px] text-slate-400">
+            Vert = page accessible (HTTP 200) · Rouge = erreur d’accès (404/500…)
+          </span>
           <Button
             variant="outline"
             size="sm"
-            className="rounded-full text-xs"
+            className="rounded-full text-xs bg-cyan-500 hover:bg-cyan-400 text-slate-950 border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]"
             onClick={async () => {
               if (!token || checking) return;
               setChecking(true);
