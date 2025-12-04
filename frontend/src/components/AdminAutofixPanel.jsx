@@ -69,10 +69,6 @@ export function AdminAutofixPanel() {
   };
 
   useEffect(() => {
-    if (!token) {
-      navigate("/admin-login", { replace: true });
-      return;
-    }
     // Chargement initial + refresh périodique
     const run = () => {
       loadIncidents();
@@ -80,7 +76,7 @@ export function AdminAutofixPanel() {
     run();
     const interval = setInterval(run, 10000);
     return () => clearInterval(interval);
-  }, [token, navigate]);
+  }, [navigate]);
 
   const handleApprove = async (incidentId) => {
     try {
