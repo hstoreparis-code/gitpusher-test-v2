@@ -1,4 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Activity, ArrowLeft, CreditCard, DollarSign, TrendingUp } from "lucide-react";
 import AIMeta from "../components/AIMeta";
 
 export const metadata = {
@@ -9,6 +14,7 @@ export const metadata = {
 };
 
 export default function AdminCreditsBillingDashboard() {
+  const navigate = useNavigate();
   const [credits, setCredits] = useState(null);
   const [billing, setBilling] = useState(null);
   const [usage, setUsage] = useState(null);
