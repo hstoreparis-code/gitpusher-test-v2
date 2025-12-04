@@ -64,6 +64,7 @@ export function AdminPagesContentPanel() {
           title: form.title,
           description: form.description,
           body: form.body,
+          status: form.status || undefined,
         },
         { headers: { Authorization: `Bearer ${token}` } },
       );
