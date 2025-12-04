@@ -44,6 +44,7 @@ export function AdminPagesContentPanel() {
       title: page.title,
       description: page.description,
       body: page.body,
+      status: page.status || "",
     });
   };
 
