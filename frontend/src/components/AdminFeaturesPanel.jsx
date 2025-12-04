@@ -11,13 +11,9 @@ export function AdminFeaturesPanel() {
   const [fixing, setFixing] = useState(false);
   const [message, setMessage] = useState("");
   
-  const token = localStorage.getItem("admin_token");
-
   const checkHealth = async () => {
     try {
-      const res = await axios.get(`${API}/admin/features/health`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axios.get(`${API}/admin/features/health`);
       setHealth(res.data.health || {});
     } catch (err) {
       console.error(err);
