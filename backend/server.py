@@ -4129,6 +4129,9 @@ api_router.include_router(backlinks.router)
 # Mount AI Indexers Extended router
 from routes import ai_indexers_extended
 api_router.include_router(ai_indexers_extended.router)
+from routes.ai_catalog import router as ai_catalog_router
+app.include_router(ai_catalog_router)
+
 # Mount AI Score / Health / Autofix router
 from routes.ai_health import router as ai_health_router
 api_router.include_router(ai_health_router)
