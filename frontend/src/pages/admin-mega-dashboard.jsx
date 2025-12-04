@@ -164,7 +164,7 @@ export default function AdminMegaDashboard() {
           <Badge className="text-xs px-3 py-1 rounded-full border bg-cyan-500/10 text-cyan-200 border-cyan-400/50">
             <span className="inline-flex items-center gap-1">
               <GaugeCircle className="w-3 h-3" />
-              <span>Vue synthèse temps réel (mock-friendly)</span>
+              <span>Vue synthèse temps réel (données réelles + fallback léger)</span>
             </span>
           </Badge>
         </div>
