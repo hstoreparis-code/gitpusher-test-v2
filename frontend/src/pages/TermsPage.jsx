@@ -34,7 +34,7 @@ export function TermsPage() {
       <main className="flex-1">
         <div className="max-w-4xl mx-auto px-4 py-8 sm:py-10 space-y-6 text-sm sm:text-base">
           <section className="space-y-2">
-            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">Conditions générales d'utilisation</h1>
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">Terms &amp; Legal</h1>
             <p className="text-xs text-slate-400">Dernière mise à jour : {new Date().toLocaleDateString("fr-FR")}</p>
           </section>
 
