@@ -120,7 +120,12 @@ export function AdminPagesContentPanel() {
                     {p.page_type}
                   </span>
                 </div>
-                <div className="text-[10px] text-slate-500 truncate">{p.title}</div>
+                <div className="text-[10px] text-slate-400 truncate">{p.title}</div>
+                {p.body && (
+                  <div className="text-[10px] text-slate-500 truncate mt-0.5">
+                    {p.body.length > 120 ? p.body.slice(0, 120) + "…" : p.body}
+                  </div>
+                )}
               </button>
             ))
           )}
