@@ -824,6 +824,8 @@ async def detect_i18n(request: Request):
     return I18nDetectResponse(country_code=country_code, lang=lang)
 
 
+# ---------- MIDDLEWARES ----------
+
 # CORS
 app.add_middleware(
     CORSMiddleware,
