@@ -4161,6 +4161,8 @@ function AppShell() {
       <Route path="/aeo/push-without-git" element={<AeoPushWithoutGitPage />} />
       <Route path="/aeo/ai-to-git-automation" element={<AeoAiToGitAutomationPage />} />
       <Route path="/aeo/create-repo-automatically" element={<AeoCreateRepoAutomaticallyPage />} />
+      <Route path="/for-agents-devtools" element={<ForAgentsDevtoolsPage />} />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
     <SupportChatbot />
