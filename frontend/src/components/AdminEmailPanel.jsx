@@ -55,9 +55,7 @@ export function AdminEmailPanel() {
 
   const handleSave = async () => {
     try {
-      await axios.post(`${API}/admin/email/templates`, form, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axios.post(`${API}/admin/email/templates`, form);
       setMessage("✅ Template sauvegardé");
       setTimeout(() => setMessage(""), 3000);
       loadTemplates();
