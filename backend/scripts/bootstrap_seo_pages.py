@@ -101,7 +101,7 @@ Use GitPusher.ai to turn AI output into clean, usable GitHub repositories.
 """,
     },
     {
-        "slug": "seo/push-without-git",
+        "slug": "seo/push-without-git-en",
         "page_type": "seo",
         "title": "Push code to GitHub without Git — GitPusher.ai",
         "description": "Push code to GitHub without installing Git or using the command line. GitPusher.ai lets you upload your project and push in a few clicks.",
