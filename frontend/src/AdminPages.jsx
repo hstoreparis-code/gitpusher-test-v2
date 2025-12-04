@@ -1072,9 +1072,7 @@ export function AdminDashboardPage() {
                         className="text-xs"
                         onClick={async () => {
                           try {
-                            const res = await axios.get(`${API}/admin/ai-monitor/live`, {
-                              headers: { Authorization: `Bearer ${token}` }
-                            });
+                            const res = await axios.get(`${API}/admin/ai-monitor/live`);
                             const blob = new Blob([JSON.stringify(res.data, null, 2)], { type: 'application/json' });
                             const url = URL.createObjectURL(blob);
                             const a = document.createElement('a');
