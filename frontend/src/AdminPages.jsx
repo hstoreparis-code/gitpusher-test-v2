@@ -545,6 +545,7 @@ export function AdminDashboardPage() {
             <div className="relative flex items-center gap-2" id="admin-quick-menu">
               <button
                 className="w-9 h-9 flex flex-col items-center justify-center rounded-full border border-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20 shadow-[0_0_18px_rgba(56,189,248,0.8)] text-cyan-300 transition-all"
+                type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowAdminMenu((prev) => !prev);
