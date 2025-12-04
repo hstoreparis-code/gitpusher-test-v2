@@ -64,11 +64,9 @@ export function AdminCreditsPanel() {
   };
 
   const handleSearchUsers = async () => {
-    if (!token || !userSearch.trim()) return;
+    if (!userSearch.trim()) return;
     try {
-      const res = await axios.get(`${API}/admin/users`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axios.get(`${API}/admin/users`);
       const filtered = res.data.filter(u =>
         u.email.toLowerCase().includes(userSearch.toLowerCase()) ||
         (u.display_name && u.display_name.toLowerCase().includes(userSearch.toLowerCase()))
