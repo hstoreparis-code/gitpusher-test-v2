@@ -1,0 +1,64 @@
+{
+  "indexers": [
+    {
+      "id": "openai",
+      "name": "openai",
+      "status": "allowed"
+    },
+    {
+      "id": "anthropic",
+      "name": "anthropic",
+      "status": "allowed"
+    },
+    {
+      "id": "google",
+      "name": "google",
+      "status": "allowed"
+    },
+    {
+      "id": "perplexity",
+      "name": "perplexity",
+      "status": "allowed"
+    },
+    {
+      "id": "groq",
+      "name": "groq",
+      "status": "allowed"
+    },
+    {
+      "id": "mistral",
+      "name": "mistral",
+      "status": "allowed"
+    },
+    {
+      "id": "meta",
+      "name": "meta",
+      "status": "allowed"
+    },
+    {
+      "id": "xai",
+      "name": "xai",
+      "status": "allowed"
+    },
+    {
+      "id": "inflection",
+      "name": "inflection",
+      "status": "allowed"
+    },
+    {
+      "id": "cohere",
+      "name": "cohere",
+      "status": "allowed"
+    },
+    {
+      "id": "reka",
+      "name": "reka",
+      "status": "allowed"
+    },
+    {
+      "id": "aws",
+      "name": "aws",
+      "status": "allowed"
+    }
+  ]
+}

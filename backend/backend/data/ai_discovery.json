@@ -1,0 +1,65 @@
+{
+  "indexers": {
+    "openai": {
+      "name": "openai",
+      "hits": 0,
+      "last_seen": null
+    },
+    "anthropic": {
+      "name": "anthropic",
+      "hits": 0,
+      "last_seen": null
+    },
+    "google": {
+      "name": "google",
+      "hits": 0,
+      "last_seen": null
+    },
+    "perplexity": {
+      "name": "perplexity",
+      "hits": 0,
+      "last_seen": null
+    },
+    "groq": {
+      "name": "groq",
+      "hits": 0,
+      "last_seen": null
+    },
+    "mistral": {
+      "name": "mistral",
+      "hits": 0,
+      "last_seen": null
+    },
+    "meta": {
+      "name": "meta",
+      "hits": 0,
+      "last_seen": null
+    },
+    "xai": {
+      "name": "xai",
+      "hits": 0,
+      "last_seen": null
+    },
+    "inflection": {
+      "name": "inflection",
+      "hits": 0,
+      "last_seen": null
+    },
+    "cohere": {
+      "name": "cohere",
+      "hits": 0,
+      "last_seen": null
+    },
+    "reka": {
+      "name": "reka",
+      "hits": 0,
+      "last_seen": null
+    },
+    "aws": {
+      "name": "aws",
+      "hits": 0,
+      "last_seen": null
+    }
+  },
+  "last_events": []
+}
