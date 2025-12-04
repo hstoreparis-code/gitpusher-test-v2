@@ -116,5 +116,6 @@ def run_autofix():
       "ai_indexers_fixed": autofix_ai_indexers_json(),
       "knowledge_fixed": autofix_knowledge_files(),
       "seo_aeo_fixed": autofix_seo_aeo(),
+      "sitemap_fixed": run_sitemap_autofix(),
   }
   return fixes
