@@ -4097,6 +4097,10 @@ api_router.include_router(admin_pages_router)
 from routes.ai_knowledge import router as ai_knowledge_router
 api_router.include_router(ai_knowledge_router)
 
+# Mount AI Autofix router
+from routes.ai_autofix import router as ai_autofix_router
+api_router.include_router(ai_autofix_router)
+
 
 # ---------- BASIC ROOT & HEALTH ----------
 
