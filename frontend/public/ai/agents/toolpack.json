@@ -1,0 +1,50 @@
+{
+  "tool_name": "GitPusher.ai",
+  "version": "1.0",
+  "description": "Toolpack for agents to push code/projects to Git providers via GitPusher.",
+  "actions": [
+    {
+      "id": "push_repo",
+      "summary": "Create and push a repository from code or ZIP to a Git provider.",
+      "endpoint": "/api/v1/push",
+      "method": "POST",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": ["github", "gitlab", "bitbucket", "gitea", "all"],
+            "description": "Target Git provider."
+          },
+          "source": {
+            "type": "string",
+            "enum": ["zip", "folder", "code", "ai_output"],
+            "description": "Type of content being pushed."
+          },
+          "repo_name": {
+            "type": "string",
+            "description": "Optional repository name. If omitted, GitPusher may infer one."
+          },
+          "visibility": {
+            "type": "string",
+            "enum": ["public", "private"],
+            "default": "private"
+          },
+          "content": {
+            "description": "ZIP (base64) or structured code object, depending on source.",
+            "type": "object"
+          }
+        },
+        "required": ["provider", "source", "content"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "repo_url": { "type": "string" },
+          "provider": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      }
+    }
+  ]
+}

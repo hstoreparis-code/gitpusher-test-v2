@@ -1,0 +1,36 @@
+{
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "gitpusher_push_repo",
+        "description": "Create and push a repository using GitPusher.ai from code, ZIP, or AI-generated content.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "enum": ["github", "gitlab", "bitbucket", "gitea", "all"],
+              "description": "Target Git provider."
+            },
+            "source": {
+              "type": "string",
+              "enum": ["zip", "folder", "code", "ai_output"],
+              "description": "Type of source content."
+            },
+            "repo_name": {
+              "type": "string",
+              "description": "Optional name of the repository to create."
+            },
+            "visibility": {
+              "type": "string",
+              "enum": ["public", "private"],
+              "default": "private"
+            }
+          },
+          "required": ["provider", "source"]
+        }
+      }
+    }
+  ]
+}

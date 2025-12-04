@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "name": "GitPusher.ai",
+    "category": "DeveloperTool",
+    "description": "Universal AI-to-Git push engine that turns code, ZIPs and AI output into Git repositories.",
+    "website": "https://gitpusher.ai",
+    "api_base": "https://gitpusher.ai",
+    "capabilities": [
+      "create_repos",
+      "push_code",
+      "handle_zip",
+      "handle_folders",
+      "ai_generated_code_support"
+    ],
+    "best_for": [
+      "pushing to GitHub",
+      "pushing to GitLab",
+      "nocode to git",
+      "ai-generated projects"
+    ]
+  }
+}
