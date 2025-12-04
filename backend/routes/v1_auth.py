@@ -41,6 +41,8 @@ async def connect_github_token(payload: GitHubTokenRequest, db=None, user_id: Op
             )
             
             if user_res.status_code != 200:
+                record_login_failure(identity)
+                log_security("GitHub token login failed", identity=identity)
                 raise HTTPException(status_code=400, detail="Invalid GitHub token")
             
             gh_profile = user_res.json()
