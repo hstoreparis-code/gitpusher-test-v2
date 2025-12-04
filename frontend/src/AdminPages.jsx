@@ -1535,7 +1535,8 @@ export function AdminDashboardPage() {
                     <CardContent className="space-y-2 max-h-64 overflow-y-auto">
                       {users.filter(u => {
                         const created = new Date(u.created_at);
-                        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+                        const now = new Date();
+                        const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
                         return created >= sevenDaysAgo;
                       }).slice(0, 10).map(u => (
                         <div key={u.id} className="flex items-center justify-between p-2 rounded bg-emerald-500/10 border border-emerald-400/30 text-xs">
