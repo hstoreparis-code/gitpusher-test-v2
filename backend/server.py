@@ -4126,6 +4126,10 @@ api_router.include_router(ai_autofix_router)
 from routes import backlinks
 api_router.include_router(backlinks.router)
 
+# Mount AI Indexers Extended router
+from routes import ai_indexers_extended
+api_router.include_router(ai_indexers_extended.router)
+
 
 # ---------- BASIC ROOT & HEALTH ----------
 
