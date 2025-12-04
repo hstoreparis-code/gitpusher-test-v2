@@ -520,12 +520,20 @@ export function AdminDashboardPage() {
             </h1>
             <p className="text-sm text-slate-400 mt-1">Gérez l'intégralité de votre plateforme</p>
           </div>
-          <button
-            onClick={() => navigate("/manager/ai-discovery")}
-            className="hidden sm:inline-flex items-center px-4 py-2 rounded-full bg-emerald-400 text-slate-950 text-xs font-semibold shadow-[0_0_25px_rgba(16,185,129,0.9)] hover:shadow-[0_0_40px_rgba(16,185,129,1)] hover:bg-emerald-300 transition-all border border-emerald-300/80"
-          >
-            🚀 AI Discovery
-          </button>
+          <div className="hidden sm:flex items-center gap-2">
+            <button
+              onClick={() => navigate("/manager/ai-discovery")}
+              className="inline-flex items-center px-4 py-2 rounded-full bg-emerald-400 text-slate-950 text-xs font-semibold shadow-[0_0_25px_rgba(16,185,129,0.9)] hover:shadow-[0_0_40px_rgba(16,185,129,1)] hover:bg-emerald-300 transition-all border border-emerald-300/80"
+            >
+              🚀 AI Discovery
+            </button>
+            <button
+              onClick={() => navigate("/manager/seo-monitor")}
+              className="inline-flex items-center px-4 py-2 rounded-full bg-cyan-500 text-slate-950 text-xs font-semibold shadow-[0_0_25px_rgba(56,189,248,0.9)] hover:shadow-[0_0_40px_rgba(56,189,248,1)] hover:bg-cyan-400 transition-all border border-cyan-300/80"
+            >
+              📈 SEO Monitor
+            </button>
+          </div>
 
           <div className="flex items-center gap-3">
             <div className="relative" id="admin-quick-menu">
