@@ -60,25 +60,39 @@ async def init_upload(payload: UploadInitRequest, db=None, user_id: str = None):
 
 @router.post("", response_model=UploadStatus)
 async def upload_direct(file: UploadFile = File(...), db=None, user_id: str = None):
-    """
-    Direct upload endpoint (fallback).
+    """Direct upload endpoint (fallback) with basic security checks.
+
+    - Enforce max size based on MAX_UPLOAD_SIZE_MB
+    - Only accept ZIP archives explicitly and validate internal paths
     """
     upload_id = uuid.uuid4().hex
-    
+
     # Read file content
     content = await file.read()
-    
+    _validate_upload_size(content)
+
+    filename = file.filename or "upload.zip"
+    _, ext = os.path.splitext(filename.lower())
+    if ext not in ALLOWED_UPLOAD_EXTENSIONS:
+        raise HTTPException(status_code=400, detail="Only .zip uploads are allowed")
+
     # Save to storage
-    result = await storage.save_upload(upload_id, content, file.filename)
-    
-    # Extract files if ZIP
-    extracted_files = await storage.extract_files(upload_id, file.filename)
-    
+    result = await storage.save_upload(upload_id, content, filename)
+
+    # Secure extraction of ZIP content (if storage layer expects pre-extracted files,
+    # this can be adapted later; for now we keep the logic explicit here)
+    temp_dir = f"/tmp/gitpusher_upload_{upload_id}"
+    os.makedirs(temp_dir, exist_ok=True)
+    _safe_extract_zip(content, temp_dir)
+
+    # Existing extraction hook (if any)
+    extracted_files = await storage.extract_files(upload_id, filename)
+
     # Store in DB
     await db.uploads_v1.insert_one({
         "_id": upload_id,
         "user_id": user_id,
-        "filename": file.filename,
+        "filename": filename,
         "content_type": file.content_type,
         "status": "processed",
         "size": result["size"],
@@ -86,12 +100,12 @@ async def upload_direct(file: UploadFile = File(...), db=None, user_id: str = No
         "extracted_files": extracted_files,
         "created_at": datetime.now(timezone.utc).isoformat()
     })
-    
+
     return UploadStatus(
         uploadId=upload_id,
         status="processed",
         extractedFiles=extracted_files,
-        size=result["size"]
+        size=result["size"],
     )
 
 
