@@ -39,7 +39,7 @@ export function TermsPage() {
           <section className="space-y-2">
             <h2 className="text-base sm:text-lg font-semibold text-slate-100">1. Objet du service</h2>
             <p className="text-slate-300">
-              GitPusher.AI est une plateforme qui permet d'automatiser la création de dépôts Git à partir de vos
+              GitPusher™.AI est une plateforme qui permet d'automatiser la création de dépôts Git à partir de vos
               fichiers ou dossiers (par exemple un projet zip), en générant automatiquement une structure de projet,
               un README, un fichier .gitignore, une licence et d'autres fichiers utiles. Le service se connecte à vos
               comptes Git (GitHub, GitLab, Bitbucket, etc.) via OAuth afin de créer et de mettre à jour des dépôts en
@@ -50,14 +50,14 @@ export function TermsPage() {
           <section className="space-y-2">
             <h2 className="text-base sm:text-lg font-semibold text-slate-100">2. Création de compte et connexions OAuth</h2>
             <p className="text-slate-300">
-              L'accès à GitPusher.AI se fait via des fournisseurs d'identité externes (GitHub, GitLab, Bitbucket,
-              Gitea, Google, etc.). En vous connectant avec l'un de ces providers, vous autorisez GitPusher.AI à
+              L'accès à GitPusher™.AI se fait via des fournisseurs d'identité externes (GitHub, GitLab, Bitbucket,
+              Gitea, Google, etc.). En vous connectant avec l'un de ces providers, vous autorisez GitPusher™.AI à
               recevoir certaines informations de votre profil (par exemple : identifiant, nom, email, avatar) et, dans
               le cas des providers Git, un jeton d'accès afin de créer et mettre à jour des dépôts pour votre compte.
             </p>
             <p className="text-slate-300">
               Vous restez à tout moment responsable de la sécurité de vos comptes Git et pouvez révoquer les accès de
-              GitPusher.AI directement depuis les paramètres de votre fournisseur (par exemple depuis
+              GitPusher™.AI directement depuis les paramètres de votre fournisseur (par exemple depuis
               developer settings sur GitHub).
             </p>
           </section>
@@ -65,7 +65,7 @@ export function TermsPage() {
           <section className="space-y-2">
             <h2 className="text-base sm:text-lg font-semibold text-slate-100">3. Données traitées</h2>
             <p className="text-slate-300">
-              Dans le cadre de l'utilisation de GitPusher.AI, les types de données suivants peuvent être traités :
+              Dans le cadre de l'utilisation de GitPusher™.AI, les types de données suivants peuvent être traités :
             </p>
             <ul className="list-disc list-inside text-slate-300 space-y-1">
               <li>Données de compte : nom, email, identifiant provider, plan et crédits disponibles.</li>
@@ -91,7 +91,7 @@ export function TermsPage() {
           <section className="space-y-2">
             <h2 className="text-base sm:text-lg font-semibold text-slate-100">4. Accès à vos dépôts Git</h2>
             <p className="text-slate-300">
-              Lorsque vous connectez un provider Git (par exemple GitHub), GitPusher.AI utilise le jeton d'accès
+              Lorsque vous connectez un provider Git (par exemple GitHub), GitPusher™.AI utilise le jeton d'accès
               fourni par ce provider pour :
             </p>
             <ul className="list-disc list-inside text-slate-300 space-y-1">
@@ -102,7 +102,7 @@ export function TermsPage() {
               </li>
             </ul>
             <p className="text-slate-300">
-              GitPusher.AI ne modifie pas vos dépôts existants sans action explicite de votre part et ne revendique
+              GitPusher™.AI ne modifie pas vos dépôts existants sans action explicite de votre part et ne revendique
               aucun droit de propriété sur le contenu de vos projets.
             </p>
           </section>
@@ -117,11 +117,11 @@ export function TermsPage() {
               <li>Des dépôts créés sur vos comptes Git et de la gestion des accès associés.</li>
               <li>
                 Du respect des droits d'auteur, licences et obligations légales applicables au contenu traité par
-                GitPusher.AI.
+                GitPusher™.AI.
               </li>
             </ul>
             <p className="text-slate-300">
-              GitPusher.AI fournit un outil d'automatisation "en l'état" et ne peut garantir que le code généré, les
+              GitPusher™.AI fournit un outil d'automatisation "en l'état" et ne peut garantir que le code généré, les
               fichiers produits ou la structure proposée soient exempts d'erreurs ou adaptés à tous les cas d'usage.
             </p>
           </section>
@@ -150,7 +150,7 @@ export function TermsPage() {
             <p className="text-slate-300">
               Les présentes conditions peuvent être mises à jour pour refléter l'évolution du service ou des exigences
               légales. En cas de changement significatif, une notification pourra être affichée dans l'application.
-              La poursuite de l'utilisation de GitPusher.AI après mise à jour vaut acceptation des nouvelles
+              La poursuite de l'utilisation de GitPusher™.AI après mise à jour vaut acceptation des nouvelles
               conditions.
             </p>
           </section>
@@ -159,7 +159,7 @@ export function TermsPage() {
             <h2 className="text-base sm:text-lg font-semibold text-slate-100">9. Contact</h2>
             <p className="text-slate-300">
               Pour toute question concernant ces conditions générales d'utilisation ou le traitement de vos données,
-              vous pouvez contacter l'administrateur de GitPusher.AI via le chat de support intégré ou par le canal
+              vous pouvez contacter l'administrateur de GitPusher™.AI via le chat de support intégré ou par le canal
               habituel mis à votre disposition.
             </p>
           </section>

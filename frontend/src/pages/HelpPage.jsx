@@ -6,16 +6,16 @@ export function HelpPage() {
       category: "Démarrage",
       questions: [
         {
-          q: "Comment commencer avec GitPusher.AI ?",
+          q: "Comment commencer avec GitPusher™.AI ?",
           a: "1. Connectez-vous avec votre compte Google, GitHub, GitLab ou Bitbucket. 2. Liez votre compte Git provider (GitHub recommandé). 3. Uploadez vos fichiers (ZIP, PDF, code). 4. GitPusher génère automatiquement README, .gitignore, LICENSE et pousse sur Git !"
         },
         {
           q: "Quels types de fichiers puis-je uploader ?",
-          a: "ZIP, PDF, dossiers de code, fichiers individuels. GitPusher.AI s'occupe de tout organiser et générer la structure de projet complète avec documentation."
+          a: "ZIP, PDF, dossiers de code, fichiers individuels. GitPusher™.AI s'occupe de tout organiser et générer la structure de projet complète avec documentation."
         },
         {
           q: "Ai-je besoin d'installer quelque chose ?",
-          a: "Non ! GitPusher.AI est 100% no-code et fonctionne directement dans votre navigateur. Aucune CLI, aucun Git local requis."
+          a: "Non ! GitPusher™.AI est 100% no-code et fonctionne directement dans votre navigateur. Aucune CLI, aucun Git local requis."
         }
       ]
     },
@@ -65,8 +65,8 @@ export function HelpPage() {
       category: "Sécurité & Confidentialité",
       questions: [
         {
-          q: "GitPusher.AI conserve-t-il mes projets et fichiers ?",
-          a: "NON. GitPusher.AI ne conserve PAS vos fichiers uploadés. Votre code et vos fichiers sont traités temporairement pour générer la structure du projet, puis immédiatement supprimés après le push Git réussi. Seules les métadonnées du projet (nom, provider, statut) sont conservées."
+          q: "GitPusher™.AI conserve-t-il mes projets et fichiers ?",
+          a: "NON. GitPusher™.AI ne conserve PAS vos fichiers uploadés. Votre code et vos fichiers sont traités temporairement pour générer la structure du projet, puis immédiatement supprimés après le push Git réussi. Seules les métadonnées du projet (nom, provider, statut) sont conservées."
         },
         {
           q: "Mes données sont-elles sécurisées ?",
@@ -74,7 +74,7 @@ export function HelpPage() {
         },
         {
           q: "Qui a accès à mes dépôts Git ?",
-          a: "VOUS UNIQUEMENT. GitPusher.AI utilise VOS tokens OAuth pour créer des dépôts sur VOTRE compte Git. Nous n'avons aucun accès permanent à vos dépôts. Vous pouvez révoquer l'accès à tout moment depuis les paramètres de votre provider Git."
+          a: "VOUS UNIQUEMENT. GitPusher™.AI utilise VOS tokens OAuth pour créer des dépôts sur VOTRE compte Git. Nous n'avons aucun accès permanent à vos dépôts. Vous pouvez révoquer l'accès à tout moment depuis les paramètres de votre provider Git."
         },
         {
           q: "Que se passe-t-il avec mes fichiers sensibles ?",
@@ -141,7 +141,7 @@ export function HelpPage() {
               Besoin d'aide ?
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
-              Centre d'aide <span className="bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">GitPusher.AI</span>
+              Centre d'aide <span className="bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">GitPusher™.AI</span>
             </h1>
             <p className="text-sm text-slate-400 max-w-2xl mx-auto">
               Questions fréquentes et support technique
