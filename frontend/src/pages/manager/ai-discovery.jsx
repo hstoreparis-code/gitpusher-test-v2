@@ -80,16 +80,6 @@ export default function AiDiscoveryManagerPage() {
     return points;
   }, [visibilityScore]);
 
-
-      }
-      setResult({ ok: res.ok, status: res.status, data });
-      return { res, data };
-    } catch (e) {
-      setResult({ ok: false, status: 0, data: { error: String(e) } });
-      throw e;
-    }
-  }
-
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50 p-6 sm:p-8 space-y-6">
       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
