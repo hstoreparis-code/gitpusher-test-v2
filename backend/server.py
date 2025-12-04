@@ -1879,7 +1879,7 @@ async def admin_autofix_list_incidents(request: Request, authorization: Optional
 
 
 @api_router.post("/admin/autofix/incidents/{incident_id}/approve")
-async def admin_autofix_approve_incident(incident_id: str, authorization: Optional[str] = Header(default=None)):
+async def admin_autofix_approve_incident(incident_id: str, request: Request, authorization: Optional[str] = Header(default=None)):
     """Mark an incident as approved and resolved.
 
     For now this simply updates status/executed_actions to keep behaviour
