@@ -44,7 +44,7 @@ export function AdminLoginPage() {
           return;
         }
 
-        // No 2FA yet: fallback to legacy admin-status check using JWT
+        // No 2FA yet: fallback to legacy admin-status check using JWT (legacy JWT mode)
         const token = res.data.access_token;
         const status = await axios.get(`${API}/auth/admin-status`, {
           headers: { Authorization: `Bearer ${token}` },
