@@ -80,6 +80,46 @@ export default function AiDiscoveryManagerPage() {
           }}
         >
           Tester AI Score
+        <button
+          onClick={async () => {
+            const res = await fetch("/ai/score");
+            const json = await res.json();
+            alert("IA Visibility Score: " + json.score + "/100");
+          }}
+          style={{
+            padding: "8px 16px",
+            background: "#00c853",
+            color: "white",
+            borderRadius: "6px",
+            cursor: "pointer",
+            marginBottom: "16px",
+            marginRight: "8px",
+          }}
+        >
+          Tester IA Visibility Score
+        </button>
+
+        <button
+          onClick={async () => {
+            const res = await fetch("/ai/agents/toolpack");
+            if (res.ok) {
+              alert("Toolpack agents accessible.");
+            } else {
+              alert("Erreur accès toolpack.");
+            }
+          }}
+          style={{
+            padding: "8px 16px",
+            background: "#2962ff",
+            color: "white",
+            borderRadius: "6px",
+            cursor: "pointer",
+            marginBottom: "16px",
+          }}
+        >
+          Tester IA Agents (Toolpack)
+        </button>
+
         </button>
 
         <button
