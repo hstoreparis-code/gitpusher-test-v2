@@ -255,7 +255,7 @@ export function AdminPagesContentPanel() {
           )}
         </div>
 
-        <div className="space-y-3 text-xs">
+        <div className="space-y-3 text-xs text-cyan-300">
           <div className="grid grid-cols-2 gap-2">
             <div>
               <label className="block mb-1 text-cyan-300">Slug</label>
