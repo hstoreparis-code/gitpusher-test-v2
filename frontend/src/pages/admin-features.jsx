@@ -115,7 +115,7 @@ export default function AdminFeaturesDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900/70 border-slate-700/70">
+        <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
               Push Pipeline
@@ -138,7 +138,7 @@ export default function AdminFeaturesDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900/70 border-slate-700/70">
+        <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
               Providers
@@ -164,7 +164,7 @@ export default function AdminFeaturesDashboard() {
 
       {/* Detailed sections */}
       <div className="grid gap-4 md:grid-cols-2">
-        <Card className="bg-slate-900/70 border-slate-700/70">
+        <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
               Pages / Features Monitoring
@@ -184,7 +184,7 @@ export default function AdminFeaturesDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900/70 border-slate-700/70">
+        <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
               AI &amp; SEO Indexation Integrity
