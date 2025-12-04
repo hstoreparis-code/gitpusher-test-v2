@@ -75,6 +75,7 @@ export function AdminPagesContentPanel() {
         return copy;
       });
       setSelected(saved.slug);
+      setForm((prev) => ({ ...prev, status: saved.status || "" }));
     } finally {
       setSaving(false);
     }
