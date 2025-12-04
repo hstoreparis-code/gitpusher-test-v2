@@ -86,8 +86,16 @@ export default function AiDiscoveryManagerPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50 p-6 sm:p-8 space-y-6">
       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+        <div className="flex items-center gap-3">
+          <Button
+            size="icon"
+            className="h-9 w-9 rounded-full bg-cyan-500 text-slate-950 hover:bg-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.9)] border border-cyan-300/80"
+            onClick={() => navigate("/admin")}
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
             AI Discovery &amp; Health
           </h1>
           <p className="text-sm text-slate-400 mt-1">
