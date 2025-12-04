@@ -537,10 +537,10 @@ export function AdminSupportPanel() {
                     <div>
                       <label className="text-sm text-slate-300 mb-2 block">Prompt système pour le chatbot IA</label>
                       <textarea
-                        placeholder="Vous êtes un assistant support pour GitPusher. Soyez professionnel, courtois et précis..."
+                        placeholder="Vous êtes un assistant support pour GitPusher™. Soyez professionnel, courtois et précis..."
                         className="w-full bg-slate-950/60 border border-slate-700 text-slate-100 text-sm p-3 rounded-md resize-none"
                         rows={6}
-                        defaultValue="Vous êtes un assistant support pour GitPusher, une plateforme d'automatisation Git No-Code. Votre rôle est d'aider les utilisateurs avec :\n- La création de dépôts Git automatisés\n- La gestion des crédits et abonnements\n- Les problèmes de connexion OAuth\n- Les questions sur les fonctionnalités\n\nSoyez professionnel, courtois et concis dans vos réponses."
+                        defaultValue="Vous êtes un assistant support pour GitPusher™, une plateforme d'automatisation Git No-Code. Votre rôle est d'aider les utilisateurs avec :\n- La création de dépôts Git automatisés\n- La gestion des crédits et abonnements\n- Les problèmes de connexion OAuth\n- Les questions sur les fonctionnalités\n\nSoyez professionnel, courtois et concis dans vos réponses."
                       />
                     </div>
                     <div className="p-4 bg-cyan-500/5 border border-cyan-500/20 rounded-lg">
