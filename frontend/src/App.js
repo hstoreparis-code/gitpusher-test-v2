@@ -341,7 +341,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
             </div>
             <div className="flex flex-col leading-tight text-left">
               <span className="text-[17px] md:text-[19px] font-semibold tracking-tight">
-                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher.AI</span>
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher™.AI</span>
               </span>
               <span className="text-[11px] md:text-[13px] text-slate-400">No-Code GitHub workflow</span>
             </div>
@@ -1327,7 +1327,7 @@ function Dashboard({ t, lang, setLang, dark, setDark, currentLang, languages, is
             </div>
             <div className="flex flex-col leading-tight truncate text-left">
               <span className="text-[17px] md:text-[19px] font-semibold tracking-tight truncate">
-                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher.AI</span>
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher™.AI</span>
               </span>
               <span className="text-[11px] md:text-[13px] text-slate-400 truncate">No-Code GitHub workflow</span>
             </div>
@@ -2341,7 +2341,7 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
             </div>
             <div className="flex flex-col leading-tight truncate text-left">
               <span className="text-[17px] md:text-[19px] font-semibold tracking-tight truncate">
-                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher.AI</span>
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher™.AI</span>
                 <span className="ml-1 text-xs align-middle px-2 py-0.5 rounded-full border border-cyan-400/60 text-cyan-200 bg-cyan-500/10">
                   Pro
                 </span>
@@ -2669,7 +2669,7 @@ function AccountPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
             </div>
             <div className="flex flex-col leading-tight text-left">
               <span className="text-[17px] md:text-[19px] font-semibold tracking-tight">
-                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher.AI</span>
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher™.AI</span>
               </span>
               <span className="text-[11px] md:text-[13px] text-slate-400">Mon compte</span>
             </div>
@@ -2997,7 +2997,7 @@ function PricingPage({ t, lang, setLang, dark, setDark, currentLang, languages, 
             </div>
             <div className="flex flex-col leading-tight">
               <span className="text-[17px] md:text-[19px] font-semibold tracking-tight">
-                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher.AI</span>
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher™.AI</span>
               </span>
               <span className="text-[11px] md:text-[13px] text-slate-400">Plans &amp; Tarifs</span>
             </div>
@@ -3571,7 +3571,7 @@ function WhitePaperPage({ t, lang, setLang, dark, setDark, currentLang, language
             </div>
             <div className="flex flex-col leading-tight text-left">
               <span className="text-[17px] md:text-[19px] font-semibold tracking-tight">
-                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher.AI</span>
+                Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher™.AI</span>
               </span>
               <span className="text-[11px] md:text-[13px] text-slate-400">Livre Blanc</span>
             </div>
