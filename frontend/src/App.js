@@ -19,6 +19,7 @@ import { HelpPage } from "./pages/HelpPage";
 import { AdminMonitorPage } from "./pages/AdminMonitorPage";
 import ForAgentsDevtoolsPage from "./pages/for-agents-devtools";
 import AiDiscoveryManagerPage from "./pages/manager/ai-discovery";
+import SeoMonitorManagerPage from "./pages/manager/seo-monitor";
 import SeoPushAutomaticallyPage from "./pages/seo/push-automatically";
 import SeoDeployAiCodePage from "./pages/seo/deploy-ai-code";
 import SeoPushWithoutGitPage from "./pages/seo/push-without-git";
