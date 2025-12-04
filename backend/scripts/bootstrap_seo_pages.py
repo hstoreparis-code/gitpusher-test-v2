@@ -6,7 +6,7 @@ from backend.server import db
 
 PAGES = [
     {
-        "slug": "seo/push-automatically",
+        "slug": "seo/push-automatically-en",
         "page_type": "seo",
         "title": "How to push code to GitHub automatically — GitPusher.ai",
         "description": "Learn how to push code to GitHub automatically without Git CLI using GitPusher.ai. Upload your project, let GitPusher handle the repo, README, .gitignore and first commit.",
