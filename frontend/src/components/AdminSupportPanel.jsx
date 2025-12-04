@@ -97,8 +97,7 @@ export function AdminSupportPanel() {
     try {
       await axios.patch(
         `${API}/support/admin-status`,
-        { online: !adminOnline },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { online: !adminOnline }
       );
       setAdminOnline(!adminOnline);
     } catch (err) {
