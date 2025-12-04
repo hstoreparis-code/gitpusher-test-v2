@@ -521,61 +521,76 @@ export function AdminDashboardPage() {
             <p className="text-sm text-slate-400 mt-1">Gérez l'intégralité de votre plateforme</p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="relative">
+            <div className="relative" id="admin-quick-menu">
               <button
                 className="w-9 h-9 flex flex-col items-center justify-center rounded-full border border-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20 shadow-[0_0_18px_rgba(56,189,248,0.8)] text-cyan-300 transition-all"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowAdminMenu((prev) => !prev);
+                }}
               >
                 <span className="w-5 h-0.5 bg-cyan-400 rounded-full mb-0.5" />
                 <span className="w-5 h-0.5 bg-cyan-400 rounded-full mb-0.5" />
                 <span className="w-5 h-0.5 bg-cyan-400 rounded-full" />
               </button>
               {/* Menu déroulant des actions admin (alertes, autofix, support, déconnexion) */}
-              <div className="absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-40">
-                <button
-                  className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800"
-                  onClick={() => setShowAlerts(!showAlerts)}
-                >
-                  <span className="flex items-center gap-2">
-                    <Bell className="w-3 h-3" />
-                    Nouvelles conversions
-                  </span>
-                  {unreadAlerts > 0 && (
-                    <span className="ml-2 px-2 py-0.5 rounded-full bg-amber-500 text-[10px] text-white font-semibold">
-                      {unreadAlerts}
+              {showAdminMenu && (
+                <div className="absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-40">
+                  <button
+                    className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800"
+                    onClick={() => {
+                      setShowAlerts(!showAlerts);
+                      setShowAdminMenu(false);
+                    }}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Bell className="w-3 h-3" />
+                      Nouvelles conversions
                     </span>
-                  )}
-                </button>
-                <button
-                  className="w-full flex items-center px-3 py-2 text-xs text-slate-200 hover:bg-slate-800 gap-2"
-                  onClick={() => navigate("/admin/autofix")}
-                >
-                  <Zap className="w-3 h-3 text-violet-300" />
-                  <span>Autofix</span>
-                </button>
-                <button
-                  className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800"
-                  onClick={() => navigate("/admin/support")}
-                >
-                  <span className="flex items-center gap-2">
-                    <MessageCircle className="w-3 h-3 text-emerald-300" />
-                    Support Chat
-                  </span>
-                  {supportUnreadCount > 0 && (
-                    <span className="ml-2 px-2 py-0.5 rounded-full bg-red-500 text-[10px] text-white font-semibold">
-                      {supportUnreadCount}
+                    {unreadAlerts > 0 && (
+                      <span className="ml-2 px-2 py-0.5 rounded-full bg-amber-500 text-[10px] text-white font-semibold">
+                        {unreadAlerts}
+                      </span>
+                    )}
+                  </button>
+                  <button
+                    className="w-full flex items-center px-3 py-2 text-xs text-slate-200 hover:bg-slate-800 gap-2"
+                    onClick={() => {
+                      setShowAdminMenu(false);
+                      navigate("/admin/autofix");
+                    }}
+                  >
+                    <Zap className="w-3 h-3 text-violet-300" />
+                    <span>Autofix</span>
+                  </button>
+                  <button
+                    className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800"
+                    onClick={() => {
+                      setShowAdminMenu(false);
+                      navigate("/admin/support");
+                    }}
+                  >
+                    <span className="flex items-center gap-2">
+                      <MessageCircle className="w-3 h-3 text-emerald-300" />
+                      Support Chat
                     </span>
-                  )}
-                </button>
-                <button
-                  className="w-full flex items-center px-3 py-2 text-xs text-red-300 hover:bg-red-500/10 border-t border-slate-800"
-                  onClick={() => {
-                    localStorage.removeItem("admin_token");
-                    navigate("/", { replace: true });
-                  }}
-                >
-                  Déconnexion
-                </button>
-              </div>
+                    {supportUnreadCount > 0 && (
+                      <span className="ml-2 px-2 py-0.5 rounded-full bg-red-500 text-[10px] text-white font-semibold">
+                        {supportUnreadCount}
+                      </span>
+                    )}
+                  </button>
+                  <button
+                    className="w-full flex items-center px-3 py-2 text-xs text-red-300 hover:bg-red-500/10 border-t border-slate-800"
+                    onClick={() => {
+                      localStorage.removeItem("admin_token");
+                      navigate("/", { replace: true });
+                    }}
+                  >
+                    Déconnexion
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
