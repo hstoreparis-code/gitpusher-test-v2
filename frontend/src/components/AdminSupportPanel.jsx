@@ -49,8 +49,6 @@ export function AdminSupportPanel() {
   const messagesEndRef = useRef(null);
 
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
-
   const loadAdminStatus = async () => {
     try {
       const res = await axios.get(`${API}/support/admin-online`);
