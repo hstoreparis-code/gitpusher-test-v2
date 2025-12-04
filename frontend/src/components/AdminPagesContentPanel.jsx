@@ -187,7 +187,13 @@ export function AdminPagesContentPanel() {
                 const results = {};
                 for (const p of pages) {
                   try {
-                    const res = await axios.get(`${window.location.origin}/${p.slug.replace(/^seo\//, "seo/")}`);
+                    let pathSlug = p.slug;
+                    // Mapper les variantes EN vers l’URL publique réelle
+                    if (pathSlug.startsWith("seo/") && pathSlug.endsWith("-en")) {
+                      pathSlug = pathSlug.replace(/-en$/, "");
+                    }
+                    const url = `${window.location.origin}/${pathSlug}`;
+                    const res = await axios.get(url);
                     results[p.slug] = res.status === 200 ? "active" : "error";
                   } catch (e) {
                     results[p.slug] = "error";
