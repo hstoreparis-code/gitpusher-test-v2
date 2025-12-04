@@ -584,42 +584,6 @@ class GitProviderBase:
 
 class GitHubProvider(GitProviderBase):
     async def create_repo(self, token: str, name: str, description: Optional[str]) -> GitRepoInfo:
-
-# Include modular routers
-app.include_router(v1_auth.router, prefix="/api")
-app.include_router(v1_billing.router, prefix="/api")
-app.include_router(v1_uploads.router, prefix="/api")
-app.include_router(v1_repos.router, prefix="/api")
-app.include_router(v1_jobs.router, prefix="/api")
-app.include_router(v1_autopush.router, prefix="/api")
-app.include_router(v1_partner.router, prefix="/api")
-app.include_router(v1_webhooks.router, prefix="/api")
-
-app.include_router(admin_credit_safety.router, prefix="/api")
-app.include_router(admin_pages.router, prefix="/api")
-app.include_router(admin_users.router, prefix="/api")
-app.include_router(features_health.router, prefix="/api")
-app.include_router(traffic_routes.router, prefix="/api")
-app.include_router(stripe_stats.router, prefix="/api")
-app.include_router(admin_performance.router, prefix="/api")
-app.include_router(admin_ai_indexing.router, prefix="/api")
-app.include_router(admin_push_analytics.router, prefix="/api")
-
-app.include_router(ai_catalog.router, prefix="/api")
-app.include_router(ai_health.router, prefix="/api")
-app.include_router(ai_autofix.router, prefix="/api")
-app.include_router(ai_indexers_extended.router, prefix="/api")
-app.include_router(ai_knowledge.router, prefix="/api")
-app.include_router(ping_ai.router, prefix="/api")
-
-app.include_router(seo_monitor.router, prefix="/api")
-app.include_router(tiktok_monitor.router, prefix="/api")
-app.include_router(backlinks.router, prefix="/api")
-app.include_router(email_routes.router, prefix="/api")
-app.include_router(smtp_config.router, prefix="/api")
-
-# Admin performance / AI indexing / analytics (mocked) for dashboards
-
         async with httpx.AsyncClient() as client_http:
             res = await client_http.post(
                 "https://api.github.com/user/repos",
