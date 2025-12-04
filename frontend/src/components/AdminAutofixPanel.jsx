@@ -14,7 +14,6 @@ export function AdminAutofixPanel() {
   const [selectedIncident, setSelectedIncident] = useState(null);
   const [loading, setLoading] = useState(true);
   const [autoMode, setAutoMode] = useState(false);
-  const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
   const generateMockIncidents = () => {
     const now = new Date();
     return [
