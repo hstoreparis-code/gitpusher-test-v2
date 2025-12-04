@@ -14,7 +14,7 @@ export function TermsPage() {
                 Git<span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent">Pusher</span>
                 <span className="bg-gradient-to-r from-cyan-400 to-cyan-600 bg-clip-text text-transparent text-xs">.AI</span>
               </span>
-              <span className="text-[10px] text-slate-400">Conditions générales d'utilisation</span>
+              <span className="text-[10px] text-slate-400">Terms &amp; Legal</span>
             </div>
           </div>
           <button
