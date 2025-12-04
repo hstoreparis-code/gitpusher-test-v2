@@ -357,9 +357,7 @@ export function AdminDashboardPage() {
 
         // Récupérer les données financières depuis Stripe
         try {
-          const stripeRes = await axios.get(`${API}/admin/stripe/stats`, { 
-            headers: { Authorization: `Bearer ${token}` } 
-          });
+          const stripeRes = await axios.get(`${API}/admin/stripe/stats`);
           
           const stripeData = stripeRes.data;
           
