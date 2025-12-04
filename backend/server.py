@@ -1380,10 +1380,11 @@ async def admin_update_user_plan_credits(
 async def admin_add_credits_to_user(
     user_id: str,
     payload: dict,
+    request: Request,
     authorization: Optional[str] = Header(default=None),
 ):
     """Admin endpoint to manually add credits to a specific user"""
-    admin = await require_admin(authorization)
+    admin = await require_admin(authorization, request)
     _ = admin
     
     credits_to_add = payload.get("credits", 0)
