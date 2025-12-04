@@ -158,7 +158,7 @@ function ForAIAssistants() {
           </CardHeader>
           <CardContent className="space-y-4 text-slate-300">
             <p>
-              <strong className="text-slate-100">GitPusher</strong> is a <em>no-code Git workflow service</em> that allows AI assistants to:
+              <strong className="text-slate-100">GitPusher2</strong> is a <em>no-code Git workflow service</em> that allows AI assistants to:
             </p>
             <ul className="space-y-2 list-disc list-inside text-sm">
               <li><strong>Create repositories</strong> on GitHub, GitLab, Bitbucket, Gitea, and Codeberg</li>
