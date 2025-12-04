@@ -264,7 +264,6 @@ export default function AiDiscoveryManagerPage() {
             <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
               IA actives (7 jours)
             </CardTitle>
-            <Rocket className="w-4 h-4 text-violet-400" />
           </CardHeader>
           <CardContent className="space-y-2 text-xs text-slate-300">
             <div className="flex items-center justify-between">
