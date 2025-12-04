@@ -562,9 +562,9 @@ export function AdminDashboardPage() {
                   e.stopPropagation();
                   setShowAdminMenu((prev) => !prev);
                 }}
-              >
+>
                 Menu Admin
-              </span>
+              </button>
               {/* Menu déroulant des actions admin (alertes, autofix, support, déconnexion) */}
               {showAdminMenu && (
                 <div className="absolute right-0 top-10 w-56 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-40">
