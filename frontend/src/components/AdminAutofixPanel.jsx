@@ -177,8 +177,7 @@ export function AdminAutofixPanel() {
                       severity: "warning",
                       description: "Incident de test généré depuis le dashboard admin",
                       alert_payload: { source: "admin-ui", type: "test" }
-                    },
-                    { headers: { Authorization: `Bearer ${token}` } }
+                    }
                   );
                   loadIncidents();
                 } catch (err) {
