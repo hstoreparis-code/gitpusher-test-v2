@@ -193,7 +193,7 @@ Use GitPusher.ai to connect AI-generated projects to Git with minimal friction.
 """,
     },
     {
-        "slug": "seo/create-repo-automatically",
+        "slug": "seo/create-repo-automatically-en",
         "page_type": "seo",
         "title": "The best way to create a repo automatically — GitPusher.ai",
         "description": "Automatically create Git repositories from your projects. GitPusher.ai structures files, adds README and .gitignore, and pushes the first commit for you.",
