@@ -303,7 +303,7 @@ export function AdminPagesContentPanel() {
           </div>
 
           <div>
-            <label className="block mb-1 text-slate-300">Description</label>
+            <label className="block mb-1 text-emerald-300">Description</label>
             <Textarea
               value={form.description}
               onChange={(e) => onChange("description", e.target.value)}
