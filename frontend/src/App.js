@@ -33,6 +33,7 @@ import AdminCreditsBillingDashboard from "./pages/admin-credits";
 import AdminPerformanceDashboard from "./pages/admin-performance";
 import AdminAIIndexingDashboard from "./pages/admin-ai-indexing";
 import AdminMegaDashboard from "./pages/admin-mega-dashboard";
+import AdminAIQA from "./pages/admin/AdminAIQA";
 import SeoPushAutomaticallyPage from "./pages/seo/push-automatically";
 import SeoDeployAiCodePage from "./pages/seo/deploy-ai-code";
 import SeoPushWithoutGitPage from "./pages/seo/push-without-git";
