@@ -1538,7 +1538,7 @@ export function AdminDashboardPage() {
                         </thead>
                         <tbody>
                           {filteredUsers.map((u) => (
-                            <AdminUserRow key={u.id} user={u} onUpdate={handleUpdateUser} />
+                            <AdminUserRow key={u.id} user={u} onUpdate={handleUpdateUser} onDelete={handleDeleteUser} />
                           ))}
                         </tbody>
                       </table>
