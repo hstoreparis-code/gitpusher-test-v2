@@ -34,7 +34,6 @@ export default function SeoMonitorManagerPage() {
 
   useEffect(() => {
     fetchSeo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const summary = seo?.summary || {};
