@@ -46,14 +46,12 @@ export function AdminCreditsPanel() {
   };
 
   const handleSaveSettings = async () => {
-    if (!token) return;
     setSaving(true);
     setMessage("");
     try {
       await axios.patch(
         `${API}/admin/credit-settings`,
         creditSettings,
-        { headers: { Authorization: `Bearer ${token}` } }
       );
       setMessage("✅ Paramètres sauvegardés avec succès !");
       setTimeout(() => setMessage(""), 3000);
