@@ -2416,31 +2416,29 @@ function TermsPage() {
             </p>
             <ul className="list-disc list-inside text-slate-300 space-y-1">
               <li>
-                <span className="font-semibold">Éditeur du site :</span> GitPusher™.AI, édité par [Nom ou raison sociale à
-                renseigner].
+                <span className="font-semibold">Éditeur du site :</span> GitPusher™.AI, édité par {legalInfo.editor}.
               </li>
               <li>
-                <span className="font-semibold">Forme juridique :</span> [Auto‑entrepreneur / SAS / SARL / …].
+                <span className="font-semibold">Forme juridique :</span> {legalInfo.legalForm}.
               </li>
               <li>
-                <span className="font-semibold">Adresse du siège social :</span> [Adresse complète à renseigner].
+                <span className="font-semibold">Adresse du siège social :</span> {legalInfo.address}.
               </li>
               <li>
-                <span className="font-semibold">Numéro d'immatriculation :</span> [SIREN / SIRET à renseigner].
+                <span className="font-semibold">Numéro d'immatriculation :</span> {legalInfo.siren}.
               </li>
               <li>
-                <span className="font-semibold">TVA intracommunautaire :</span> [Numéro de TVA le cas échéant].
+                <span className="font-semibold">TVA intracommunautaire :</span> {legalInfo.vat}.
               </li>
               <li>
-                <span className="font-semibold">Directeur de la publication :</span> [Nom du responsable légal].
+                <span className="font-semibold">Directeur de la publication :</span> {legalInfo.director}.
               </li>
               <li>
-                <span className="font-semibold">Contact :</span> [Adresse e‑mail de contact officielle] ou via le chat de
+                <span className="font-semibold">Contact :</span> {legalInfo.contact} ou via le chat de
                 support intégré à l'application.
               </li>
               <li>
-                <span className="font-semibold">Hébergeur :</span> [Nom de l'hébergeur], [Adresse de l'hébergeur],
-                [Téléphone ou site web].
+                <span className="font-semibold">Hébergeur :</span> {legalInfo.host}.
               </li>
             </ul>
           </section>
