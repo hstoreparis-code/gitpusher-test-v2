@@ -644,6 +644,16 @@ export function AdminDashboardPage() {
                     <span>Mega Dashboard</span>
                   </button>
                   <button
+                    className="w-full flex items-center px-3 py-2 text-xs text-slate-200 hover:bg-slate-800 gap-2"
+                    onClick={() => {
+                      setShowAdminMenu(false);
+                      navigate("/admin/ai-qa");
+                    }}
+                  >
+                    <Zap className="w-3 h-3 text-emerald-200" />
+                    <span>AI QA Analyzer</span>
+                  </button>
+                  <button
                     className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800"
                     onClick={() => {
                       setShowAdminMenu(false);
