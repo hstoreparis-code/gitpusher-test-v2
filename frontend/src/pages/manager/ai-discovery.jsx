@@ -27,6 +27,15 @@ export default function AiDiscoveryManagerPage() {
         data = text ? JSON.parse(text) : null;
       } catch {
         data = { raw: text };
+      }
+      setResult({ ok: res.ok, status: res.status, data });
+      return { res, data };
+    } catch (e) {
+      setResult({ ok: false, status: 0, data: { error: String(e) } });
+      throw e;
+    }
+  }
+
   useEffect(() => {
     async function bootstrap() {
       try {
