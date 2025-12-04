@@ -80,6 +80,8 @@ export default function AiDiscoveryManagerPage() {
           }}
         >
           Tester AI Score
+        </button>
+
         <button
           onClick={async () => {
             const res = await fetch("/ai/score");
@@ -118,8 +120,6 @@ export default function AiDiscoveryManagerPage() {
           }}
         >
           Tester IA Agents (Toolpack)
-        </button>
-
         </button>
 
         <button
