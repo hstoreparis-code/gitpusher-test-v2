@@ -1,0 +1,24 @@
+{
+  "ai_directories": [
+    "https://www.futuretools.io",
+    "https://theresanaiforthat.com",
+    "https://toolify.ai",
+    "https://aitoolhunt.com",
+    "https://topai.tools",
+    "https://toolpilot.ai",
+    "https://insidr.ai"
+  ],
+  "dev_directories": [
+    "https://dev.to",
+    "https://hashnode.com",
+    "https://medium.com",
+    "https://github.com/gists",
+    "https://stackshare.io"
+  ],
+  "doc_directories": [
+    "https://awesomeopensource.com",
+    "https://awesome-devtools",
+    "https://freecodecamp.org",
+    "https://hackernoon.com"
+  ]
+}
