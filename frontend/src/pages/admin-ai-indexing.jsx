@@ -7,6 +7,40 @@ export const metadata = {
   robots: "noindex, nofollow",
 };
 
+function Box({ title, children }) {
+  return (
+    <div
+      style={{
+        padding: "18px",
+        marginBottom: "18px",
+        borderRadius: "10px",
+        background: "#0d1117",
+        border: "1px solid #222",
+        color: "white",
+      }}
+    >
+      <h2>{title}</h2>
+      {children}
+    </div>
+  );
+}
+
+function Tag({ ok }) {
+  return (
+    <span
+      style={{
+        padding: "3px 8px",
+        background: ok ? "#0f0a" : "#f002",
+        borderRadius: "8px",
+        color: ok ? "lime" : "red",
+        marginLeft: "8px",
+      }}
+    >
+      {ok ? "Indexed" : "Not detected"}
+    </span>
+  );
+}
+
 export default function AdminAIIndexingDashboard() {
   const [indexing, setIndexing] = useState(null);
 
@@ -19,32 +53,6 @@ export default function AdminAIIndexingDashboard() {
       .then(setIndexing)
       .catch(() => setIndexing({ error: true }));
   }, []);
-
-  const Box = ({ title, children }) => (
-    <div style={{
-      padding: "18px",
-      marginBottom: "18px",
-      borderRadius: "10px",
-      background: "#0d1117",
-      border: "1px solid #222",
-      color: "white"
-    }}>
-      <h2>{title}</h2>
-      {children}
-    </div>
-  );
-
-  const Tag = ({ ok }) => (
-    <span style={{
-      padding: "3px 8px",
-      background: ok ? "#0f0a" : "#f002",
-      borderRadius: "8px",
-      color: ok ? "lime" : "red",
-      marginLeft: "8px"
-    }}>
-      {ok ? "Indexed" : "Not detected"}
-    </span>
-  );
 
   return (
     <main style={{ padding: '24px', maxWidth: '1100px', margin: '0 auto' }}>
