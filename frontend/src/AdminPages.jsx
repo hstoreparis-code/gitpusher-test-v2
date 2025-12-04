@@ -565,7 +565,7 @@ export function AdminDashboardPage() {
               </span>
               {/* Menu déroulant des actions admin (alertes, autofix, support, déconnexion) */}
               {showAdminMenu && (
-                <div className="absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-40">
+                <div className="absolute right-0 top-10 w-56 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-40">
                   <button
                     className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800"
                     onClick={() => {
