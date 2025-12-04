@@ -170,7 +170,7 @@ export function AdminPagesContentPanel() {
             size="sm"
             className="rounded-full text-xs bg-cyan-500 hover:bg-cyan-400 text-slate-950 border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]"
             onClick={async () => {
-              if (!token || checking) return;
+              if (checking) return;
               setChecking(true);
               try {
                 const results = {};
