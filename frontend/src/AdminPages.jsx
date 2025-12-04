@@ -236,8 +236,6 @@ export function AdminDashboardPage() {
   const [supportUnreadCount, setSupportUnreadCount] = useState(0);
   const [showAdminMenu, setShowAdminMenu] = useState(false);
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
-
   // Préparer les données pour les graphiques
   const prepareChartData = (users) => {
     // 1. Nouveaux utilisateurs par jour (derniers 30 jours)
