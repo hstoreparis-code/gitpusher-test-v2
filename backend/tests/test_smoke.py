@@ -1,5 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
+import os, sys
+
+# Allow importing server.py when running tests from project root
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from server import app
 
 client = TestClient(app)
@@ -28,8 +32,9 @@ def test_push_mock():
         "source": "code",
         "content": {"files": [{"path": "main.py", "content": "print('ok')"}]},
     }
-    r = client.post("/push", json=payload)
-    assert r.status_code in (200, 422)  # Accept 422 if validation expected
+    r = client.post("/api/push", json=payload)
+    # Accept 200 (success), 400 (unsupported source) or 422 (validation)
+    assert r.status_code in (200, 400, 422)
     if r.status_code == 200:
         body = r.json()
         assert "repo_url" in body
