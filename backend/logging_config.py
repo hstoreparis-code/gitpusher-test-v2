@@ -2,6 +2,7 @@ import logging
 import os
 
 from security_config import mask_token
+from utils.mailer import send_security_webhook
 
 LOG_LEVEL = os.getenv("GITPUSHER_LOG_LEVEL", "INFO").upper()
 LOG_FILE_APP = os.getenv("GITPUSHER_LOG_FILE_APP", "logs/gitpusher.log")
@@ -34,3 +35,5 @@ def log_error(msg: str, **kwargs):
 def log_security(msg: str, **kwargs):
     safe_kwargs = {k: (mask_token(v) if "token" in k.lower() else v) for k, v in kwargs.items()}
     logger_sec.warning("%s | %s", msg, safe_kwargs)
+    # basic webhook alert
+    send_security_webhook({"message": msg, "meta": safe_kwargs})
