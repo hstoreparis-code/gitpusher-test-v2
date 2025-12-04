@@ -32,3 +32,15 @@ async def update_user_role(user_id: str, payload: RoleUpdate, authorization: Opt
         raise HTTPException(status_code=404, detail="User not found")
     
     return {"ok": True, "role": payload.role}
+
+
+@router.delete("/{user_id}")
+async def delete_user(user_id: str, authorization: Optional[str] = Header(None)):
+    admin = await require_admin_auth(authorization)
+    from server import db
+
+    result = await db.users.delete_one({"_id": user_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return {"ok": True}
