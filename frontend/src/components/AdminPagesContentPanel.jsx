@@ -188,13 +188,27 @@ export function AdminPagesContentPanel() {
             </div>
           </div>
 
-          <div>
-            <label className="block mb-1 text-slate-300">Titre</label>
-            <Input
-              value={form.title}
-              onChange={(e) => onChange("title", e.target.value)}
-              className="h-8 text-xs bg-slate-950/60 border-slate-700"
-            />
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block mb-1 text-slate-300">Titre</label>
+              <Input
+                value={form.title}
+                onChange={(e) => onChange("title", e.target.value)}
+                className="h-8 text-xs bg-slate-950/60 border-slate-700"
+              />
+            </div>
+            <div>
+              <label className="block mb-1 text-slate-300">Statut</label>
+              <select
+                value={form.status}
+                onChange={(e) => onChange("status", e.target.value)}
+                className="h-8 w-full rounded-md bg-slate-950/60 border border-slate-700 text-xs px-2"
+              >
+                <option value="">(auto)</option>
+                <option value="active">Actif</option>
+                <option value="inactive">Inactif</option>
+              </select>
+            </div>
           </div>
 
           <div>
