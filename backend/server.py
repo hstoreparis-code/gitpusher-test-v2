@@ -2333,11 +2333,23 @@ async def login_admin(payload: AdminLoginRequest, response: Response):
         return {"requires_2fa": True, "temp_token": temp_token}
 
     # No 2FA yet: direct session-based login for admins without 2FA enabled.
-    # This keeps the flow consistent: password is always checked here and,
-    # if 2FA is disabled, we immediately trust the admin and let the
-    # frontend rely on the session cookie created by /auth/login-2fa in
-    # future iterations. For now, we keep a minimal JSON response.
-    log_security("Admin login without 2FA", user_id=user_id)
+    # We create a session cookie exactly like /auth/login-2fa would do,
+    # but without requiring a TOTP code.
+    from services.session_store import create_session  # local import to avoid cycles
+
+    session = await create_session(user_id=user_id, ttl_minutes=60 * 24 * 7)
+    secure_flag = is_secure_env()
+
+    response.set_cookie(
+        key="gitpusher_session",
+        value=session.id,
+        httponly=True,
+        secure=secure_flag,
+        samesite="Lax",
+        max_age=60 * 60 * 24 * 7,
+    )
+
+    log_security("Admin login without 2FA", user_id=user_id, session_id=session.id)
     return {"requires_2fa": False}
 
     new_hash = hash_password(payload.new_password)
