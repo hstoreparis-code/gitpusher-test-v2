@@ -1711,9 +1711,9 @@ async def get_unread_support_messages(request: Request, authorization: Optional[
 
 
 @api_router.post("/support/mark-read/{user_id}")
-async def mark_messages_read(user_id: str, authorization: Optional[str] = Header(default=None)):
+async def mark_messages_read(user_id: str, request: Request, authorization: Optional[str] = Header(default=None)):
     """Admin: Mark all messages from a user as read"""
-    admin = await require_admin(authorization)
+    admin = await require_admin(authorization, request)
     _ = admin
     
     await db.support_messages.update_many(
