@@ -78,15 +78,10 @@ export function AdminSettingsPanel() {
   const [autofixSettings, setAutofixSettings] = useState({ auto_mode: false, webhook_secret: "" });
 
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
-    if (!token) return;
-
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
     const API = `${BACKEND_URL}/api`;
 
-    fetch(`${API}/admin/autofix/settings`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    fetch(`${API}/admin/autofix/settings`)
       .then((res) => res.ok ? res.json() : null)
       .then((data) => {
         if (data) {
@@ -330,8 +325,6 @@ export function AdminSettingsPanel() {
               <Button
                 className="w-full bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-white shadow-[0_0_18px_rgba(56,189,248,0.5)]"
                 onClick={async () => {
-                  const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null;
-                  if (!token) return;
                   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
                   const API = `${BACKEND_URL}/api`;
                   try {
@@ -339,7 +332,6 @@ export function AdminSettingsPanel() {
                       method: "PATCH",
                       headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
                       },
                       body: JSON.stringify({
                         auto_mode: autofixSettings.auto_mode,
