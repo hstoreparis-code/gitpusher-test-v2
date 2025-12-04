@@ -61,12 +61,8 @@ export function AdminSupportPanel() {
   const loadConversations = async () => {
     try {
       const [convRes, unreadRes] = await Promise.all([
-        axios.get(`${API}/support/conversations`, {
-          headers: { Authorization: `Bearer ${token}` }
-        }),
-        axios.get(`${API}/support/unread-count`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        axios.get(`${API}/support/conversations`),
+        axios.get(`${API}/support/unread-count`)
       ]);
       setConversations(convRes.data);
       setUnreadCount(unreadRes.data.unread_count || 0);
