@@ -1,6 +1,10 @@
 from fastapi import APIRouter
 import time
-import psutil
+try:
+    import psutil
+except ImportError:  # Lightweight fallback if psutil is not installed
+    psutil = None
+
 
 router = APIRouter()
 
