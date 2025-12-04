@@ -256,18 +256,6 @@ class SecurityMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(SecurityMiddleware)
 
-            "script-src 'self'; "
-            "style-src 'self' 'unsafe-inline'; "
-            "img-src 'self' data:; "
-            "connect-src 'self' https://api.github.com; "
-            "frame-ancestors 'none'; "
-            "base-uri 'self';"
-        )
-        return response
-
-
-app.add_middleware(SecurityHeadersMiddleware)
-
 
 class PushRequest(BaseModel):
     source: str  # "url" or "base64"
