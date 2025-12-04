@@ -13,7 +13,12 @@ async def compute_ai_health(db) -> Dict[str, Any]:
     """
     now = datetime.now(timezone.utc)
 
-    visibility = compute_ai_visibility_score()
+    raw_visibility = compute_ai_visibility_score()
+    if isinstance(raw_visibility, dict):
+        visibility = raw_visibility
+    else:
+        # Backwards-compatible: visibility_score.py now returns a plain int
+        visibility = {"score": int(raw_visibility)}
 
     checks = []
 
