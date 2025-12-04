@@ -796,8 +796,6 @@ app.include_router(smtp_config.router, prefix="/api")
 
 # Admin performance / AI indexing / analytics (mocked) for dashboards
 
-        raise HTTPException(status_code=501, detail="Azure DevOps provider not implemented yet")
-
 
 def get_git_provider(provider_key: str) -> GitProviderBase:
     key = (provider_key or "github").lower()
