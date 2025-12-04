@@ -171,6 +171,16 @@ export default function AdminLegalPage() {
                 />
               </div>
             ))}
+            <div className="pt-2 flex justify-end">
+              <Button
+                size="sm"
+                className="h-7 px-3 text-[11px] bg-cyan-600 hover:bg-cyan-500"
+                disabled={saving}
+                onClick={() => handleSaveSection("cgu")}
+              >
+                Enregistrer cette section
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
