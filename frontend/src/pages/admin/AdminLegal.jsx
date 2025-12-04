@@ -201,6 +201,16 @@ export default function AdminLegalPage() {
               value={contact}
               onChange={(e) => setContact(e.target.value)}
             />
+            <div className="pt-2 flex justify-end">
+              <Button
+                size="sm"
+                className="h-7 px-3 text-[11px] bg-cyan-600 hover:bg-cyan-500"
+                disabled={saving}
+                onClick={() => handleSaveSection("contact")}
+              >
+                Enregistrer cette section
+              </Button>
+            </div>
 
             <div className="mt-4 border-t border-slate-800 pt-3">
               <p className="text-[11px] text-slate-500 mb-1">Aperçu brut (pour copier/coller vers la page publique).</p>
