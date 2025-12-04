@@ -281,10 +281,14 @@ async def api_openapi():
 from routes.admin_health import router as admin_health_router
 from routes.admin_performance import router as admin_performance_router
 from routes.admin_ai_indexing import router as admin_ai_indexing_router
+from routes.admin_security import router as admin_security_router
+from routes.admin_security_status import router as admin_security_status_router
 
 app.include_router(admin_health_router)
 app.include_router(admin_performance_router)
 app.include_router(admin_ai_indexing_router)
+app.include_router(admin_security_router)
+app.include_router(admin_security_status_router)
 
 @app.get("/openapi.yaml")
 async def public_openapi():
