@@ -758,6 +758,8 @@ class AzureDevOpsProvider(GitProviderBase):
         raise HTTPException(status_code=501, detail="Azure DevOps provider not implemented yet")
 
     async def put_file(self, token: str, repo: GitRepoInfo, path: str, content_bytes: bytes, message: str):
+        raise HTTPException(status_code=501, detail="Azure DevOps provider not implemented yet")
+
 
 # Include modular routers
 app.include_router(v1_auth.router, prefix="/api")
