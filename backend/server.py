@@ -2159,12 +2159,16 @@ async def autofix_webhook_alert(request: Request):
 
 
 @api_router.get("/auth/admin-status", response_model=AdminStatus)
-async def admin_status(authorization: Optional[str] = Header(default=None)):
+async def admin_status(request: Request, authorization: Optional[str] = Header(default=None)):
     """Return whether the current user is admin.
 
     Used by frontend to gate access to admin dashboard.
+    Supports both session cookies and Bearer tokens during the
+    transition phase.
     """
-    user = await get_user_from_token(authorization)
+    user = await get_current_user_from_any(request, authorization)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
     return AdminStatus(is_admin=bool(user.get("is_admin")))
 
 # ---------- AUTH ROUTES ----------
