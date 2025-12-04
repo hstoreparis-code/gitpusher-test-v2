@@ -294,6 +294,7 @@ app.include_router(admin_security_router)
 app.include_router(admin_security_status_router)
 app.include_router(ai_qa_router)
 app.include_router(legal_terms_router)
+app.include_router(auth_2fa_router)
 
 @app.get("/openapi.yaml")
 async def public_openapi():
