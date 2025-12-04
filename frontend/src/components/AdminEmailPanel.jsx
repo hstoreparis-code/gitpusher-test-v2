@@ -46,9 +46,7 @@ export function AdminEmailPanel() {
 
   const loadTemplates = async () => {
     try {
-      const res = await axios.get(`${API}/admin/email/templates`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axios.get(`${API}/admin/email/templates`);
       setTemplates(res.data.templates || []);
     } catch (err) {
       console.error(err);
