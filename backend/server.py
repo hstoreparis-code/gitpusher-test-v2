@@ -835,6 +835,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from starlette.middleware.base import BaseHTTPMiddleware
+from autofix.ai_autofix import run_autofix
+
+
+class SEOAEOAutoFixMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+
+        # If SEO or AEO route returns 404 → regenerate
+        path = request.url.path
+        if (path.startswith("/seo/") or path.startswith("/aeo/")) and response.status_code == 404:
+            run_autofix()
+
+        return response
+
+
+app.add_middleware(SEOAEOAutoFixMiddleware)
+
 # Traffic monitoring middleware
 @app.middleware("http")
 async def traffic_logging_middleware(request: Request, call_next):
