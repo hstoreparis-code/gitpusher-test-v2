@@ -1916,7 +1916,7 @@ export function AdminDashboardPage() {
   );
 }
 
-function AdminUserRow({ user, onUpdate }) {
+function AdminUserRow({ user, onUpdate, onDelete }) {
   const [plan, setPlan] = useState(user.plan || "");
   const [credits, setCredits] = useState(user.credits ?? "");
   const [isEditing, setIsEditing] = useState(false);
