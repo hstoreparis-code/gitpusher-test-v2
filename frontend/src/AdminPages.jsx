@@ -555,8 +555,9 @@ export function AdminDashboardPage() {
                 <span className="w-5 h-0.5 bg-cyan-400 rounded-full mb-0.5" />
                 <span className="w-5 h-0.5 bg-cyan-400 rounded-full" />
               </button>
-              <span
-                className="hidden sm:inline-block text-xs font-medium text-cyan-300 cursor-pointer"
+              <button
+                type="button"
+                className="hidden sm:inline-block text-xs font-medium text-cyan-300 cursor-pointer bg-transparent border-none"
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowAdminMenu((prev) => !prev);
