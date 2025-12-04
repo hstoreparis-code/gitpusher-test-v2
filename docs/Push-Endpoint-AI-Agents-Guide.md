@@ -9,7 +9,7 @@
 ## Test 1 : Push avec source base64
 
 ```bash
-export BACKEND_URL="https://gitpusher-3.preview.emergentagent.com"
+export BACKEND_URL="https://megadash-secure.preview.emergentagent.com"
 
 # Login et récupération du token
 USER_TOKEN=$(curl -s -X POST "$BACKEND_URL/api/auth/login" \
@@ -44,7 +44,7 @@ rm hello.py test.zip
 ## Test 2 : Push avec source URL
 
 ```bash
-export BACKEND_URL="https://gitpusher-3.preview.emergentagent.com"
+export BACKEND_URL="https://megadash-secure.preview.emergentagent.com"
 export USER_TOKEN="your-jwt-token-here"
 
 curl -X POST "$BACKEND_URL/push" \
@@ -63,7 +63,7 @@ curl -X POST "$BACKEND_URL/push" \
 ## Test 3 : Vérifier OpenAPI
 
 ```bash
-curl -s https://gitpusher-3.preview.emergentagent.com/api/openapi.yaml | head -50
+curl -s https://megadash-secure.preview.emergentagent.com/api/openapi.yaml | head -50
 ```
 
 ## Réponse attendue (succès)

@@ -7,7 +7,7 @@ info:
     Supports URL and base64 sources, automatic README/LICENSE generation,
     and multi-provider support (GitHub, GitLab, Bitbucket, etc.).
 servers:
-  - url: https://gitpusher-3.preview.emergentagent.com
+  - url: https://megadash-secure.preview.emergentagent.com
     description: Production API
 x-ai-metadata:
   x-ai-category: "ai-to-git"
