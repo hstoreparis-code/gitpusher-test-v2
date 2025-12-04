@@ -62,8 +62,7 @@ export function AdminSecurityPanel() {
   const updateUserRole = async (userId, newRole) => {
     try {
       await axios.patch(`${API}/admin/users/${userId}/role`, 
-        { role: newRole },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { role: newRole }
       );
       setMessage("✅ Rôle mis à jour");
       loadUsers();
