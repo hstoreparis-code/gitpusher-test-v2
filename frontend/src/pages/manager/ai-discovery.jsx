@@ -262,7 +262,7 @@ export default function AiDiscoveryManagerPage() {
         <Card className="bg-slate-900/70 border-slate-700/70">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-medium text-slate-400 uppercase tracking-wide">
-              V3/V4 Discovery Files
+              IA actives (7 jours)
             </CardTitle>
             <Rocket className="w-4 h-4 text-violet-400" />
           </CardHeader>
