@@ -30,7 +30,7 @@ export default function AdminFeaturesDashboard() {
         const [statusRes, providersRes, healthRes] = await Promise.all([
           fetch("/api/status"),
           fetch("/providers"),
-          fetch(`${API_BASE}/api/v1/push/health"),
+          fetch(`${API_BASE}/api/v1/push/health`),
         ]);
 
         const [statusJson, providersJson, healthJson] = await Promise.all([
