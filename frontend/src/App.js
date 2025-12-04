@@ -2375,6 +2375,26 @@ function ProDashboard({ t, lang, setLang, dark, setDark, currentLang, languages,
 }
 
 function TermsPage() {
+  const [legalInfo, setLegalInfo] = useState({
+    editor: "[Nom ou raison sociale à renseigner]",
+    legalForm: "[Auto‑entrepreneur / SAS / SARL / …]",
+    address: "[Adresse complète à renseigner]",
+    siren: "[SIREN / SIRET à renseigner]",
+    vat: "[Numéro de TVA le cas échéant]",
+    director: "[Nom du responsable légal]",
+    contact: "[Adresse e‑mail de contact officielle]",
+    host: "[Nom de l'hébergeur, adresse, téléphone ou site web]",
+  });
+
+  useEffect(() => {
+    fetch("/api/legal/terms")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.legalInfo) setLegalInfo(data.legalInfo);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex flex-col">
       <header className="w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-sm sticky top-0 z-20">
