@@ -231,7 +231,16 @@ export function AdminPagesContentPanel() {
             />
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end items-center gap-2">
+            {form.status && (
+              <span className={`text-[10px] px-2 py-1 rounded-full border ${
+                form.status === "active"
+                  ? "border-emerald-400 text-emerald-300"
+                  : "border-slate-500 text-slate-300"
+              }`}>
+                {form.status === "active" ? "Actif" : "Inactif"}
+              </span>
+            )}
             <Button
               size="sm"
               className="rounded-full px-4 text-xs"
