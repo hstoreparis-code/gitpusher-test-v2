@@ -704,7 +704,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
               onClick={() => navigate("/terms")}
               className="hover:text-cyan-300 transition-colors text-[11px]"
             >
-              {"CGU"}
+              {"Terms & Legal"}
             </button>
             <button
               onClick={() => navigate("/for-ai-assistants")}
