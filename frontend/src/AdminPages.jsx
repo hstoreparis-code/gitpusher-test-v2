@@ -661,7 +661,7 @@ export function AdminDashboardPage() {
             {/* Plan Distribution */}
             <Card className="bg-slate-900/80 border-white/10 shadow-[0_0_20px_rgba(56,189,248,0.15)]">
               <CardHeader>
-                <CardTitle className="text-base text-cyan-300">Distribution des Plans IA</CardTitle>
+                <CardTitle className="text-base text-slate-100">Distribution des Plans IA</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
