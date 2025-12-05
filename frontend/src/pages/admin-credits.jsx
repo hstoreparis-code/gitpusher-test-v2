@@ -70,7 +70,8 @@ export default function AdminCreditsBillingDashboard() {
           subscribers: statsJson.total_transactions ?? 0,
           mrr: statsJson.monthly_revenue ?? 0,
           arr: (statsJson.monthly_revenue ?? 0) * 12,
-          revenue_30d: statsJson.monthly_revenue ?? 0,
+          revenue_30d: statsJson.total_revenue ?? 0,
+          transactions_by_day: statsJson.transactions_by_day || [],
         });
 
         setUsage({ users: usageUsers });
