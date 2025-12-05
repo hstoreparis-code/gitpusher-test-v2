@@ -91,11 +91,9 @@ async def setup_2fa(request: Request, authorization: Optional[str] = None):
 
 
 @router.post("/api/auth/2fa/verify")
-async def verify_2fa(code: str, authorization: Optional[str] = None):
+async def verify_2fa(request: Request, code: str, authorization: Optional[str] = None):
     """Verify a 2FA code for the current user and enable 2FA on their account."""
-    from server import get_user_from_token  # type: ignore
-
-    user = await get_user_from_token(authorization)
+    user = await _get_current_user(request, authorization)
     user_id = user["_id"]
 
     secret = user.get("two_fa_secret")
