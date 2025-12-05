@@ -405,12 +405,14 @@ export function AdminDashboardPage() {
         
         setLoading(false);
       } catch (err) {
-        if (err?.response?.status === 401) {
-          localStorage.removeItem("admin_token");
+        console.error("Failed to fetch admin data", err);
+        if (err?.response?.status === 401 || err?.response?.status === 403) {
           navigate("/admin-login", { replace: true });
-          return;
+        } else {
+          const detail = err?.response?.data?.detail;
+          const msg = typeof detail === "string" ? detail : detail?.msg || "Impossible de charger les données admin.";
+          setError(msg);
         }
-        setError(err?.response?.data?.detail || "Erreur lors du chargement des données admin.");
         setLoading(false);
       }
     };
