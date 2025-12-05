@@ -102,8 +102,9 @@ export default function AdminFeaturesDashboard() {
       <div className="grid gap-4 md:grid-cols-3">
         <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-medium text-cyan-300 uppercase tracking-wide">
-              API Status
+            <CardTitle className="flex items-center gap-1 text-xs font-medium text-cyan-300 uppercase tracking-wide">
+              <span>API Status</span>
+              <InfoBadge text={"Vue consolidée de /status : version, uptime et erreur globale. Si ce bloc passe en ERROR, commence par vérifier vos déploiements récents et les logs d'application."} />
             </CardTitle>
             <ServerCog className="w-4 h-4 text-emerald-400" />
           </CardHeader>
@@ -118,8 +119,9 @@ export default function AdminFeaturesDashboard() {
 
         <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-medium text-cyan-300 uppercase tracking-wide">
-              Push Pipeline
+            <CardTitle className="flex items-center gap-1 text-xs font-medium text-cyan-300 uppercase tracking-wide">
+              <span>Push Pipeline</span>
+              <InfoBadge text={"Santé du pipeline /push : queue jobs, zip, repo et push final. Si un des indicateurs est en ERROR, vérifie les jobs échoués et la configuration Git du repo concerné."} />
             </CardTitle>
             <GitBranch className="w-4 h-4 text-cyan-400" />
           </CardHeader>
