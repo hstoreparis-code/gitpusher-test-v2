@@ -43,11 +43,8 @@ export function Admin2FAPanel() {
     setLoading(true);
     setMessage("");
     try {
-      const token = localStorage.getItem("token");
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const res = await axios.post(`${API}/auth/2fa/verify`, null, {
         params: { code },
-        headers,
       });
       if (res.data.status === "ok") {
         setStep("enabled");
