@@ -47,6 +47,7 @@ import AeoAiToGitAutomationPage from "./pages/aeo/ai-to-git-automation";
 import AeoCreateRepoAutomaticallyPage from "./pages/aeo/create-repo-automatically";
 import SecurityCompliancePage from "./pages/SecurityCompliance";
 import SecurityComplianceFR from "./pages/security/SecurityComplianceFR";
+import DemoRequestForm from "./components/DemoRequestForm";
 
 
 
