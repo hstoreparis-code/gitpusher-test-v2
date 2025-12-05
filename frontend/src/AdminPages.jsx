@@ -12,6 +12,8 @@ import { AdminCreditsPanel } from "./components/AdminCreditsPanel";
 import { AdminPasswordChange } from "./components/AdminPasswordChange";
 import { AdminEmailPanel } from "./components/AdminEmailPanel";
 import { AdminSecurityPanel } from "./components/AdminSecurityPanel";
+import { Admin2FAPanel } from "./components/Admin2FAPanel";
+
 import { AdminFeaturesPanel } from "./components/AdminFeaturesPanel";
 import { AdminPagesContentPanel } from "./components/AdminPagesContentPanel";
 
