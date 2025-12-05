@@ -76,8 +76,8 @@ export default function SecurityCompliancePage() {
         <li><code>X-XSS-Protection</code></li>
       </ul>
 
-      <h2>5. Upload Safety</h2>
-      <ul>
+      <h2 className="mt-8 mb-3 text-lg font-semibold text-slate-100">5. Upload Safety</h2>
+      <ul className="space-y-1 text-sm text-slate-300 list-disc list-inside">
         <li>Strict file extension allow-list</li>
         <li>Max upload size enforcement</li>
         <li>ZIP traversal protection</li>
