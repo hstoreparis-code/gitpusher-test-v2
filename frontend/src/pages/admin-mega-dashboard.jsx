@@ -186,8 +186,9 @@ export default function AdminMegaDashboard() {
       <div className="grid gap-4 md:grid-cols-3">
         <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-medium text-cyan-300 uppercase tracking-wide">
-              Système & API
+            <CardTitle className="flex items-center gap-1 text-xs font-medium text-cyan-300 uppercase tracking-wide">
+              <span>Système & API</span>
+              <InfoBadge text={"Vue synthétique de la santé de l'API GitPusher : uptime approximatif, charge CPU/mémoire et état des checks techniques. Si ce bloc affiche des erreurs, commence le diagnostic ici (latence, queue jobs, erreurs 5xx)."} />
             </CardTitle>
             <Server className="w-4 h-4 text-emerald-400" />
           </CardHeader>
