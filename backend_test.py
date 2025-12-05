@@ -1093,6 +1093,8 @@ class BackendAPITester:
             self.test_admin_login_and_users_endpoint,
             self.test_invalid_auth,
             self.test_support_chat_system,
+            self.test_admin_2fa_endpoints,
+            self.test_admin_protected_endpoints,
         ]
         
         for test in tests:
