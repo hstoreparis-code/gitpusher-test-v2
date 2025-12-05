@@ -78,16 +78,6 @@ async def mint_credits_for_all(
     # We keep a reason for auditability of the bulk mint
     reason = payload.get("reason") or "super_admin_mint_all"
 
-    doc = {
-        "_id": f"mint_all_{now}_{amount}",
-        "user_id": "ALL",
-        "amount": amount,
-        "type": "mint_all",
-        "credits": None,
-        "created_at": now,
-        "reason": reason,
-    }
-
     if amount <= 0:
         raise HTTPException(status_code=400, detail="Positive amount is required")
 
