@@ -614,6 +614,7 @@ from routes import (
     admin_ai_indexing,
     admin_push_analytics,
     admin_billing,
+    admin_credits_mint,
     v1_auth,
     v1_autopush,
     v1_billing,
