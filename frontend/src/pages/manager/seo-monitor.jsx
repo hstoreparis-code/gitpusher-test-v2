@@ -196,7 +196,7 @@ export default function SeoMonitorManagerPage() {
           <h2 className="text-sm font-semibold text-slate-200">Dernière réponse brute /api/seo/monitor</h2>
           {loading && <span className="text-[11px] text-slate-400">Chargement…</span>}
         </div>
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-xs text-red-400">{safeRender(error)}</p>}
         {raw ? (
           <pre className="mt-2 whitespace-pre-wrap break-all text-xs bg-slate-900/70 border border-slate-800 rounded p-3 overflow-x-auto">
             {JSON.stringify(raw, null, 2)}
