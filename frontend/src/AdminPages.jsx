@@ -892,7 +892,8 @@ export function AdminDashboardPage() {
 
                     return allPlans.map(planConfig => {
                       const count = normalizedDistribution[planConfig.key] || 0;
-                      const percentage = stats.totalUsers > 0 ? ((count / stats.totalUsers) * 100).toFixed(1) : '0.0';
+                      const ratio = stats.totalUsers > 0 ? (count / stats.totalUsers) * 100 : 0;
+                      const percentage = Number.isFinite(ratio) ? ratio.toFixed(1) : '0.0';
                       
                       return (
                         <div 
