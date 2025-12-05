@@ -55,7 +55,7 @@ async def mint_credits_for_user(
     from services.credits_service import CreditsService
 
     credits_service = CreditsService(db)
-    await credits_service.add_credits(user_id, amount, transaction_type="mint")
+    await credits_service.add_credits(user_id, amount, transaction_type=reason)
 
     return {"ok": True, "user_id": user_id, "amount": amount}
 
