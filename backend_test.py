@@ -681,6 +681,393 @@ class BackendAPITester:
         except Exception as e:
             return self.log_test("Support Chat - Admin Online Status", False, f"Error: {str(e)}")
 
+    def test_admin_2fa_endpoints(self):
+        """Test complete 2FA admin flow as requested"""
+        print("\n🔐 Testing Admin 2FA Endpoints...")
+        
+        admin_email = "admin@pushin.app"
+        admin_password = "Admin1234!"
+        
+        # Step 1: Ensure admin exists and has valid password
+        try:
+            response = requests.post(
+                f"{self.api_url}/auth/login-admin",
+                json={
+                    "email": admin_email,
+                    "password": admin_password
+                },
+                timeout=10
+            )
+            
+            if response.status_code != 200:
+                return self.log_test(
+                    "2FA - Admin User Exists",
+                    False,
+                    f"Admin login failed: {response.text}",
+                    200,
+                    response.status_code
+                )
+            
+            login_data = response.json()
+            session_cookie = None
+            
+            # Check if session cookie was set (no 2FA case)
+            if "Set-Cookie" in response.headers:
+                cookies = response.headers["Set-Cookie"]
+                if "gitpusher_session" in cookies:
+                    # Extract session cookie value
+                    import re
+                    match = re.search(r'gitpusher_session=([^;]+)', cookies)
+                    if match:
+                        session_cookie = match.group(1)
+            
+            self.log_test("2FA - Admin User Exists", True, f"Admin exists with valid credentials, requires_2fa: {login_data.get('requires_2fa', False)}")
+            
+        except Exception as e:
+            return self.log_test("2FA - Admin User Exists", False, f"Error: {str(e)}")
+        
+        # Step 2: Test admin-status endpoint with session cookie
+        if session_cookie:
+            try:
+                response = requests.get(
+                    f"{self.api_url}/auth/admin-status",
+                    cookies={"gitpusher_session": session_cookie},
+                    timeout=10
+                )
+                
+                success = response.status_code == 200
+                details = ""
+                if success:
+                    data = response.json()
+                    is_admin = data.get("is_admin", False)
+                    details = f"Admin status confirmed: {is_admin}"
+                    success = is_admin
+                else:
+                    details = f"Failed to check admin status: {response.text}"
+                
+                if not self.log_test(
+                    "2FA - Admin Status via Cookie",
+                    success,
+                    details,
+                    200,
+                    response.status_code
+                ):
+                    return False
+                    
+            except Exception as e:
+                return self.log_test("2FA - Admin Status via Cookie", False, f"Error: {str(e)}")
+        
+        # Step 3: Setup 2FA for admin (using session cookie if available, otherwise get JWT token)
+        auth_header = None
+        if not session_cookie:
+            # Need to get JWT token for 2FA setup
+            try:
+                response = requests.post(
+                    f"{self.api_url}/auth/login",
+                    json={
+                        "email": admin_email,
+                        "password": admin_password
+                    },
+                    timeout=10
+                )
+                
+                if response.status_code == 200:
+                    jwt_token = response.json().get("access_token")
+                    if jwt_token:
+                        auth_header = f"Bearer {jwt_token}"
+                        
+            except Exception:
+                pass
+        
+        # Setup 2FA
+        try:
+            headers = {}
+            cookies = {}
+            
+            if session_cookie:
+                cookies["gitpusher_session"] = session_cookie
+            elif auth_header:
+                headers["Authorization"] = auth_header
+            else:
+                return self.log_test("2FA - Setup", False, "No authentication method available")
+            
+            response = requests.post(
+                f"{self.api_url}/auth/2fa/setup",
+                headers=headers,
+                cookies=cookies,
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            secret = None
+            otpauth_url = None
+            
+            if success:
+                data = response.json()
+                secret = data.get("secret")
+                otpauth_url = data.get("otpauth_url")
+                if secret and otpauth_url:
+                    details = f"2FA setup successful, secret received: {secret[:8]}..."
+                else:
+                    success = False
+                    details = "2FA setup response missing secret or otpauth_url"
+            else:
+                details = f"2FA setup failed: {response.text}"
+            
+            if not self.log_test(
+                "2FA - Setup",
+                success,
+                details,
+                200,
+                response.status_code
+            ):
+                return False
+                
+        except Exception as e:
+            return self.log_test("2FA - Setup", False, f"Error: {str(e)}")
+        
+        # Step 4: Generate TOTP code and verify 2FA
+        if secret:
+            try:
+                import pyotp
+                totp = pyotp.TOTP(secret)
+                code = totp.now()
+                
+                response = requests.post(
+                    f"{self.api_url}/auth/2fa/verify",
+                    json={"code": code},
+                    headers=headers,
+                    cookies=cookies,
+                    timeout=10
+                )
+                
+                success = response.status_code == 200
+                if success:
+                    data = response.json()
+                    if data.get("status") == "ok":
+                        details = "2FA verification successful"
+                    else:
+                        success = False
+                        details = f"2FA verification failed: unexpected response {data}"
+                else:
+                    details = f"2FA verification failed: {response.text}"
+                
+                if not self.log_test(
+                    "2FA - Verify",
+                    success,
+                    details,
+                    200,
+                    response.status_code
+                ):
+                    return False
+                    
+            except ImportError:
+                return self.log_test("2FA - Verify", False, "pyotp library not available")
+            except Exception as e:
+                return self.log_test("2FA - Verify", False, f"Error: {str(e)}")
+        
+        # Step 5: Test 2FA login flow
+        try:
+            # First, try login-admin again (should now require 2FA)
+            response = requests.post(
+                f"{self.api_url}/auth/login-admin",
+                json={
+                    "email": admin_email,
+                    "password": admin_password
+                },
+                timeout=10
+            )
+            
+            success = response.status_code == 200
+            temp_token = None
+            
+            if success:
+                data = response.json()
+                requires_2fa = data.get("requires_2fa", False)
+                temp_token = data.get("temp_token")
+                
+                if requires_2fa and temp_token:
+                    details = f"2FA required as expected, temp_token received"
+                else:
+                    # If 2FA was not enabled yet, this is still valid
+                    details = f"Login successful, requires_2fa: {requires_2fa}"
+            else:
+                details = f"Admin login failed: {response.text}"
+            
+            if not self.log_test(
+                "2FA - Login Admin (2FA Flow)",
+                success,
+                details,
+                200,
+                response.status_code
+            ):
+                return False
+            
+            # If we have a temp_token, test the 2FA login completion
+            if temp_token and secret:
+                try:
+                    import pyotp
+                    totp = pyotp.TOTP(secret)
+                    code = totp.now()
+                    
+                    response = requests.post(
+                        f"{self.api_url}/auth/login-2fa",
+                        json={
+                            "code": code,
+                            "temp_token": temp_token
+                        },
+                        timeout=10
+                    )
+                    
+                    success = response.status_code == 200
+                    new_session_cookie = None
+                    
+                    if success:
+                        data = response.json()
+                        if data.get("status") == "ok":
+                            # Check for new session cookie
+                            if "Set-Cookie" in response.headers:
+                                cookies = response.headers["Set-Cookie"]
+                                if "gitpusher_session" in cookies:
+                                    import re
+                                    match = re.search(r'gitpusher_session=([^;]+)', cookies)
+                                    if match:
+                                        new_session_cookie = match.group(1)
+                            
+                            details = f"2FA login completion successful, session cookie: {'Yes' if new_session_cookie else 'No'}"
+                        else:
+                            success = False
+                            details = f"2FA login completion failed: unexpected response {data}"
+                    else:
+                        details = f"2FA login completion failed: {response.text}"
+                    
+                    if not self.log_test(
+                        "2FA - Login Completion",
+                        success,
+                        details,
+                        200,
+                        response.status_code
+                    ):
+                        return False
+                    
+                    # Test admin-status with new session cookie
+                    if new_session_cookie:
+                        try:
+                            response = requests.get(
+                                f"{self.api_url}/auth/admin-status",
+                                cookies={"gitpusher_session": new_session_cookie},
+                                timeout=10
+                            )
+                            
+                            success = response.status_code == 200
+                            if success:
+                                data = response.json()
+                                is_admin = data.get("is_admin", False)
+                                details = f"Admin status after 2FA login: {is_admin}"
+                                success = is_admin
+                            else:
+                                details = f"Failed to check admin status: {response.text}"
+                            
+                            self.log_test(
+                                "2FA - Admin Status After 2FA Login",
+                                success,
+                                details,
+                                200,
+                                response.status_code
+                            )
+                            
+                        except Exception as e:
+                            self.log_test("2FA - Admin Status After 2FA Login", False, f"Error: {str(e)}")
+                        
+                        # Store the session cookie for protected endpoint tests
+                        self.admin_session_cookie = new_session_cookie
+                    
+                except ImportError:
+                    self.log_test("2FA - Login Completion", False, "pyotp library not available")
+                except Exception as e:
+                    self.log_test("2FA - Login Completion", False, f"Error: {str(e)}")
+                    
+        except Exception as e:
+            return self.log_test("2FA - Login Admin (2FA Flow)", False, f"Error: {str(e)}")
+        
+        return True
+
+    def test_admin_protected_endpoints(self):
+        """Test that admin endpoints are properly protected and accessible after 2FA"""
+        print("\n🛡️ Testing Admin Protected Endpoints...")
+        
+        # Test endpoints without authentication (should fail)
+        protected_endpoints = [
+            "/admin/users",
+            "/admin/performance", 
+            "/admin/ai-indexing"
+        ]
+        
+        for endpoint in protected_endpoints:
+            try:
+                response = requests.get(
+                    f"{self.api_url}{endpoint}",
+                    timeout=10
+                )
+                
+                # Should return 401 or 403
+                success = response.status_code in [401, 403]
+                details = f"Endpoint properly protected, returned {response.status_code}"
+                if not success:
+                    details = f"Endpoint not protected, returned {response.status_code}"
+                
+                self.log_test(
+                    f"Protected Endpoint - {endpoint} (No Auth)",
+                    success,
+                    details,
+                    "401/403",
+                    response.status_code
+                )
+                
+            except Exception as e:
+                self.log_test(f"Protected Endpoint - {endpoint} (No Auth)", False, f"Error: {str(e)}")
+        
+        # Test with session cookie if available
+        if hasattr(self, 'admin_session_cookie') and self.admin_session_cookie:
+            for endpoint in protected_endpoints:
+                try:
+                    response = requests.get(
+                        f"{self.api_url}{endpoint}",
+                        cookies={"gitpusher_session": self.admin_session_cookie},
+                        timeout=10
+                    )
+                    
+                    success = response.status_code == 200
+                    details = ""
+                    if success:
+                        try:
+                            data = response.json()
+                            if isinstance(data, list):
+                                details = f"Endpoint accessible, returned {len(data)} items"
+                            elif isinstance(data, dict):
+                                details = f"Endpoint accessible, returned data object"
+                            else:
+                                details = f"Endpoint accessible, returned {type(data)}"
+                        except:
+                            details = "Endpoint accessible, non-JSON response"
+                    else:
+                        details = f"Endpoint not accessible: {response.text[:100]}"
+                    
+                    self.log_test(
+                        f"Protected Endpoint - {endpoint} (With Auth)",
+                        success,
+                        details,
+                        200,
+                        response.status_code
+                    )
+                    
+                except Exception as e:
+                    self.log_test(f"Protected Endpoint - {endpoint} (With Auth)", False, f"Error: {str(e)}")
+        else:
+            self.log_test("Protected Endpoints (With Auth)", False, "No admin session cookie available from 2FA test")
+        
+        return True
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Backend API Tests")
