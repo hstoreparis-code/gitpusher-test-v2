@@ -51,8 +51,8 @@ export default function SecurityCompliancePage() {
         <li>Brute-force protection via login lockout</li>
       </ul>
 
-      <h2>2. Git Provider Token Protection</h2>
-      <p>
+      <h2 className="mt-8 mb-3 text-lg font-semibold text-slate-100">2. Git Provider Token Protection</h2>
+      <p className="text-sm text-slate-300">
         GitHub / GitLab / Bitbucket tokens are never exposed to the browser. Tokens are masked in
         logs, validated, and stored with short TTL when possible.
       </p>
