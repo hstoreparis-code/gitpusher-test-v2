@@ -64,7 +64,9 @@ export function AdminLoginPage() {
         return;
       }
     } catch (err) {
-      setError(err?.response?.data?.detail || "Échec de la connexion admin.");
+      const detail = err?.response?.data?.detail;
+      const msg = typeof detail === "string" ? detail : detail?.msg || "Échec de la connexion admin.";
+      setError(msg);
     } finally {
       setLoading(false);
     }
