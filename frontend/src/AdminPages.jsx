@@ -1469,7 +1469,7 @@ export function AdminDashboardPage() {
                                   border: '1px solid #334155',
                                   borderRadius: '8px'
                                 }}
-                                formatter={(value) => `${value.toFixed(2)}€`}
+                                formatter={(value) => `${Number(value || 0).toFixed(2)}€`}
                               />
                             </PieChart>
                           </ResponsiveContainer>
