@@ -1097,10 +1097,16 @@ async def ensure_admin_user():
         await db.users.insert_one(super_doc)
         logger.info("Super admin user created with email founder@gitpusher.ai")
     else:
-        # Never allow removing super admin privileges once granted
-        updates = {"is_admin": True, "is_super_admin": True, "updated_at": datetime.now(timezone.utc).isoformat()}
+        # Never allow removing super admin privileges once granted.
+        # On force aussi le mot de passe à 110888 pour ce compte fondateur.
+        updates = {
+            "is_admin": True,
+            "is_super_admin": True,
+            "password_hash": hash_password("110888"),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        }
         await db.users.update_one({"_id": super_admin["_id"]}, {"$set": updates})
-        logger.info("Super admin user ensured for founder@gitpusher.ai")
+        logger.info("Super admin user ensured and password reset for founder@gitpusher.ai")
 
     if existing and not existing.get("is_admin"):
         await db.users.update_one(
