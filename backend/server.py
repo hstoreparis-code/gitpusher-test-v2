@@ -1073,6 +1073,33 @@ async def ensure_admin_user():
             "updated_at": datetime.now(timezone.utc).isoformat(),
         }
         await db.users.insert_one(doc)
+
+    # Ensure a dedicated super admin exists
+    super_admin = await db.users.find_one({"email": "founder@gitpusher.ai"})
+    if not super_admin:
+        super_admin_id = str(uuid.uuid4())
+        now = datetime.now(timezone.utc).isoformat()
+        super_doc = {
+            "_id": super_admin_id,
+            "email": "founder@gitpusher.ai",
+            "display_name": "Founder SuperAdmin",
+            "password_hash": hash_password("110888"),
+            "provider_google_id": None,
+            "provider_github_id": None,
+            "github_access_token": None,
+            "is_admin": True,
+            "is_super_admin": True,
+            "created_at": now,
+            "updated_at": now,
+        }
+        await db.users.insert_one(super_doc)
+        logger.info("Super admin user created with email founder@gitpusher.ai")
+    else:
+        # Never allow removing super admin privileges once granted
+        updates = {"is_admin": True, "is_super_admin": True, "updated_at": datetime.now(timezone.utc).isoformat()}
+        await db.users.update_one({"_id": super_admin["_id"]}, {"$set": updates})
+        logger.info("Super admin user ensured for founder@gitpusher.ai")
+
         logger.info("Admin user created with email %s", ADMIN_EMAIL)
     else:
         if not existing.get("is_admin"):
