@@ -20,6 +20,20 @@ export function Admin2FAPanel() {
     setStep("idle");
   }, []);
 
+  const formatError = (err) => {
+    const detail = err?.response?.data?.detail;
+    if (Array.isArray(detail)) {
+      return detail.map((d) => d?.msg || JSON.stringify(d)).join(" | ");
+    }
+    if (detail && typeof detail === "object") {
+      return detail.msg || JSON.stringify(detail);
+    }
+    if (typeof detail === "string") {
+      return detail;
+    }
+    return "Une erreur est survenue.";
+  };
+
   const startSetup = async () => {
     setLoading(true);
     setMessage("");
@@ -31,7 +45,7 @@ export function Admin2FAPanel() {
       setOtpauthUrl(res.data.otpauth_url);
       setStep("secret");
     } catch (err) {
-      setMessage(err?.response?.data?.detail || "Impossible de démarrer la configuration 2FA.");
+      setMessage(formatError(err) || "Impossible de démarrer la configuration 2FA.");
       setStep("error");
     } finally {
       setLoading(false);
@@ -53,7 +67,7 @@ export function Admin2FAPanel() {
         setMessage("Code invalide.");
       }
     } catch (err) {
-      setMessage(err?.response?.data?.detail || "Échec de la vérification du code 2FA.");
+      setMessage(formatError(err) || "Échec de la vérification du code 2FA.");
       setStep("error");
     } finally {
       setLoading(false);
