@@ -177,6 +177,66 @@ backend:
           agent: "testing"
           comment: "Admin online status endpoint working. Returns JSON with 'online' status and 'admin_name'. Currently returns mock data (online: true, admin_name: 'Support Team')."
 
+  - task: "2FA Admin Authentication - POST /api/auth/login-admin"
+    implemented: true
+    working: true
+    file: "server.py, routes/auth_2fa.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Admin login endpoint working correctly. Admin user admin@pushin.app exists with valid password Admin1234! and is_admin=true. Login without 2FA returns session cookie gitpusher_session. /api/auth/admin-status correctly returns is_admin=true via session cookie."
+
+  - task: "2FA Setup - POST /api/auth/2fa/setup"
+    implemented: true
+    working: true
+    file: "routes/auth_2fa.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2FA setup endpoint working correctly. Successfully generates TOTP secret and otpauth_url for admin user. Works with both session cookie and Bearer token authentication. Secret properly stored in MongoDB."
+
+  - task: "2FA Verification - POST /api/auth/2fa/verify"
+    implemented: true
+    working: true
+    file: "routes/auth_2fa.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2FA verification endpoint working correctly. Successfully verifies TOTP codes generated from secret. Sets two_fa_enabled=true in MongoDB after successful verification. Endpoint accepts code as query parameter."
+
+  - task: "2FA Login Flow - POST /api/auth/login-2fa"
+    implemented: true
+    working: true
+    file: "routes/auth_2fa.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Complete 2FA login flow working correctly. After 2FA enabled: (1) /api/auth/login-admin returns requires_2fa=true and temp_token (2) /api/auth/login-2fa with valid TOTP code and temp_token creates new gitpusher_session cookie (3) /api/auth/admin-status with new cookie confirms is_admin=true."
+
+  - task: "Protected Admin Endpoints - /api/admin/users, /api/admin/jobs, /api/admin/transactions"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "All protected admin endpoints working correctly. Without authentication: return 401 (properly protected). With session cookie after 2FA login: return 200 with data (/admin/users: 15 users, /admin/jobs: 34 jobs, /admin/transactions: 30 transactions). Session-based authentication working properly."
+
 frontend:
   - task: "Admin dashboard UI"
     implemented: false
