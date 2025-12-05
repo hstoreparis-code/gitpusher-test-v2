@@ -47,14 +47,32 @@ export default function AdminAIIndexingDashboard() {
   const [indexing, setIndexing] = useState(null);
 
   useEffect(() => {
-    fetch("/api/admin/ai-indexing")
-      .then((r) => r.json())
-      .then(setIndexing)
-      .catch(() => setIndexing({ error: true }));
+    async function loadIndexing() {
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/ai-indexing`, {
+          credentials: "include",
+        });
+        if (!res.ok) {
+          throw new Error("Failed to load admin AI indexing");
+        }
+        const data = await res.json();
+        setIndexing(data || {});
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn("Failed to load /api/admin/ai-indexing", e);
+        setIndexing({ error: true });
+      }
+    }
+
+    loadIndexing();
   }, []);
 
+  const isLoading = indexing === null;
+  const hasError = indexing?.error;
   const score = typeof indexing?.score === "number" ? indexing.score : 0;
-  const autofix = indexing?.autofix || "Analyse en cours…";
+  const autofix = indexing?.autofix || (hasError ? "Erreur lors du chargement des données d'indexation IA." : "Analyse en cours…");
+  const updatedAt = indexing?.updated_at || null;
+  const rawSources = Array.isArray(indexing?.raw_sources) ? indexing.raw_sources : [];
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50 p-6 sm:p-8 space-y-6">
