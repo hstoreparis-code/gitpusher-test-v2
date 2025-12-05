@@ -1349,7 +1349,7 @@ export function AdminDashboardPage() {
                           <div className="flex items-center justify-between">
                             <div>
                               <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Revenus Mensuels</p>
-                              <p className="text-3xl font-bold text-cyan-300">{financialData.stats.monthly_revenue.toFixed(2)}€</p>
+                              <p className="text-3xl font-bold text-cyan-300">{Number(financialData.stats.monthly_revenue || 0).toFixed(2)}€</p>
                             </div>
                             <TrendingUp className="w-10 h-10 text-cyan-400/40" />
                           </div>
