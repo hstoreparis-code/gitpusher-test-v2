@@ -138,8 +138,9 @@ export default function AdminCreditsBillingDashboard() {
       <div className="grid gap-4 md:grid-cols-3">
         <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-medium text-cyan-300 uppercase tracking-wide">
-              Credit System
+            <CardTitle className="flex items-center gap-1 text-xs font-medium text-cyan-300 uppercase tracking-wide">
+              <span>Credit System</span>
+              <InfoBadge text={"Vue agrégée des crédits disponibles dans l'écosystème GitPusher : total, restant et utilisé aujourd'hui. Sert à vérifier que les utilisateurs ont assez de marge avant d'être bloqués."} />
             </CardTitle>
             <CreditCard className="w-4 h-4 text-emerald-400" />
           </CardHeader>
@@ -158,8 +159,9 @@ export default function AdminCreditsBillingDashboard() {
 
         <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-medium text-cyan-300 uppercase tracking-wide">
-              Stripe Health
+            <CardTitle className="flex items-center gap-1 text-xs font-medium text-cyan-300 uppercase tracking-wide">
+              <span>Stripe Health</span>
+              <InfoBadge text={"Etat de santé de l'intégration Stripe : webhook, clés API et synchronisation des abonnements. Si un indicateur est en ERROR, corrige d'abord Stripe avant d'enquêter côté app."} />
             </CardTitle>
             <DollarSign className="w-4 h-4 text-amber-400" />
           </CardHeader>
