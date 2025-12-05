@@ -88,6 +88,19 @@ export default function DemoRequestForm({ onClose }) {
         </div>
       </div>
 
+        <div className="space-y-1">
+          <label className="text-xs text-slate-300">Site web *</label>
+          <input
+            type="url"
+            name="website"
+            required
+            value={form.website}
+            onChange={handleChange}
+            className="w-full rounded-md bg-slate-900 border border-slate-700 px-2 py-1.5 text-xs text-slate-50"
+            placeholder="https://www.ton-organisation.com"
+          />
+        </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1">
           <label className="text-xs text-slate-300">Société</label>
