@@ -1186,7 +1186,7 @@ async def set_plan(payload: PlanUpdate, authorization: Optional[str] = Header(de
 
 class AdminStatus(BaseModel):
     is_admin: bool
-    two_fa_enabled: bool | None = None
+    two_fa_enabled: Optional[bool] = None
 
 
 
