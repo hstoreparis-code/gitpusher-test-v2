@@ -2186,7 +2186,10 @@ async def admin_status(request: Request, authorization: Optional[str] = Header(d
     user = await get_current_user_from_any(request, authorization)
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
-    return AdminStatus(is_admin=bool(user.get("is_admin")))
+    return AdminStatus(
+        is_admin=bool(user.get("is_admin")),
+        two_fa_enabled=bool(user.get("two_fa_enabled")) if "two_fa_enabled" in user else None,
+    )
 
 # ---------- AUTH ROUTES ----------
 
