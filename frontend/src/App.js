@@ -667,7 +667,7 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                   variant="outline"
                   size="sm"
                   className="rounded-full border-cyan-500/60 bg-slate-950/80 hover:bg-cyan-500/20 hover:text-cyan-50 text-[11px] shadow-[0_0_18px_rgba(34,211,238,0.7)]"
-                  onClick={onOpenDemoModal}
+                  onClick={() => setLocalDemoOpen(true)}
                   data-testid="demo-login-button"
                 >
                   {t("landingDemoCta")}
