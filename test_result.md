@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test complete support chat system including user messages, admin conversations, and admin responses"
+user_problem_statement: "Test nouveaux endpoints de 2FA admin avec curl (sans frontend): créer admin de test, simuler login admin sans 2FA, activer 2FA, tester flux login 2FA, vérifier endpoints admin protégés"
 
 backend:
   - task: "Admin /api/admin/users listing"
