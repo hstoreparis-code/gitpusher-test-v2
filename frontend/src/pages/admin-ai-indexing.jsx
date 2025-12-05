@@ -144,7 +144,7 @@ export default function AdminAIIndexingDashboard() {
             <ul className="space-y-0.5">
             {hasError && (
               <p className="text-[11px] text-red-400">
-                Impossible de charger les données d'indexation IA. Vérifiez /api/admin/ai-indexing.
+                Impossible de charger les données d&apos;indexation IA. Vérifiez /api/admin/ai-indexing.
               </p>
             )}
 
