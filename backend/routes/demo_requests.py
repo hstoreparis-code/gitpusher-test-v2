@@ -47,7 +47,7 @@ class DemoRequest(BaseModel):
 
 
 @router.post("/demo-request", response_model=DemoRequest)
-async def create_demo_request(payload: DemoRequestCreate, db=Depends(get_db)):
+async def create_demo_request(payload: DemoRequestCreate, db=Depends(_get_db)):
     now = datetime.now(timezone.utc).isoformat()
     doc = {
         "id": f"demo_{int(datetime.now(timezone.utc).timestamp())}",
