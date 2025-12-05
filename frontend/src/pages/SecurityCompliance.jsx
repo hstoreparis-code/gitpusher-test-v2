@@ -66,9 +66,9 @@ export default function SecurityCompliancePage() {
         <li>Automatic lockout after repeated failed attempts</li>
       </ul>
 
-      <h2>4. CSP &amp; Security Headers</h2>
-      <p>We enforce strict HTTP security headers:</p>
-      <ul>
+      <h2 className="mt-8 mb-3 text-lg font-semibold text-slate-100">4. CSP &amp; Security Headers</h2>
+      <p className="text-sm text-slate-300 mb-2">We enforce strict HTTP security headers:</p>
+      <ul className="space-y-1 text-sm text-slate-300 list-disc list-inside">
         <li><code>Content-Security-Policy</code></li>
         <li><code>X-Content-Type-Options: nosniff</code></li>
         <li><code>X-Frame-Options: DENY</code></li>
