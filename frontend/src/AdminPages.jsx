@@ -226,6 +226,7 @@ export function AdminDashboardPage() {
   const [showAlerts, setShowAlerts] = useState(false);
   const [unreadAlerts, setUnreadAlerts] = useState(0);
   const [supportUnreadCount, setSupportUnreadCount] = useState(0);
+  const [twoFAEnabled, setTwoFAEnabled] = useState(false);
   const [showAdminMenu, setShowAdminMenu] = useState(false);
 
   // Préparer les données pour les graphiques
