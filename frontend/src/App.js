@@ -664,19 +664,8 @@ function Landing({ t, lang, setLang, dark, setDark, currentLang, languages, isLo
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-full border-slate-700/70 bg-slate-950/60 hover:bg-slate-900/80 text-[11px]"
-                  onClick={async () => {
-                    try {
-                      const res = await axios.post(`${API}/auth/demo`);
-                      const token = res.data?.access_token;
-                      if (token) {
-                        window.localStorage.setItem("token", token);
-                        navigate("/app");
-                      }
-                    } catch (e) {
-                      console.error("Demo login failed", e);
-                    }
-                  }}
+                  className="rounded-full border-cyan-500/60 bg-slate-950/80 hover:bg-cyan-500/20 hover:text-cyan-50 text-[11px] shadow-[0_0_18px_rgba(34,211,238,0.7)]"
+                  onClick={() => setShowDemoModal(true)}
                   data-testid="demo-login-button"
                 >
                   {t("landingDemoCta")}
