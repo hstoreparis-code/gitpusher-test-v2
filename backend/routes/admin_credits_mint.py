@@ -75,6 +75,7 @@ async def mint_credits_for_all(
     _ = super_admin
 
     amount = int(payload.get("amount", 0))
+    # We keep a reason for auditability of the bulk mint
     reason = payload.get("reason") or "super_admin_mint_all"
 
     if amount <= 0:
