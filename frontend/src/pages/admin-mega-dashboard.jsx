@@ -118,12 +118,12 @@ export default function AdminMegaDashboard() {
       }
     }
 
+    loadAll();
+  }, []);
+
   const featuresOverall = features?.overall || null;
   const featuresHealth = features?.health || {};
   const hasFeaturesIssues = featuresOverall === "ISSUES";
-
-    loadAll();
-  }, []);
 
   // API considérée "stable" tant qu'aucune erreur explicite n'est renvoyée
   const apiHealthy = perf && perf.error === false;
