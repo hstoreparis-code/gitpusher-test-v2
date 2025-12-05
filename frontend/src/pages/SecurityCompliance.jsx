@@ -1,3 +1,7 @@
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 export const metadata = {
   title: "Security & Compliance — GitPusher.ai",
   description:
@@ -6,6 +10,7 @@ export const metadata = {
 };
 
 export default function SecurityCompliancePage() {
+  const navigate = useNavigate();
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50 px-4 py-10">
       <div className="max-w-5xl mx-auto space-y-8">
