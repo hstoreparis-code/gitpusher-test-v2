@@ -45,7 +45,7 @@ export default function DemoRequestForm({ onClose }) {
     return (
       <div className="space-y-4">
         <p className="text-sm text-emerald-300">
-          Merci ! Ta demande de démo a bien été enregistrée. Un membre de l'équipe GitPusher™ te contactera par email.
+          Merci ! Ta demande de démo a bien été enregistrée. Un membre de l&apos;équipe GitPusher™ te contactera par email.
         </p>
         <div className="flex justify-end gap-2">
           <Button
