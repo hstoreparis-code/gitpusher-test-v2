@@ -24,10 +24,9 @@ export function Admin2FAPanel() {
     setLoading(true);
     setMessage("");
     try {
-      // Pour l'instant, on utilise encore le JWT pour appeler setup_2fa côté backend
-      const token = localStorage.getItem("token");
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await axios.post(`${API}/auth/2fa/setup`, null, { headers });
+      // L'admin est déjà authentifié via le cookie de session gitpusher_session
+      // on peut donc appeler directement l'endpoint de setup sans header Authorization.
+      const res = await axios.post(`${API}/auth/2fa/setup`);
       setSecret(res.data.secret);
       setOtpauthUrl(res.data.otpauth_url);
       setStep("secret");
