@@ -122,7 +122,7 @@ export default function TiktokSeoMonitorManagerPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-semibold text-cyan-300">{avgWatch.toFixed(1)}s</p>
+            <p className="text-3xl font-semibold text-cyan-300">{Number(avgWatch || 0).toFixed(1)}s</p>
             <p className="text-xs text-slate-400 mt-1">Temps de visionnage moyen estimé.</p>
           </CardContent>
         </Card>
