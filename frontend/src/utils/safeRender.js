@@ -1,9 +1,9 @@
-export function safeRender(value) {
-  if (typeof value === "string" || typeof value === "number") return value;
-  if (value == null) return "";
+export function safeRender(v) {
+  if (v === null || v === undefined) return "";
+  if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") return v;
   try {
-    return JSON.stringify(value, null, 2);
+    return JSON.stringify(v, null, 2);
   } catch (e) {
-    return String(value);
+    return String(v);
   }
 }
