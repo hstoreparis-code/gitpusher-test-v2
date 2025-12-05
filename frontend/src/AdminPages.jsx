@@ -1517,7 +1517,7 @@ export function AdminDashboardPage() {
                                       {t.plan}
                                     </span>
                                   </td>
-                                  <td className="py-2.5 px-3 text-right font-semibold text-emerald-300">{t.amount.toFixed(2)}€</td>
+                                  <td className="py-2.5 px-3 text-right font-semibold text-emerald-300">{Number(t.amount || 0).toFixed(2)}€</td>
                                   <td className="py-2.5 px-3 text-center">
                                     <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium ${
                                       t.status === 'succeeded' ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20' :
