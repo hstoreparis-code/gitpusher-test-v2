@@ -12,6 +12,20 @@ from datetime import datetime, timezone, timedelta
 router = APIRouter()
 
 
+async def _get_current_user(request: Request, authorization: Optional[str]):
+    """Resolve current user either from session cookie or bearer token.
+
+    Uses the central helper defined in server.py so that 2FA setup/verify
+    works both for admins (session cookie) and classic users (JWT).
+    """
+    from server import get_current_user_from_any  # type: ignore
+
+    user = await get_current_user_from_any(request, authorization)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    return user
+
+
 def _get_jwt_secret() -> str:
     # Lazy import to avoid circular dependency
     from server import SECRET_KEY  # type: ignore
@@ -46,15 +60,12 @@ def _decode_temp_token(temp_token: str) -> str:
 
 
 @router.post("/api/auth/2fa/setup")
-async def setup_2fa(authorization: Optional[str] = None):
-    """Setup 2FA for the currently authenticated user (JWT-based).
+async def setup_2fa(request: Request, authorization: Optional[str] = None):
+    """Setup 2FA for the currently authenticated user.
 
-    Used from the logged-in UI (admin or user) to enable 2FA on their account.
+    Works for both admin (session cookie) and regular users (JWT bearer).
     """
-    # Late import to avoid circular import
-    from server import get_user_from_token  # type: ignore
-
-    user = await get_user_from_token(authorization)
+    user = await _get_current_user(request, authorization)
     user_id = user["_id"]
 
     secret = pyotp.random_base32()
