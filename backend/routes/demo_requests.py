@@ -28,6 +28,7 @@ class DemoRequest(BaseModel):
     name: str
     email: EmailStr
     company: Optional[str] = None
+    website: Optional[str] = None
     role: Optional[str] = None
     team_size: Optional[str] = None
     use_case: Optional[str] = None
