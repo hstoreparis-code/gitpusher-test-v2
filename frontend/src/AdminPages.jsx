@@ -1337,7 +1337,7 @@ export function AdminDashboardPage() {
                           <div className="flex items-center justify-between">
                             <div>
                               <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Revenus Total</p>
-                              <p className="text-3xl font-bold text-emerald-300">{financialData.stats.total_revenue.toFixed(2)}€</p>
+                              <p className="text-3xl font-bold text-emerald-300">{Number(financialData.stats.total_revenue || 0).toFixed(2)}€</p>
                             </div>
                             <DollarSign className="w-10 h-10 text-emerald-400/40" />
                           </div>
