@@ -143,8 +143,9 @@ export default function AdminFeaturesDashboard() {
 
         <Card className="bg-slate-900/70 border-slate-700/70 shadow-[0_0_25px_rgba(56,189,248,0.2)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-medium text-cyan-300 uppercase tracking-wide">
-              Providers
+            <CardTitle className="flex items-center gap-1 text-xs font-medium text-cyan-300 uppercase tracking-wide">
+              <span>Providers</span>
+              <InfoBadge text={"Etat de connexion des providers Git (GitHub, GitLab, Bitbucket, etc.). Permet de voir rapidement si une API tierce est tombée ou si les credentials sont invalides."} />
             </CardTitle>
             <Globe2 className="w-4 h-4 text-violet-400" />
           </CardHeader>
