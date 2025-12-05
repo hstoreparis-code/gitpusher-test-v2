@@ -4105,14 +4105,13 @@ function OAuthCallback() {
 function AppShell() {
   const { lang, setLang, t, currentLang, languages, isLoadingLang } = useI18n();
   const [dark, setDark] = useState(true);
+  const [showDemoModal, setShowDemoModal] = useState(false);
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) navigate("/app");
     else navigate("/");
-        <Route path="/security" element={<SecurityCompliancePage />} />
-
   };
 
   return (
