@@ -575,6 +575,24 @@ export function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-3">
+            {/* Indicateur 2FA */}
+            <div className="hidden sm:flex items-center gap-2 text-[11px]">
+              <span
+                className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-medium ${
+                  twoFAEnabled
+                    ? "border-emerald-400/70 bg-emerald-500/10 text-emerald-300"
+                    : "border-amber-400/70 bg-amber-500/10 text-amber-200"
+                }`}
+              >
+                <span
+                  className={`w-1.5 h-1.5 rounded-full ${
+                    twoFAEnabled ? "bg-emerald-400" : "bg-amber-300"
+                  }`}
+                />
+                {twoFAEnabled ? "2FA ON" : "2FA OFF"}
+              </span>
+            </div>
+
             <div className="relative flex items-center gap-2" id="admin-quick-menu">
               <button
                 className="w-9 h-9 flex flex-col items-center justify-center rounded-full border border-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20 shadow-[0_0_18px_rgba(56,189,248,0.8)] text-cyan-300 transition-all"
