@@ -258,7 +258,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Support Chat System"
+    - "2FA Admin Authentication System"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
