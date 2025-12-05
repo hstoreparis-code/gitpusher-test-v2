@@ -1255,7 +1255,7 @@ export function AdminDashboardPage() {
                               const raw = typeof percent === 'number' ? percent * 100 : 0;
                               const safe = Number.isFinite(raw) ? raw.toFixed(0) : '0';
                               return `${name}: ${safe}%`;
-                            }
+                            }}
                             outerRadius={80}
                             fill="#8884d8"
                             dataKey="value"
