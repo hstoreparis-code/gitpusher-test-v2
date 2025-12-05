@@ -124,7 +124,7 @@ export default function SeoMonitorManagerPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-semibold text-cyan-300">{ctr.toFixed(1)}%</p>
+            <p className="text-3xl font-semibold text-cyan-300">{Number(ctr || 0).toFixed(1)}%</p>
             <p className="text-xs text-slate-400 mt-1">Clics / impressions sur la période.</p>
           </CardContent>
         </Card>
