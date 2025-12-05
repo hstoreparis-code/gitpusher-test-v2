@@ -718,6 +718,19 @@ function AuthCard({ t, onSuccess, onClose, initialTab = "login" }) {
   const navigate = useNavigate();
   const [tab, setTab] = useState("login");
   useEffect(() => {
+
+      {showDemoModal && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60">
+          <div className="w-full max-w-lg rounded-2xl border border-cyan-500/40 bg-slate-950/95 p-6 shadow-[0_0_40px_rgba(34,211,238,0.9)]">
+            <h2 className="text-xl font-semibold text-cyan-300 mb-2">Demande de démo GitPusher™ PRO</h2>
+            <p className="text-sm text-slate-300 mb-4">
+              Laisse-nous quelques informations sur ton organisation afin que nous puissions préparer une démo adaptée à ton usage professionnel.
+            </p>
+            <DemoRequestForm onClose={() => setShowDemoModal(false)} />
+          </div>
+        </div>
+      )}
+
     if (initialTab) {
 
 
