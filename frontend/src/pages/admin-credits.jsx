@@ -23,70 +23,70 @@ export default function AdminCreditsBillingDashboard() {
   const [stripe, setStripe] = useState(null);
 
   useEffect(() => {
-    fetch("/api/admin/credits")
-      .then((r) => r.json())
-      .then((data) => setCredits(data || { total: 10000, remaining: 7420, used_today: 125 }))
-      .catch(() => setCredits({ total: 10000, remaining: 7420, used_today: 125 }));
+    async function loadAll() {
+      try {
+        const [usersRes, statsRes, txRes, stripeHealthRes] = await Promise.all([
+          fetch(`${API_BASE}/api/admin/users`, { credentials: "include" }),
+          fetch(`${API_BASE}/api/admin/financial-stats`, { credentials: "include" }),
+          fetch(`${API_BASE}/api/admin/transactions`, { credentials: "include" }),
+          fetch(`${API_BASE}/api/admin/stripe/health`, { credentials: "include" }).catch(() => null),
+        ]);
 
-    fetch("/api/admin/billing")
-      .then((r) => r.json())
-      .then((data) =>
-        setBilling(
-          data || {
-            subscribers: 128,
-            mrr: 3200,
-            arr: 38400,
-            revenue_30d: 9100,
-          },
-        ),
-      )
-      .catch(() =>
+        const [usersJson, statsJson, txJson, stripeJson] = await Promise.all([
+          usersRes.ok ? usersRes.json() : Promise.resolve([]),
+          statsRes.ok ? statsRes.json() : Promise.resolve({}),
+          txRes.ok ? txRes.json() : Promise.resolve([]),
+          stripeHealthRes && stripeHealthRes.ok ? stripeHealthRes.json() : Promise.resolve(null),
+        ]);
+
+        const users = Array.isArray(usersJson) ? usersJson : [];
+        const transactions = Array.isArray(txJson) ? txJson : [];
+
+        // Crédit total et restant = somme des crédits utilisateurs
+        const totalCredits = users.reduce((sum, u) => sum + (u.credits || 0), 0);
+
+        // Utilisation par utilisateur = cumul des montants de transactions "consumption" ou "purchase" négatives
+        const usageByUser = {};
+        transactions.forEach((t) => {
+          if (!t.user_email) return;
+          const email = t.user_email;
+          const amount = typeof t.amount === "number" ? t.amount : 0;
+          if (!usageByUser[email]) usageByUser[email] = 0;
+          usageByUser[email] += amount;
+        });
+
+        const usageUsers = Object.entries(usageByUser)
+          .map(([email, amount]) => ({ email, credits_used: amount }))
+          .sort((a, b) => b.credits_used - a.credits_used)
+          .slice(0, 10);
+
+        setCredits({
+          total: totalCredits,
+          remaining: totalCredits,
+          used_today: 0, // TODO: dériver à partir des transactions du jour si besoin
+        });
+
         setBilling({
-          subscribers: 128,
-          mrr: 3200,
-          arr: 38400,
-          revenue_30d: 9100,
-        }),
-      );
+          subscribers: statsJson.total_transactions ?? 0,
+          mrr: statsJson.monthly_revenue ?? 0,
+          arr: (statsJson.monthly_revenue ?? 0) * 12,
+          revenue_30d: statsJson.monthly_revenue ?? 0,
+        });
 
-    fetch("/api/admin/usage")
-      .then((r) => r.json())
-      .then((data) =>
-        setUsage(
-          data || {
-            users: [
-              { email: "founder@gitpusher.ai", credits_used: 420 },
-              { email: "agency@example.com", credits_used: 210 },
-              { email: "student@example.com", credits_used: 75 },
-            ],
-          },
-        ),
-      )
-      .catch(() =>
-        setUsage({
-          users: [
-            { email: "founder@gitpusher.ai", credits_used: 420 },
-            { email: "agency@example.com", credits_used: 210 },
-            { email: "student@example.com", credits_used: 75 },
-          ],
-        }),
-      );
+        setUsage({ users: usageUsers });
 
-    fetch("/api/admin/stripe/health")
-      .then((r) => r.json())
-      .then((data) =>
-        setStripe(
-          data || {
-            webhook_ok: true,
-            keys_ok: true,
-            sync_ok: true,
-            last_invoice: "2025-12-01",
-          },
-        ),
-      )
-      .catch(() =>
-        setStripe({ webhook_ok: true, keys_ok: true, sync_ok: true, last_invoice: "2025-12-01" }),
-      );
+        if (stripeJson) {
+          setStripe(stripeJson);
+        } else {
+          setStripe(null);
+        }
+      } catch (e) {
+        // en cas d'erreur globale, on affiche des messages d'attente dans l'UI
+        console.warn("Failed to load admin credits dashboard", e);
+      }
+    }
+
+    loadAll();
   }, []);
 
   return (
