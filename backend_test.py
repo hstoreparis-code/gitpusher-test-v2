@@ -12,6 +12,12 @@ from datetime import datetime
 from pathlib import Path
 import tempfile
 import os
+try:
+    import pyotp
+    PYOTP_AVAILABLE = True
+except ImportError:
+    PYOTP_AVAILABLE = False
+    print("⚠️ pyotp not available - 2FA tests will be limited")
 
 class BackendAPITester:
     def __init__(self, base_url="https://megadash-secure.preview.emergentagent.com"):
