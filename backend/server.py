@@ -620,8 +620,6 @@ from routes import (
     admin_push_analytics,
     admin_billing,
     admin_credits_mint,
-    demo_requests_public,
-    demo_requests_admin,
     v1_auth,
     v1_autopush,
     v1_billing,
